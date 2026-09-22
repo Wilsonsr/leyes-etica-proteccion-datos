@@ -1,0 +1,381 @@
+<!-- Componentes interactivos del curso. Se inserta al final de cada página.
+     Fuente única: este archivo. Se inyecta en línea para que funcione con
+     cualquier profundidad de ruta, tanto en local como en GitHub Pages. -->
+<script>
+/* =========================================================================
+   Leyes, Ética y Protección de Datos
+   Componentes interactivos — JavaScript sin dependencias.
+
+   Todo es progresivo: si el navegador bloquea scripts o el almacenamiento
+   local, la página sigue siendo legible y usable.
+   ========================================================================= */
+
+(function () {
+  "use strict";
+
+  /* ---------------------------------------------------------------------
+     Utilidades
+     --------------------------------------------------------------------- */
+
+  function guardar(clave, valor) {
+    try { window.localStorage.setItem(clave, valor); } catch (e) { /* modo privado */ }
+  }
+
+  function leer(clave) {
+    try { return window.localStorage.getItem(clave); } catch (e) { return null; }
+  }
+
+  var LETRAS = "ABCDEFGH";
+
+  /* ---------------------------------------------------------------------
+     1. PREGUNTAS CON RETROALIMENTACIÓN INMEDIATA
+
+     <div class="ix-quiz" data-etiqueta="DECIDA">
+       <p class="ix-pregunta">…</p>
+       <button class="ix-op" data-valor="bien|mal|parcial"
+               data-fb="Texto de la retroalimentación">Opción</button>
+       …
+     </div>
+     --------------------------------------------------------------------- */
+
+  var TITULOS = {
+    bien:    "Correcto",
+    mal:     "Todavía no",
+    parcial: "Parcialmente"
+  };
+
+  function iniciarQuiz(quiz) {
+    var ops = Array.prototype.slice.call(quiz.querySelectorAll(".ix-op"));
+    if (!ops.length) return;
+
+    var fb = document.createElement("div");
+    fb.className = "ix-fb";
+    fb.setAttribute("role", "status");
+    fb.setAttribute("aria-live", "polite");
+
+    var reintentar = document.createElement("button");
+    reintentar.type = "button";
+    reintentar.className = "ix-reintentar";
+    reintentar.textContent = "Volver a intentar";
+
+    var cont = document.createElement("div");
+    cont.className = "ix-ops";
+    ops.forEach(function (op, i) {
+      // Las opciones pueden venir como <button> o como <div> (sintaxis de
+      // Quarto). En ambos casos deben ser accesibles por teclado.
+      if (op.tagName === "BUTTON") {
+        op.type = "button";
+      } else {
+        op.setAttribute("role", "button");
+        op.setAttribute("tabindex", "0");
+        op.addEventListener("keydown", function (ev) {
+          if (ev.key === "Enter" || ev.key === " ") {
+            ev.preventDefault();
+            op.click();
+          }
+        });
+      }
+      var marca = document.createElement("span");
+      marca.className = "marca";
+      marca.setAttribute("aria-hidden", "true");
+      marca.textContent = LETRAS[i] || "•";
+      op.insertBefore(marca, op.firstChild);
+      cont.appendChild(op);
+    });
+    quiz.appendChild(cont);
+    quiz.appendChild(fb);
+    quiz.appendChild(reintentar);
+
+    function limpiar() {
+      ops.forEach(function (o) { o.classList.remove("bien", "mal", "parcial"); });
+      fb.className = "ix-fb";
+      fb.innerHTML = "";
+      reintentar.classList.remove("visible");
+    }
+
+    ops.forEach(function (op) {
+      op.addEventListener("click", function () {
+        var valor = op.getAttribute("data-valor") || "mal";
+        limpiar();
+        op.classList.add(valor);
+        fb.className = "ix-fb visible " + valor;
+        var tit = document.createElement("span");
+        tit.className = "ix-fb-tit";
+        tit.textContent = TITULOS[valor] || "Respuesta";
+        fb.appendChild(tit);
+        var txt = document.createElement("span");
+        txt.innerHTML = op.getAttribute("data-fb") || "";
+        fb.appendChild(txt);
+        reintentar.classList.add("visible");
+      });
+    });
+
+    reintentar.addEventListener("click", limpiar);
+  }
+
+  /* ---------------------------------------------------------------------
+     2. CHECKLIST DE APRENDIZAJE CON MEMORIA
+
+     <ul class="ix-check" data-id="encuentro-01"> <li>…</li> </ul>
+     --------------------------------------------------------------------- */
+
+  function iniciarCheck(lista) {
+    var id = lista.getAttribute("data-id") || "gen";
+    var items = Array.prototype.slice.call(lista.children).filter(function (li) {
+      return li.tagName === "LI";
+    });
+    if (!items.length) return;
+
+    var pie = document.createElement("div");
+    pie.className = "ix-progreso";
+    var texto = document.createElement("span");
+    var barra = document.createElement("span");
+    barra.className = "ix-barra";
+    var relleno = document.createElement("i");
+    barra.appendChild(relleno);
+    pie.appendChild(texto);
+    pie.appendChild(barra);
+
+    function actualizar() {
+      var n = items.filter(function (li) { return li.classList.contains("hecho"); }).length;
+      texto.textContent = n + " de " + items.length;
+      relleno.style.width = (items.length ? (n / items.length) * 100 : 0) + "%";
+    }
+
+    items.forEach(function (li, i) {
+      var clave = "lepd.check." + id + "." + i;
+      var contenido = li.innerHTML;
+      var inputId = "chk-" + id + "-" + i;
+
+      li.innerHTML = "";
+      var label = document.createElement("label");
+      label.setAttribute("for", inputId);
+
+      var input = document.createElement("input");
+      input.type = "checkbox";
+      input.id = inputId;
+
+      var span = document.createElement("span");
+      span.innerHTML = contenido;
+
+      label.appendChild(input);
+      label.appendChild(span);
+      li.appendChild(label);
+
+      if (leer(clave) === "1") {
+        input.checked = true;
+        li.classList.add("hecho");
+      }
+
+      input.addEventListener("change", function () {
+        li.classList.toggle("hecho", input.checked);
+        guardar(clave, input.checked ? "1" : "0");
+        actualizar();
+      });
+    });
+
+    lista.appendChild(pie);
+    actualizar();
+  }
+
+  /* ---------------------------------------------------------------------
+     3. SIMULADOR DE REIDENTIFICACIÓN
+
+     <div class="ix-sim" data-sim="reident" data-src="../assets/reident.json"></div>
+
+     Los datos están precalculados sobre la base sintética real del curso,
+     así que las cifras que muestra el simulador son exactamente las que
+     produce el mismo groupby del Laboratorio 1.
+     --------------------------------------------------------------------- */
+
+  var NOMBRES_QI = {
+    edad: "Edad",
+    sexo: "Sexo",
+    ciudad: "Ciudad",
+    barrio: "Barrio",
+    ocupacion: "Ocupación",
+    estrato: "Estrato"
+  };
+
+  function iniciarSim(raiz) {
+    var src = raiz.getAttribute("data-src") || "assets/reident.json";
+
+    var head = document.createElement("div");
+    head.className = "ix-sim-head";
+    head.innerHTML =
+      '<h4>Simulador de reidentificación</h4>' +
+      '<p>Elija qué variables entrega y vea cuántas personas quedan solas en su grupo.</p>';
+
+    var body = document.createElement("div");
+    body.className = "ix-sim-body";
+
+    var controles = document.createElement("div");
+    controles.className = "ix-sim-controles";
+    var res = document.createElement("div");
+    res.className = "ix-sim-res";
+    body.appendChild(controles);
+    body.appendChild(res);
+
+    var nota = document.createElement("div");
+    nota.className = "ix-sim-nota";
+    nota.textContent = "Cargando datos del curso…";
+
+    raiz.appendChild(head);
+    raiz.appendChild(body);
+    raiz.appendChild(nota);
+
+    fetch(src)
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (payload) { construir(payload); })
+      .catch(function () {
+        nota.textContent =
+          "No fue posible cargar los datos del simulador. El mismo cálculo está " +
+          "en el bloque 8 del Laboratorio 1.";
+      });
+
+    function construir(payload) {
+      var QIS = payload.qis;
+      var DATOS = payload.data;
+      var N = payload.n;
+      var sel = { edad: true, sexo: true, ciudad: true, ocupacion: true };
+      var genEdad = false, genGeo = false;
+
+      // --- controles ---
+      var t1 = document.createElement("p");
+      t1.className = "grupo";
+      t1.textContent = "Variables que entrego";
+      var chips = document.createElement("div");
+      chips.className = "ix-sim-qi";
+
+      QIS.forEach(function (q) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "ix-chip-t";
+        b.textContent = NOMBRES_QI[q] || q;
+        b.setAttribute("aria-pressed", sel[q] ? "true" : "false");
+        b.addEventListener("click", function () {
+          sel[q] = !sel[q];
+          b.setAttribute("aria-pressed", sel[q] ? "true" : "false");
+          pintar();
+        });
+        chips.appendChild(b);
+      });
+
+      var t2 = document.createElement("p");
+      t2.className = "grupo";
+      t2.textContent = "Generalización aplicada";
+      var gen = document.createElement("div");
+      gen.className = "ix-sim-gen";
+
+      function casilla(txt, onchange) {
+        var l = document.createElement("label");
+        var i = document.createElement("input");
+        i.type = "checkbox";
+        i.addEventListener("change", function () { onchange(i.checked); pintar(); });
+        var s = document.createElement("span");
+        s.textContent = txt;
+        l.appendChild(i);
+        l.appendChild(s);
+        gen.appendChild(l);
+      }
+
+      casilla("Edad en rangos de 5 años", function (v) { genEdad = v; });
+      casilla("Geografía a nivel de región", function (v) { genGeo = v; });
+
+      controles.appendChild(t1);
+      controles.appendChild(chips);
+      controles.appendChild(t2);
+      controles.appendChild(gen);
+
+      // --- resultado ---
+      var cifra = document.createElement("div");
+      cifra.className = "ix-sim-cifra";
+      var leyenda = document.createElement("div");
+      leyenda.className = "leyenda";
+      var medidor = document.createElement("div");
+      medidor.className = "ix-sim-medidor";
+      var relleno = document.createElement("i");
+      medidor.appendChild(relleno);
+      var tabla = document.createElement("table");
+      tabla.className = "ix-sim-tabla";
+
+      res.appendChild(cifra);
+      res.appendChild(leyenda);
+      res.appendChild(medidor);
+      res.appendChild(tabla);
+      res.setAttribute("role", "status");
+      res.setAttribute("aria-live", "polite");
+
+      function pintar() {
+        var activos = QIS.filter(function (q) { return sel[q]; });
+
+        if (!activos.length) {
+          cifra.textContent = "—";
+          cifra.className = "ix-sim-cifra";
+          leyenda.textContent = "Seleccione al menos una variable.";
+          relleno.style.width = "0%";
+          tabla.innerHTML = "";
+          return;
+        }
+
+        var clave = (genEdad ? "1" : "0") + (genGeo ? "1" : "0") + "|" + activos.join("+");
+        var d = DATOS[clave];
+        if (!d) { return; }
+
+        cifra.textContent = d.r.toFixed(1).replace(".", ",") + " %";
+        cifra.className = "ix-sim-cifra " + (d.r < 10 ? "bajo" : d.r < 40 ? "medio" : "alto");
+        leyenda.textContent =
+          "de los " + N.toLocaleString("es-CO") + " registros queda solo en su grupo (k = 1)";
+
+        relleno.style.width = Math.max(d.r, 1) + "%";
+        relleno.style.background =
+          d.r < 10 ? "var(--rds-prueba)" : d.r < 40 ? "var(--rds-reflexiona)" : "var(--rds-riesgo)";
+
+        tabla.innerHTML = "";
+        [
+          ["Variables combinadas", activos.length],
+          ["Combinaciones distintas", d.c.toLocaleString("es-CO")],
+          ["Personas solas en su grupo", d.u.toLocaleString("es-CO")],
+          ["En grupos de menos de 5", d.v.toFixed(1).replace(".", ",") + " %"],
+          ["Grupo más pequeño (k mínimo)", d.k]
+        ].forEach(function (fila) {
+          var tr = document.createElement("tr");
+          var a = document.createElement("td");
+          a.textContent = fila[0];
+          var b = document.createElement("td");
+          b.textContent = fila[1];
+          tr.appendChild(a);
+          tr.appendChild(b);
+          tabla.appendChild(tr);
+        });
+      }
+
+      nota.innerHTML =
+        "Cifras calculadas sobre <code>data/clientes_sinteticos.csv</code>, la misma base " +
+        "del curso. <strong>k = 1</strong> significa que esa persona es la única con esa " +
+        "combinación: basta un directorio profesional o un perfil público para ponerle nombre.";
+
+      pintar();
+    }
+  }
+
+  /* ---------------------------------------------------------------------
+     Arranque
+     --------------------------------------------------------------------- */
+
+  function iniciar() {
+    document.querySelectorAll(".ix-quiz").forEach(iniciarQuiz);
+    document.querySelectorAll(".ix-check").forEach(iniciarCheck);
+    document.querySelectorAll('[data-sim="reident"]').forEach(iniciarSim);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciar);
+  } else {
+    iniciar();
+  }
+})();
+</script>

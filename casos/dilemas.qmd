@@ -8,6 +8,12 @@ description: "Material de discusión para los encuentros. Cada dilema tiene dos 
 [12 dilemas]{} [3–8 minutos cada uno]{} [Uso: encuentros y foros]{}
 :::
 
+::: {.rds-acciones-encuentro}
+[Marco legal](../marco-legal/index.qmd) ·
+[Unidad 2 · Ética de los datos](../unidades.qmd#unidad-2) ·
+[Checklist del analista](../recursos/checklist-proyecto-datos.qmd)
+:::
+
 ## Cómo usar este banco
 
 Un dilema no es una pregunta con truco. Es una situación donde **las dos
@@ -23,15 +29,6 @@ La regla de uso en clase:
 5. El docente **no revela una respuesta correcta**, porque no la hay. Lo que
    sí hace es nombrar qué principio está en tensión con cuál.
 
-::: {.callout-tip collapse="true"}
-## Nota para el docente
-
-La tentación permanente es cerrar el dilema con la respuesta «responsable».
-Resistirla. Un curso donde la respuesta ética siempre coincide con la
-respuesta cómoda no prepara a nadie: en el trabajo real, la decisión correcta
-casi siempre cuesta dinero, tiempo o capital político, y eso hay que poder
-sostenerlo con argumentos, no con eslóganes.
-:::
 
 ------------------------------------------------------------------------
 

@@ -4,8 +4,26 @@ subtitle: "Comparación entre legislaciones latinoamericanas aplicada a un proye
 description: "25 % · Entrega semana 3 · Trabajo en grupos de 2 o 3"
 ---
 
-::: {.rds-meta}
-[Actividad 1]{} [Unidad 1]{} [25 %]{} [Entrega: semana 3]{} [Grupos de 2 o 3]{}
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va">A comparar regímenes de protección de datos no por su texto sino por
+    <strong>lo que obligan a cambiar en un proyecto concreto</strong>: qué variable se deja de usar,
+    qué paso se añade al pipeline, qué evidencia hay que producir.</div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Construir la matriz comparada Colombia–Brasil–Chile y traducirla a decisiones de proyecto.</span></div>
+  <div><span class="et">Duración</span><span class="va">Semana 3 · trabajo autónomo, grupos de 2 o 3</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Documento de máximo 8 páginas: matriz + decisiones + anexo de fuentes fechadas</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-1">1 · Fundamentos legales</a> · vale 25 %</span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="actividad-02.html">Actividad 2 · GDPR</a></span></div>
+</div>
+```
+
+::: {.rds-acciones-encuentro}
+[Marco legal · Colombia](../marco-legal/index.qmd#colombia) ·
+[Marco legal · internacional](../marco-legal/index.qmd#internacional) ·
+[Caso DataMarket](../casos/caso-datamarket.qmd)
 :::
 
 ## El encargo

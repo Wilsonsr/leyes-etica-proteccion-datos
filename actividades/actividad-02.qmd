@@ -4,8 +4,27 @@ subtitle: "Una empresa colombiana descubre que tiene clientes en Europa"
 description: "25 % · Entrega semana 4 · Trabajo individual o en parejas"
 ---
 
-::: {.rds-meta}
-[Actividad 2]{} [Unidad 1]{} [25 %]{} [Entrega: semana 4]{} [Individual o en parejas]{}
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va">A auditar un proyecto real frente a un marco normativo exigente y a
+    convertir los hallazgos en <strong>acciones ejecutables por el equipo de analítica</strong>,
+    no en recomendaciones para el área jurídica.</div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Auditar el proyecto DataMarket frente al GDPR en siete frentes y priorizar los hallazgos.</span></div>
+  <div><span class="et">Duración</span><span class="va">Semana 4 · individual o en parejas</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Informe ejecutivo (3 pág.) + mapa de flujo + registro de riesgos (8 filas) + recomendaciones</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-1">1 · Fundamentos legales</a> · vale 25 %</span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../encuentros/encuentro-03.html">Encuentro 3 · Unidad 2</a></span></div>
+</div>
+```
+
+::: {.rds-acciones-encuentro}
+[Marco legal · GDPR](../marco-legal/index.qmd#internacional) ·
+[Transferencias](../marco-legal/index.qmd#transferencias) ·
+[Caso Facebook](../casos/caso-facebook.qmd) ·
+[Laboratorio 2](../laboratorios/lab-02.qmd)
 :::
 
 ## El encargo

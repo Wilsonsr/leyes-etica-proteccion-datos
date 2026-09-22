@@ -3,25 +3,32 @@ project:
   output-dir: _site
   render:
     - "index.qmd"
+    - "unidades.qmd"
     - "programa.qmd"
     - "metodologia.qmd"
+    - "docente.qmd"
+    - "marco-legal/*.qmd"
     - "encuentros/*.qmd"
+    - "laboratorios/*.qmd"
     - "slides/*.qmd"
     - "casos/*.qmd"
     - "actividades/*.qmd"
     - "recursos/*.qmd"
     - "lecturas/*.qmd"
-    - "labs/*.ipynb"
+    - "guia-docente/*.qmd"
     - "!README.md"
   resources:
     - "data/**"
     - "scripts/**"
+    - "assets/**"
+    - "labs/**"
 
 website:
-  title: "Responsible Data Lab"
+  title: "Leyes, Ética y Protección de Datos"
   description: >
-    Leyes, Ética y Protección de Datos — Especialización en Análisis Estadístico.
-    Un curso sobre cómo diseñar mejores proyectos de datos.
+    Espacio académico de la Especialización en Análisis Estadístico para Ciencia
+    de Datos. Fundamentos legales, ética de los datos y técnicas de protección
+    aplicadas a proyectos de analítica, inteligencia artificial y datos masivos.
   site-url: https://wilsonsr.github.io/leyes-etica-proteccion-datos/
   repo-url: https://github.com/wilsonsr/leyes-etica-proteccion-datos
   repo-actions: [source, issue]
@@ -35,25 +42,19 @@ website:
     background: primary
     pinned: true
     logo: styles/logo.svg
-    logo-alt: "Responsible Data Lab"
+    logo-alt: "Leyes, Ética y Protección de Datos"
+    title: "Leyes, Ética y Protección de Datos"
     left:
       - text: "Inicio"
         href: index.qmd
-      - text: "El curso"
-        menu:
-          - text: "Programa"
-            href: programa.qmd
-          - text: "Metodología"
-            href: metodologia.qmd
-          - text: "Lecturas y bibliografía"
-            href: lecturas/index.qmd
+      - text: "Unidades"
+        href: unidades.qmd
       - text: "Encuentros"
         menu:
           - text: "1 · Tenemos los datos. ¿Qué podría salir mal?"
             href: encuentros/encuentro-01.qmd
           - text: "2 · Del requisito a la decisión"
             href: encuentros/encuentro-02.qmd
-          - text: "---"
           - text: "3 · Ética y ciencia de datos"
             href: encuentros/encuentro-03.qmd
           - text: "4 · Herramientas de protección"
@@ -63,35 +64,45 @@ website:
       - text: "Laboratorios"
         menu:
           - text: "Lab 1 · ¿Qué sabe esta base sobre nosotros?"
-            href: labs/lab01.ipynb
-          - text: "Lab 2 · Auditoría rápida de un pipeline"
-            href: labs/lab02.ipynb
-      - text: "Casos"
-        menu:
-          - text: "DataMarket Analytics (caso transversal)"
-            href: casos/caso-datamarket.qmd
-          - text: "Caso histórico · Facebook en Colombia"
-            href: casos/caso-facebook.qmd
-          - text: "Banco de dilemas"
-            href: casos/dilemas.qmd
+            href: laboratorios/lab-01.qmd
+          - text: "Lab 2 · Auditoría de un pipeline de datos"
+            href: laboratorios/lab-02.qmd
       - text: "Actividades"
         menu:
           - text: "Actividad 1 · Operar en tres países"
             href: actividades/actividad-01.qmd
-          - text: "Actividad 2 · Auditoría GDPR"
+          - text: "Actividad 2 · Auditoría frente al GDPR"
             href: actividades/actividad-02.qmd
           - text: "Actividad 3 · Ética en el sector público"
             href: actividades/actividad-03.qmd
           - text: "Actividad 4 · Anonimización"
             href: actividades/actividad-04.qmd
+      - text: "Marco legal"
+        href: marco-legal/index.qmd
       - text: "Recursos"
         menu:
+          - text: "Caso transversal · DataMarket Analytics"
+            href: casos/caso-datamarket.qmd
+          - text: "Caso histórico · Facebook en Colombia"
+            href: casos/caso-facebook.qmd
+          - text: "Banco de dilemas"
+            href: casos/dilemas.qmd
+          - text: "---"
           - text: "Checklist del analista responsable"
             href: recursos/checklist-proyecto-datos.qmd
-          - text: "Mapa de riesgos"
+          - text: "Mapa de riesgos del pipeline"
             href: recursos/mapa-riesgos.qmd
           - text: "Glosario operativo"
             href: recursos/glosario.qmd
+          - text: "---"
+          - text: "Programa y evaluación"
+            href: programa.qmd
+          - text: "Metodología"
+            href: metodologia.qmd
+          - text: "Lecturas y bibliografía"
+            href: lecturas/index.qmd
+      - text: "Docente"
+        href: docente.qmd
     right:
       - icon: github
         href: https://github.com/wilsonsr/leyes-etica-proteccion-datos
@@ -101,53 +112,90 @@ website:
     style: floating
     collapse-level: 2
     contents:
-      - section: "Encuentros"
+      - text: "Inicio"
+        href: index.qmd
+      - text: "Las tres unidades"
+        href: unidades.qmd
+      - section: "Unidad 1 · Fundamentos legales"
         contents:
-          - encuentros/encuentro-01.qmd
-          - encuentros/encuentro-02.qmd
-          - encuentros/encuentro-03.qmd
-          - encuentros/encuentro-04.qmd
-          - encuentros/encuentro-05.qmd
-      - section: "Laboratorios"
+          - text: "Encuentro 1 · Tenemos los datos"
+            href: encuentros/encuentro-01.qmd
+          - text: "Laboratorio 1"
+            href: laboratorios/lab-01.qmd
+          - text: "Encuentro 2 · Del requisito a la decisión"
+            href: encuentros/encuentro-02.qmd
+          - text: "Laboratorio 2"
+            href: laboratorios/lab-02.qmd
+          - text: "Actividad 1 · Tres países"
+            href: actividades/actividad-01.qmd
+          - text: "Actividad 2 · GDPR"
+            href: actividades/actividad-02.qmd
+      - section: "Unidad 2 · Ética de los datos"
         contents:
-          - labs/lab01.ipynb
-          - labs/lab02.ipynb
-      - section: "Casos"
+          - text: "Encuentro 3 · Ética y ciencia de datos"
+            href: encuentros/encuentro-03.qmd
+          - text: "Actividad 3 · Sector público"
+            href: actividades/actividad-03.qmd
+      - section: "Unidad 3 · Técnicas, IA y datos masivos"
         contents:
-          - casos/caso-datamarket.qmd
-          - casos/caso-facebook.qmd
-          - casos/dilemas.qmd
-      - section: "Actividades"
+          - text: "Encuentro 4 · Herramientas de protección"
+            href: encuentros/encuentro-04.qmd
+          - text: "Actividad 4 · Anonimización"
+            href: actividades/actividad-04.qmd
+          - text: "Encuentro 5 · Decálogo"
+            href: encuentros/encuentro-05.qmd
+      - section: "Consulta permanente"
         contents:
-          - actividades/actividad-01.qmd
-          - actividades/actividad-02.qmd
-          - actividades/actividad-03.qmd
-          - actividades/actividad-04.qmd
-      - section: "Recursos"
+          - text: "Marco legal y principios"
+            href: marco-legal/index.qmd
+          - text: "Caso DataMarket Analytics"
+            href: casos/caso-datamarket.qmd
+          - text: "Caso Facebook en Colombia"
+            href: casos/caso-facebook.qmd
+          - text: "Banco de dilemas"
+            href: casos/dilemas.qmd
+          - text: "Checklist del analista"
+            href: recursos/checklist-proyecto-datos.qmd
+          - text: "Mapa de riesgos"
+            href: recursos/mapa-riesgos.qmd
+          - text: "Glosario operativo"
+            href: recursos/glosario.qmd
+          - text: "Lecturas y bibliografía"
+            href: lecturas/index.qmd
+      - section: "El curso"
         contents:
-          - recursos/checklist-proyecto-datos.qmd
-          - recursos/mapa-riesgos.qmd
-          - recursos/glosario.qmd
-          - lecturas/index.qmd
+          - text: "Programa y evaluación"
+            href: programa.qmd
+          - text: "Metodología"
+            href: metodologia.qmd
+          - text: "Sobre el docente"
+            href: docente.qmd
 
   page-footer:
     background: light
     left: |
-      **Responsible Data Lab** · Leyes, Ética y Protección de Datos<br>
-      Especialización en Análisis Estadístico
+      **Leyes, Ética y Protección de Datos**<br>
+      Especialización en Análisis Estadístico para Ciencia de Datos<br>
+      Docente: [Wilson Sandoval Rodríguez](/docente.qmd)
     center: |
       Todos los datos del curso son **sintéticos**.<br>
-      Ninguna persona real está representada en este repositorio.
+      Ninguna persona real está representada.<br>
+      [Guía docente](/guia-docente/index.qmd)
     right: |
-      Contenido bajo licencia [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)<br>
-      Código bajo licencia [MIT](https://opensource.org/licenses/MIT)
+      Contenido bajo [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)<br>
+      Código bajo [MIT](https://opensource.org/licenses/MIT)<br>
+      [Repositorio](https://github.com/wilsonsr/leyes-etica-proteccion-datos)
 
 format:
   html:
     theme:
       light: [cosmo, styles/custom.scss]
       dark: [darkly, styles/custom-dark.scss]
-    css: styles/extra.css
+    css:
+      - styles/extra.css
+      - styles/interactivo.css
+    include-after-body:
+      - file: styles/interactivo.js.html
     toc: true
     toc-depth: 3
     toc-title: "En esta página"

@@ -1,7 +1,7 @@
 ---
-title: "Responsible Data Lab"
-pagetitle: "Responsible Data Lab · Leyes, Ética y Protección de Datos"
-description: "Un curso sobre cómo diseñar mejores proyectos de datos."
+title: "Leyes, Ética y Protección de Datos"
+pagetitle: "Leyes, Ética y Protección de Datos · Especialización en Análisis Estadístico para Ciencia de Datos"
+description: "Fundamentos legales, ética de los datos y técnicas de protección aplicadas a proyectos de analítica, inteligencia artificial y datos masivos."
 toc: false
 anchor-sections: false
 sidebar: false
@@ -14,12 +14,11 @@ format:
 
 ```{=html}
 <section class="rds-hero">
-  <div class="rds-kicker">Data · Decisions · Responsibility</div>
-  <h1>Responsible Data Lab</h1>
+  <div class="rds-kicker">Especialización en Análisis Estadístico para Ciencia de Datos</div>
+  <h1>Leyes, Ética y<br>Protección de Datos</h1>
   <p class="rds-subtitle">
-    <strong>Leyes, Ética y Protección de Datos</strong> — Especialización en
-    Análisis Estadístico. Nueve semanas, tres unidades y un mismo proyecto de
-    datos que va cambiando a medida que aparecen restricciones reales.
+    Nueve semanas · tres unidades · un mismo proyecto de datos que va cambiando
+    a medida que aparecen restricciones legales, éticas y técnicas.
   </p>
   <p class="rds-claim">
     Los datos no toman decisiones.<br>
@@ -28,42 +27,35 @@ format:
 </section>
 ```
 
-## Las tres preguntas del curso
+## De qué trata este curso
 
-Todo el curso se organiza alrededor de tres preguntas. No son etapas de un
-trámite: son tres momentos distintos del criterio profesional de un analista.
+El curso aborda los **fundamentos legales** de la protección de datos, los
+**marcos de ética de los datos** y las **técnicas específicas de protección**
+aplicables a proyectos de analítica, inteligencia artificial y datos masivos.
+Busca fortalecer la capacidad del especialista en análisis estadístico para
+reconocer e integrar consideraciones legales, éticas y técnicas en la toma de
+decisiones sobre datos.
+
+No es una asignatura de derecho con ejemplos de datos. Es una asignatura sobre
+**cómo se diseñan mejores proyectos de datos**, en la que la norma aparece
+cuando hace falta para resolver un problema concreto.
+
+## La ruta de aprendizaje
+
+Todo tema del curso —cada caso, cada laboratorio, cada actividad— recorre la
+misma secuencia. Es el andamiaje que hace que la norma llegue siempre *después*
+del problema, y que toda decisión termine en algo verificable.
 
 ```{=html}
-<div class="rds-grid">
-
-  <div class="rds-tile rds-question">
-    <div class="u">Unidad 1 · Semanas 1–4</div>
-    <div class="q">¿Podemos hacerlo?</div>
-    <p>La pregunta de la <strong>restricción</strong>. Qué permiten, qué exigen y
-    qué prohíben el marco colombiano, el marco internacional y las condiciones
-    bajo las cuales se recolectaron los datos que ya tenemos.</p>
-  </div>
-
-  <div class="rds-tile rds-question">
-    <div class="u">Unidad 2 · Semanas 5–7</div>
-    <div class="q">¿Debemos hacerlo?</div>
-    <p>La pregunta del <strong>juicio</strong>. Qué pasa cuando algo es legal,
-    técnicamente correcto y estadísticamente válido, y aun así produce un
-    resultado que no queremos firmar.</p>
-  </div>
-
-  <div class="rds-tile rds-question">
-    <div class="u">Unidad 3 · Semanas 8–9</div>
-    <div class="q">¿Cómo lo hacemos responsablemente?</div>
-    <p>La pregunta del <strong>oficio</strong>. Qué cambia concretamente en el
-    código, en el pipeline, en el modelo y en la documentación cuando la
-    respuesta a las dos primeras preguntas es «sí, pero».</p>
-  </div>
-
+<div class="ix-ruta">
+  <div class="ix-paso"><b>Problema</b><span>Qué nos piden resolver, con qué plazo y para qué.</span></div>
+  <div class="ix-paso"><b>Datos</b><span>Qué hay realmente disponible, y de dónde vino.</span></div>
+  <div class="ix-paso"><b>Análisis</b><span>Qué haríamos sin más contexto: variables, modelo, métrica.</span></div>
+  <div class="ix-paso"><b>Decisión</b><span>Qué acción se toma con el resultado y sobre quién recae.</span></div>
+  <div class="ix-paso legal"><b>Implicación legal o ética</b><span>Qué principio o norma entra en juego en ese punto.</span></div>
+  <div class="ix-paso control"><b>Control y evidencia</b><span>Qué cambia en el pipeline y qué queda documentado.</span></div>
 </div>
 ```
-
-## La pregunta que atraviesa las nueve semanas
 
 ::: {.rds-card .dilema data-label="PREGUNTA TRANSVERSAL"}
 ::: {.pregunta}
@@ -71,62 +63,100 @@ Que algo sea técnicamente posible y estadísticamente válido,
 ¿significa que debemos hacerlo?
 :::
 
-Y su consecuencia práctica, que es la pregunta con la que cerramos cada
-encuentro:
+Y su consecuencia práctica, con la que cerramos cada encuentro:
 
 ::: {.pregunta}
 ¿Qué tendría que cambiar en mi proyecto de datos?
 :::
 :::
 
-## Cómo está construido este curso
-
-Este no es un curso de legislación con ejemplos de datos. Es un curso de
-diseño de proyectos de datos en el que la legislación aparece cuando hace
-falta para resolver un problema concreto.
-
-La estructura de cada tema es siempre la misma:
+## Las tres unidades
 
 ```{=html}
-<div class="rds-pipeline">
-  <div class="rds-stage"><span class="nombre">Problema</span><span class="pregunta">¿Qué nos pidieron?</span></div>
-  <div class="rds-stage"><span class="nombre">Datos</span><span class="pregunta">¿Qué tenemos?</span></div>
-  <div class="rds-stage"><span class="nombre">Decisión analítica</span><span class="pregunta">¿Qué haríamos?</span></div>
-  <div class="rds-stage alerta"><span class="nombre">Riesgo</span><span class="pregunta">¿Qué puede salir mal?</span></div>
-  <div class="rds-stage"><span class="nombre">Principio</span><span class="pregunta">¿Qué regla aplica?</span></div>
-  <div class="rds-stage"><span class="nombre">Control</span><span class="pregunta">¿Qué hacemos distinto?</span></div>
-  <div class="rds-stage"><span class="nombre">Decisión final</span><span class="pregunta">¿Qué firmamos?</span></div>
+<div class="rds-grid">
+
+  <a class="rds-tile rds-question" href="unidades.html#unidad-1">
+    <div class="u">Unidad 1 · Semanas 1–4</div>
+    <div class="q">¿Podemos hacerlo?</div>
+    <p><strong>Fundamentos legales de la protección de datos y regulaciones
+    relacionadas con ciencia de datos.</strong> Qué permiten, qué exigen y qué
+    prohíben el marco colombiano y los marcos internacionales sobre los datos
+    que ya tenemos.</p>
+    <div class="meta">2 encuentros · 2 laboratorios · 2 actividades</div>
+  </a>
+
+  <a class="rds-tile rds-question" href="unidades.html#unidad-2">
+    <div class="u">Unidad 2 · Semanas 5–7</div>
+    <div class="q">¿Debemos hacerlo?</div>
+    <p><strong>Ética de los datos aplicada a proyectos de analítica y gestión de
+    datos en los sectores público y privado.</strong> Qué hacer cuando algo es
+    legal, técnicamente correcto y estadísticamente válido, y aun así produce un
+    resultado que nadie quiere firmar.</p>
+    <div class="meta">1 encuentro · 1 actividad</div>
+  </a>
+
+  <a class="rds-tile rds-question" href="unidades.html#unidad-3">
+    <div class="u">Unidad 3 · Semanas 8–9</div>
+    <div class="q">¿Cómo lo hacemos responsablemente?</div>
+    <p><strong>Técnicas de protección de datos, inteligencia artificial y datos
+    masivos.</strong> Qué cambia concretamente en el código, el pipeline, el
+    modelo y la documentación cuando la respuesta a las dos preguntas
+    anteriores es «sí, pero».</p>
+    <div class="meta">2 encuentros · 1 actividad</div>
+  </a>
+
 </div>
 ```
 
-La legislación es **una** de las restricciones del sistema. Las otras son la
-calidad de los datos, el sesgo, la seguridad, la finalidad, el impacto sobre
-las personas y la explicabilidad. Ninguna de ellas es sinónimo de las otras, y
-buena parte del curso consiste en aprender a distinguirlas.
+## Pruébelo ahora
 
-## El caso transversal
+Antes de leer una sola norma, una comprobación de dos minutos que anticipa el
+Encuentro 1. No hay que instalar nada: los números salen de la base sintética
+real del curso.
+
+```{=html}
+<div class="ix-sim" data-sim="reident" data-src="assets/reident.json"></div>
+```
+
+::: {.ix-quiz data-etiqueta="COMPRUEBE"}
+::: {.ix-pregunta}
+Una base de clientes a la que ya se le eliminaron nombre, cédula y correo
+electrónico, ¿es una base anónima?
+:::
+
+::: {.ix-op data-valor="mal" data-fb="Sin los identificadores directos la base es <strong>seudonimizada</strong>, no anónima. En la base del curso, cuatro variables que no identifican a nadie por separado —edad, sexo, ciudad y ocupación— dejan sola en su grupo al 83,9 % de las personas."}
+Sí. Sin identificadores directos ya no se puede saber de quién se trata.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Exacto. La anonimización es un <strong>resultado que se mide</strong>, no una operación que se aplica. La medida mínima es cuántos registros quedan solos en su grupo de cuasi-identificadores. Pruébelo en el simulador de arriba."}
+No necesariamente: depende de qué otras variables queden y de cuántas personas comparten cada combinación.
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="Es cierto que el riesgo depende de quién reciba la base, pero eso no basta. La pregunta previa es medible y no depende de suposiciones: ¿cuántas personas quedan solas en su grupo? Ese número se calcula antes de decidir a quién se entrega."}
+Depende de si la base se comparte o se queda dentro de la empresa.
+:::
+:::
+
+## El caso que atraviesa las nueve semanas
 
 ::: {.rds-card .caso data-label="DATAMARKET ANALYTICS"}
-Una empresa colombiana ficticia de comercio electrónico que quiere conocer a
-sus clientes y predecir quién va a abandonar. Empieza con un problema
-aparentemente inocente —construir un modelo de *churn*— y termina, nueve
-semanas después, con un decálogo de buenas prácticas escrito por ustedes.
+Una empresa colombiana **ficticia** de comercio electrónico que quiere conocer a
+sus clientes y predecir quién va a abandonar. Empieza con un encargo
+aparentemente inocente —un modelo de *churn*— y termina, nueve semanas después,
+con un decálogo de buenas prácticas escrito por el grupo.
 
-El mismo caso, la misma base y el mismo equipo analítico van cambiando de
-situación semana a semana:
+| Semana | Lo que pasa en DataMarket | Unidad |
+|:--:|:--|:--:|
+| 1 | Quiere predecir abandono y tiene 35 variables disponibles | 1 |
+| 2 | Aparecen problemas de origen, finalidad y tratamiento | 1 |
+| 3 | Quiere abrir operación en Brasil y Chile | 1 |
+| 4 | Descubre que tiene clientes residentes en la Unión Europea | 1 |
+| 5 | El modelo predice mejor usando variables que discriminan | 2 |
+| 7 | Necesita compartir la base con un proveedor externo | 2 |
+| 8 | Tiene que anonimizar de verdad, y medirlo | 3 |
+| 9 | El grupo escribe el decálogo | 3 |
 
-| Semana | Lo que pasa en DataMarket |
-|:--|:--|
-| 1 | Quiere predecir *churn* y tiene 35 variables disponibles. |
-| 2 | Aparecen problemas de origen, finalidad y tratamiento. |
-| 3 | Quiere operar en varios países de América Latina. |
-| 4 | Empieza a procesar datos de residentes europeos. |
-| 5 | Aparecen los problemas éticos y el sesgo del modelo. |
-| 7 | Necesita compartir una base con un tercero. |
-| 8 | Tiene que anonimizarla de verdad. |
-| 9 | Ustedes escriben el decálogo. |
-
-[→ Ver el caso completo](casos/caso-datamarket.qmd)
+[→ Ver el caso completo y el diccionario de datos](casos/caso-datamarket.qmd)
 :::
 
 ::: {.rds-sintetico}
@@ -135,79 +165,70 @@ fija (`scripts/generar_datos.py`). Ninguna persona real está representada en
 este repositorio.
 :::
 
-## Empezar por aquí
+## Por dónde empezar
 
 ```{=html}
 <div class="rds-grid">
 
+  <a class="rds-tile" href="unidades.html">
+    <div class="num">Paso 1 · 10 min</div>
+    <h3>Entender la estructura</h3>
+    <p>Las tres unidades, qué se evalúa en cada una y cómo se conectan entre sí.</p>
+    <div class="meta">Mapa del curso</div>
+  </a>
+
   <a class="rds-tile" href="encuentros/encuentro-01.html">
-    <div class="num">Encuentro 01 · 120 min</div>
-    <h3>Tenemos los datos. ¿Qué podría salir mal?</h3>
-    <p>Introducción a la privacidad, la ética y la toma de decisiones en
-    proyectos de analítica.</p>
-    <div class="meta">Guía + slides + Lab 1</div>
+    <div class="num">Paso 2 · 120 min</div>
+    <h3>Encuentro 1 · Tenemos los datos</h3>
+    <p>Qué sabe una base sobre las personas, incluso después de quitarle los
+    nombres.</p>
+    <div class="meta">Guía + presentación + laboratorio</div>
   </a>
 
-  <a class="rds-tile" href="encuentros/encuentro-02.html">
-    <div class="num">Encuentro 02 · 120 min</div>
-    <h3>Del requisito a la decisión</h3>
-    <p>Cómo cambian las reglas un proyecto de datos, etapa por etapa del
-    pipeline.</p>
-    <div class="meta">Guía + slides + Lab 2</div>
+  <a class="rds-tile" href="laboratorios/lab-01.html">
+    <div class="num">Paso 3 · 35 min</div>
+    <h3>Laboratorio 1</h3>
+    <p>Ejercicios en el navegador y el cuaderno completo en Colab. Sin instalar
+    Python.</p>
+    <div class="meta">Python · pandas</div>
   </a>
 
-  <a class="rds-tile" href="recursos/checklist-proyecto-datos.html">
-    <div class="num">Recurso transversal</div>
-    <h3>Checklist del analista responsable</h3>
-    <p>Doce preguntas que se van activando a lo largo del curso y que deberían
-    acompañar cualquier proyecto real.</p>
-    <div class="meta">Se completa semana a semana</div>
-  </a>
-
-  <a class="rds-tile" href="programa.html">
-    <div class="num">Programa</div>
-    <h3>Qué vamos a hacer y cómo se evalúa</h3>
-    <p>Nueve semanas, tres unidades, cinco encuentros virtuales y cuatro
-    actividades evaluativas.</p>
-    <div class="meta">4 × 25 %</div>
+  <a class="rds-tile" href="marco-legal/index.html">
+    <div class="num">Consulta permanente</div>
+    <h3>Marco legal y principios</h3>
+    <p>Las normas aplicables, traducidas a preguntas que un analista puede
+    responder con su dataset delante.</p>
+    <div class="meta">Colombia · Brasil · Chile · GDPR</div>
   </a>
 
 </div>
 ```
 
-## Laboratorios
+## Cómo se evalúa
 
-Los laboratorios son cuadernos de Jupyter. No son clases de programación: el
-código es corto y deliberadamente simple, porque lo que se evalúa es la
-**decisión** que se toma después de mirar la salida.
+Cuatro actividades, 25 % cada una. Todas piden lo mismo en el fondo: **una
+decisión defendible con evidencia reproducible**.
+
+| Actividad | Producto | Unidad | Semana |
+|:--|:--|:--:|:--:|
+| [1 · Operar en tres países](actividades/actividad-01.qmd) | Matriz comparada Colombia–Brasil–Chile con la columna «¿qué cambia en el proyecto?» | 1 | 3 |
+| [2 · Auditoría frente al GDPR](actividades/actividad-02.qmd) | Informe ejecutivo, mapa de flujo de datos y registro de riesgos | 1 | 4 |
+| [3 · Ética en el sector público](actividades/actividad-03.qmd) | Análisis de un caso real de estadística pública y recomendaciones | 2 | 7 |
+| [4 · Anonimización](actividades/actividad-04.qmd) | Cuaderno reproducible e informe de riesgo de reidentificación | 3 | 8 |
+
+[→ Programa completo y criterios de evaluación](programa.qmd)
 
 ```{=html}
-<div class="rds-grid cols-2">
-
-  <a class="rds-tile" href="labs/lab01.html">
-    <div class="num">Lab 01 · Python · pandas</div>
-    <h3>¿Qué sabe realmente esta base sobre nosotros?</h3>
-    <p>Clasificar variables, distinguir identificadores directos de
-    cuasi-identificadores, minimizar, seudonimizar y comprobar por qué borrar
-    el nombre no anonimiza nada.</p>
-    <div class="meta">≈ 35 min en clase</div>
-  </a>
-
-  <a class="rds-tile" href="labs/lab02.html">
-    <div class="num">Lab 02 · Python · scikit-learn</div>
-    <h3>Auditoría rápida de un pipeline de datos</h3>
-    <p>Levantar la matriz etapa–dato–riesgo–pregunta–control–decisión y
-    comparar dos modelos de <em>churn</em> que difieren en AUC y en lo que
-    están dispuestos a usar.</p>
-    <div class="meta">≈ 40 min en clase</div>
-  </a>
-
+<div class="ix-docente">
+  <img src="assets/docente-wilson-sm.jpg"
+       alt="Ilustración del docente Wilson Sandoval Rodríguez en un escritorio de trabajo analítico">
+  <div class="txt">
+    <div class="rol">Docente del espacio académico</div>
+    <div class="nom">Wilson Sandoval Rodríguez</div>
+    <p>Estadística aplicada, gestión territorial de datos en salud y docencia
+    universitaria. El curso está construido sobre problemas de analítica reales,
+    no sobre ejercicios de derecho.
+    <a href="docente.html">Conocer más →</a></p>
+  </div>
 </div>
 ```
-
-## Sobre el nombre
-
-Este espacio académico se denomina **Leyes, Ética y Protección de Datos** y
-pertenece a la **Especialización en Análisis Estadístico**. *Responsible Data
-Lab* es el nombre de trabajo del repositorio y describe cómo abordamos la
-asignatura: desde el proyecto de datos hacia la norma, y no al revés.

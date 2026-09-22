@@ -4,8 +4,28 @@ subtitle: "Introducción a la privacidad, la ética y la toma de decisiones en p
 description: "Encuentro virtual 1 · 120 minutos · Unidad 1"
 ---
 
-::: {.rds-meta}
-[Encuentro 1]{} [Unidad 1]{} [120 minutos]{} [Semana 1]{} [Slides: [01-datos-decisiones](../slides/01-datos-decisiones.qmd)]{} [Lab: [lab01](../labs/lab01.ipynb)]{}
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va"><ul>
+      <li>Reconocer qué convierte una fila de una tabla en información sobre <strong>una persona concreta</strong>.</li>
+      <li>Distinguir identificador directo, cuasi-identificador, dato de comportamiento, dato inferido y proxy de dato sensible.</li>
+      <li>Explicar por qué eliminar el nombre no anonimiza una base, con un número que lo respalde.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Participar en las dos votaciones, ejecutar el Laboratorio 1 y responder la pregunta de salida.</span></div>
+  <div><span class="et">Duración</span><span class="va">120 minutos · Semana 1</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Respuesta escrita de tres líneas a «¿qué tendría que cambiar en mi proyecto de datos?»</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-1">1 · Fundamentos legales</a></span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../laboratorios/lab-01.html">Laboratorio 1</a>, y luego el <a href="encuentro-02.html">Encuentro 2</a></span></div>
+</div>
+```
+
+::: {.rds-acciones-encuentro}
+[Presentación del encuentro](../slides/01-datos-decisiones.qmd) ·
+[Laboratorio 1](../laboratorios/lab-01.qmd) ·
+[Marco legal aplicable](../marco-legal/index.qmd#sensibles)
 :::
 
 ## Objetivo del encuentro
@@ -94,15 +114,6 @@ Tres opciones. Voten antes de ver la base:
 Registren su voto. Volveremos a esta pregunta en el minuto 112.
 :::
 
-::: {.callout-tip collapse="true"}
-## Nota para el docente
-
-La opción 1 suele ganar en la primera votación, sobre todo entre estudiantes
-con más experiencia en modelado. No corrija: anote el conteo en el chat y
-siga. El objetivo del encuentro es que al final la distribución se haya
-movido, y que el movimiento sea atribuible a los casos, no a una afirmación
-de autoridad.
-:::
 
 ------------------------------------------------------------------------
 
@@ -308,7 +319,7 @@ Qué cambiaría en el pipeline:
 - Si el diagnóstico es imprescindible para el análisis, tratar la base como
   dato sensible y no como base depurada.
 
-Todo esto se ejecuta en el [Lab 1](../labs/lab01.ipynb) y se profundiza en la
+Todo esto se ejecuta en el [Lab 1](../laboratorios/lab-01.qmd) y se profundiza en la
 [Actividad 4](../actividades/actividad-04.qmd).
 :::
 
@@ -319,32 +330,28 @@ Todo esto se ejecuta en el [Lab 1](../labs/lab01.ipynb) y se profundiza en la
 ::: {.rds-card .prueba data-label="PRUEBA · LABORATORIO"}
 ### ¿Qué sabe realmente esta base sobre nosotros?
 
-Abran [`labs/lab01.ipynb`](../labs/lab01.ipynb). Son 14 bloques cortos. La
-consigna es que **cada bloque termina en una pregunta**, y la pregunta se
-responde en el chat antes de pasar al siguiente.
+Abran el [Laboratorio 1](../laboratorios/lab-01.qmd). Se ejecuta **en Google
+Colab con un clic**: no hay que instalar Python ni descargar los datos.
 
-Lo que se hace:
+Recorre seis fases, y cada una termina en una pregunta que se responde en el
+chat antes de pasar a la siguiente:
 
-1. Cargar la base y mirar `shape`, columnas y tipos.
-2. Buscar faltantes y decidir qué significan (no solo cuántos hay).
-3. Clasificar las 35 variables en las categorías del bloque 3.
-4. Construir un dataset minimizado y comparar su tamaño con el original.
-5. Seudonimizar con un hash y discutir por qué eso no es anonimizar.
-6. Buscar combinaciones únicas con `groupby` y medir el riesgo.
+| Fase | Qué se hace |
+|:--|:--|
+| **Explorar** | Tamaño real del problema y primeros identificadores |
+| **Analizar** | Por qué faltan los datos que faltan; clasificar 35 variables por riesgo |
+| **Experimentar** | Medir la unicidad combinando cuasi-identificadores, y volver a medir tras generalizar |
+| **Decidir** | Construir la base minimizada; seudonimizar y ver por qué eso no anonimiza |
+| **Justificar** | Declarar un umbral de riesgo y dejar registro |
+| **Reflexionar** | Llevar la pregunta al proyecto propio |
 
 No es una clase de programación. El código está escrito; lo que se evalúa es
-lo que se decide después de leer la salida.
+la decisión que se toma después de leer la salida.
+
+El cuaderno del estudiante trae **bloques `TODO`**: la clasificación de
+variables, la generalización y la lista mínima los completa cada quien.
 :::
 
-::: {.callout-tip collapse="true"}
-## Nota para el docente
-
-Si el grupo es grande, corra usted el notebook compartiendo pantalla y deje
-que ellos voten cada decisión. Si el grupo es pequeño (menos de 15), que cada
-uno lo ejecute. El bloque 13 (`groupby` sobre cuasi-identificadores) es el
-momento de mayor impacto del encuentro: dé tiempo para que la cifra se
-asiente antes de comentarla.
-:::
 
 ------------------------------------------------------------------------
 
@@ -463,7 +470,7 @@ dinero identificable y defendible ante la gerencia.
 
 Voten. Y después, quienes votaron por B: ¿qué le dirían a un cliente que
 pregunta por qué recibió una oferta distinta a la de su vecino? Lo
-verificaremos con código en el [Lab 2](../labs/lab02.ipynb).
+verificaremos con código en el [Lab 2](../laboratorios/lab-02.qmd).
 :::
 
 ------------------------------------------------------------------------
@@ -568,7 +575,7 @@ No en el de DataMarket: en uno real, propio, que esté en curso.
     <p>24 diapositivas Reveal.js con notas del presentador y revelación progresiva.</p>
     <div class="meta">Tecla S para las notas · F para pantalla completa</div>
   </a>
-  <a class="rds-tile" href="../labs/lab01.html">
+  <a class="rds-tile" href="../laboratorios/lab-01.html">
     <div class="num">Laboratorio</div>
     <h3>Lab 1 · ¿Qué sabe esta base sobre nosotros?</h3>
     <p>14 bloques en Jupyter con pandas. Clasificar, minimizar, seudonimizar, medir unicidad.</p>

@@ -4,8 +4,28 @@ subtitle: "Cómo cambian las reglas un proyecto de datos"
 description: "Encuentro virtual 2 · 120 minutos · Unidad 1"
 ---
 
-::: {.rds-meta}
-[Encuentro 2]{} [Unidad 1]{} [120 minutos]{} [Semana 2]{} [Slides: [02-reglas-proyectos-datos](../slides/02-reglas-proyectos-datos.qmd)]{} [Lab: [lab02](../labs/lab02.ipynb)]{}
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va"><ul>
+      <li>Recorrer un pipeline de datos etapa por etapa y nombrar el riesgo y la pregunta de control de cada una.</li>
+      <li>Traducir los principios del marco colombiano a decisiones técnicas con evidencia asociada.</li>
+      <li>Reconocer la deriva de finalidad antes de que ocurra.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Construir el pipeline con el grupo, ejecutar el Laboratorio 2 y decidir qué modelo se despliega.</span></div>
+  <div><span class="et">Duración</span><span class="va">120 minutos · Semana 2</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Matriz de auditoría del pipeline y una decisión de modelo argumentada</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-1">1 · Fundamentos legales</a></span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../actividades/actividad-01.html">Actividad 1</a> y <a href="../actividades/actividad-02.html">Actividad 2</a></span></div>
+</div>
+```
+
+::: {.rds-acciones-encuentro}
+[Presentación del encuentro](../slides/02-reglas-proyectos-datos.qmd) ·
+[Laboratorio 2](../laboratorios/lab-02.qmd) ·
+[Marco legal aplicable](../marco-legal/index.qmd#principios)
 :::
 
 ## Pregunta central
@@ -89,14 +109,6 @@ los tenemos almacenados?
    compatibles con el origen; otras no.
 :::
 
-::: {.callout-tip collapse="true"}
-## Nota para el docente
-
-La opción 3 es la más productiva, pero no se puede llegar a ella por
-autoridad: hay que construirla. Pida que quienes voten 3 digan *cuáles* de
-las cuatro peticiones son compatibles y cuáles no. Esa lista es el material
-del bloque siguiente.
-:::
 
 ### Las cuatro peticiones no son equivalentes
 
@@ -237,7 +249,7 @@ y una nota que dice quién tomó la decisión y cuándo.
 ::: {.rds-card .prueba data-label="PRUEBA · LABORATORIO"}
 ### Auditoría rápida de un pipeline de datos
 
-Abran [`labs/lab02.ipynb`](../labs/lab02.ipynb). Dos partes:
+Abran [`laboratorios/lab-02.qmd`](../laboratorios/lab-02.qmd). Dos partes:
 
 **Parte A — la auditoría.** Se construye, en código, la matriz
 `etapa · dato · riesgo · pregunta · control · decisión` para las ocho etapas
@@ -480,7 +492,7 @@ pipeline** y **un cambio ejecutable**. No vale «ser más cuidadoso».
     <p>24 diapositivas Reveal.js con el pipeline, la matriz de principios y el dilema A/B.</p>
     <div class="meta">Tecla S para las notas</div>
   </a>
-  <a class="rds-tile" href="../labs/lab02.html">
+  <a class="rds-tile" href="../laboratorios/lab-02.html">
     <div class="num">Laboratorio</div>
     <h3>Lab 2 · Auditoría rápida de un pipeline</h3>
     <p>Matriz de auditoría en código y comparación de dos modelos de churn.</p>

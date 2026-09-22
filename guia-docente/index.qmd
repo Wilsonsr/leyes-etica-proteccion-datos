@@ -1,0 +1,283 @@
+---
+title: "Guía docente"
+subtitle: "Notas de conducción, criterios de calificación y soluciones"
+description: "Material de preparación de las sesiones. No forma parte de la ruta del estudiante."
+---
+
+::: {.ix-solo-docente}
+Esta página reúne el material de **preparación y conducción** de las sesiones.
+No está enlazada desde la navegación del estudiante ni desde las páginas de los
+encuentros: se llega a ella desde el pie de página o por su dirección directa.
+
+El repositorio es público, de modo que no es un espacio confidencial. Es un
+espacio **separado**, para que el estudiante no encuentre la respuesta antes de
+haber intentado la pregunta.
+:::
+
+## Cómo está organizado el curso por dentro
+
+| Capa | Para quién | Dónde vive |
+|:--|:--|:--|
+| Páginas de encuentro | Estudiante | `encuentros/` |
+| Páginas de laboratorio | Estudiante | `laboratorios/` |
+| Cuadernos versión estudiante | Estudiante | `labs/*-estudiante.ipynb` |
+| Presentaciones con notas del presentador | Docente en sesión | `slides/` — tecla `S` |
+| Cuadernos con soluciones | Docente | `labs/*-solucion.ipynb` |
+| Esta guía | Docente | `guia-docente/` |
+
+------------------------------------------------------------------------
+
+## Cuadernos con soluciones
+
+Incluyen las celdas ejecutadas y una **respuesta orientativa** plegada después
+de cada pregunta. Sirven para preparar la sesión y para calibrar la revisión de
+entregas.
+
+```{=html}
+<div class="ix-acciones">
+  <a class="ix-btn principal" href="../labs/lab01-solucion.ipynb" download>
+    <span class="ico">↓</span> Laboratorio 1 · versión con soluciones
+  </a>
+  <a class="ix-btn principal" href="../labs/lab02-solucion.ipynb" download>
+    <span class="ico">↓</span> Laboratorio 2 · versión con soluciones
+  </a>
+  <a class="ix-btn" href="https://colab.research.google.com/github/wilsonsr/leyes-etica-proteccion-datos/blob/main/labs/lab01-solucion.ipynb" target="_blank" rel="noopener">
+    <span class="ico">▶</span> Lab 1 solución en Colab
+  </a>
+  <a class="ix-btn" href="https://colab.research.google.com/github/wilsonsr/leyes-etica-proteccion-datos/blob/main/labs/lab02-solucion.ipynb" target="_blank" rel="noopener">
+    <span class="ico">▶</span> Lab 2 solución en Colab
+  </a>
+</div>
+```
+
+::: {.callout-important}
+## Las dos versiones se generan de una sola fuente
+
+```bash
+python scripts/construir_labs.py
+cd labs && jupyter nbconvert --to notebook --execute --inplace lab01-solucion.ipynb
+```
+
+Nunca edite los `.ipynb` directamente: se sobrescriben. El contenido está en
+`scripts/construir_labs.py`, que produce las cuatro variantes y garantiza que no
+se desincronicen.
+:::
+
+------------------------------------------------------------------------
+
+## Notas de conducción
+
+### Encuentro 1 · Tenemos los datos
+
+::: {.rds-card .decide data-label="MINUTO 8 · PRIMERA VOTACIÓN"}
+La opción 1 («sí, usemos todas las variables») suele ganar, sobre todo entre
+estudiantes con más experiencia en modelado.
+
+**No corrija.** Anote el conteo visible para todos y siga. El objetivo del
+encuentro es que al final la distribución se haya movido, y que el movimiento
+sea atribuible a los casos, no a una afirmación de autoridad del docente.
+
+Deje el conteo escrito: en el minuto 112 se vuelve a votar y se comparan.
+:::
+
+::: {.rds-card .prueba data-label="MINUTO 46 · LABORATORIO"}
+Si el grupo pasa de 15 personas, ejecute usted el cuaderno compartiendo pantalla
+y deje que ellos voten cada decisión. Con menos de 15, que cada uno lo abra en
+Colab.
+
+El bloque de `groupby` sobre cuasi-identificadores es el momento de mayor
+impacto del encuentro. **Dé tiempo** para que la cifra del 83,9 % se asiente
+antes de comentarla. El silencio de tres segundos ahí vale más que cualquier
+explicación.
+
+Si hay proyector, el simulador de la página del laboratorio funciona bien en
+vivo: mover las variables delante del grupo produce el mismo efecto sin salir
+del navegador.
+:::
+
+::: {.rds-card .riesgo data-label="CASO D · EL PUNTO MÁS DELICADO"}
+El caso del dato inferido toca temas de salud y vida reproductiva. Manéjelo en
+tercera persona y sobre el caso ficticio; no invite a compartir experiencias
+personales.
+
+El punto que debe quedar: **acertar también tiene costo**. Un modelo que
+identifica correctamente un embarazo no anunciado no comete un error
+estadístico, y aun así produce un daño.
+:::
+
+### Encuentro 2 · Del requisito a la decisión
+
+::: {.rds-card .decide data-label="MINUTO 10 · VOTACIÓN DE APERTURA"}
+La opción 3 («depende de la finalidad nueva») es la más productiva, pero no se
+puede llegar a ella por autoridad: hay que construirla.
+
+Pida que quienes voten 3 digan **cuáles** de las cuatro peticiones son
+compatibles y cuáles no. Esa lista es exactamente el material del bloque
+siguiente, y sale mejor de ellos que del material.
+:::
+
+::: {.rds-card .caso data-label="MINUTO 22 · EL PIPELINE"}
+Construya el pipeline **con ellos**: escriba la etapa y pida la pregunta de
+control antes de mostrar la del material.
+
+Las cuatro etapas marcadas en rojo —integración, feature engineering, decisión y
+publicación— son donde casi siempre falla. Pregunte cuántas de las doce están
+documentadas en su proyecto actual. Suele haber un silencio incómodo; ese es el
+objetivo.
+:::
+
+::: {.rds-card .dilema data-label="MINUTO 58 · EL DILEMA A/B"}
+No deje que se resuelva por votación rápida. Las tres preguntas auxiliares
+—qué variables aportan la diferencia, sobre quién se equivoca cada modelo, qué
+se hace con la predicción— son las que convierten la opinión en argumento.
+
+La tercera es la que más cuesta: la mayoría de equipos evalúa el modelo y no la
+decisión que el modelo habilita.
+:::
+
+### Banco de dilemas
+
+::: {.rds-card .dilema data-label="REGLA DE USO"}
+La tentación permanente es cerrar el dilema con la respuesta «responsable».
+**Resistirla.**
+
+Un curso donde la respuesta ética siempre coincide con la respuesta cómoda no
+prepara a nadie: en el trabajo real la decisión correcta casi siempre cuesta
+dinero, tiempo o capital político, y eso hay que poder sostenerlo con
+argumentos, no con eslóganes.
+
+El docente no revela una respuesta correcta —no la hay—. Lo que sí hace es
+**nombrar qué principio está en tensión con cuál**.
+:::
+
+### Encuentro 5 · El decálogo
+
+::: {.rds-card .decision data-label="MINUTOS 55–75 · DEPURACIÓN"}
+Es el momento de mayor valor de la sesión: ahí se descubre que la mitad de las
+reglas propuestas son eslóganes.
+
+Resista la tentación de salvarlas. Una regla mal formulada en un decálogo real
+es peor que su ausencia, porque da cobertura sin producir ningún cambio.
+
+Si al final quedan **ocho reglas sólidas** en vez de diez, el decálogo tiene
+ocho reglas. Es mejor resultado que diez con dos de relleno.
+:::
+
+------------------------------------------------------------------------
+
+## Calibración de la evaluación
+
+Las cuatro actividades se califican sobre los mismos cuatro ejes, con pesos que
+cambian según la actividad.
+
+| Eje | Señal de trabajo insuficiente | Señal de trabajo sobresaliente |
+|:--|:--|:--|
+| **Diagnóstico** | Describe la norma o el caso en general | Cita artículo y fecha, y conecta con datos concretos de la base |
+| **Análisis de riesgo** | Enumera riesgos genéricos | Nombra el daño, a quién, por qué mecanismo, y lo cuantifica si puede |
+| **Decisión técnica** | «Se recomienda ser cuidadoso» | Nombra etapa del pipeline y cambio ejecutable, y reconoce lo que se pierde |
+| **Evidencia** | Afirmaciones sin fuente ni salida reproducible | Código que corre, cifras trazables, enlaces oficiales vigentes |
+
+::: {.rds-card .riesgo data-label="EL ERROR MÁS FRECUENTE AL CALIFICAR"}
+Premiar la extensión. Un trabajo de tres páginas con una decisión bien
+argumentada vale más que uno de quince que transcribe articulados.
+
+El criterio operativo: **¿podría alguien ejecutar mañana lo que este trabajo
+propone?** Si no, falta la columna de decisión técnica, por bien escrito que
+esté todo lo demás.
+:::
+
+### Errores frecuentes por actividad
+
+::: {.panel-tabset}
+
+#### Actividad 1
+
+- Copiar tres leyes en tres columnas sin llenar «¿qué cambia en el proyecto?».
+- Citar la Ley 19.628 chilena creyendo que describe el régimen vigente.
+- Presentar el proyecto de reforma colombiano como derecho vigente.
+- Fuentes de blogs de firmas de abogados en vez de textos oficiales.
+
+#### Actividad 2
+
+- «Hay que pedir consentimiento a todos» — ignora las otras cinco bases de
+  licitud del art. 6.
+- «Son solo 74 clientes, no vale la pena» — el ámbito no tiene umbral
+  cuantitativo.
+- «Basta con actualizar la política de privacidad» — casi ningún hallazgo real
+  se resuelve con texto.
+- Olvidar el art. 22: es el que más cambia el diseño del sistema y el que más se
+  pasa por alto.
+
+#### Actividad 3
+
+- Convertir el análisis en denuncia en vez de reconstruir la decisión.
+- Suponer que el sector público es menos exigente.
+- Resolver todo con «anonimizar» después de haber visto el Laboratorio 1.
+- Ignorar el eje de calidad estadística, que es el que más daño hace y el que
+  ninguna ley de protección de datos impide.
+
+#### Actividad 4
+
+- Reportar solo el riesgo **después** de transformar, sin línea base. Invalida
+  el trabajo.
+- Confundir seudonimización con anonimización en el informe final.
+- No declarar el umbral aceptado.
+- No medir la pérdida de utilidad: la mitad de la decisión queda sin sustento.
+
+:::
+
+------------------------------------------------------------------------
+
+## Mantenimiento del material
+
+### Lo que caduca
+
+| Elemento | Riesgo de desactualización | Revisar |
+|:--|:--|:--|
+| Proyecto de reforma colombiano | **Alto** — puede convertirse en ley | Cada semestre |
+| Ley 21.719 de Chile | **Alto** — vigencia plena desde el 1 de diciembre de 2026 | Cada semestre |
+| Alcance del RNBD | Medio — ha cambiado por vía reglamentaria | Cada año |
+| Bloque de IA del Encuentro 4 | **Muy alto** | Cada semestre |
+| Regulación infralegal de la ANPD brasileña | Medio | Cada año |
+
+La página de [Marco legal](../marco-legal/index.qmd) lleva una fecha de última
+verificación. Actualícela cuando revise, aunque no haya cambios: la fecha es
+parte de la información.
+
+### Regenerar los materiales
+
+```bash
+# Dataset sintético (semilla fija: el resultado es idéntico)
+python scripts/generar_datos.py
+
+# Los cuatro cuadernos, desde la fuente única
+python scripts/construir_labs.py
+cd labs
+jupyter nbconvert --to notebook --execute --inplace lab01-solucion.ipynb
+jupyter nbconvert --to notebook --execute --inplace lab02-solucion.ipynb
+
+# Sitio completo
+quarto render
+```
+
+Los datos del simulador de reidentificación se precalculan sobre la base y viven
+en `assets/reident.json`. Si cambia la semilla o el tamaño del dataset, hay que
+regenerarlos, o las cifras del simulador dejarán de coincidir con las del
+laboratorio.
+
+### Lo que falta por construir
+
+| Material | Estado | Necesario para |
+|:--|:--|:--|
+| `slides/03-etica-decisiones.qmd` | Pendiente | Encuentro 3 · semana 5 |
+| `labs/lab03-*.ipynb` — sesgo por grupo | Pendiente | Encuentro 3 · semana 5 |
+| `slides/04-tecnicas-proteccion.qmd` | Pendiente | Encuentro 4 · semana 8 |
+| `labs/lab04-*.ipynb` — anonimización medida | Pendiente | Encuentro 4 · semana 8 |
+| Plantilla colaborativa del decálogo | Pendiente | Encuentro 5 · semana 9 |
+
+Las cuatro actividades evaluativas ya están completas con sus rúbricas, de modo
+que la evaluación del semestre no depende de este pendiente.
+
+------------------------------------------------------------------------
+
+[← Volver al inicio del curso](../index.qmd)

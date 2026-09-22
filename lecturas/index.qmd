@@ -169,7 +169,7 @@ producido con ellas.
 
 Si alguien reutiliza materiales de este repositorio:
 
-> *Responsible Data Lab — Leyes, Ética y Protección de Datos*.
+> *Leyes, Ética y Protección de Datos*.
 > Especialización en Análisis Estadístico. Materiales del curso.
 > Contenido bajo licencia CC BY-NC-SA 4.0; código bajo licencia MIT.
 

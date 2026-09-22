@@ -109,17 +109,6 @@ Evidencia: registro fechado. Incumplible: sí, y se nota.
 </ul>
 ```
 
-::: {.callout-tip collapse="true"}
-## Nota para el docente
-
-El momento de mayor valor es la depuración (55–75). Es donde se descubre que
-la mitad de las reglas propuestas son eslóganes. Resistir la tentación de
-salvarlas: una regla mal formulada en un decálogo real es peor que su
-ausencia, porque da cobertura sin producir ningún cambio.
-
-Si al final quedan ocho reglas sólidas en vez de diez, el decálogo tiene ocho
-reglas. Es un resultado mejor que diez con dos de relleno.
-:::
 
 ## Producto
 

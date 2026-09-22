@@ -8,6 +8,12 @@ description: "Recurso transversal. Se activa progresivamente durante las nueve s
 [Recurso transversal]{} [12 preguntas]{} [Se activa por etapas]{} [Uso: cualquier proyecto real]{}
 :::
 
+::: {.rds-acciones-encuentro}
+[Marco legal · los principios como herramienta](../marco-legal/index.qmd#principios) ·
+[Mapa de riesgos del pipeline](mapa-riesgos.qmd) ·
+[Glosario operativo](glosario.qmd)
+:::
+
 ## Para qué sirve
 
 Esta lista no es un formulario de cumplimiento. Es el mínimo que un analista

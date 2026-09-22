@@ -1,6 +1,6 @@
 ---
 title: "Programa"
-subtitle: "Leyes, Ética y Protección de Datos · Especialización en Análisis Estadístico"
+subtitle: "Especialización en Análisis Estadístico para Ciencia de Datos"
 description: "Nueve semanas, tres unidades, cinco encuentros virtuales y cuatro actividades evaluativas."
 ---
 
@@ -29,13 +29,13 @@ su propio dataset delante.
 
 | Unidad | Resultado de aprendizaje |
 |:--|:--|
-| 1 | Identifica las restricciones legales, políticas y/o éticas que pueden afectar los análisis de datos. |
+| 1 | Identifica las restricciones legales, políticas y/o éticas que pueden afectar los análisis de datos, y las traduce en decisiones de proyecto. |
 | 2 | Evalúa las implicaciones éticas de decisiones analíticas en contextos públicos y privados, incluido el sesgo algorítmico. |
 | 3 | Aplica técnicas de protección de datos —minimización, seudonimización, anonimización, control de acceso— en proyectos con datos masivos e inteligencia artificial. |
 
 ## Estructura
 
-### Unidad 1 · Fundamentos legales de la protección de datos {#unidad-1}
+### Unidad 1 · Fundamentos legales de la protección de datos y regulaciones relacionadas con ciencia de datos {#unidad-1}
 
 Semanas 1 a 4. La pregunta es **¿podemos hacerlo?**
 
@@ -60,7 +60,7 @@ Semanas 1 a 4. La pregunta es **¿podemos hacerlo?**
 - [Actividad 2](actividades/actividad-02.qmd) — Caso de una empresa colombiana
   frente al GDPR. **25 %**
 
-### Unidad 2 · Ética de los datos en la práctica profesional {#unidad-2}
+### Unidad 2 · Ética de los datos aplicada a proyectos de analítica y gestión de datos en los sectores público y privado {#unidad-2}
 
 Semanas 5 a 7. La pregunta es **¿debemos hacerlo?**
 
@@ -81,7 +81,7 @@ Semanas 5 a 7. La pregunta es **¿debemos hacerlo?**
 - [Actividad 3](actividades/actividad-03.qmd) — Ética de los datos en
   estadísticas del sector público. **25 %**
 
-### Unidad 3 · Técnicas y desafíos en la protección y manejo de datos masivos e IA {#unidad-3}
+### Unidad 3 · Técnicas de protección de datos, inteligencia artificial y datos masivos {#unidad-3}
 
 Semanas 8 y 9. La pregunta es **¿cómo lo hacemos responsablemente?**
 
@@ -156,7 +156,7 @@ No se aceptan resúmenes de blogs ni normas citadas de memoria. Ver
 - **Base de datos del curso**: `data/clientes_sinteticos.csv` (1 512 registros,
   35 variables, sintética y reproducible).
 - **Generador**: `scripts/generar_datos.py`.
-- **Laboratorios**: [Lab 1](labs/lab01.ipynb) y [Lab 2](labs/lab02.ipynb).
+- **Laboratorios**: [Lab 1](laboratorios/lab-01.qmd) y [Lab 2](laboratorios/lab-02.qmd).
 - **Lectura académica principal**: Newman-Pont, Ospina-Celis y Upegui (2020),
   *Data Feast: Enterprises and Personal Data in Latin America*, Dejusticia.
 - **Caso histórico**: Márquez Buitrago (2016), sobre la aplicación de la

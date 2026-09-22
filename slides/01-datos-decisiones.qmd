@@ -28,7 +28,7 @@ format:
       side: left
       width: wide
     link-external-newwindow: true
-    footer: "Responsible Data Lab · Encuentro 1"
+    footer: "Leyes, Ética y Protección de Datos · Encuentro 1"
 ---
 
 ## {.center background-color="#0b1220"}
@@ -670,7 +670,7 @@ Que algo sea técnicamente posible<br>y estadísticamente válido,<br>
 :::
 
 ::: {.nota-pie}
-Responsible Data Lab · Leyes, Ética y Protección de Datos<br>
+Leyes, Ética y Protección de Datos<br>
 Especialización en Análisis Estadístico
 :::
 

@@ -8,6 +8,12 @@ description: "No son definiciones para memorizar: son criterios para decidir."
 [Recurso]{} [28 términos]{} [Ordenado por bloques, no alfabéticamente]{}
 :::
 
+::: {.rds-acciones-encuentro}
+[Marco legal · definiciones oficiales](../marco-legal/index.qmd#colombia) ·
+[Datos sensibles e inferidos](../marco-legal/index.qmd#sensibles) ·
+[Checklist del analista](checklist-proyecto-datos.qmd)
+:::
+
 ## Cómo está organizado
 
 No es un diccionario. Está ordenado por **el momento del proyecto en que el

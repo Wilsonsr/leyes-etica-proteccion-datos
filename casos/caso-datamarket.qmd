@@ -4,6 +4,13 @@ subtitle: "El caso transversal del curso"
 description: "Una empresa ficticia, una base sintética y nueve semanas de decisiones."
 ---
 
+::: {.rds-acciones-encuentro}
+[Marco legal · datos sensibles e inferidos](../marco-legal/index.qmd#sensibles) ·
+[Laboratorio 1](../laboratorios/lab-01.qmd) ·
+[Laboratorio 2](../laboratorios/lab-02.qmd) ·
+[Las tres unidades](../unidades.qmd)
+:::
+
 ::: {.rds-sintetico}
 DataMarket Analytics **no existe**. La base `data/clientes_sinteticos.csv` es
 sintética, generada por `scripts/generar_datos.py` con semilla fija. Ninguna
@@ -96,7 +103,7 @@ df = pd.read_csv("data/clientes_sinteticos.csv")
 
 La variable de recencia —la más predictiva del modelo— **no está en el CSV**.
 Los estudiantes la construyen en el bloque 4 del
-[Lab 2](../labs/lab02.ipynb), a partir de `fecha_ultima_compra`.
+[Lab 2](../laboratorios/lab-02.qmd), a partir de `fecha_ultima_compra`.
 
 Es intencional: obliga a que el *feature engineering* sea un acto visible y
 no una casilla que ya venía marcada. La misma línea de código que crea
@@ -111,7 +118,7 @@ no una casilla que ya venía marcada. La misma línea de código que crea
 Ninguna es, formalmente, un dato sensible. Las tres permiten producir uno.
 
 En el generador, las tres contribuyen deliberadamente a la variable objetivo
-`churn`. Por eso el «modelo B» del [Lab 2](../labs/lab02.ipynb) predice mejor:
+`churn`. Por eso el «modelo B» del [Lab 2](../laboratorios/lab-02.qmd) predice mejor:
 el dilema no es retórico, está en los datos.
 :::
 

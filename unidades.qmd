@@ -1,0 +1,215 @@
+---
+title: "Las tres unidades"
+subtitle: "Qué se aprende en cada una, qué hay que hacer y qué se entrega"
+description: "Mapa completo del curso: unidades, encuentros, laboratorios, actividades y evidencias."
+---
+
+::: {.rds-meta}
+[9 semanas]{} [3 unidades]{} [5 encuentros]{} [2 laboratorios]{} [4 actividades · 25 % c/u]{}
+:::
+
+Las tres unidades no son tres temas independientes. Son **tres preguntas
+encadenadas** sobre el mismo proyecto de datos, y la respuesta a cada una
+condiciona la siguiente.
+
+```{mermaid}
+flowchart LR
+    U1["UNIDAD 1<br/>¿Podemos hacerlo?<br/><br/>Fundamentos legales"]
+    U2["UNIDAD 2<br/>¿Debemos hacerlo?<br/><br/>Ética de los datos"]
+    U3["UNIDAD 3<br/>¿Cómo lo hacemos<br/>responsablemente?<br/><br/>Técnicas, IA y Big Data"]
+    U1 --> U2 --> U3
+    U3 -.->|"el proyecto vuelve a empezar<br/>con criterios nuevos"| U1
+
+    style U1 fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style U2 fill:#0b1220,stroke:#a78bfa,color:#e2e8f0
+    style U3 fill:#0b1220,stroke:#2dd4bf,color:#e2e8f0
+```
+
+La ruta de trabajo dentro de cada unidad es siempre la misma:
+
+```{=html}
+<div class="ix-ruta">
+  <div class="ix-paso"><b>Problema</b><span>Qué nos piden resolver.</span></div>
+  <div class="ix-paso"><b>Datos</b><span>Qué hay y de dónde vino.</span></div>
+  <div class="ix-paso"><b>Análisis</b><span>Qué haríamos sin más contexto.</span></div>
+  <div class="ix-paso"><b>Decisión</b><span>Qué acción se toma y sobre quién.</span></div>
+  <div class="ix-paso legal"><b>Implicación legal o ética</b><span>Qué principio entra en juego.</span></div>
+  <div class="ix-paso control"><b>Control y evidencia</b><span>Qué cambia y qué se documenta.</span></div>
+</div>
+```
+
+------------------------------------------------------------------------
+
+## Unidad 1 · Fundamentos legales de la protección de datos y regulaciones relacionadas con ciencia de datos {#unidad-1}
+
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Al terminar la unidad, usted podrá</span>
+    <div class="va"><ul>
+      <li>Identificar las restricciones legales, políticas y éticas que afectan un análisis de datos concreto.</li>
+      <li>Clasificar las variables de una base según el riesgo que introducen, no según su tipo.</li>
+      <li>Distinguir minimización, seudonimización y anonimización, y medir el riesgo de reidentificación.</li>
+      <li>Comparar el régimen colombiano con marcos regionales e internacionales en términos de decisiones de proyecto.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Semanas</span><span class="va">1 a 4</span></div>
+  <div><span class="et">Pregunta rectora</span><span class="va"><strong>¿Podemos hacerlo?</strong></span></div>
+  <div><span class="et">Evaluación</span><span class="va">Actividad 1 y Actividad 2 · 50 % del curso</span></div>
+</div>
+```
+
+### Contenidos
+
+| # | Contenido | Dónde se trabaja |
+|:--|:--|:--|
+| 1.1 | Introducción al curso y relación entre leyes, ética y ciencia de datos | [Encuentro 1](encuentros/encuentro-01.qmd) |
+| 1.2 | Dato personal, identificadores, cuasi-identificadores, datos sensibles e inferidos | [Encuentro 1](encuentros/encuentro-01.qmd) · [Laboratorio 1](laboratorios/lab-01.qmd) |
+| 1.3 | Marco colombiano de protección de datos | [Encuentro 2](encuentros/encuentro-02.qmd) · [Marco legal](marco-legal/index.qmd#colombia) |
+| 1.4 | Marco internacional y latinoamericano | [Encuentro 2](encuentros/encuentro-02.qmd) · [Marco legal](marco-legal/index.qmd#internacional) |
+| 1.5 | Restricciones aplicadas al pipeline de un proyecto real | [Laboratorio 2](laboratorios/lab-02.qmd) |
+
+### Secuencia de trabajo
+
+```{=html}
+<ul class="rds-timeline">
+  <li><span class="t">Semana 1</span><span class="modo">encuentro + laboratorio</span><br>
+      <a href="encuentros/encuentro-01.html">Encuentro 1 · Tenemos los datos. ¿Qué podría salir mal?</a>
+      y <a href="laboratorios/lab-01.html">Laboratorio 1</a>.</li>
+  <li><span class="t">Semana 2</span><span class="modo">encuentro + laboratorio</span><br>
+      <a href="encuentros/encuentro-02.html">Encuentro 2 · Del requisito a la decisión</a>
+      y <a href="laboratorios/lab-02.html">Laboratorio 2</a>.</li>
+  <li><span class="t">Semana 3</span><span class="modo">entrega</span><br>
+      <a href="actividades/actividad-01.html">Actividad 1 · DataMarket quiere operar en tres países</a>. 25 %.</li>
+  <li><span class="t">Semana 4</span><span class="modo">entrega</span><br>
+      <a href="actividades/actividad-02.html">Actividad 2 · Auditoría inicial frente al GDPR</a>. 25 %.</li>
+</ul>
+```
+
+### Su avance
+
+```{=html}
+<ul class="ix-check" data-id="unidad-1">
+  <li>Sé nombrar las cinco categorías de riesgo de una variable y aplicarlas a una base propia.</li>
+  <li>Puedo calcular cuántos registros de una base quedan solos en su grupo de cuasi-identificadores.</li>
+  <li>Distingo minimización, seudonimización y anonimización, y sé por qué borrar el nombre no anonimiza.</li>
+  <li>Puedo rastrear el origen y la finalidad de recolección de cada subconjunto de una base.</li>
+  <li>Sé qué régimen aplica cuando la empresa, los servidores y las personas están en países distintos.</li>
+  <li>Entregué la Actividad 1 con fuentes oficiales fechadas.</li>
+  <li>Entregué la Actividad 2 con mapa de flujo y registro de riesgos.</li>
+</ul>
+```
+
+------------------------------------------------------------------------
+
+## Unidad 2 · Ética de los datos aplicada a proyectos de analítica y gestión de datos en los sectores público y privado {#unidad-2}
+
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Al terminar la unidad, usted podrá</span>
+    <div class="va"><ul>
+      <li>Distinguir con argumentos legalidad, ética, calidad estadística, seguridad y privacidad, y mostrar dónde se contradicen.</li>
+      <li>Medir el desempeño de un modelo por grupo y detectar efecto diferencial, no solo error global.</li>
+      <li>Reconocer variables proxy de atributos protegidos y argumentar qué hacer con ellas.</li>
+      <li>Explicar por qué el sector público impone exigencias que el privado no tiene.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Semanas</span><span class="va">5 a 7</span></div>
+  <div><span class="et">Pregunta rectora</span><span class="va"><strong>¿Debemos hacerlo?</strong></span></div>
+  <div><span class="et">Evaluación</span><span class="va">Actividad 3 · 25 % del curso</span></div>
+</div>
+```
+
+### Contenidos
+
+| # | Contenido | Dónde se trabaja |
+|:--|:--|:--|
+| 2.1 | Ética y ciencia de datos: el espacio entre lo prohibido y lo evidente | [Encuentro 3](encuentros/encuentro-03.qmd) |
+| 2.2 | Principios éticos traducidos a decisiones analíticas | [Encuentro 3](encuentros/encuentro-03.qmd) · [Banco de dilemas](casos/dilemas.qmd) |
+| 2.3 | Ética de los datos en el sector público | [Actividad 3](actividades/actividad-03.qmd) |
+| 2.4 | Ética de los datos en el sector privado | [Encuentro 3](encuentros/encuentro-03.qmd) · [Caso DataMarket](casos/caso-datamarket.qmd) |
+| 2.5 | Sesgo algorítmico y efecto diferencial | [Encuentro 3](encuentros/encuentro-03.qmd) · [Laboratorio 2](laboratorios/lab-02.qmd#por-grupo) |
+
+::: {.callout-note}
+## El punto de partida de esta unidad ya está medido
+
+En el [Laboratorio 2](laboratorios/lab-02.qmd) el modelo que usa variables
+demográficas y proxies de salud marca como «en riesgo de abandono» a cerca del
+**29 %** de los clientes de estratos 1 y 2, frente a **menos del 9 %** en
+estratos 5 y 6 —con un AUC global apenas cuatro centésimas mejor.
+
+Ese contraste, ya calculado sobre los datos del curso, es el material de la
+Unidad 2.
+:::
+
+### Su avance
+
+```{=html}
+<ul class="ix-check" data-id="unidad-2">
+  <li>Puedo separar, en un caso concreto, lo legal de lo ético, lo correcto estadísticamente y lo seguro.</li>
+  <li>Sé calcular tasas de error por grupo y leerlas sin confundirlas con la métrica global.</li>
+  <li>Reconozco cuándo una variable inocente funciona como proxy de un atributo protegido.</li>
+  <li>Puedo argumentar qué se pierde y qué se gana al excluir una variable que mejora el modelo.</li>
+  <li>Entregué la Actividad 3 con un marco de ética estadística citado correctamente.</li>
+</ul>
+```
+
+------------------------------------------------------------------------
+
+## Unidad 3 · Técnicas de protección de datos, inteligencia artificial y datos masivos {#unidad-3}
+
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Al terminar la unidad, usted podrá</span>
+    <div class="va"><ul>
+      <li>Aplicar supresión, generalización, seudonimización, agregación y perturbación a una base real.</li>
+      <li>Medir el riesgo residual con <em>k</em>-anonimato y diversidad del atributo sensible, antes y después.</li>
+      <li>Cuantificar la pérdida de utilidad analítica que impone cada técnica y decidir el intercambio.</li>
+      <li>Reconocer qué cambia cuando entran modelos grandes: memorización, opacidad, escala del error y procedencia del corpus.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Semanas</span><span class="va">8 y 9</span></div>
+  <div><span class="et">Pregunta rectora</span><span class="va"><strong>¿Cómo lo hacemos responsablemente?</strong></span></div>
+  <div><span class="et">Evaluación</span><span class="va">Actividad 4 · 25 % del curso</span></div>
+</div>
+```
+
+### Contenidos
+
+| # | Contenido | Dónde se trabaja |
+|:--|:--|:--|
+| 3.1 | Anonimización, seudonimización y minimización: tres cosas distintas | [Encuentro 4](encuentros/encuentro-04.qmd) · [Actividad 4](actividades/actividad-04.qmd) |
+| 3.2 | Seguridad de la información aplicada a proyectos analíticos | [Encuentro 4](encuentros/encuentro-04.qmd) |
+| 3.3 | Buenas prácticas y gobernanza de datos | [Encuentro 5](encuentros/encuentro-05.qmd) |
+| 3.4 | Datos masivos: qué cambia cuando crece el volumen | [Encuentro 4](encuentros/encuentro-04.qmd) |
+| 3.5 | Inteligencia artificial y decisiones automatizadas | [Encuentro 4](encuentros/encuentro-04.qmd) · [Marco legal](marco-legal/index.qmd#decisiones-automatizadas) |
+
+### Su avance
+
+```{=html}
+<ul class="ix-check" data-id="unidad-3">
+  <li>Puedo aplicar al menos tres técnicas de protección y justificar cada elección.</li>
+  <li>Mido el riesgo antes y después de cada transformación, no solo al final.</li>
+  <li>Sé declarar un umbral de riesgo aceptado y defenderlo por escrito.</li>
+  <li>Puedo cuantificar cuánta utilidad analítica se perdió al proteger la base.</li>
+  <li>Entregué la Actividad 4 con cuaderno reproducible e informe de riesgo residual.</li>
+</ul>
+```
+
+------------------------------------------------------------------------
+
+## Mapa de una sola mirada
+
+| | Unidad 1 | Unidad 2 | Unidad 3 |
+|:--|:--|:--|:--|
+| **Pregunta** | ¿Podemos hacerlo? | ¿Debemos hacerlo? | ¿Cómo lo hacemos bien? |
+| **Semanas** | 1 – 4 | 5 – 7 | 8 – 9 |
+| **Encuentros** | [1](encuentros/encuentro-01.qmd) y [2](encuentros/encuentro-02.qmd) | [3](encuentros/encuentro-03.qmd) | [4](encuentros/encuentro-04.qmd) y [5](encuentros/encuentro-05.qmd) |
+| **Laboratorios** | [1](laboratorios/lab-01.qmd) y [2](laboratorios/lab-02.qmd) | — | — |
+| **Actividades** | [1](actividades/actividad-01.qmd) y [2](actividades/actividad-02.qmd) | [3](actividades/actividad-03.qmd) | [4](actividades/actividad-04.qmd) |
+| **Peso** | 50 % | 25 % | 25 % |
+| **Consulta** | [Marco legal](marco-legal/index.qmd) | [Banco de dilemas](casos/dilemas.qmd) | [Mapa de riesgos](recursos/mapa-riesgos.qmd) |
+
+**Siguiente paso:** [Encuentro 1 · Tenemos los datos. ¿Qué podría salir mal?](encuentros/encuentro-01.qmd)

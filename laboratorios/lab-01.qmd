@@ -1,0 +1,347 @@
+---
+title: "Laboratorio 1 · ¿Qué sabe realmente esta base sobre nosotros?"
+subtitle: "Explorar → Analizar → Experimentar → Decidir → Justificar → Reflexionar"
+description: "Clasificar variables por riesgo, medir la reidentificación y distinguir minimizar, seudonimizar y anonimizar."
+---
+
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va"><ul>
+      <li>Clasificar las variables de una base por el <strong>riesgo</strong> que introducen, no por su tipo de dato.</li>
+      <li>Medir cuántas personas quedan expuestas a reidentificación, con un número y no con una opinión.</li>
+      <li>Distinguir <strong>minimización</strong>, <strong>seudonimización</strong> y <strong>anonimización</strong>, y saber por qué borrar el nombre no anonimiza.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Ejecutar el cuaderno de arriba abajo y responder por escrito las 9 preguntas.</span></div>
+  <div><span class="et">Duración</span><span class="va">35 minutos</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Respuestas a las 9 preguntas + base minimizada + umbral de riesgo declarado</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-1">1 · Fundamentos legales</a></span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../encuentros/encuentro-02.html">Encuentro 2</a> y <a href="lab-02.html">Laboratorio 2</a></span></div>
+</div>
+```
+
+## Empiece sin instalar nada
+
+El cuaderno se abre en Google Colab con un clic y carga los datos directamente
+desde el repositorio. No hace falta Python en su computador.
+
+```{=html}
+<div class="ix-acciones">
+  <a class="ix-btn principal"
+     href="https://colab.research.google.com/github/wilsonsr/leyes-etica-proteccion-datos/blob/main/labs/lab01-estudiante.ipynb"
+     target="_blank" rel="noopener">
+    <span class="ico">▶</span> Abrir el laboratorio en Google Colab
+  </a>
+  <a class="ix-btn" href="../labs/lab01-estudiante.ipynb" download>
+    <span class="ico">↓</span> Descargar el cuaderno (.ipynb)
+  </a>
+  <a class="ix-btn" href="../data/clientes_sinteticos.csv" download>
+    <span class="ico">▤</span> Descargar los datos (.csv)
+  </a>
+</div>
+```
+
+::: {.callout-tip collapse="true"}
+## Si prefiere trabajar en su computador
+
+```bash
+git clone https://github.com/wilsonsr/leyes-etica-proteccion-datos.git
+cd leyes-etica-proteccion-datos
+pip install -r requirements.txt
+jupyter lab labs/lab01-estudiante.ipynb
+```
+
+El cuaderno busca el CSV en la carpeta local y, si no lo encuentra, lo descarga
+del repositorio. Funciona en los dos escenarios sin cambiar una línea.
+:::
+
+::: {.rds-sintetico}
+`data/clientes_sinteticos.csv` es una base **sintética** de 1 512 registros y 35
+variables, generada con semilla fija. Ninguna persona real está representada. Aun
+así la vamos a tratar exactamente como trataríamos una base real: eso es parte
+del ejercicio.
+:::
+
+------------------------------------------------------------------------
+
+## 1 · Explorar {#explorar}
+
+*¿Qué hay en esta base?*
+
+Lo primero que hace el cuaderno es medir el tamaño del problema: **1 512
+registros × 35 variables**. Y encontrar, en las tres primeras filas, cinco
+columnas que permiten llamar por teléfono a esa persona.
+
+::: {.ix-quiz data-etiqueta="ANTES DE EJECUTAR"}
+::: {.ix-pregunta}
+En una base con 35 variables de comportamiento de compra, ¿cuántas espera que
+sean identificadores directos —es decir, que señalen a la persona por sí solas?
+:::
+
+::: {.ix-op data-valor="mal" data-fb="Casi ninguna base comercial real se queda en una. En esta hay cinco: nombre, email, telefono, documento y direccion. Y ninguna de ellas es necesaria para predecir abandono."}
+Una, como máximo: el identificador de cliente.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Exacto: hay cinco. Y la parte incómoda es que ninguna de las cinco sirve para predecir abandono. Están ahí porque el sistema que emitía facturas las necesitaba, y nadie las quitó al exportar la base para analítica."}
+Cuatro o cinco: nombre, correo, teléfono, documento y dirección.
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="El número exacto importa menos que el hábito: contar los identificadores directos antes de empezar a modelar. En esta base son cinco, y ninguno es necesario para la finalidad declarada."}
+Depende de cómo se haya exportado la base.
+:::
+:::
+
+## 2 · Analizar {#analizar}
+
+*¿Qué significa lo que hay?*
+
+### Los faltantes que no son un problema de imputación
+
+La pregunta útil no es *cuántos* faltan, sino **por qué** faltan. En esta base,
+`fecha_autorizacion` está vacía en 236 registros, y esos 236 no están repartidos
+al azar:
+
+| `origen_dato` | Registros | Con fecha de autorización |
+|:--|--:|--:|
+| `facturacion` | 464 | 464 |
+| `entrega_domicilio` | 348 | 348 |
+| `registro_cuenta` | 289 | 289 |
+| `programa_fidelizacion` | 175 | 175 |
+| **`lista_comprada_tercero`** | **144** | **0** |
+| **`enriquecimiento_web`** | **92** | **0** |
+
+::: {.rds-card .riesgo data-label="RIESGO · EVIDENCIA, NO IMPUTACIÓN"}
+Imputar esa fecha sería **fabricar evidencia**. Lo correcto es aislar esos 236
+registros —el 15,6 % de la base— y no borrarlos: borrarlos destruiría la prueba
+de que existieron.
+:::
+
+### Clasificar por riesgo, no por tipo
+
+El tipo que infiere `pandas` no dice nada sobre el riesgo. El cuaderno pide
+clasificar las 35 variables en ocho categorías, y deja tres casos deliberadamente
+discutibles.
+
+::: {.ix-pista}
+<summary>Ver las ocho categorías</summary>
+
+| Etiqueta | Significa | Ejemplo en esta base |
+|:--|:--|:--|
+| `directo` | Identifica a la persona por sí solo | `nombre`, `documento` |
+| `indirecto` | Identifica vía dispositivo, cuenta o ubicación precisa | `ip`, `latitud` |
+| `cuasi` | Solo no identifica; combinado con otros, sí | `edad`, `ciudad` |
+| `comportamiento` | Lo que la persona hizo | `visitas_web` |
+| `inferido` | Lo que la empresa dedujo | `score_riesgo_interno` |
+| `proxy_sensible` | No es sensible, pero permite inferir uno | `entrega_asistida` |
+| `control` | Metadato del tratamiento | `origen_dato` |
+| `objetivo` | La variable que se quiere predecir | `churn` |
+:::
+
+::: {.ix-respuesta}
+<summary>Los tres casos discutibles, y por qué</summary>
+
+**`latitud` / `longitud`.** Tienen ruido de ±3 km, así que funcionan más como
+cuasi-identificador que como identificador directo. Pero combinadas con `barrio`
+vuelven a ser muy identificadoras. La categoría depende del **uso**, no solo del
+contenido.
+
+**`ingresos_mensuales`.** Es un cuasi-identificador y, a la vez, un proxy
+socioeconómico: es decir, un proxy de un atributo por el que se puede
+discriminar. Ambas etiquetas son defendibles; lo que no es defendible es no
+haberlo notado.
+
+**`categoria_top`.** Es comportamiento puro… salvo cuando su valor es
+`salud_bienestar` o `bebe_maternidad`. Ahí se convierte en proxy sensible. Una
+misma columna puede cambiar de categoría según la fila.
+:::
+
+## 3 · Experimentar {#experimentar}
+
+*¿Qué pasa si…?*
+
+Aquí está el experimento central del laboratorio. Ninguna de estas columnas
+identifica sola. Veamos qué ocurre al combinarlas.
+
+```python
+def riesgo_unicidad(datos, columnas):
+    grupos = datos.groupby(columnas, dropna=False, observed=True).size()
+    unicos = int((grupos == 1).sum())
+    return {"combinaciones": len(grupos),
+            "registros k=1": unicos,
+            "% en riesgo": round(unicos / len(datos) * 100, 1)}
+```
+
+| Variables combinadas | Combinaciones | Registros solos (*k* = 1) | % en riesgo |
+|:--|--:|--:|--:|
+| ciudad | 12 | 0 | 0,0 % |
+| ciudad + sexo | 46 | 3 | 0,2 % |
+| ciudad + sexo + edad | 738 | 385 | 25,5 % |
+| **ciudad + sexo + edad + ocupación** | **1 385** | **1 269** | **83,9 %** |
+| ciudad + barrio + sexo + edad | 1 194 | 945 | 62,5 % |
+| + ocupación + estrato | 1 496 | 1 480 | **97,9 %** |
+
+### Pruébelo usted
+
+Mueva las variables y vea el efecto. Las cifras son exactamente las que produce
+el mismo `groupby` del cuaderno sobre la base real del curso.
+
+```{=html}
+<div class="ix-sim" data-sim="reident" data-src="../assets/reident.json"></div>
+```
+
+::: {.rds-card .riesgo data-label="LO QUE ESTO SIGNIFICA"}
+Una mujer de 41 años, odontóloga, en Manizales. Probablemente haya **una sola**.
+
+El ataque no requiere nada sofisticado: un registro profesional público, un
+perfil de LinkedIn, un conocido en común. El «atacante» realista no es un
+experto en seguridad, es un colega o un contratista.
+:::
+
+## 4 · Decidir {#decidir}
+
+*¿Qué hacemos?*
+
+### Tres cosas que no son sinónimos
+
+::: {.panel-tabset}
+
+#### Minimizar
+
+**Qué es.** No traer lo que no se necesita para la finalidad declarada.
+
+**Cómo se hace.** Con una lista blanca explícita, no con `df.drop()` de lo que
+estorba. Para cada columna hay que poder decir en una frase por qué está.
+
+**Cómo se argumenta.** Por **finalidad**, nunca por correlación. Descartar una
+variable porque su correlación con el objetivo es baja es un error doble: mala
+práctica de modelado —puede ser muy predictiva en interacción o de forma no
+lineal— y mala justificación jurídica.
+
+**En este laboratorio.** De 35 variables a 8, con la finalidad «predecir abandono
+para una campaña de retención».
+
+#### Seudonimizar
+
+**Qué es.** Sustituir el identificador por una clave, conservando en otro lugar
+la tabla que permite volver atrás.
+
+**Cómo se hace.** Un hash con sal secreta, rotada y fuera del código.
+
+**Lo que no es.** No es anonimización. Mientras exista la tabla de
+equivalencias, los datos siguen siendo datos personales.
+
+**El nudo del curso.** Esa tabla **tiene que existir**, porque sin ella la
+empresa no puede contactar al cliente que el modelo señaló. La finalidad del
+proyecto es incompatible con la anonimización real.
+
+#### Anonimizar
+
+**Qué es.** Un estado en el que ya no es razonablemente posible asociar los
+datos con una persona.
+
+**Cómo se hace.** Generalización, supresión, agregación… y **medición**. Es un
+resultado que se comprueba, no una operación que se aplica.
+
+**Cómo se verifica.** Con el *k* mínimo y el porcentaje de registros en grupos
+pequeños, antes y después de cada transformación.
+
+**En este laboratorio.** Tres generalizaciones llevan el riesgo de 83,9 % a
+10,6 %. Siguen quedando 160 personas solas en su grupo: la base es *menos
+riesgosa*, no anónima.
+
+:::
+
+::: {.ix-quiz data-etiqueta="DECIDA"}
+::: {.ix-pregunta}
+Tras generalizar, el porcentaje de registros en riesgo baja de 83,9 % a 10,6 %.
+¿Puede entregar esa base a un proveedor externo diciendo que está anonimizada?
+:::
+
+::: {.ix-op data-valor="mal" data-fb="10,6 % de 1 512 registros son 160 personas que siguen estando solas en su grupo. Llamar anónima a esa base es exactamente el error que el laboratorio busca desarmar."}
+Sí: bajar de 83,9 % a 10,6 % es una reducción suficiente.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Correcto. Puede entregarla, pero declarando el riesgo residual medido y el umbral aceptado, y acompañándola de controles contractuales. Lo que no puede es llamarla anónima sin más."}
+No con esa palabra: puedo entregarla declarando el riesgo residual y el umbral que acepté.
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="Generalizar más reduce el riesgo, sí, pero también destruye el análisis: si agrego hasta que nadie sea identificable, probablemente el proveedor ya no pueda construir nada útil. La decisión profesional es declarar el intercambio, no evitarlo."}
+No: habría que generalizar hasta llegar a 0 %.
+:::
+:::
+
+## 5 · Justificar {#justificar}
+
+*¿Con qué evidencia?*
+
+Una decisión sin evidencia no cuenta como decisión. El cuaderno termina
+escribiendo un registro con:
+
+- cuántas variables se conservaron y con qué criterio;
+- **el umbral de riesgo aceptado y por qué** —esta es la línea que distingue un
+  trabajo bueno de uno correcto;
+- qué se hizo con los 236 registros sin evidencia de origen;
+- quién tomó la decisión y cuándo.
+
+::: {.callout-important}
+## No hay un umbral universal
+
+No existe un número mágico de *k* válido para todos los casos. Lo que sí existe
+es la obligación de **declarar cuál se aceptó y por qué**, y de mostrar la
+medición que lo respalda.
+
+Un criterio frecuente es *k* ≥ 5 para al menos el 95 % de los registros, pero
+debe justificarse según la sensibilidad del atributo y quién recibirá la base.
+:::
+
+**Marco legal relacionado:** el artículo 10 de la Ley 1581 de 2012 contempla el
+tratamiento con fines estadísticos o científicos sin autorización, *adoptando
+medidas dirigidas a suprimir la identidad de los titulares*. Este laboratorio
+demuestra por qué invocar esa excepción sin medir el riesgo residual es
+invocarla sin cumplirla.
+[→ Ver en el marco legal](../marco-legal/index.qmd#estadistica)
+
+## 6 · Reflexionar {#reflexionar}
+
+*¿Y en mi trabajo?*
+
+::: {.rds-card .reflexiona data-label="PREGUNTA DE SALIDA"}
+Tome una base con la que trabaje realmente y cuente sus cuasi-identificadores.
+
+::: {.pregunta}
+¿Qué tendría que cambiar en mi proyecto de datos?
+:::
+
+Tres líneas. Nombre **una variable concreta** y **un cambio ejecutable**. Si la
+respuesta es «ser más cuidadoso», no cuenta.
+:::
+
+## Su avance
+
+```{=html}
+<ul class="ix-check" data-id="lab-01">
+  <li>Abrí el cuaderno y lo ejecuté completo sin errores.</li>
+  <li>Clasifiqué las 35 variables y defendí al menos dos casos discutibles.</li>
+  <li>Entendí por qué los faltantes de <code>fecha_autorizacion</code> no se imputan.</li>
+  <li>Medí el riesgo de unicidad con distintas combinaciones de variables.</li>
+  <li>Construí una base minimizada y puedo justificar cada variable que dejé.</li>
+  <li>Puedo explicar la diferencia entre minimizar, seudonimizar y anonimizar.</li>
+  <li>Declaré un umbral de riesgo y lo argumenté por escrito.</li>
+  <li>Respondí la pregunta de salida con una variable y un cambio concretos.</li>
+</ul>
+```
+
+------------------------------------------------------------------------
+
+## Enlaces del laboratorio
+
+| | |
+|:--|:--|
+| **Encuentro donde se trabaja** | [Encuentro 1 · Tenemos los datos. ¿Qué podría salir mal?](../encuentros/encuentro-01.qmd) |
+| **Caso** | [DataMarket Analytics · diccionario de las 35 variables](../casos/caso-datamarket.qmd) |
+| **Marco legal** | [La excepción estadística](../marco-legal/index.qmd#estadistica) · [Datos sensibles e inferidos](../marco-legal/index.qmd#sensibles) |
+| **Vocabulario** | [Glosario operativo](../recursos/glosario.qmd) |
+| **Se evalúa en** | [Actividad 4 · Anonimización](../actividades/actividad-04.qmd) |
+| **Siguiente** | [Laboratorio 2 · Auditoría de un pipeline de datos](lab-02.qmd) |

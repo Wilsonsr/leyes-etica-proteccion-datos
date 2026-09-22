@@ -1,95 +1,97 @@
-# Responsible Data Lab
+# Leyes, Ética y Protección de Datos
 
-**Leyes, Ética y Protección de Datos** · Especialización en Análisis Estadístico
+**Especialización en Análisis Estadístico para Ciencia de Datos**
+Docente: **Wilson Sandoval Rodríguez**
 
-Repositorio académico del curso, construido con [Quarto](https://quarto.org/) y
-publicable en GitHub Pages. Incluye el sitio navegable, las presentaciones
-Reveal.js, los laboratorios en Jupyter y el generador del dataset sintético del
-caso transversal.
+Sitio del curso: **<https://wilsonsr.github.io/leyes-etica-proteccion-datos/>**
+
+Repositorio académico construido con [Quarto](https://quarto.org/) y publicado
+automáticamente en GitHub Pages. Incluye el sitio navegable, las presentaciones
+Reveal.js, los cuadernos de laboratorio en versión estudiante y solución, y el
+generador del dataset sintético del caso transversal.
 
 > Los datos no toman decisiones. Las personas diseñan sistemas que las toman.
 
 ---
 
-## Qué es esto
+## De qué trata
 
-Un curso de nueve semanas que trata la protección de datos **como un problema
-de diseño de proyectos de datos**, no como una asignatura de derecho. La
-estructura de cada tema es siempre la misma:
+El curso aborda los **fundamentos legales** de la protección de datos, los
+**marcos de ética de los datos** y las **técnicas específicas de protección**
+aplicables a proyectos de analítica, inteligencia artificial y datos masivos.
+Busca fortalecer la capacidad del especialista en análisis estadístico para
+reconocer e integrar consideraciones legales, éticas y técnicas en la toma de
+decisiones sobre datos.
+
+Todo tema recorre la misma ruta de aprendizaje:
 
 ```
-PROBLEMA → DATOS → DECISIÓN ANALÍTICA → RIESGO → PRINCIPIO → CONTROL → DECISIÓN FINAL
+PROBLEMA → DATOS → ANÁLISIS → DECISIÓN → IMPLICACIÓN LEGAL/ÉTICA → CONTROL Y EVIDENCIA
 ```
 
-La legislación aparece cuando hace falta para resolver un problema concreto, y
-no como punto de partida de la explicación.
+La legislación aparece cuando hace falta para resolver un problema concreto, no
+como punto de partida de la explicación.
 
-Dos preguntas atraviesan las nueve semanas:
+## Las tres unidades
 
-1. Que algo sea técnicamente posible y estadísticamente válido, ¿significa que
-   debemos hacerlo?
-2. ¿Qué tendría que cambiar en mi proyecto de datos?
+| | Unidad | Pregunta | Semanas | Peso |
+|:--:|:--|:--|:--:|:--:|
+| 1 | Fundamentos legales de la protección de datos y regulaciones relacionadas con ciencia de datos | ¿Podemos hacerlo? | 1–4 | 50 % |
+| 2 | Ética de los datos aplicada a proyectos de analítica y gestión de datos en los sectores público y privado | ¿Debemos hacerlo? | 5–7 | 25 % |
+| 3 | Técnicas de protección de datos, inteligencia artificial y datos masivos | ¿Cómo lo hacemos responsablemente? | 8–9 | 25 % |
 
 ## Estado del contenido
 
 | Material | Estado |
 |:--|:--|
-| Sitio, identidad visual y navegación | ✅ Completo |
-| Encuentro 1 + slides + Lab 1 | ✅ Completo |
-| Encuentro 2 + slides + Lab 2 | ✅ Completo |
-| Caso DataMarket + dataset sintético | ✅ Completo |
+| Sitio, identidad visual, navegación por unidades | ✅ Completo |
+| Portada, página de unidades, marco legal, sobre el docente | ✅ Completo |
+| Encuentro 1 + presentación + Laboratorio 1 | ✅ Completo |
+| Encuentro 2 + presentación + Laboratorio 2 | ✅ Completo |
+| Caso DataMarket + dataset sintético + simulador | ✅ Completo |
 | Caso Facebook · Banco de 12 dilemas | ✅ Completo |
-| Actividades 1 a 4 (enunciados y rúbricas) | ✅ Completas |
-| Checklist · Mapa de riesgos · Glosario | ✅ Completos |
-| Encuentros 3, 4 y 5 | 🔨 Estructura preparada |
-| Slides y labs 3 y 4 | 🔨 Pendientes |
+| Actividades 1 a 4 con rúbricas | ✅ Completas |
+| Checklist · Mapa de riesgos · Glosario · Bibliografía | ✅ Completos |
+| Guía docente con notas de conducción y soluciones | ✅ Completa |
+| Encuentros 3, 4 y 5 | 🔨 Estructura y guion preparados |
+| Presentaciones y laboratorios 3 y 4 | 🔨 Pendientes |
 
 ---
 
-## Requisitos
+## Uso local
 
-- [Quarto](https://quarto.org/docs/get-started/) ≥ 1.4
-- Python ≥ 3.10
-- Las dependencias de `requirements.txt`
+Requisitos: [Quarto](https://quarto.org/docs/get-started/) ≥ 1.4 y Python ≥ 3.10.
 
 ```bash
 pip install -r requirements.txt
+python scripts/generar_datos.py      # genera el dataset sintético
+quarto preview                       # sitio con recarga automática
+quarto render                        # sitio completo en _site/
 ```
 
-## Uso local
+Los cuadernos se entregan ya ejecutados en su versión de solución, de modo que
+**el sitio se renderiza sin necesidad de ejecutar Python**.
+
+### Los cuadernos
+
+Se generan desde una sola fuente para que las dos versiones no se
+desincronicen:
 
 ```bash
-# 1. Generar el dataset sintético (obligatorio la primera vez)
-python scripts/generar_datos.py
-
-# 2. Previsualizar el sitio con recarga automática
-quarto preview
-
-# 3. Renderizar todo el sitio a _site/
-quarto render
-```
-
-Renderizar una sola pieza:
-
-```bash
-quarto render encuentros/encuentro-01.qmd
-quarto render slides/01-datos-decisiones.qmd
-```
-
-### Sobre los laboratorios
-
-Los cuadernos `labs/*.ipynb` se entregan **con las salidas ya ejecutadas**, de
-modo que el sitio se renderiza sin necesidad de ejecutar Python. Para
-re-ejecutarlos:
-
-```bash
+python scripts/construir_labs.py
 cd labs
-jupyter nbconvert --to notebook --execute --inplace lab01.ipynb
-jupyter nbconvert --to notebook --execute --inplace lab02.ipynb
+jupyter nbconvert --to notebook --execute --inplace lab01-solucion.ipynb
+jupyter nbconvert --to notebook --execute --inplace lab02-solucion.ipynb
 ```
 
-Los cuadernos resuelven la ruta del CSV automáticamente, así que funcionan
-tanto si se abren desde `labs/` como desde la raíz del repositorio.
+| Archivo | Para quién | Contenido |
+|:--|:--|:--|
+| `labs/lab0N-estudiante.ipynb` | Estudiante | Sin salidas, con bloques `TODO` |
+| `labs/lab0N-solucion.ipynb` | Docente | Ejecutado, con respuestas orientativas plegadas |
+
+Los cuadernos buscan el CSV en la carpeta local y, si no lo encuentran, lo
+descargan del repositorio. Así funcionan en **Google Colab sin instalar nada**,
+que es la vía recomendada para los estudiantes.
 
 ---
 
@@ -98,64 +100,32 @@ tanto si se abren desde `labs/` como desde la raíz del repositorio.
 ```
 leyes-etica-proteccion-datos/
 │
-├── README.md
-├── _quarto.yml                  # configuración del sitio y navegación
-├── referencias.bib              # bibliografía (BibTeX)
-├── requirements.txt
 ├── index.qmd                    # portada
-├── programa.qmd                 # plan del curso y evaluación
+├── unidades.qmd                 # las tres unidades y la ruta de aprendizaje
+├── programa.qmd                 # plan y evaluación
 ├── metodologia.qmd              # cómo funciona cada encuentro
+├── docente.qmd                  # sobre el docente
+├── _quarto.yml                  # configuración, navegación y tema
+├── referencias.bib
 │
-├── encuentros/
-│   ├── encuentro-01.qmd         # ✅ Tenemos los datos. ¿Qué podría salir mal?
-│   ├── encuentro-02.qmd         # ✅ Del requisito a la decisión
-│   ├── encuentro-03.qmd         # 🔨 Ética y ciencia de datos
-│   ├── encuentro-04.qmd         # 🔨 Herramientas de protección
-│   └── encuentro-05.qmd         # 🔨 Decálogo colaborativo
+├── marco-legal/index.qmd        # material de consulta permanente
+├── guia-docente/index.qmd       # notas de conducción y soluciones
 │
-├── slides/
-│   ├── 01-datos-decisiones.qmd        # ✅ 24 diapositivas Reveal.js
-│   └── 02-reglas-proyectos-datos.qmd  # ✅ 24 diapositivas Reveal.js
+├── encuentros/encuentro-0{1..5}.qmd
+├── laboratorios/lab-0{1,2}.qmd  # páginas web de los laboratorios
+├── slides/0{1,2}-*.qmd          # presentaciones Reveal.js
+├── labs/lab0{1,2}-{estudiante,solucion}.ipynb
+├── casos/                       # DataMarket · Facebook · dilemas
+├── actividades/actividad-0{1..4}.qmd
+├── recursos/                    # checklist · mapa de riesgos · glosario
+├── lecturas/index.qmd
 │
-├── labs/
-│   ├── lab01.ipynb              # ✅ ¿Qué sabe realmente esta base sobre nosotros?
-│   └── lab02.ipynb              # ✅ Auditoría rápida de un pipeline
-│
-├── data/
-│   └── clientes_sinteticos.csv  # generado por script · 1 512 × 35
-│
-├── scripts/
-│   └── generar_datos.py         # generador reproducible (semilla fija)
-│
-├── casos/
-│   ├── caso-datamarket.qmd      # caso transversal + diccionario de datos
-│   ├── caso-facebook.qmd        # caso histórico · alcance territorial
-│   └── dilemas.qmd              # banco de 12 dilemas
-│
-├── actividades/
-│   ├── actividad-01.qmd         # Colombia – Brasil – Chile · 25 %
-│   ├── actividad-02.qmd         # Auditoría GDPR · 25 %
-│   ├── actividad-03.qmd         # Ética en el sector público · 25 %
-│   └── actividad-04.qmd         # Anonimización · 25 %
-│
-├── recursos/
-│   ├── checklist-proyecto-datos.qmd   # 12 preguntas
-│   ├── mapa-riesgos.qmd               # 12 etapas del pipeline
-│   └── glosario.qmd                   # 28 términos operativos
-│
-├── lecturas/
-│   └── index.qmd                # lecturas por semana y fuentes oficiales
-│
-├── styles/
-│   ├── custom.scss              # identidad visual · modo claro
-│   ├── custom-dark.scss         # identidad visual · modo oscuro
-│   ├── reveal-rds.scss          # tema de las presentaciones
-│   ├── extra.css                # tipografía y ajustes menores
-│   ├── logo.svg
-│   └── favicon.svg
-│
-└── .github/workflows/
-    └── publish.yml              # publicación automática en GitHub Pages
+├── data/clientes_sinteticos.csv # 1 512 × 35, sintético y reproducible
+├── scripts/generar_datos.py
+├── scripts/construir_labs.py
+├── assets/                      # imagen del docente y datos del simulador
+├── styles/                      # tema claro, oscuro, Reveal y componentes
+└── .github/workflows/publish.yml
 ```
 
 ---
@@ -163,150 +133,65 @@ leyes-etica-proteccion-datos/
 ## El caso transversal
 
 **DataMarket Analytics** es una empresa colombiana ficticia de comercio
-electrónico. Todo el curso gira alrededor de su base de clientes, que cambia
-de problema cada semana:
+electrónico. Su base de clientes cambia de problema cada semana:
 
-| Semana | Situación |
-|:--:|:--|
-| 1 | Quiere predecir *churn* con 35 variables |
-| 2 | Aparecen problemas de origen, finalidad y tratamiento |
-| 3 | Quiere operar en Brasil y Chile |
-| 4 | Descubre que tiene clientes residentes en la UE |
-| 5 | El modelo discrimina por estrato y edad |
-| 7 | Necesita compartir la base con un tercero |
-| 8 | Tiene que anonimizarla de verdad |
-| 9 | Los estudiantes escriben el decálogo |
+| Semana | Situación | Unidad |
+|:--:|:--|:--:|
+| 1 | Quiere predecir abandono con 35 variables | 1 |
+| 2 | Aparecen problemas de origen, finalidad y tratamiento | 1 |
+| 3 | Quiere operar en Brasil y Chile | 1 |
+| 4 | Descubre clientes residentes en la Unión Europea | 1 |
+| 5 | El modelo predice mejor usando variables que discriminan | 2 |
+| 7 | Necesita compartir la base con un proveedor externo | 2 |
+| 8 | Tiene que anonimizar de verdad, y medirlo | 3 |
+| 9 | El grupo escribe el decálogo | 3 |
 
 ### El dataset
 
 `data/clientes_sinteticos.csv` — **1 512 registros × 35 variables**, generado
-por `scripts/generar_datos.py` con semilla fija.
+por `scripts/generar_datos.py` con semilla fija. Diseñado para que las
+discusiones aparezcan solas:
 
-Está diseñado para que las discusiones del curso aparezcan solas:
-
-- **236 registros** sin evidencia de autorización (lista comprada a un tercero
-  y enriquecimiento web).
+- **236 registros** sin evidencia de autorización.
 - **74 registros** con residencia en la Unión Europea.
-- Tres variables proxy de datos sensibles: `compras_farmacia_6m`,
-  `entrega_asistida`, `busquedas_maternidad`.
-- El **83,9 %** de los registros es único con solo cuatro
-  cuasi-identificadores.
+- Tres variables proxy de datos sensibles.
+- El **83,9 %** de los registros es único con solo cuatro cuasi-identificadores;
+  baja a **10,6 %** tras generalizar.
 - La variable objetivo depende parcialmente de los proxies, de modo que el
-  «modelo B» del Lab 2 realmente predice mejor (AUC ≈ 0.88 frente a ≈ 0.83) a
-  costa de usar variables problemáticas.
-
-```bash
-python scripts/generar_datos.py                    # valores por defecto
-python scripts/generar_datos.py --n 3000 --semilla 7
-```
+  «modelo B» del Laboratorio 2 realmente predice mejor (AUC 0,875 frente a
+  0,833) a costa de usar variables problemáticas.
 
 > ⚠️ **Todos los datos son sintéticos.** Ninguna persona real está
 > representada. Nunca sustituya esta base por datos reales de una organización.
 
 ---
 
-## Publicar en GitHub Pages
+## Componentes interactivos
 
-### Opción A · GitHub Actions (recomendada)
+El sitio no depende de librerías externas. Todo está en `styles/`:
 
-El repositorio incluye `.github/workflows/publish.yml`, que renderiza y publica
-en cada `push` a `main`.
+| Componente | Cómo se usa |
+|:--|:--|
+| Ficha pedagógica | `<div class="ix-ficha">` con qué aprenderá, qué hacer, duración, evidencia, unidad y siguiente paso |
+| Pregunta con retroalimentación | `::: {.ix-quiz}` con opciones `::: {.ix-op data-valor="bien\|mal\|parcial" data-fb="…"}` |
+| Pista y respuesta | `::: {.ix-pista}` y `::: {.ix-respuesta}` — `<details>` nativo |
+| Checklist con memoria | `<ul class="ix-check" data-id="…">` — recuerda el avance en el navegador |
+| Simulador de reidentificación | `<div class="ix-sim" data-sim="reident" data-src="…/assets/reident.json">` |
+| Tarjetas del curso | `::: {.rds-card .caso}` — `caso`, `datos`, `decide`, `dilema`, `riesgo`, `prueba`, `codigo`, `reflexiona`, `decision` |
 
-`_quarto.yml` **ya está configurado** para el repositorio
-`wilsonsr/leyes-etica-proteccion-datos`. Si el repositorio se crea con otro
-nombre o en otra cuenta, hay que actualizar `site-url`, `repo-url` y el `href`
-del icono de GitHub en la barra de navegación.
-
-1. Cree el repositorio en GitHub —**público**, sin README ni `.gitignore`
-   iniciales— y suba el proyecto:
-
-   ```bash
-   git init
-   git add .
-   git commit -m "Responsible Data Lab: versión inicial del curso"
-   git branch -M main
-   git remote add origin https://github.com/wilsonsr/leyes-etica-proteccion-datos.git
-   git push -u origin main
-   ```
-
-   Con GitHub Desktop: *File → Add Local Repository* → crear → *Commit to main*
-   → *Publish repository*, desmarcando *Keep this code private*.
-
-2. En **Settings → Pages**, seleccione:
-   - **Source:** GitHub Actions
-
-3. Espere a que el trabajo de la pestaña **Actions** termine en verde. El sitio
-   queda en
-   `https://wilsonsr.github.io/leyes-etica-proteccion-datos/`.
-
-4. De ahí en adelante, cada `push` a `main` republica el sitio.
-
-### Opción B · Rama `gh-pages` con `quarto publish`
-
-```bash
-quarto publish gh-pages
-```
-
-Quarto crea la rama `gh-pages`, sube el sitio renderizado y configura el
-repositorio. Después, en **Settings → Pages**, seleccione
-**Deploy from a branch → gh-pages → / (root)**.
-
-### Opción C · Carpeta `docs/`
-
-```bash
-# En _quarto.yml, cambiar:
-#   output-dir: docs
-quarto render
-git add docs && git commit -m "Publicar sitio" && git push
-```
-
-Luego, en **Settings → Pages**, seleccione
-**Deploy from a branch → main → /docs**.
-
-### Verificación antes de publicar
-
-```bash
-quarto render                # debe terminar sin errores
-python -m http.server -d _site 8000
-```
-
-Abra `http://localhost:8000` y revise que el modo oscuro, las presentaciones y
-los enlaces internos funcionen.
+Los datos del simulador se precalculan sobre la base real del curso. Si cambia
+la semilla o el tamaño del dataset, hay que regenerarlos.
 
 ---
 
-## Personalizar
+## Publicación
 
-### Cambiar la identidad visual
+El repositorio incluye `.github/workflows/publish.yml`, que renderiza y publica
+en cada `push` a `main`. En **Settings → Pages** debe estar seleccionado
+*Source: GitHub Actions* (configuración de una sola vez, ya realizada).
 
-Los colores están definidos como tokens en `styles/custom.scss`
-(modo claro), `styles/custom-dark.scss` (modo oscuro) y
-`styles/reveal-rds.scss` (presentaciones). Cambiar el acento principal es
-editar `--rds-cyan` en los tres archivos.
-
-### Las nueve tarjetas pedagógicas
-
-El material usa un vocabulario visual fijo. Se invocan como `divs` de Pandoc:
-
-```markdown
-::: {.rds-card .caso}
-Una situación concreta que hay que resolver.
-:::
-
-::: {.rds-card .dilema data-label="DILEMA 07 · EL UMBRAL"}
-Con etiqueta personalizada.
-:::
-```
-
-Clases disponibles: `caso`, `datos`, `decide`, `dilema`, `riesgo`, `prueba`,
-`codigo`, `reflexiona`, `decision`.
-
-### Añadir un encuentro
-
-1. Crear `encuentros/encuentro-06.qmd`.
-2. Crear `slides/06-titulo.qmd` copiando el bloque `format: revealjs` de una
-   presentación existente.
-3. Añadir ambos a la navegación en `_quarto.yml`.
+Con GitHub Desktop: escribir el mensaje → **Commit to main** → **Push origin**.
+El sitio se actualiza solo en un minuto y medio.
 
 ---
 
@@ -314,19 +199,12 @@ Clases disponibles: `caso`, `datos`, `decide`, `dilema`, `riesgo`, `prueba`,
 
 - **Contenido** (textos, materiales didácticos, presentaciones):
   [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es)
-- **Código** (scripts, notebooks, hojas de estilo):
+- **Código** (scripts, cuadernos, hojas de estilo):
   [MIT](https://opensource.org/licenses/MIT)
 
-Las obras citadas conservan sus propias licencias. *Data Feast* es una
-publicación de Dejusticia bajo licencia CC BY-NC-SA 4.0.
+Las obras citadas conservan sus propias licencias.
 
----
-
-## Créditos y advertencia
-
-Material docente para la Especialización en Análisis Estadístico.
-
-Este repositorio **no constituye asesoría jurídica**. Las referencias
-normativas son material didáctico y pueden desactualizarse: los tres regímenes
-que se estudian están en movimiento. Verifique siempre la vigencia en las
-fuentes oficiales indicadas en [`lecturas/index.qmd`](lecturas/index.qmd).
+Este repositorio **no constituye asesoría jurídica**. Las referencias normativas
+son material didáctico y pueden desactualizarse. La página de
+[Marco legal](marco-legal/index.qmd) lleva fecha de última verificación;
+confirme siempre la vigencia en las fuentes oficiales allí indicadas.

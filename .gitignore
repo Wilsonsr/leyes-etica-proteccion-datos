@@ -30,3 +30,6 @@ desktop.ini
 # NOTA: data/clientes_sinteticos.csv SÍ se versiona.
 # Es un archivo sintético, pequeño y reproducible, y el sitio lo necesita
 # para renderizar los laboratorios.
+
+# Artefactos que generan los cuadernos al ejecutarse
+labs/*.csv

@@ -4,8 +4,26 @@ subtitle: "Cuando el titular no puede irse a la competencia"
 description: "25 % · Entrega semana 7 · Trabajo en grupos de 2 o 3"
 ---
 
-::: {.rds-meta}
-[Actividad 3]{} [Unidad 2]{} [25 %]{} [Entrega: semana 7]{} [Grupos de 2 o 3]{}
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va">A analizar un caso real de estadística pública separando cuatro cosas que
+    no son sinónimos —legalidad, ética, calidad estadística y privacidad— y a mostrar
+    <strong>dónde se contradicen entre sí</strong>.</div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Elegir un caso público documentado y analizarlo por los cuatro ejes, con recomendaciones.</span></div>
+  <div><span class="et">Duración</span><span class="va">Semana 7 · grupos de 2 o 3</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Documento de máximo 10 páginas + anexos, con un marco de ética estadística citado</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-2">2 · Ética de los datos</a> · vale 25 %</span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../encuentros/encuentro-04.html">Encuentro 4 · Unidad 3</a></span></div>
+</div>
+```
+
+::: {.rds-acciones-encuentro}
+[Marcos de ética](../marco-legal/index.qmd#internacional) ·
+[Banco de dilemas](../casos/dilemas.qmd) ·
+[Laboratorio 2 · error por grupo](../laboratorios/lab-02.qmd#por-grupo)
 :::
 
 ::: {.callout-note}
@@ -149,7 +167,7 @@ alternativas existían.
 revés: hay obligaciones de transparencia, de reserva estadística y de
 protección que el sector privado no tiene.
 
-**Resolver todo con «anonimizar».** Después del [Lab 1](../labs/lab01.ipynb) ya
+**Resolver todo con «anonimizar».** Después del [Lab 1](../laboratorios/lab-01.qmd) ya
 sabemos que eso no es una instrucción sino un resultado que hay que medir.
 
 **Ignorar la calidad estadística.** Es el eje que más se olvida y el que más

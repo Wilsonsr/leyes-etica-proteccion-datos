@@ -1,0 +1,326 @@
+---
+title: "Laboratorio 2 · Auditoría de un pipeline de datos"
+subtitle: "Explorar → Analizar → Experimentar → Decidir → Justificar → Reflexionar"
+description: "Auditar un pipeline etapa por etapa y decidir entre dos modelos que difieren en desempeño y en lo que usan."
+---
+
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va"><ul>
+      <li>Auditar un pipeline de datos etapa por etapa y documentarlo como artefacto del proyecto.</li>
+      <li>Comparar dos modelos que difieren en desempeño y en las variables que están dispuestos a usar.</li>
+      <li>Medir el error <strong>por grupo</strong> y distinguir señal de sesgo sin quedarse en la métrica global.</li>
+      <li>Separar la calidad del modelo de la calidad de la decisión que habilita.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Completar la matriz de auditoría y decidir qué modelo se despliega, con qué acción y bajo qué condición.</span></div>
+  <div><span class="et">Duración</span><span class="va">40 minutos</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Matriz de auditoría de 8 etapas + registro de decisión firmado</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-1">1 · Fundamentos legales</a> — prepara la <a href="../unidades.html#unidad-2">Unidad 2</a></span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../actividades/actividad-01.html">Actividad 1</a> y <a href="../actividades/actividad-02.html">Actividad 2</a></span></div>
+</div>
+```
+
+```{=html}
+<div class="ix-acciones">
+  <a class="ix-btn principal"
+     href="https://colab.research.google.com/github/wilsonsr/leyes-etica-proteccion-datos/blob/main/labs/lab02-estudiante.ipynb"
+     target="_blank" rel="noopener">
+    <span class="ico">▶</span> Abrir el laboratorio en Google Colab
+  </a>
+  <a class="ix-btn" href="../labs/lab02-estudiante.ipynb" download>
+    <span class="ico">↓</span> Descargar el cuaderno (.ipynb)
+  </a>
+  <a class="ix-btn" href="lab-01.html">
+    <span class="ico">←</span> Laboratorio 1
+  </a>
+</div>
+```
+
+::: {.callout-note}
+## Esto no es un ejercicio de rendimiento predictivo
+
+Las métricas están aquí para **sostener una discusión**, no para ganar una
+competencia. Un modelo con mejor AUC puede ser el que no se despliega, y este
+laboratorio consiste precisamente en poder explicar por qué.
+:::
+
+------------------------------------------------------------------------
+
+## 1 · Explorar {#explorar}
+
+*¿De dónde vienen estos datos?*
+
+La primera etapa del pipeline no es «cargar el CSV». Es preguntarse de dónde
+salió cada fila.
+
+| `origen_dato` | Registros | Autorización fechada | Consentimiento de marketing |
+|:--|--:|--:|--:|
+| `facturacion` | 464 | sí | bajo |
+| `entrega_domicilio` | 348 | sí | bajo |
+| `registro_cuenta` | 289 | sí | medio |
+| `programa_fidelizacion` | 175 | sí | alto |
+| **`lista_comprada_tercero`** | **144** | **no** | casi nulo |
+| **`enriquecimiento_web`** | **92** | **no** | casi nulo |
+
+Y una segunda pregunta que casi nunca se hace: **dónde están las personas**.
+
+::: {.rds-card .datos data-label="DATOS · ALCANCE TERRITORIAL"}
+De los 1 512 registros, **74 corresponden a residentes en España, Alemania,
+Francia e Italia**.
+
+Eso basta para que el GDPR entre en el análisis, aunque la empresa esté
+constituida en Colombia y sus servidores también.
+[→ Alcance territorial en el marco legal](../marco-legal/index.qmd#territorial)
+:::
+
+::: {.ix-quiz data-etiqueta="DECIDA"}
+::: {.ix-pregunta}
+74 sobre 1 512 es menos del 5 % de la base. ¿Cambia algo que sean tan pocos?
+:::
+
+::: {.ix-op data-valor="mal" data-fb="El ámbito de aplicación del GDPR no tiene umbral cuantitativo: no hay un número mínimo de personas a partir del cual empieza a aplicar. Y conviene preguntarse cuántas serán en dos años."}
+Sí: con esa proporción el tratamiento es marginal y no justifica cambios.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Correcto. La obligación no depende del número. Lo que sí puede depender del volumen es la proporcionalidad de la respuesta organizativa: no es lo mismo nombrar un equipo dedicado que marcar y segmentar 74 registros."}
+No para la obligación; sí para el tamaño de la respuesta organizativa.
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="Excluirlos es una opción, pero no es gratis: significa dejar de prestarles el servicio analítico o degradarlo, y hay que poder justificar esa decisión. Además traslada el problema en vez de resolverlo."}
+Da igual: lo más simple es excluirlos del modelo.
+:::
+:::
+
+## 2 · Analizar {#analizar}
+
+*¿Qué hace el pipeline con ellos?*
+
+### Aislar, no borrar
+
+Los 236 registros sin evidencia de origen se marcan y se separan. La base apta
+para entrenamiento queda en 1 276 registros.
+
+```python
+SIN_EVIDENCIA = ["lista_comprada_tercero", "enriquecimiento_web"]
+df["evidencia_origen"] = np.where(
+    df["origen_dato"].isin(SIN_EVIDENCIA), "sin evidencia", "con evidencia")
+```
+
+Borrarlos destruiría la prueba de que existieron. Es una tensión real del
+oficio: la minimización empuja a eliminar, y la trazabilidad a conservar. Hay
+que decidirlo explícitamente, no por omisión.
+
+### El feature engineering es donde se fabrican datos nuevos
+
+El cuaderno crea tres variables derivadas inofensivas: recencia, ticket promedio
+e intensidad de navegación.
+
+::: {.rds-card .riesgo data-label="RIESGO · LA MISMA LÍNEA DE CÓDIGO"}
+`dias_desde_ultima_compra` e `indice_probable_embarazo` se crean con la misma
+instrucción de `pandas`. La diferencia no es técnica: es de criterio, y no hay
+nada en el lenguaje de programación que la señale.
+:::
+
+### Tres precauciones estadísticas
+
+::: {.panel-tabset}
+
+#### Correlación baja ≠ variable inútil
+
+Una variable con correlación lineal cercana a cero puede ser muy predictiva en
+interacción con otras, o de forma no lineal.
+
+Por eso **la minimización se argumenta por finalidad, no por correlación**.
+Descartar variables mirando su correlación marginal es mala práctica de modelado
+y, además, una justificación jurídica débil: la pregunta no es «¿aporta?» sino
+«¿la necesito para esta finalidad declarada?».
+
+#### Asociación ≠ causa
+
+Que `dias_desde_ultima_compra` prediga el abandono no significa que esperar
+*cause* el abandono.
+
+El modelo describe una asociación en estos datos y en este periodo. Todo el
+lenguaje del laboratorio evita el verbo «causar» a propósito: se dice que una
+variable *predice*, *se asocia* o *aporta al modelo*, nunca que produce el
+resultado.
+
+#### Fuga de información
+
+`score_riesgo_interno` y `segmento` se derivan de un modelo anterior de la
+propia empresa, entrenado sobre el mismo fenómeno.
+
+Usarlos como predictores mezcla la salida de un sistema con la entrada de otro:
+infla artificialmente el desempeño y hace imposible auditar de dónde salió una
+decisión. Por eso quedan **fuera de los dos modelos**, y esa exclusión también
+se documenta.
+
+:::
+
+## 3 · Experimentar {#experimentar}
+
+*Dos modelos, una diferencia incómoda*
+
+| | Variables | AUC |
+|:--|:--|--:|
+| **Modelo A** | Comportamiento de compra y navegación (7 variables) | **0,833** |
+| **Modelo B** | A + edad, estrato, ingresos, compras en farmacia, entrega asistida, búsquedas de maternidad (13 variables) | **0,875** |
+| | Diferencia | +0,042 |
+
+Cuatro centésimas de AUC. En una campaña de retención de cierto tamaño, eso es
+dinero identificable y defendible ante la gerencia.
+
+### ¿Qué variables aportan la diferencia?
+
+Los coeficientes estandarizados son comparables entre sí. Entre los de mayor
+peso del bloque añadido aparecen **`entrega_asistida`** —proxy de discapacidad o
+edad avanzada— y **`estrato`**.
+
+::: {.rds-card .riesgo data-label="LA PREGUNTA QUE ORDENA TODO"}
+Si las variables que aportan la diferencia son proxies de condición social o de
+salud, el modelo B no está prediciendo mejor *el comportamiento*: está
+prediciendo mejor *la condición de la persona*, y usándola para decidir sobre
+ella.
+:::
+
+### ¿Sobre quién se equivoca cada modelo? {#por-grupo}
+
+Un AUC global puede esconder comportamientos muy distintos por grupo.
+Proporción de clientes marcados como «en riesgo de abandono»:
+
+| Estrato | n | Tasa real de abandono | Modelo A marca | Modelo B marca |
+|:--:|--:|--:|--:|--:|
+| 1 | 31 | 0,419 | 0,097 | **0,290** |
+| 2 | 79 | 0,342 | 0,139 | **0,291** |
+| 3 | 108 | 0,343 | 0,139 | 0,241 |
+| 4 | 72 | 0,167 | 0,111 | 0,167 |
+| 5 | 50 | 0,100 | 0,060 | **0,040** |
+| 6 | 23 | 0,174 | 0,174 | **0,087** |
+
+::: {.callout-warning}
+## El matiz que hace difícil la discusión
+
+La tasa **real** de abandono también es más alta en los estratos bajos de estos
+datos. Es decir: parte de la diferencia es **señal**, no sesgo.
+
+Esto es lo que hace que el problema no se resuelva diciendo «el modelo
+discrimina». Un modelo que refleja fielmente una desigualdad existente puede,
+aun así, **amplificarla** cuando se usa para asignar beneficios. Distinguir las
+dos cosas es exactamente el trabajo de la [Unidad 2](../unidades.qmd#unidad-2).
+:::
+
+## 4 · Decidir {#decidir}
+
+*La decisión no está en el modelo: está en lo que se hace con él*
+
+El modelo es el mismo en las tres filas. Lo que cambia es **quién asume el daño
+del error**.
+
+| Acción asociada | Falso positivo | Falso negativo | Quién asume el daño |
+|:--|:--|:--|:--|
+| Oferta de retención (descuento) | Descuento a quien no se iba a ir | Se pierde un cliente retenible | **La empresa** |
+| Menor prioridad en atención | Peor servicio a quien no se iba a ir | Servicio normal a quien se va | **La persona** |
+| Precio personalizado más alto | Sobreprecio a quien no se iba a ir | Precio normal | **La persona** |
+
+::: {.ix-quiz data-etiqueta="DECIDA"}
+::: {.ix-pregunta}
+Con todo lo anterior sobre la mesa, ¿qué modelo se despliega?
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="Es defendible, pero solo si se añaden dos condiciones: que la acción asociada únicamente pueda beneficiar a la persona, y que haya monitoreo de error por grupo con un umbral de alerta. Sin esas dos condiciones, la ganancia de 0,042 no compensa."}
+El B, porque predice mejor y la diferencia es económicamente relevante.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Es la decisión mejor sostenida con la evidencia disponible: la ganancia de 0,042 de AUC no compensa usar proxies de salud y de condición socioeconómica sin finalidad documentada ni control sobre el efecto. Lo importante no es la elección, sino que quede registrada junto con la condición que la haría cambiar."}
+El A, y se documenta por qué se descartó el B y qué haría revisarlo.
+:::
+
+::: {.ix-op data-valor="mal" data-fb="Un AUC más alto es una razón para considerar un modelo, no para desplegarlo. La métrica no contiene información sobre quién asume el costo del error, y por eso no puede tomar sola la decisión."}
+El que tenga mejor AUC: es el criterio técnico objetivo.
+:::
+:::
+
+::: {.rds-card .decision data-label="LO QUE SE REGISTRA"}
+Cualquiera que sea la elección, el cuaderno exige escribir tres cosas:
+
+1. **Qué modelo se despliega** y con qué acción asociada.
+2. **Por qué se descartó el otro**, con las cifras concretas.
+3. **Qué condición tendría que cumplirse para cambiar de opinión.**
+
+La tercera es la que convierte una opinión en una decisión profesional.
+:::
+
+**Marco legal relacionado:** decisiones automatizadas y perfilamiento — GDPR
+art. 22, LGPD art. 20 y el proyecto de reforma colombiano.
+[→ Ver en el marco legal](../marco-legal/index.qmd#decisiones-automatizadas)
+
+## 5 · Justificar {#justificar}
+
+*La auditoría como artefacto del proyecto*
+
+La matriz de auditoría no es un documento que nadie actualiza: se construye en
+código y se versiona con el proyecto.
+
+| Etapa | Riesgo | Pregunta de control | Decisión |
+|:--|:--|:--|:--|
+| Origen | 236 registros sin evidencia | ¿De dónde vienen? | Aislados, no borrados |
+| Datos | Identificadores directos en el archivo | ¿Los necesito? | Excluidos por lista blanca |
+| Finalidad | Uso secundario para publicidad | ¿Es la misma finalidad? | Requiere autorización específica |
+| Procesamiento | Inferencias sobre condiciones sensibles | ¿Qué deduzco? | Lista blanca de derivadas |
+| Modelo | Proxies de atributos protegidos | ¿Distingue por condición? | Se despliega A |
+| Resultado | Score tratado como verdad | ¿Qué error acepto? | Umbral fijado con la Dirección |
+| Decisión | Automatización sin intervención | ¿Hay revisión humana real? | Aprobación por lote, con registro |
+| Publicación | Reidentificación por cruce | ¿Alguien es identificable? | Umbral de celda (Actividad 4) |
+
+El cuaderno del estudiante entrega esta tabla **incompleta**: cinco de las ocho
+etapas están marcadas con `TODO`.
+
+::: {.ix-respuesta}
+<summary>¿Cuál es la etapa peor documentada en la mayoría de organizaciones?</summary>
+
+No es la de mayor riesgo, sino la que nadie escribió nunca: **Integración** y
+**Feature engineering**. El cruce de bases y la creación de variables derivadas
+ocurren dentro de scripts que nadie revisa, y son justamente las dos etapas
+donde se fabrican datos nuevos sobre las personas.
+:::
+
+## 6 · Reflexionar {#reflexionar}
+
+::: {.rds-card .reflexiona data-label="PREGUNTA DE SALIDA"}
+::: {.pregunta}
+¿Qué tendría que cambiar en mi proyecto de datos?
+:::
+
+Con una restricción: la respuesta debe nombrar **una etapa del pipeline** y **un
+cambio ejecutable**, en la forma «en la etapa X voy a hacer Y y va a quedar la
+evidencia Z».
+:::
+
+## Su avance
+
+```{=html}
+<ul class="ix-check" data-id="lab-02">
+  <li>Ejecuté el cuaderno completo y entrené los dos modelos.</li>
+  <li>Identifiqué qué variables aportan la diferencia de desempeño.</li>
+  <li>Leí la tabla de error por estrato y distinguí señal de sesgo.</li>
+  <li>Completé las cinco etapas marcadas con TODO en la matriz de auditoría.</li>
+  <li>Decidí qué modelo se despliega y con qué acción asociada.</li>
+  <li>Escribí la condición que me haría cambiar de opinión.</li>
+  <li>Respondí la pregunta de salida nombrando una etapa y un cambio.</li>
+</ul>
+```
+
+------------------------------------------------------------------------
+
+## Enlaces del laboratorio
+
+| | |
+|:--|:--|
+| **Encuentro donde se trabaja** | [Encuentro 2 · Del requisito a la decisión](../encuentros/encuentro-02.qmd) |
+| **Marco legal** | [Los principios como herramienta](../marco-legal/index.qmd#principios) · [Decisiones automatizadas](../marco-legal/index.qmd#decisiones-automatizadas) |
+| **Recurso** | [Mapa de riesgos del pipeline](../recursos/mapa-riesgos.qmd) |
+| **Prepara** | [Actividad 2 · Auditoría frente al GDPR](../actividades/actividad-02.qmd) y la [Unidad 2](../unidades.qmd#unidad-2) |
+| **Anterior** | [Laboratorio 1](lab-01.qmd) |

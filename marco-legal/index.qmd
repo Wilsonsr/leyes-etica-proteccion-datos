@@ -1,0 +1,450 @@
+---
+title: "Marco legal y principios"
+subtitle: "Material de consulta permanente, escrito para analistas"
+description: "Normas aplicables traducidas a preguntas que un analista puede responder con su dataset delante."
+---
+
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Para qué sirve esta página</span>
+    <div class="va">No es un capítulo que se lee una vez. Es el material que se
+    consulta <strong>cada vez que un caso, un laboratorio o una actividad
+    plantean una decisión</strong>. Cada sección termina indicando dónde se usa
+    en el curso, y cada caso del curso enlaza de vuelta aquí.</div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Consultarla desde el punto del curso que la necesite. No memorizar articulados.</span></div>
+  <div><span class="et">Unidad</span><span class="va">Transversal · se usa en las tres</span></div>
+  <div><span class="et">Última verificación</span><span class="va">22 de septiembre de 2026</span></div>
+</div>
+```
+
+::: {.rds-card .riesgo data-label="REGLA DEL CURSO"}
+Toda afirmación normativa que aparezca en una entrega debe poder rastrearse
+hasta una **fuente oficial**, con **artículo** y **fecha de consulta**.
+
+Esta página no es fuente oficial: es una guía de lectura. Los enlaces de cada
+sección llevan al texto que sí lo es.
+
+**Por qué importa la fecha.** Los tres regímenes que estudiamos están en
+movimiento: Colombia tiene un proyecto de reforma en trámite, Chile tiene una
+ley publicada cuya vigencia plena empieza en diciembre de 2026 y Brasil sigue
+emitiendo regulación infralegal. Un informe sin fechas caduca sin que nadie lo
+note.
+:::
+
+------------------------------------------------------------------------
+
+## Los principios, como herramienta de trabajo {#principios}
+
+Aquí normalmente iría una lista de principios para memorizar. En su lugar, la
+misma información puesta como **preguntas que un analista puede responder**, con
+la decisión técnica y la evidencia que deja cada una.
+
+La columna «principio» usa el vocabulario del marco colombiano (Ley 1581 de
+2012, art. 4). Las demás columnas son las que se aplican sin consultar a nadie.
+
+: De principio a decisión de ingeniería {.rds-decision-table}
+
+| Principio | Pregunta del analista | Riesgo si se ignora | Decisión técnica | Evidencia que queda |
+|:--|:--|:--|:--|:--|
+| **Legalidad** | ¿Bajo qué regla estoy autorizado a tratar estos datos? | Tratamiento sin fundamento | Declarar el fundamento antes de tratar, no después | Ficha del proyecto con el fundamento escrito |
+| **Finalidad** | ¿Para qué se recolectaron, y es esto lo mismo? | Uso secundario no esperado; deriva de finalidad | Revisar la finalidad de origen antes de incorporar la variable; separar los datos por finalidad | Documento de origen y propósito; columna `origen_dato` en la base |
+| **Libertad** | ¿Hay autorización verificable, y para qué alcance? | Tratar datos sin base que lo habilite | Excluir del entrenamiento los registros sin evidencia | Registro de autorizaciones con fecha y canal; conteo de excluidos |
+| **Veracidad o calidad** | ¿Los datos son correctos, completos y actuales? | Decisiones incorrectas sobre personas reales | Reglas de validación; criterio explícito de antigüedad máxima | Log de validación; tasa de registros rechazados |
+| **Transparencia** | ¿Podría explicarle al titular qué hago con sus datos, en una frase? | Pérdida de confianza; reclamos | Escribir la finalidad en lenguaje no técnico antes de escribir el código | Ficha del proyecto de una página |
+| **Acceso y circulación restringida** | ¿Quién necesita ver esto para hacer su trabajo? | Exposición innecesaria; fuga por copia | Roles y permisos; entregar vistas agregadas en vez de la base completa | Matriz de accesos; registro de descargas |
+| **Seguridad** | ¿Dónde está el archivo y quién más lo tiene? | Pérdida, alteración, acceso no autorizado | Cifrado; eliminar copias locales; separar identificación de análisis | Inventario de copias; política de retención |
+| **Confidencialidad** | ¿Qué puedo publicar sin identificar a nadie? | Reidentificación a partir de una tabla publicada | Agregación, supresión de celdas pequeñas, generalización, medición de *k* | Informe de riesgo de reidentificación con el umbral aceptado |
+
+::: {.rds-card .decision data-label="CÓMO SE LEE"}
+De izquierda a derecha es una **traducción**. De derecha a izquierda es una
+**auditoría**.
+
+Si alguien pregunta «¿ustedes cumplen el principio de finalidad?», la respuesta
+no es «sí». La respuesta es la última columna: aquí está el documento, aquí está
+la columna de la base, aquí está el conteo de registros excluidos.
+:::
+
+**Se usa en:** [Encuentro 2](../encuentros/encuentro-02.qmd) ·
+[Laboratorio 2](../laboratorios/lab-02.qmd) ·
+[Actividad 2](../actividades/actividad-02.qmd) ·
+[Checklist del analista](../recursos/checklist-proyecto-datos.qmd)
+
+------------------------------------------------------------------------
+
+## Colombia {#colombia}
+
+```{mermaid}
+flowchart TB
+    CP["Constitución Política, art. 15<br/>Habeas data como derecho fundamental"]
+    CP --> L1266["Ley 1266 de 2008<br/>Datos financieros, crediticios,<br/>comerciales y de servicios"]
+    CP --> L1581["Ley 1581 de 2012<br/>Régimen general de<br/>protección de datos personales"]
+    L1581 --> D1074["Decreto 1074 de 2015<br/>Decreto Único Reglamentario<br/>(compila el Decreto 1377 de 2013)"]
+    L1581 --> SIC["Superintendencia de Industria<br/>y Comercio · autoridad de control"]
+    SIC --> RNBD["Registro Nacional<br/>de Bases de Datos"]
+    SIC --> GUIAS["Conceptos, guías<br/>y resoluciones"]
+
+    style CP fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style L1581 fill:#0b1220,stroke:#60a5fa,color:#e2e8f0
+    style L1266 fill:#0b1220,stroke:#334155,color:#94a3b8
+    style D1074 fill:#0b1220,stroke:#334155,color:#94a3b8
+    style SIC fill:#0b1220,stroke:#a78bfa,color:#e2e8f0
+    style RNBD fill:#0b1220,stroke:#334155,color:#94a3b8
+    style GUIAS fill:#0b1220,stroke:#334155,color:#94a3b8
+```
+
+::: {.panel-tabset}
+
+### Ley 1581 de 2012
+
+Régimen general de protección de datos personales. Es la norma de referencia
+para casi todo lo que hace un analista en Colombia.
+
+Lo que aporta al trabajo cotidiano:
+
+| Artículos | Qué resuelven | Para el analista |
+|:--|:--|:--|
+| Art. 2 | Ámbito de aplicación | Define cuándo aplica el régimen a un tratamiento. Ver [alcance territorial](#territorial). |
+| Art. 3 | Definiciones: dato personal, titular, responsable, encargado | La distinción **responsable / encargado** define quién responde cuando se contrata un proveedor de analítica. |
+| Art. 4 | Principios rectores | Los ocho de la [matriz de arriba](#principios). |
+| Arts. 5 y 6 | Datos sensibles y prohibición general de su tratamiento, con excepciones tasadas | Ver [datos sensibles e inferencia](#sensibles). |
+| Art. 7 | Datos de niñas, niños y adolescentes | Régimen propio y más estricto. |
+| Art. 8 | Derechos del titular | Conocer, actualizar, rectificar, suprimir, revocar la autorización. |
+| Arts. 9 y 10 | Autorización como regla, y casos en que no se requiere | Incluye datos de naturaleza pública y ciertos fines históricos, estadísticos o científicos. Ver [la excepción estadística](#estadistica). |
+| Art. 12 | Deber de informar al titular | Qué se le dice, y cuándo. |
+| Arts. 17 y 18 | Deberes del responsable y del encargado | Incluye informar a la autoridad ante violaciones a los códigos de seguridad con riesgo para la información. |
+| Arts. 19 a 21 | La SIC como autoridad de protección de datos | A quién se reporta y quién sanciona. |
+| Art. 25 | Registro Nacional de Bases de Datos | **Verifique el alcance vigente:** quién debe inscribir y bajo qué umbrales ha cambiado por vía reglamentaria. |
+| Arts. 26 y 27 | Transferencia a países sin nivel adecuado de protección | Ver [transferencias](#transferencias). |
+
+**Fuente oficial:**
+[Ley 1581 de 2012 — Gestor Normativo, Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981)
+
+### Decreto 1074 de 2015
+
+Decreto Único Reglamentario del sector Comercio, Industria y Turismo. Es donde
+quedó **compilado el Decreto 1377 de 2013**, que reglamenta la autorización, las
+políticas de tratamiento y el aviso de privacidad.
+
+Quien busque «Decreto 1377 de 2013» debe saber que su contenido vive hoy dentro
+del Decreto 1074. Citar el 1377 como norma autónoma es un error frecuente.
+
+**Fuente oficial:**
+[Decreto 1074 de 2015 — Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=76608)
+
+### Ley 1266 de 2008
+
+Régimen **especial** para información financiera, crediticia, comercial, de
+servicios y la proveniente de terceros países.
+
+Si el proyecto toca historial crediticio, esta es la norma aplicable y no la
+1581. Confundirlas es el error más caro de esta unidad.
+
+**Fuente oficial:**
+[Ley 1266 de 2008 — Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=34488)
+
+### Autoridad y jurisprudencia
+
+**Superintendencia de Industria y Comercio (SIC).** Autoridad de protección de
+datos. Administra el Registro Nacional de Bases de Datos y emite conceptos,
+guías y resoluciones. Sus decisiones son la mejor fuente para entender cómo se
+aplica la ley en la práctica, y cambian más rápido que la ley misma.
+
+[Protección de datos personales — SIC](https://www.sic.gov.co/tema/proteccion-de-datos-personales)
+
+**Corte Constitucional.** La Sentencia **C-748 de 2011** revisó el proyecto de
+ley estatutaria que dio origen a la Ley 1581 y fijó criterios de interpretación
+que siguen siendo relevantes.
+
+[Corte Constitucional](https://www.corteconstitucional.gov.co/)
+
+### Lo que viene
+
+En **agosto de 2025** el Gobierno radicó ante el Congreso un proyecto de ley
+para actualizar el régimen de protección de datos personales. Entre lo que
+propone se ha mencionado: ampliar el alcance a empresas extranjeras que operen
+en Colombia, incorporar derechos como la portabilidad y la oposición a
+decisiones automatizadas, ampliar las bases de licitud más allá de la
+autorización, y exigir evaluaciones de impacto y notificación de incidentes.
+
+::: {.callout-important}
+Es un **proyecto de ley**, no derecho vigente. En una entrega debe citarse como
+tal, con la fecha de consulta.
+
+Lo traemos por dos razones: señala hacia dónde se mueve la discusión regional, y
+casi todo lo que propone ya es una buena práctica profesional aunque ninguna
+norma la exija todavía.
+:::
+
+[ABC del proyecto de ley — SIC](https://sedeelectronica.sic.gov.co/noticias/abc-del-proyecto-de-ley-de-proteccion-de-datos-personales-en-colombia)
+
+:::
+
+**Se usa en:** [Encuentro 2](../encuentros/encuentro-02.qmd) ·
+[Caso Facebook](../casos/caso-facebook.qmd) ·
+[Actividad 1](../actividades/actividad-01.qmd)
+
+------------------------------------------------------------------------
+
+## Marcos internacional y regional {#internacional}
+
+::: {.panel-tabset}
+
+### GDPR · Unión Europea
+
+Reglamento (UE) 2016/679. Lo usamos como **referencia comparativa**, no como
+clase de derecho europeo. Cuatro diferencias cambian el diseño de un proyecto:
+
+**1 · Quién queda cubierto (art. 3).** Se aplica por la ubicación de la
+**persona**, no del responsable. Una empresa colombiana con servidores en
+Bogotá queda dentro del ámbito si ofrece bienes o servicios a personas que
+están en la Unión, o si controla su comportamiento.
+
+**2 · La autorización no es la única puerta (art. 6).** Seis bases de licitud:
+consentimiento, contrato, obligación legal, interés vital, interés público e
+interés legítimo. Hay que **elegir una y documentarla antes de tratar**. Es
+liberador y exigente a la vez: no siempre hay que pedir permiso, pero siempre
+hay que poder decir por qué no.
+
+**3 · Derechos que cambian el sistema.** Portabilidad (art. 20), oposición
+(art. 21) y, sobre todo, el derecho a no ser objeto de decisiones
+exclusivamente automatizadas con efectos significativos (art. 22).
+
+**4 · Obligaciones que se ejecutan en el pipeline.** Protección de datos desde
+el diseño y por defecto (art. 25), registro de actividades de tratamiento
+(art. 30), seguridad (art. 32), notificación de brechas (arts. 33 y 34) y
+evaluación de impacto cuando el tratamiento es de alto riesgo (art. 35), lo que
+incluye expresamente la elaboración de perfiles a gran escala.
+
+Otros artículos de consulta frecuente: art. 4 (definiciones), art. 5
+(principios), art. 9 (categorías especiales de datos), arts. 44 a 49
+(transferencias internacionales).
+
+**Fuente oficial:**
+[Reglamento (UE) 2016/679 — EUR-Lex](https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679)
+
+### LGPD · Brasil
+
+**Lei nº 13.709 de 2018**, Lei Geral de Proteção de Dados Pessoais. Autoridad:
+**ANPD** (Autoridade Nacional de Proteção de Dados).
+
+Diferencia estructural con Colombia: la LGPD **no gira alrededor del
+consentimiento**. Establece un conjunto de bases legales alternativas (art. 7),
+entre ellas la ejecución de contrato, el cumplimiento de obligación legal y el
+legítimo interés.
+
+Puntos que afectan directamente el pipeline: derechos del titular (art. 18),
+incluida la portabilidad; revisión de decisiones tomadas únicamente con base en
+tratamiento automatizado (art. 20); figura del **encarregado** (art. 41);
+informe de impacto a la protección de datos (art. 38); transferencia
+internacional (art. 33).
+
+**Fuentes oficiales:**
+[Lei 13.709/2018 — Planalto](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm) ·
+[ANPD](https://www.gov.br/anpd/)
+
+### Chile
+
+**Ley 21.719**, publicada en diciembre de 2024. Reforma integralmente la
+Ley 19.628 sobre protección de la vida privada.
+
+::: {.callout-warning}
+## Dos fechas que hay que tener claras
+
+- **Publicada:** diciembre de 2024.
+- **Entra en vigencia:** **1 de diciembre de 2026**.
+
+Buena parte del material disponible en internet describe la **Ley 19.628
+antigua**, notoriamente débil. Verifique siempre a cuál de las dos se refiere la
+fuente que esté usando.
+:::
+
+Cambio institucional de fondo: crea la **Agencia de Protección de Datos
+Personales**, que Chile no tenía. Incorpora bases de licitud, derechos ARCOP más
+portabilidad, régimen de datos sensibles, transferencias internacionales con
+mecanismos como cláusulas contractuales modelo, y un esquema de sanciones.
+
+**Fuente oficial:**
+[Ley Chile — Biblioteca del Congreso Nacional](https://www.bcn.cl/leychile/)
+
+### Marcos de ética
+
+Cuando la pregunta deja de ser «¿es legal?» y pasa a ser «¿es defendible?», la
+norma se queda corta y entran los marcos de ética profesional:
+
+- **Principios Fundamentales de las Estadísticas Oficiales**, Naciones Unidas
+  [@un_principios_estadisticas]. Resolución A/RES/68/261.
+- **Declaration on Professional Ethics**, International Statistical Institute
+  [@isi_declaracion_etica].
+- Códigos de buenas prácticas y marcos de aseguramiento de calidad del sistema
+  estadístico nacional que corresponda.
+- Marcos de ética de datos o de inteligencia artificial aplicables al sector
+  público del país del caso.
+
+La [Actividad 3](../actividades/actividad-03.qmd) exige usar al menos uno de
+ellos para sostener una afirmación concreta, no para citarlo decorativamente.
+
+:::
+
+**Se usa en:** [Actividad 1](../actividades/actividad-01.qmd) ·
+[Actividad 2](../actividades/actividad-02.qmd) ·
+[Actividad 3](../actividades/actividad-03.qmd)
+
+------------------------------------------------------------------------
+
+## Cuatro temas que cruzan todos los regímenes
+
+### Alcance territorial: ¿dónde ocurre el tratamiento? {#territorial}
+
+Cuando los usuarios están en un país, la empresa en otro y la infraestructura en
+un tercero, ¿qué régimen aplica?
+
+El GDPR lo resolvió por la vía directa: la ubicación de la persona. En Colombia,
+la interpretación de la autoridad se movió con el tiempo hacia un criterio
+similar, combinando el domicilio del titular, una noción amplia de
+«tratamiento» que incluye la recolección, y el hecho de que la recolección
+ocurre en territorio colombiano.
+
+**Qué significa para el pipeline:** la columna que dice dónde reside cada
+persona deja de ser un dato descriptivo y se convierte en una **variable de
+control del tratamiento**. Hay que validarla y mantenerla actualizada.
+
+[→ Caso Facebook en Colombia](../casos/caso-facebook.qmd)
+
+### Datos sensibles y datos inferidos {#sensibles}
+
+La regla general es la prohibición de tratar datos sensibles, con excepciones
+tasadas. El problema práctico es otro: **las reglas se escribieron pensando en
+el dato que la persona entrega, y el valor de la analítica está en el dato que
+la empresa deduce**.
+
+Ninguna de estas tres columnas de la base del curso es formalmente un dato
+sensible:
+
+| Columna observada | Inferencia plausible | Categoría de la inferencia |
+|:--|:--|:--|
+| `compras_farmacia_6m` alto y sostenido | Condición de salud crónica | Salud |
+| `entrega_asistida = 1` | Movilidad reducida, discapacidad, edad avanzada | Salud / discapacidad |
+| `busquedas_maternidad` alto | Embarazo o intención reproductiva | Salud / vida reproductiva |
+
+Las tres permiten producirlo. Y una vez producida, la inferencia **es** un dato
+sobre esa persona: se almacena, se usa para decidir y puede equivocarse.
+
+Dejusticia documentó este vacío regulatorio en Brasil, Chile, Colombia y México
+[@newman2020datafeast].
+
+[→ Caso D del Encuentro 1](../encuentros/encuentro-01.qmd) ·
+[→ Glosario: dato inferido](../recursos/glosario.qmd)
+
+### Decisiones automatizadas y perfilamiento {#decisiones-automatizadas}
+
+El GDPR (art. 22) y la LGPD brasileña (art. 20) reconocen derechos frente a las
+decisiones tomadas **exclusivamente** por medios automatizados. El proyecto de
+reforma colombiano propone incorporar algo equivalente.
+
+La palabra que decide todo es **«significativa»**: aprobar 4 000 casos de un
+clic no es intervención humana significativa.
+
+**Qué significa para el pipeline:** si el modelo de abandono asigna
+automáticamente descuentos, precios o prioridad de atención, hay que introducir
+un paso de revisión humana real entre la predicción y la acción, y registrarlo.
+No se resuelve con una cláusula en la política de privacidad: se resuelve
+rediseñando el flujo.
+
+[→ Laboratorio 2, bloque de decisión](../laboratorios/lab-02.qmd#decidir)
+
+### Transferencias y tratamiento por terceros {#transferencias}
+
+Entregar una base a un proveedor de analítica no es un detalle contractual: es
+una operación de tratamiento con reglas propias. Hay que saber si el tercero
+actúa como **encargado** (trata por cuenta del responsable, sin fines propios) o
+si en realidad está decidiendo sobre los datos.
+
+Cuando además los datos cruzan fronteras, entran las reglas de transferencia
+internacional: Ley 1581 arts. 26 y 27 en Colombia, arts. 44 a 49 del GDPR,
+art. 33 de la LGPD.
+
+[→ Actividad 4 · qué se entrega y bajo qué condiciones](../actividades/actividad-04.qmd)
+
+### La excepción estadística y científica {#estadistica}
+
+El art. 10 de la Ley 1581 contempla casos en que no se requiere autorización,
+entre ellos ciertos fines históricos, estadísticos o científicos, **adoptando
+medidas dirigidas a suprimir la identidad de los titulares**.
+
+::: {.rds-card .riesgo data-label="EL ERROR DE LECTURA MÁS COSTOSO"}
+Muchos equipos leen esa excepción como una exención general para proyectos
+estadísticos. No lo es.
+
+La excepción exige suprimir la identidad, y el
+[Laboratorio 1](../laboratorios/lab-01.qmd) demuestra con código que eso no es
+trivial: eliminar nombre, documento y correo deja al **83,9 %** de las personas
+solas en su grupo de cuasi-identificadores. Invocar la excepción sin medir el
+riesgo residual es invocarla sin cumplirla.
+:::
+
+------------------------------------------------------------------------
+
+## Comprobación rápida
+
+::: {.ix-quiz data-etiqueta="COMPRUEBE"}
+::: {.ix-pregunta}
+Un equipo de analítica en Bogotá construye un modelo con datos de clientes, y
+entre ellos hay 74 personas que residen en España, Alemania, Francia e Italia.
+Los servidores están en Colombia y la empresa está constituida en Colombia.
+¿Le aplica el GDPR?
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Correcto. El artículo 3 fija el ámbito por la ubicación de las <strong>personas</strong>, no del responsable ni de la infraestructura. Si se les ofrecen bienes o servicios, o se controla su comportamiento en el sitio, el Reglamento aplica."}
+Sí, porque el ámbito depende de dónde están las personas, no la empresa.
+:::
+
+::: {.ix-op data-valor="mal" data-fb="La nacionalidad de la empresa no la protege, y la ubicación de los servidores tampoco. Mover la infraestructura cambia el análisis de transferencias internacionales, pero no el de ámbito de aplicación."}
+No, porque la empresa y los servidores están en Colombia.
+:::
+
+::: {.ix-op data-valor="mal" data-fb="El umbral de aplicación no es cuantitativo: no hay un número mínimo de personas a partir del cual el Reglamento empieza a aplicar. Y conviene preguntarse cuántas serán en dos años."}
+No, porque 74 personas es una cantidad demasiado pequeña.
+:::
+:::
+
+::: {.ix-quiz data-etiqueta="COMPRUEBE"}
+::: {.ix-pregunta}
+Su proyecto usa historial de pagos y comportamiento crediticio de clientes en
+Colombia. ¿Qué norma es la aplicable?
+:::
+
+::: {.ix-op data-valor="mal" data-fb="La Ley 1581 es el régimen general, pero existe un régimen especial para información financiera, crediticia, comercial y de servicios que desplaza al general en ese ámbito."}
+La Ley 1581 de 2012, que es el régimen general.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Correcto. La Ley 1266 de 2008 regula específicamente la información financiera, crediticia, comercial, de servicios y la proveniente de terceros países. Aplicar la 1581 a ese ámbito es el error más frecuente de la Unidad 1."}
+La Ley 1266 de 2008, que es el régimen especial de esa materia.
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="Es cierto que ambas conviven en el ordenamiento y que la Constitución las sustenta, pero la pregunta pide cuál rige el tratamiento concreto. Para historial crediticio, la respuesta es la Ley 1266."}
+Ambas por igual, porque las dos desarrollan el habeas data.
+:::
+:::
+
+------------------------------------------------------------------------
+
+## De vuelta al curso
+
+| Si está en… | Consulte |
+|:--|:--|
+| [Encuentro 1](../encuentros/encuentro-01.qmd) · categorías de dato | [Datos sensibles e inferidos](#sensibles) |
+| [Encuentro 2](../encuentros/encuentro-02.qmd) · pipeline y principios | [Los principios como herramienta](#principios) · [Colombia](#colombia) |
+| [Laboratorio 1](../laboratorios/lab-01.qmd) · reidentificación | [La excepción estadística](#estadistica) |
+| [Laboratorio 2](../laboratorios/lab-02.qmd) · modelo y decisión | [Decisiones automatizadas](#decisiones-automatizadas) |
+| [Caso Facebook](../casos/caso-facebook.qmd) | [Alcance territorial](#territorial) |
+| [Actividad 1](../actividades/actividad-01.qmd) · tres países | [Colombia](#colombia) · [Internacional](#internacional) |
+| [Actividad 2](../actividades/actividad-02.qmd) · GDPR | [GDPR](#internacional) · [Transferencias](#transferencias) |
+| [Actividad 3](../actividades/actividad-03.qmd) · sector público | [Marcos de ética](#internacional) |
+| [Actividad 4](../actividades/actividad-04.qmd) · anonimización | [La excepción estadística](#estadistica) · [Transferencias](#transferencias) |
+
+## Referencias
+
+::: {#refs}
+:::

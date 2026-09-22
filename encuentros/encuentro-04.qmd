@@ -12,12 +12,12 @@ description: "Encuentro virtual 4 · 120 minutos · Unidad 3 · Estructura prepa
 ## Estado de este encuentro
 
 Estructura y guion general definidos. Los materiales completos —slides
-`04-tecnicas-proteccion.qmd` y `labs/lab04.ipynb`— se publican antes de la
+`04-tecnicas-proteccion.qmd` y `labs/lab04-estudiante.ipynb`— se publican antes de la
 semana 8.
 
 La [Actividad 4](../actividades/actividad-04.qmd), que es el producto
 evaluable de esta unidad, ya está publicada completa y se puede resolver con
-lo visto en el [Lab 1](../labs/lab01.ipynb).
+lo visto en el [Lab 1](../laboratorios/lab-01.qmd).
 :::
 
 ## Pregunta central
@@ -32,7 +32,7 @@ Semana 7: DataMarket contrató un proveedor externo para construir el motor de
 recomendación. El proveedor pide la base. La instrucción llega en una línea:
 *«anonimícenla»*.
 
-El [Lab 1](../labs/lab01.ipynb) ya demostró que eso no es una operación sino un
+El [Lab 1](../laboratorios/lab-01.qmd) ya demostró que eso no es una operación sino un
 resultado que hay que medir. Este encuentro construye las herramientas.
 
 ## Objetivo
@@ -134,7 +134,7 @@ aquí: verificar la fuente oficial vigente antes de afirmar nada.
 |:--|:--|
 | Guion del encuentro | Estructura definida |
 | `slides/04-tecnicas-proteccion.qmd` | Pendiente · antes de la semana 8 |
-| `labs/lab04.ipynb` | Pendiente · antes de la semana 8 |
+| `labs/lab04-estudiante.ipynb` | Pendiente · antes de la semana 8 |
 | [Actividad 4](../actividades/actividad-04.qmd) | Publicada, resoluble con el Lab 1 |
 | [Banco de dilemas](../casos/dilemas.qmd), dilemas 09 a 12 | Publicado |
 

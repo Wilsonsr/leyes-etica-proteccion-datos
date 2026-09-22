@@ -1,0 +1,753 @@
+/* =========================================================================
+   Leyes, Ética y Protección de Datos
+   Componentes interactivos — sin dependencias externas.
+
+   Usa los tokens --rds-* que definen styles/custom.scss (modo claro) y
+   styles/custom-dark.scss (modo oscuro), así que todo funciona en ambos
+   temas sin duplicar reglas.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. FICHA PEDAGÓGICA
+   Qué aprenderá · qué debe hacer · duración · evidencia · unidad · siguiente
+   ------------------------------------------------------------------------- */
+
+.ix-ficha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0;
+  margin: 1.6rem 0 2.4rem 0;
+  border: 1px solid var(--rds-border);
+  border-radius: .7rem;
+  overflow: hidden;
+  background: var(--rds-surface);
+}
+
+.ix-ficha > div {
+  padding: .95rem 1.05rem;
+  border-right: 1px solid var(--rds-border);
+  border-bottom: 1px solid var(--rds-border);
+}
+
+.ix-ficha > div:last-child { border-right: 0; }
+
+.ix-ficha dt,
+.ix-ficha .et {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--rds-cyan-dark, var(--rds-cyan));
+  margin-bottom: .35rem;
+}
+
+.ix-ficha dd,
+.ix-ficha .va {
+  margin: 0;
+  font-size: .88rem;
+  line-height: 1.45;
+  color: var(--rds-text);
+}
+
+.ix-ficha .va strong { font-weight: 600; }
+
+/* Franja de objetivos, ancho completo dentro de la ficha */
+.ix-ficha .ancho { grid-column: 1 / -1; border-right: 0; }
+
+.ix-ficha .ancho .va ul {
+  margin: .3rem 0 0 0;
+  padding-left: 1.1rem;
+}
+
+.ix-ficha .ancho .va li { margin-bottom: .18rem; }
+
+/* -------------------------------------------------------------------------
+   2. PREGUNTA CON RETROALIMENTACIÓN INMEDIATA
+   ------------------------------------------------------------------------- */
+
+.ix-quiz {
+  margin: 1.8rem 0;
+  padding: 1.35rem 1.3rem 1.1rem 1.3rem;
+  background: var(--rds-surface);
+  border: 1px solid var(--rds-border);
+  border-left: 4px solid var(--rds-decide);
+  border-radius: .55rem;
+  position: relative;
+}
+
+.ix-quiz::before {
+  position: absolute;
+  top: -.72rem;
+  left: 1.1rem;
+  padding: .16rem .62rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--rds-decide);
+  border-radius: .3rem;
+  content: "COMPRUEBE";
+}
+
+.ix-quiz[data-etiqueta]::before { content: attr(data-etiqueta); }
+
+.ix-quiz .ix-pregunta {
+  font-size: 1.04rem;
+  font-weight: 500;
+  line-height: 1.45;
+  margin: .2rem 0 1rem 0;
+  color: var(--rds-text);
+}
+
+.ix-quiz .ix-ops {
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+
+.ix-op {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  width: 100%;
+  padding: .65rem .8rem;
+  font-family: inherit;
+  font-size: .92rem;
+  line-height: 1.45;
+  text-align: left;
+  color: var(--rds-text);
+  background: var(--rds-surface-2);
+  border: 1px solid var(--rds-border);
+  border-radius: .45rem;
+  cursor: pointer;
+  transition: border-color .12s ease, background .12s ease, transform .08s ease;
+}
+
+.ix-op:hover:not([disabled]) {
+  border-color: var(--rds-decide);
+  transform: translateX(2px);
+}
+
+.ix-op:focus-visible {
+  outline: 2px solid var(--rds-cyan);
+  outline-offset: 2px;
+}
+
+.ix-op .marca {
+  flex: 0 0 auto;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-top: .05rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1.35rem;
+  text-align: center;
+  color: var(--rds-text-soft);
+  background: transparent;
+  border: 1px solid var(--rds-border);
+  border-radius: 50%;
+}
+
+.ix-op.bien {
+  border-color: var(--rds-prueba);
+  background: color-mix(in srgb, var(--rds-prueba) 10%, transparent);
+}
+.ix-op.bien .marca {
+  color: #fff;
+  background: var(--rds-prueba);
+  border-color: var(--rds-prueba);
+}
+
+.ix-op.mal {
+  border-color: var(--rds-riesgo);
+  background: color-mix(in srgb, var(--rds-riesgo) 8%, transparent);
+}
+.ix-op.mal .marca {
+  color: #fff;
+  background: var(--rds-riesgo);
+  border-color: var(--rds-riesgo);
+}
+
+.ix-op.parcial {
+  border-color: var(--rds-reflexiona);
+  background: color-mix(in srgb, var(--rds-reflexiona) 10%, transparent);
+}
+.ix-op.parcial .marca {
+  color: #fff;
+  background: var(--rds-reflexiona);
+  border-color: var(--rds-reflexiona);
+}
+
+.ix-fb {
+  margin-top: .9rem;
+  padding: .75rem .9rem;
+  font-size: .9rem;
+  line-height: 1.55;
+  border-radius: .45rem;
+  border: 1px solid var(--rds-border);
+  background: var(--rds-surface-2);
+  display: none;
+}
+
+.ix-fb.visible { display: block; }
+
+.ix-fb .ix-fb-tit {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: .35rem;
+}
+
+.ix-fb.bien    { border-color: var(--rds-prueba); }
+.ix-fb.bien .ix-fb-tit { color: var(--rds-prueba); }
+.ix-fb.mal     { border-color: var(--rds-riesgo); }
+.ix-fb.mal .ix-fb-tit { color: var(--rds-riesgo); }
+.ix-fb.parcial { border-color: var(--rds-reflexiona); }
+.ix-fb.parcial .ix-fb-tit { color: var(--rds-reflexiona); }
+
+.ix-quiz .ix-reintentar {
+  margin-top: .7rem;
+  padding: .3rem .7rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  color: var(--rds-text-soft);
+  background: transparent;
+  border: 1px solid var(--rds-border);
+  border-radius: .35rem;
+  cursor: pointer;
+  display: none;
+}
+
+.ix-quiz .ix-reintentar.visible { display: inline-block; }
+.ix-quiz .ix-reintentar:hover { color: var(--rds-text); border-color: var(--rds-cyan); }
+
+/* -------------------------------------------------------------------------
+   3. PISTA Y RESPUESTA  (<details> nativo, sin JavaScript)
+   ------------------------------------------------------------------------- */
+
+details.ix-pista,
+details.ix-respuesta {
+  margin: 1.1rem 0;
+  padding: 0;
+  border: 1px dashed var(--rds-border);
+  border-radius: .5rem;
+  background: var(--rds-surface-2);
+}
+
+details.ix-respuesta { border-style: solid; }
+
+details.ix-pista > summary,
+details.ix-respuesta > summary {
+  padding: .6rem .9rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--rds-cyan-dark, var(--rds-cyan));
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+details.ix-pista > summary::-webkit-details-marker,
+details.ix-respuesta > summary::-webkit-details-marker { display: none; }
+
+details.ix-pista > summary::before { content: "▸ "; }
+details.ix-pista[open] > summary::before { content: "▾ "; }
+details.ix-respuesta > summary::before { content: "▸ "; }
+details.ix-respuesta[open] > summary::before { content: "▾ "; }
+
+details.ix-respuesta > summary { color: var(--rds-decision); }
+
+details.ix-pista > :not(summary),
+details.ix-respuesta > :not(summary) {
+  margin: 0 .9rem .8rem .9rem;
+  font-size: .92rem;
+  line-height: 1.6;
+}
+
+/* -------------------------------------------------------------------------
+   4. CHECKLIST DE APRENDIZAJE (recuerda el avance en el navegador)
+   ------------------------------------------------------------------------- */
+
+.ix-check {
+  margin: 1.5rem 0;
+  padding: 1.1rem 1.2rem .9rem 1.2rem;
+  list-style: none;
+  border: 1px solid var(--rds-border);
+  border-left: 4px solid var(--rds-decision);
+  border-radius: .55rem;
+  background: var(--rds-surface);
+}
+
+.ix-check > li {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  padding: .35rem 0;
+  font-size: .93rem;
+  line-height: 1.5;
+  list-style: none;
+  margin: 0;
+}
+
+.ix-check > li label {
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  width: 100%;
+}
+
+.ix-check input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: .22rem;
+  accent-color: var(--rds-decision);
+  cursor: pointer;
+}
+
+.ix-check > li.hecho span { color: var(--rds-text-soft); text-decoration: line-through; }
+
+.ix-check .ix-progreso {
+  margin-top: .8rem;
+  padding-top: .7rem;
+  border-top: 1px solid var(--rds-border);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .74rem;
+  color: var(--rds-text-soft);
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+}
+
+.ix-check .ix-barra {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--rds-border);
+  overflow: hidden;
+}
+
+.ix-check .ix-barra i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--rds-decision);
+  transition: width .25s ease;
+}
+
+/* -------------------------------------------------------------------------
+   5. SIMULADOR DE REIDENTIFICACIÓN
+   ------------------------------------------------------------------------- */
+
+.ix-sim {
+  margin: 2rem 0;
+  border: 1px solid var(--rds-border);
+  border-radius: .7rem;
+  background: var(--rds-surface);
+  overflow: hidden;
+}
+
+.ix-sim-head {
+  padding: .9rem 1.2rem;
+  background: var(--rds-surface-2);
+  border-bottom: 1px solid var(--rds-border);
+}
+
+.ix-sim-head h4 {
+  margin: 0 0 .2rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 0;
+  padding: 0;
+}
+
+.ix-sim-head p {
+  margin: 0;
+  font-size: .84rem;
+  color: var(--rds-text-soft);
+}
+
+.ix-sim-body {
+  display: grid;
+  grid-template-columns: minmax(230px, 1fr) minmax(230px, 1.1fr);
+  gap: 0;
+}
+
+@media (max-width: 720px) {
+  .ix-sim-body { grid-template-columns: 1fr; }
+}
+
+.ix-sim-controles {
+  padding: 1.1rem 1.2rem;
+  border-right: 1px solid var(--rds-border);
+}
+
+@media (max-width: 720px) {
+  .ix-sim-controles { border-right: 0; border-bottom: 1px solid var(--rds-border); }
+}
+
+.ix-sim-controles .grupo {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .66rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--rds-text-soft);
+  margin: 0 0 .55rem 0;
+}
+
+.ix-sim-controles .grupo + .grupo { margin-top: 1.3rem; }
+
+.ix-sim-qi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: .2rem;
+}
+
+.ix-chip-t {
+  padding: .3rem .7rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .78rem;
+  color: var(--rds-text-soft);
+  background: var(--rds-surface-2);
+  border: 1px solid var(--rds-border);
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all .12s ease;
+}
+
+.ix-chip-t:hover { border-color: var(--rds-cyan); }
+.ix-chip-t:focus-visible { outline: 2px solid var(--rds-cyan); outline-offset: 2px; }
+
+.ix-chip-t[aria-pressed="true"] {
+  color: #fff;
+  background: var(--rds-datos);
+  border-color: var(--rds-datos);
+}
+
+.ix-sim-gen label {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  font-size: .87rem;
+  padding: .3rem 0;
+  cursor: pointer;
+}
+
+.ix-sim-gen input { accent-color: var(--rds-prueba); cursor: pointer; }
+
+.ix-sim-res { padding: 1.1rem 1.2rem; }
+
+.ix-sim-cifra {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 2.9rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: .2rem;
+  transition: color .2s ease;
+}
+
+.ix-sim-cifra.bajo  { color: var(--rds-prueba); }
+.ix-sim-cifra.medio { color: var(--rds-reflexiona); }
+.ix-sim-cifra.alto  { color: var(--rds-riesgo); }
+
+.ix-sim-res .leyenda {
+  font-size: .86rem;
+  color: var(--rds-text-soft);
+  margin-bottom: .9rem;
+}
+
+.ix-sim-medidor {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--rds-border);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.ix-sim-medidor i {
+  display: block;
+  height: 100%;
+  width: 0;
+  transition: width .3s ease, background .3s ease;
+}
+
+.ix-sim-tabla {
+  width: 100%;
+  font-size: .82rem;
+  border-collapse: collapse;
+}
+
+.ix-sim-tabla td {
+  padding: .3rem 0;
+  border-bottom: 1px solid var(--rds-border);
+  color: var(--rds-text-soft);
+}
+
+.ix-sim-tabla td:last-child {
+  text-align: right;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  color: var(--rds-text);
+}
+
+.ix-sim-nota {
+  padding: .75rem 1.2rem;
+  font-size: .8rem;
+  line-height: 1.5;
+  color: var(--rds-text-soft);
+  background: var(--rds-surface-2);
+  border-top: 1px solid var(--rds-border);
+}
+
+/* -------------------------------------------------------------------------
+   6. RUTA DE APRENDIZAJE (portada)
+   ------------------------------------------------------------------------- */
+
+.ix-ruta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: stretch;
+  margin: 1.8rem 0 2.2rem 0;
+  counter-reset: paso;
+}
+
+.ix-paso {
+  position: relative;
+  flex: 1 1 145px;
+  min-width: 140px;
+  padding: 1.05rem .85rem .85rem .85rem;
+  background: var(--rds-surface);
+  border: 1px solid var(--rds-border);
+  border-top: 3px solid var(--rds-cyan);
+  border-radius: .5rem;
+}
+
+.ix-paso::before {
+  counter-increment: paso;
+  content: counter(paso);
+  position: absolute;
+  top: .5rem;
+  right: .7rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .7rem;
+  font-weight: 600;
+  color: var(--rds-slate-400, var(--rds-text-soft));
+}
+
+.ix-paso b {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--rds-text);
+  margin-bottom: .35rem;
+}
+
+.ix-paso span {
+  display: block;
+  font-size: .82rem;
+  line-height: 1.4;
+  color: var(--rds-text-soft);
+}
+
+.ix-paso.legal { border-top-color: var(--rds-caso); }
+.ix-paso.control { border-top-color: var(--rds-decision); }
+
+/* -------------------------------------------------------------------------
+   7. BLOQUE DEL DOCENTE Y BOTONES DE LABORATORIO
+   ------------------------------------------------------------------------- */
+
+.ix-docente {
+  display: flex;
+  gap: 1.4rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  padding: 1.3rem;
+  background: var(--rds-surface);
+  border: 1px solid var(--rds-border);
+  border-radius: .7rem;
+}
+
+.ix-docente img {
+  flex: 0 0 auto;
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: .55rem;
+  border: 1px solid var(--rds-border);
+}
+
+.ix-docente .txt { flex: 1 1 260px; }
+
+.ix-docente .rol {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--rds-cyan-dark, var(--rds-cyan));
+  margin-bottom: .3rem;
+}
+
+.ix-docente .nom {
+  font-size: 1.12rem;
+  font-weight: 600;
+  margin-bottom: .25rem;
+}
+
+.ix-docente p { margin: 0; font-size: .89rem; line-height: 1.55; color: var(--rds-text-soft); }
+
+.ix-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin: 1.5rem 0 2rem 0;
+}
+
+.ix-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .55rem 1rem;
+  font-size: .89rem;
+  font-weight: 500;
+  text-decoration: none !important;
+  color: var(--rds-text) !important;
+  background: var(--rds-surface-2);
+  border: 1px solid var(--rds-border);
+  border-radius: .45rem;
+  transition: all .12s ease;
+}
+
+.ix-btn:hover { border-color: var(--rds-cyan); transform: translateY(-1px); }
+
+.ix-btn.principal {
+  color: #fff !important;
+  background: var(--rds-cyan-dark, var(--rds-cyan));
+  border-color: var(--rds-cyan-dark, var(--rds-cyan));
+}
+
+.ix-btn.principal:hover { filter: brightness(1.08); }
+
+.ix-btn .ico { font-family: "IBM Plex Mono", monospace; font-size: .95em; }
+
+/* Aviso de sección docente */
+.ix-solo-docente {
+  margin: 1.5rem 0;
+  padding: .8rem 1rem;
+  font-size: .87rem;
+  line-height: 1.55;
+  color: var(--rds-text-soft);
+  background: var(--rds-surface-2);
+  border: 1px dashed var(--rds-reflexiona);
+  border-radius: .5rem;
+}
+
+.ix-solo-docente::before {
+  content: "SECCIÓN DOCENTE · ";
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--rds-reflexiona);
+}
+
+/* -------------------------------------------------------------------------
+   8. Accesibilidad
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-op, .ix-btn, .ix-barra i, .ix-sim-medidor i, .ix-chip-t { transition: none; }
+}
+
+.ix-sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -------------------------------------------------------------------------
+   9. BARRA DE ENLACES RÁPIDOS DE UN ENCUENTRO O ACTIVIDAD
+   ------------------------------------------------------------------------- */
+
+.rds-acciones-encuentro {
+  margin: -1.4rem 0 2.2rem 0;
+  padding: .6rem .9rem;
+  font-size: .87rem;
+  line-height: 1.6;
+  background: var(--rds-surface-2);
+  border: 1px solid var(--rds-border);
+  border-radius: .5rem;
+}
+
+.rds-acciones-encuentro p { margin: 0; }
+
+.rds-acciones-encuentro::before {
+  content: "IR A ";
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  color: var(--rds-text-soft);
+}
+
+
+/* -------------------------------------------------------------------------
+   10. AJUSTES DE NAVEGACIÓN Y RUTA
+   ------------------------------------------------------------------------- */
+
+/* El nombre oficial del curso es largo: se muestra completo, en dos líneas si
+   hace falta, sin truncar y sin empujar los ítems del menú. */
+.navbar-brand-container .navbar-title,
+.navbar .navbar-brand .navbar-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  white-space: normal;
+  max-width: 13ch;
+  text-overflow: clip;
+  overflow: visible;
+}
+
+@media (min-width: 1400px) {
+  .navbar .navbar-brand .navbar-title { max-width: 26ch; font-size: .82rem; }
+}
+
+.navbar-nav .nav-link { white-space: nowrap; }
+
+@media (min-width: 992px) and (max-width: 1399px) {
+  .navbar-nav .nav-link { padding-left: .5rem; padding-right: .5rem; font-size: .93rem; }
+}
+
+/* Ruta de aprendizaje: dos filas de tres en pantallas de contenido estándar */
+.ix-ruta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+}
+
+@media (max-width: 560px) {
+  .ix-ruta { grid-template-columns: 1fr; }
+}

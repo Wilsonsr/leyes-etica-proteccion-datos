@@ -12,7 +12,7 @@ description: "Encuentro virtual 3 · 120 minutos · Unidad 2 · Estructura prepa
 ## Estado de este encuentro
 
 Estructura y guion general definidos. Los materiales completos —slides
-`03-etica-decisiones.qmd` y `labs/lab03.ipynb`— se publican antes de la
+`03-etica-decisiones.qmd` y `labs/lab03-estudiante.ipynb`— se publican antes de la
 semana 5.
 
 Lo que está aquí es suficiente para preparar la sesión y para que los
@@ -117,7 +117,7 @@ modelo B y mide:
 - Qué cambia si se cambia el umbral.
 
 ::: {.rds-card .prueba data-label="ADELANTO · YA SE PUEDE CORRER"}
-El bloque 9 del [Lab 2](../labs/lab02.ipynb) ya calcula el error por estrato
+El bloque 9 del [Lab 2](../laboratorios/lab-02.qmd) ya calcula el error por estrato
 para ambos modelos. Quien quiera adelantarse, puede empezar por ahí:
 
 ```python
@@ -150,7 +150,7 @@ Con esto, las doce quedan activas.
 |:--|:--|
 | Guion del encuentro | Estructura definida |
 | `slides/03-etica-decisiones.qmd` | Pendiente · antes de la semana 5 |
-| `labs/lab03.ipynb` | Pendiente · antes de la semana 5 |
+| `labs/lab03-estudiante.ipynb` | Pendiente · antes de la semana 5 |
 | [Banco de dilemas](../casos/dilemas.qmd), dilemas 05 a 08 | Publicado |
 | [Actividad 3](../actividades/actividad-03.qmd) | Publicada |
 

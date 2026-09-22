@@ -4,8 +4,27 @@ subtitle: "Caso histórico · Facebook y la Ley 1581 de 2012 en Colombia"
 description: "Un caso para pensar el alcance territorial de la protección de datos en proyectos digitales."
 ---
 
-::: {.rds-meta}
-[Caso histórico]{} [Encuentro 2]{} [Lectura previa a la Actividad 2]{} [≈ 25 min]{}
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va">A responder una pregunta que ninguna ley resuelve sola: <strong>dónde ocurre
+    el tratamiento</strong> cuando los usuarios están en un país, la empresa en otro y la
+    infraestructura en un tercero. Y por qué eso convierte una columna descriptiva en una
+    variable de control del proyecto.</div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Leerlo como caso histórico y responder las cuatro preguntas de discusión.</span></div>
+  <div><span class="et">Duración</span><span class="va">25 minutos</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Insumo directo para el informe de la Actividad 2</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-1">1 · Fundamentos legales</a></span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../actividades/actividad-02.html">Actividad 2 · GDPR</a></span></div>
+</div>
+```
+
+::: {.rds-acciones-encuentro}
+[Marco legal · alcance territorial](../marco-legal/index.qmd#territorial) ·
+[Marco legal · Colombia](../marco-legal/index.qmd#colombia) ·
+[Encuentro 2](../encuentros/encuentro-02.qmd)
 :::
 
 ::: {.callout-important}

@@ -4,18 +4,36 @@ subtitle: "«Anonimícenla» llega en una línea. Ejecutarla bien toma un labora
 description: "25 % · Entrega semana 8 · Trabajo individual"
 ---
 
-::: {.rds-meta}
-[Actividad 4]{} [Unidad 3]{} [25 %]{} [Entrega: semana 8]{} [Individual]{} [Notebook + informe]{}
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va">A ejecutar y <strong>medir</strong> un proceso de anonimización: aplicar técnicas,
+    cuantificar el riesgo residual, cuantificar la utilidad perdida y decidir el intercambio
+    con un umbral declarado.</div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Anonimizar la base del curso con al menos tres técnicas y medir antes y después de cada una.</span></div>
+  <div><span class="et">Duración</span><span class="va">Semana 8 · individual</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Cuaderno reproducible + informe de riesgo de reidentificación (máx. 5 pág.)</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-3">3 · Técnicas, IA y datos masivos</a> · vale 25 %</span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../encuentros/encuentro-05.html">Encuentro 5 · el decálogo</a></span></div>
+</div>
+```
+
+::: {.rds-acciones-encuentro}
+[Laboratorio 1 · medición de unicidad](../laboratorios/lab-01.qmd#experimentar) ·
+[La excepción estadística](../marco-legal/index.qmd#estadistica) ·
+[Transferencias a terceros](../marco-legal/index.qmd#transferencias)
 :::
 
 ::: {.callout-note}
 ## Estado de esta actividad
 
 El enunciado, los entregables y la rúbrica están completos. El notebook de
-apoyo con las funciones de medición (`labs/lab04.ipynb`) se publica con el
+apoyo con las funciones de medición (`labs/lab04-estudiante.ipynb`) se publica con el
 [Encuentro 4](../encuentros/encuentro-04.qmd), en la semana 8. La actividad se
 puede resolver sin él: todo lo necesario está en el
-[Lab 1](../labs/lab01.ipynb).
+[Lab 1](../laboratorios/lab-01.qmd).
 :::
 
 ## El encargo
@@ -181,7 +199,7 @@ print("Registros en k<5    :", grupos[grupos < 5].sum(),
       f"({grupos[grupos < 5].sum() / len(df) * 100:.1f} %)")
 ```
 
-En el [Lab 1](../labs/lab01.ipynb), bloque 13, está la función
+En el [Lab 1](../laboratorios/lab-01.qmd), bloque 13, está la función
 `riesgo_unicidad()` y un ejemplo completo de generalización con medición
 antes / después. Pueden reutilizarla.
 

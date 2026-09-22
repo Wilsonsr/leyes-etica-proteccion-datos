@@ -28,7 +28,7 @@ format:
       side: left
       width: wide
     link-external-newwindow: true
-    footer: "Responsible Data Lab · Encuentro 2"
+    footer: "Leyes, Ética y Protección de Datos · Encuentro 2"
 ---
 
 ## {.center background-color="#0b1220"}
@@ -541,7 +541,7 @@ finalidad, impacto y explicabilidad.
 :::
 
 ::: {.nota-pie}
-Responsible Data Lab · Leyes, Ética y Protección de Datos<br>
+Leyes, Ética y Protección de Datos<br>
 Especialización en Análisis Estadístico
 :::
 

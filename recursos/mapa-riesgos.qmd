@@ -8,6 +8,12 @@ description: "Referencia rápida: doce etapas, sus riesgos típicos y el control
 [Recurso]{} [12 etapas]{} [Referencia rápida]{}
 :::
 
+::: {.rds-acciones-encuentro}
+[Marco legal · principios y evidencia](../marco-legal/index.qmd#principios) ·
+[Decisiones automatizadas](../marco-legal/index.qmd#decisiones-automatizadas) ·
+[Checklist del analista](checklist-proyecto-datos.qmd)
+:::
+
 ## El mapa completo
 
 ```{mermaid}
@@ -271,5 +277,5 @@ periódica del procedimiento.
 
 - [Checklist del analista responsable](checklist-proyecto-datos.qmd)
 - [Glosario operativo](glosario.qmd)
-- [Lab 2 · Auditoría rápida de un pipeline](../labs/lab02.ipynb) — donde esta
+- [Lab 2 · Auditoría rápida de un pipeline](../laboratorios/lab-02.qmd) — donde esta
   tabla se construye en código.
