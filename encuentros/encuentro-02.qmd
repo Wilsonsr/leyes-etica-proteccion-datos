@@ -1,7 +1,7 @@
 ---
 title: "Del requisito a la decisión"
 subtitle: "Cómo cambian las reglas un proyecto de datos"
-description: "Encuentro virtual 2 · 120 minutos · Unidad 1"
+description: "Qué cambia en un pipeline de datos cuando aparecen restricciones legales y de privacidad."
 ---
 
 ```{=html}
@@ -73,7 +73,9 @@ colombiano *donde realmente viven*: dentro de las decisiones de ingeniería.
 
 ------------------------------------------------------------------------
 
-## 1. El detonante (00–10)
+## 1 · El detonante
+
+[minuto 00–10]{.rds-tiempo}
 
 Mismo caso, misma base, otra petición.
 
@@ -132,7 +134,9 @@ para qué se habían recogido los datos.
 
 ------------------------------------------------------------------------
 
-## 2. El pipeline, etapa por etapa (22–42)
+## 2 · El pipeline, etapa por etapa
+
+[minuto 22–42]{.rds-tiempo}
 
 Construcción colectiva. Se dibuja el pipeline en pantalla y, para cada etapa,
 **el grupo propone la pregunta de control** antes de que aparezca la del
@@ -183,7 +187,9 @@ cuántas existen solo en la memoria de la persona que escribió el script?
 
 ------------------------------------------------------------------------
 
-## 3. «Si eres analista, estas son las preguntas que debes hacer» (42–58)
+## 3 · Las preguntas que hace un analista
+
+[minuto 42–58]{.rds-tiempo}
 
 Aquí es donde normalmente iría una diapositiva titulada «Artículo 4 de la
 Ley 1581 de 2012: principios rectores». No la vamos a hacer.
@@ -244,7 +250,9 @@ y una nota que dice quién tomó la decisión y cuándo.
 
 ------------------------------------------------------------------------
 
-## 4. Laboratorio 2 (58–92)
+## 4 · Laboratorio 2
+
+[minuto 58–92]{.rds-tiempo}
 
 ::: {.rds-card .prueba data-label="PRUEBA · LABORATORIO"}
 ### Auditoría rápida de un pipeline de datos
@@ -287,7 +295,9 @@ contestar con código:
 
 ------------------------------------------------------------------------
 
-## 5. El marco colombiano, leído desde el pipeline (92–104)
+## 5 · El marco colombiano desde el pipeline
+
+[minuto 92–104]{.rds-tiempo}
 
 Solo ahora, y en doce minutos. La norma entra a resolver preguntas que ya
 están abiertas.
@@ -385,7 +395,9 @@ Fuente: [SIC — ABC del proyecto de ley de protección de datos personales](htt
 
 ------------------------------------------------------------------------
 
-## 6. GDPR como referencia comparativa (104–114)
+## 6 · GDPR como referencia comparativa
+
+[minuto 104–114]{.rds-tiempo}
 
 No hacemos una clase de derecho europeo. Miramos **cuatro diferencias** que
 cambian el diseño de un proyecto de datos, porque son las que la
@@ -445,7 +457,9 @@ reutilizar allá.
 
 ------------------------------------------------------------------------
 
-## 7. Cierre (114–120)
+## 7 · Cierre
+
+[minuto 114–120]{.rds-tiempo}
 
 ### Checklist, versión 2
 

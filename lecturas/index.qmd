@@ -57,7 +57,7 @@ Creative Commons BY-NC-SA 4.0.
 :::
 
 Los cinco hallazgos que alimentan directamente los casos del curso están
-resumidos en el [Encuentro 1](../encuentros/encuentro-01.qmd#data-feast-102112).
+resumidos en el [Encuentro 1](../encuentros/encuentro-01.qmd#data-feast).
 
 ### Semana 2 · Encuentro 2
 

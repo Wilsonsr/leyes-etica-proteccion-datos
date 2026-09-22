@@ -110,7 +110,7 @@ website:
 
   sidebar:
     style: floating
-    collapse-level: 2
+    collapse-level: 1
     contents:
       - text: "Inicio"
         href: index.qmd
@@ -197,7 +197,8 @@ format:
     include-after-body:
       - file: styles/interactivo.js.html
     toc: true
-    toc-depth: 3
+    toc-depth: 2
+    toc-expand: false
     toc-title: "En esta página"
     number-sections: false
     anchor-sections: true
@@ -213,6 +214,11 @@ format:
     citations-hover: true
     footnotes-hover: true
     lang: es
+    grid:
+      sidebar-width: 255px
+      body-width: 900px
+      margin-width: 215px
+      gutter-width: 1.4rem
 
 bibliography: referencias.bib
 lang: es

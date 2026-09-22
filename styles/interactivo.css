@@ -751,3 +751,159 @@ details.ix-respuesta > :not(summary) {
 @media (max-width: 560px) {
   .ix-ruta { grid-template-columns: 1fr; }
 }
+
+/* =========================================================================
+   11. DESCARGA VISUAL
+   Ajustes posteriores que reducen la densidad de las páginas largas.
+   Al ir al final del archivo, prevalecen sobre las reglas anteriores.
+   ========================================================================= */
+
+/* ---- Navbar: el nombre del curso en una sola línea ---------------------- */
+.navbar .navbar-brand .navbar-title,
+.navbar-brand-container .navbar-title {
+  font-size: .74rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  max-width: none;
+  overflow: visible;
+}
+
+@media (min-width: 1500px) {
+  .navbar .navbar-brand .navbar-title { font-size: .82rem; }
+}
+
+@media (max-width: 991px) {
+  .navbar .navbar-brand .navbar-title { white-space: normal; font-size: .78rem; }
+}
+
+.navbar-nav .nav-link {
+  padding-left: .55rem;
+  padding-right: .55rem;
+  font-size: .94rem;
+}
+
+/* ---- Marca de tiempo de cada bloque del encuentro ----------------------- */
+.rds-tiempo {
+  display: inline-block;
+  margin: -.6rem 0 1.1rem 0;
+  padding: .1rem .5rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+  color: var(--rds-text-soft);
+  background: var(--rds-surface-2);
+  border: 1px solid var(--rds-border);
+  border-radius: 1rem;
+}
+
+/* ---- Ficha pedagógica: más aire, menos peso ---------------------------- */
+.ix-ficha {
+  margin: 1.2rem 0 1.8rem 0;
+  border-radius: .55rem;
+  background: var(--rds-surface-2);
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.ix-ficha > div { padding: .7rem .9rem; }
+
+.ix-ficha .et { font-size: .6rem; letter-spacing: .14em; margin-bottom: .25rem; }
+
+.ix-ficha .va { font-size: .84rem; line-height: 1.4; }
+
+.ix-ficha .ancho {
+  background: var(--rds-surface);
+  padding-top: .85rem;
+  padding-bottom: .85rem;
+}
+
+.ix-ficha .ancho .va li { margin-bottom: .12rem; }
+
+/* ---- Barra de enlaces: discreta, no compite con el contenido ----------- */
+.rds-acciones-encuentro {
+  margin: -1rem 0 2rem 0;
+  padding: .45rem .8rem;
+  font-size: .82rem;
+  background: transparent;
+  border: 0;
+  border-left: 2px solid var(--rds-border);
+  border-radius: 0;
+}
+
+.rds-acciones-encuentro::before { font-size: .62rem; }
+
+/* ---- Respiración vertical entre secciones ------------------------------ */
+main h2 { margin-top: 3rem; }
+main h3 { margin-top: 2rem; }
+main hr { margin: 3rem 0; opacity: .5; }
+
+/* Las tarjetas ya tienen mucho borde: se separan más entre sí */
+.rds-card + .rds-card { margin-top: 2.2rem; }
+
+/* ---- Índice lateral más compacto --------------------------------------- */
+#quarto-margin-sidebar .nav-link,
+#TOC .nav-link {
+  font-size: .82rem;
+  line-height: 1.35;
+  padding-top: .18rem;
+  padding-bottom: .18rem;
+}
+
+#quarto-margin-sidebar .sidebar-section { padding-left: .6rem; }
+
+/* ---- Barra lateral izquierda: secciones más legibles ------------------- */
+#quarto-sidebar .sidebar-item-text { font-size: .85rem; line-height: 1.35; }
+
+#quarto-sidebar .sidebar-item-section > .sidebar-item .menu-text {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--rds-text-soft);
+}
+
+/* La última celda de la ficha cierra la fila: evita el hueco desigual */
+.ix-ficha > div:last-child {
+  grid-column: 1 / -1;
+  border-right: 0;
+  border-bottom: 0;
+  background: var(--rds-surface);
+  display: flex;
+  align-items: baseline;
+  gap: .8rem;
+  flex-wrap: wrap;
+}
+
+.ix-ficha > div:last-child .et { margin-bottom: 0; }
+
+/* Reparto flexible: las celdas de la última fila se estiran y nunca queda
+   un hueco, sea cual sea el ancho de la pantalla. Las líneas divisorias son
+   el fondo del contenedor visto a través de un gap de 1px. */
+.ix-ficha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  background: var(--rds-border);
+  border: 1px solid var(--rds-border);
+  overflow: hidden;
+}
+
+.ix-ficha > div {
+  flex: 1 1 185px;
+  border: 0;
+  background: var(--rds-surface-2);
+}
+
+.ix-ficha > .ancho,
+.ix-ficha > div:last-child {
+  flex: 1 1 100%;
+  background: var(--rds-surface);
+}
+
+/* En anchos intermedios el nombre completo cabe reduciendo un punto la marca */
+@media (min-width: 992px) and (max-width: 1320px) {
+  .navbar .navbar-brand .navbar-title { font-size: .67rem; }
+  .navbar-nav .nav-link { padding-left: .42rem; padding-right: .42rem; font-size: .9rem; }
+}
