@@ -13,9 +13,7 @@ toc: false
     <div class="rol">Docente del espacio académico</div>
     <div class="nom" style="font-size:1.45rem">Wilson Sandoval Rodríguez</div>
     <p style="font-size:.95rem">
-      Estadístico. Trabaja en gestión territorial de datos en salud y enseña
-      análisis estadístico y ciencia de datos en programas de pregrado y
-      posgrado en Bogotá.
+      Yo
     </p>
   </div>
 </div>
