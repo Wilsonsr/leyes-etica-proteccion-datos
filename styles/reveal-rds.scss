@@ -1,0 +1,299 @@
+/*-- scss:defaults --*/
+
+// =========================================================================
+// RESPONSIBLE DATA LAB — tema Reveal.js
+// Se usa sobre el tema base `dark` de Quarto.
+// Mismas tarjetas semánticas que el sitio (CASO, DILEMA, DECIDE, ...)
+// =========================================================================
+
+$font-family-sans-serif: "IBM Plex Sans", -apple-system, "Segoe UI", Roboto, sans-serif !default;
+$font-family-monospace: "IBM Plex Mono", Menlo, Consolas, monospace !default;
+
+$body-bg: #0b1220 !default;
+$body-color: #dbe4f0 !default;
+$link-color: #22d3ee !default;
+
+$presentation-font-size-root: 34px !default;
+$presentation-heading-font: "IBM Plex Sans", sans-serif !default;
+$presentation-heading-color: #f8fafc !default;
+$presentation-heading-font-weight: 600 !default;
+$presentation-h1-font-size: 2.05em !default;
+$presentation-h2-font-size: 1.45em !default;
+$presentation-h3-font-size: 1.12em !default;
+$presentation-line-height: 1.35 !default;
+
+$code-block-bg: #101a2c !default;
+$code-color: #e2e8f0 !default;
+
+/*-- scss:rules --*/
+
+:root {
+  --rds-cyan: #22d3ee;
+  --rds-caso: #60a5fa;
+  --rds-datos: #22d3ee;
+  --rds-decide: #a78bfa;
+  --rds-dilema: #f472b6;
+  --rds-riesgo: #f87171;
+  --rds-prueba: #34d399;
+  --rds-reflexiona: #fbbf24;
+  --rds-decision: #2dd4bf;
+  --rds-codigo: #94a3b8;
+  --rds-border: #22314a;
+  --rds-surface: #101a2c;
+  --rds-soft: #93a4bd;
+}
+
+.reveal { letter-spacing: -0.01em; }
+
+.reveal h1, .reveal h2, .reveal h3 {
+  letter-spacing: -0.03em;
+  text-transform: none;
+}
+
+.reveal .slide-background { background: #0b1220; }
+
+// Retícula discreta de fondo — "plano de datos", no decoración figurativa
+.reveal .slides section {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .05) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+// ---- Portada ------------------------------------------------------------
+.reveal .title-slide h1.title {
+  font-size: 1.85em;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.reveal .title-slide .subtitle {
+  color: var(--rds-soft);
+  font-weight: 300;
+  font-size: .72em;
+  margin-top: .6em;
+}
+
+.reveal .quarto-title-block .quarto-title-authors,
+.reveal .title-slide .author,
+.reveal .title-slide .date {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .5em;
+  color: var(--rds-soft);
+  letter-spacing: .06em;
+}
+
+// ---- Pregunta grande (slide detonante) ---------------------------------
+.reveal .pregunta-grande {
+  font-size: 1.35em;
+  font-weight: 300;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  color: #f1f5f9;
+  border-left: 4px solid var(--rds-cyan);
+  padding-left: .55em;
+  text-align: left;
+}
+
+.reveal .pregunta-grande em { color: var(--rds-cyan); font-style: normal; font-weight: 500; }
+
+.reveal .kicker {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .48em;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--rds-cyan);
+  margin-bottom: .6em;
+}
+
+// ---- Tarjetas pedagógicas ----------------------------------------------
+.reveal .rds-card {
+  position: relative;
+  margin: 1.1em 0;
+  padding: .85em .9em .7em .9em;
+  background: var(--rds-surface);
+  border: 1px solid var(--rds-border);
+  border-left: 4px solid var(--rds-soft);
+  border-radius: .35em;
+  font-size: .82em;
+  text-align: left;
+}
+
+.reveal .rds-card > :first-child { margin-top: 0; }
+.reveal .rds-card > :last-child { margin-bottom: 0; }
+
+.reveal .rds-card::before {
+  position: absolute;
+  top: -.62em;
+  left: .7em;
+  padding: .08em .5em;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .55em;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #06121e;
+  background: var(--rds-soft);
+  border-radius: .25em;
+  content: "NOTA";
+}
+
+.reveal .rds-card[data-label]::before { content: attr(data-label); }
+
+@mixin rv($color, $etiqueta) {
+  border-left-color: $color;
+  &::before { background: $color; content: $etiqueta; }
+  &[data-label]::before { content: attr(data-label); }
+}
+
+.reveal .rds-card.caso       { @include rv(var(--rds-caso), "CASO"); }
+.reveal .rds-card.datos      { @include rv(var(--rds-datos), "DATOS"); }
+.reveal .rds-card.decide     { @include rv(var(--rds-decide), "DECIDE"); }
+.reveal .rds-card.dilema     { @include rv(var(--rds-dilema), "DILEMA"); }
+.reveal .rds-card.riesgo     { @include rv(var(--rds-riesgo), "RIESGO"); }
+.reveal .rds-card.prueba     { @include rv(var(--rds-prueba), "PRUEBA"); }
+.reveal .rds-card.codigo     { @include rv(var(--rds-codigo), "CÓDIGO"); }
+.reveal .rds-card.reflexiona { @include rv(var(--rds-reflexiona), "REFLEXIONA"); }
+.reveal .rds-card.decision   { @include rv(var(--rds-decision), "DECISIÓN"); }
+
+// ---- Rejilla de tarjetas en diapositiva --------------------------------
+.reveal .rds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: .55em;
+  margin: .9em 0;
+  text-align: left;
+}
+
+.reveal .rds-tile {
+  padding: .7em .75em;
+  background: var(--rds-surface);
+  border: 1px solid var(--rds-border);
+  border-radius: .4em;
+  font-size: .72em;
+  line-height: 1.35;
+}
+
+.reveal .rds-tile .num {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .8em;
+  letter-spacing: .14em;
+  color: var(--rds-cyan);
+  margin-bottom: .3em;
+  text-transform: uppercase;
+}
+
+.reveal .rds-tile strong { color: #f1f5f9; }
+
+.reveal .rds-tile code,
+.reveal .rds-card code {
+  color: #7dd3fc;
+  background: rgba(34, 211, 238, .07);
+  padding: 0 .2em;
+  border-radius: .2em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+// ---- Pipeline -----------------------------------------------------------
+.reveal .rds-pipeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3em;
+  margin: .9em 0;
+  justify-content: center;
+}
+
+.reveal .rds-stage {
+  flex: 0 1 auto;
+  min-width: 96px;
+  padding: .45em .4em;
+  background: var(--rds-surface);
+  border: 1px solid var(--rds-border);
+  border-top: 3px solid var(--rds-cyan);
+  border-radius: .3em;
+  font-size: .58em;
+  text-align: center;
+}
+
+.reveal .rds-stage .nombre {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #e2e8f0;
+}
+
+.reveal .rds-stage .pregunta {
+  display: block;
+  margin-top: .25em;
+  color: var(--rds-soft);
+  font-size: .95em;
+  line-height: 1.25;
+}
+
+.reveal .rds-stage.alerta { border-top-color: var(--rds-riesgo); }
+.reveal .rds-stage.alerta .nombre { color: var(--rds-riesgo); }
+
+// ---- Tablas -------------------------------------------------------------
+.reveal table { font-size: .62em; border-collapse: collapse; }
+
+.reveal table th {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .82em;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--rds-soft);
+  border-bottom: 2px solid var(--rds-border);
+  background: transparent;
+}
+
+.reveal table td { border-bottom: 1px solid var(--rds-border); padding: .3em .5em; }
+
+// ---- Código -------------------------------------------------------------
+.reveal pre { box-shadow: none; border: 1px solid var(--rds-border); border-radius: .35em; }
+.reveal pre code { font-size: .62em; line-height: 1.45; padding: .8em; }
+.reveal code { font-family: "IBM Plex Mono", monospace; }
+
+// ---- Chips y utilidades -------------------------------------------------
+.reveal .rds-chip {
+  display: inline-block;
+  padding: .06em .45em;
+  margin: 0 .15em .2em 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .5em;
+  letter-spacing: .05em;
+  color: var(--rds-cyan);
+  background: rgba(34, 211, 238, .10);
+  border: 1px solid rgba(34, 211, 238, .30);
+  border-radius: 1em;
+}
+.reveal .rds-chip.riesgo { color: var(--rds-riesgo); background: rgba(248,113,113,.10); border-color: rgba(248,113,113,.30); }
+.reveal .rds-chip.ok     { color: var(--rds-prueba); background: rgba(52,211,153,.10); border-color: rgba(52,211,153,.30); }
+
+.reveal .nota-pie {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .42em;
+  color: var(--rds-soft);
+  margin-top: 1em;
+}
+
+.reveal .mermaid-js { background: transparent; }
+
+// Listas menos "bullet-point de PowerPoint"
+.reveal ul { list-style: none; margin-left: 0; }
+.reveal ul li { position: relative; padding-left: 1.05em; margin-bottom: .45em; }
+.reveal ul li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: var(--rds-cyan);
+}
+.reveal ol { margin-left: 1.1em; }
+.reveal ol li { margin-bottom: .45em; }
+
+// Columnas más aireadas
+.reveal .columns { gap: 1.2em; }

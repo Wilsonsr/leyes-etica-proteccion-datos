@@ -1,0 +1,276 @@
+---
+title: "Checklist del analista responsable"
+subtitle: "Doce preguntas que deberían acompañar cualquier proyecto de datos"
+description: "Recurso transversal. Se activa progresivamente durante las nueve semanas."
+---
+
+::: {.rds-meta}
+[Recurso transversal]{} [12 preguntas]{} [Se activa por etapas]{} [Uso: cualquier proyecto real]{}
+:::
+
+## Para qué sirve
+
+Esta lista no es un formulario de cumplimiento. Es el mínimo que un analista
+debería poder responder sobre su propio proyecto **antes de escribir la
+primera línea de código de modelado**.
+
+Si alguna pregunta no tiene respuesta, eso ya es un hallazgo. «No sé» es una
+respuesta válida y accionable; «no aplica» rara vez lo es.
+
+::: {.rds-card .decide data-label="CÓMO SE USA"}
+1. Responder por escrito, en el repositorio del proyecto, no de memoria.
+2. Fechar las respuestas. Un proyecto cambia y la checklist también.
+3. Marcar explícitamente lo que no se sabe.
+4. Revisarla cuando cambie la finalidad, la fuente de datos o quien toma la
+   decisión.
+:::
+
+## Activación durante el curso
+
+| Preguntas | Se activan en | Tema |
+|:--|:--|:--|
+| 1 – 5 | [Encuentro 1](../encuentros/encuentro-01.qmd) | El dato y lo que revela |
+| 6 – 10 | [Encuentro 2](../encuentros/encuentro-02.qmd) | La finalidad y el pipeline |
+| 11 – 12 | [Encuentro 3](../encuentros/encuentro-03.qmd) | El efecto sobre las personas |
+
+------------------------------------------------------------------------
+
+## Bloque 1 · El dato {#bloque-1}
+
+::: {.rds-card .datos data-label="01 · ORIGEN"}
+### ¿De dónde provienen estos datos?
+
+No vale «de la base de datos corporativa». La pregunta es por la **fuente
+original**: quién los entregó, en qué contexto, a través de qué canal.
+
+**Respuesta aceptable:** una lista de fuentes con volumen, fecha y mecanismo
+de recolección para cada una.
+
+**Señal de alarma:** existe algún subconjunto de registros cuyo origen nadie
+puede reconstruir.
+
+**En DataMarket:** la columna `origen_dato` responde esta pregunta. 236 de
+1 512 registros provienen de una lista comprada y de enriquecimiento web.
+:::
+
+::: {.rds-card .datos data-label="02 · MINIMIZACIÓN"}
+### ¿Realmente necesito todas las variables?
+
+La pregunta correcta no es «¿esta variable sirve?» sino «¿puedo explicar por
+qué la necesito **para esta finalidad concreta**?».
+
+**Respuesta aceptable:** una justificación por variable, aunque sea de media
+línea.
+
+**Señal de alarma:** «la cargamos toda por si acaso».
+
+**Efecto en el pipeline:** el dataset de modelado se construye con una lista
+blanca explícita, no con `df.drop()` de lo que estorba.
+:::
+
+::: {.rds-card .riesgo data-label="03 · DATOS SENSIBLES"}
+### ¿Existen datos sensibles?
+
+Revisar dos veces: los declarados y los que están disfrazados de otra cosa.
+
+**Respuesta aceptable:** la lista de variables sensibles, si las hay, y la
+base que habilita su tratamiento.
+
+**Señal de alarma:** «ninguna, esto es solo comportamiento de compra». Es
+justo la respuesta que da un equipo que no ha mirado la pregunta 4.
+:::
+
+::: {.rds-card .riesgo data-label="04 · INFERENCIA"}
+### ¿Qué puedo inferir que no estaba explícitamente registrado?
+
+La pregunta más incómoda de la lista, y la que más distingue a un equipo
+maduro.
+
+**Respuesta aceptable:** una lista de inferencias plausibles a partir de las
+variables disponibles, incluidas las que el equipo **no piensa** hacer. Saber
+que se puede inferir algo es distinto de inferirlo.
+
+**En DataMarket:** `compras_farmacia_6m`, `entrega_asistida` y
+`busquedas_maternidad` permiten inferir condiciones de salud sin que ninguna
+sea formalmente un dato de salud.
+:::
+
+::: {.rds-card .riesgo data-label="05 · REIDENTIFICACIÓN"}
+### ¿Existe posibilidad de reidentificación?
+
+No se responde con una opinión. Se responde con un número.
+
+**Respuesta aceptable:** el *k* mínimo del conjunto de cuasi-identificadores y
+el porcentaje de registros en grupos pequeños.
+
+**Señal de alarma:** «no, ya le quitamos los nombres».
+
+**En DataMarket:** cuatro cuasi-identificadores dejan al 83,9 % de los
+registros solos en su grupo.
+:::
+
+------------------------------------------------------------------------
+
+## Bloque 2 · La finalidad y el pipeline {#bloque-2}
+
+::: {.rds-card .caso data-label="06 · FINALIDAD"}
+### ¿Para qué fueron recolectados?
+
+Y la pregunta gemela: **¿es esto lo mismo?**
+
+**Respuesta aceptable:** la finalidad declarada en el momento de la
+recolección, documentada, y una evaluación explícita de compatibilidad con el
+uso actual.
+
+**Señal de alarma:** la finalidad se reconstruye a posteriori para justificar
+lo que ya se está haciendo.
+
+**Efecto en el pipeline:** los datos se separan por finalidad de origen, y el
+cruce entre finalidades es una decisión que alguien aprueba.
+:::
+
+::: {.rds-card .riesgo data-label="07 · PERFILAMIENTO"}
+### ¿Estoy creando perfiles?
+
+Casi siempre la respuesta es sí y el equipo no lo había nombrado así.
+
+**Respuesta aceptable:** describir qué representación de la persona construye
+el sistema, con qué variables, y qué se hace con ella.
+
+**Señal de alarma:** «no, es solo un score».
+
+Un score que ordena a las personas y determina qué reciben **es** un perfil.
+:::
+
+::: {.rds-card .decision data-label="08 · ACCESO"}
+### ¿Quién tendrá acceso?
+
+Incluye: el equipo, las áreas que reciben el resultado, los proveedores, y
+todas las copias que existen en portátiles, carpetas compartidas y correos.
+
+**Respuesta aceptable:** una lista de personas o roles, con el nivel de detalle
+que cada uno recibe.
+
+**Señal de alarma:** nadie puede enumerar cuántas copias de la base existen.
+:::
+
+::: {.rds-card .decision data-label="09 · TRAZABILIDAD"}
+### ¿Puedo explicar y documentar lo que hice?
+
+La prueba: si la persona que hizo el análisis se va de la empresa mañana,
+¿alguien puede reconstruir por qué el modelo usa las variables que usa?
+
+**Respuesta aceptable:** código versionado, decisiones registradas con fecha y
+responsable, y un documento de una página que un no técnico pueda leer.
+
+**Señal de alarma:** el conocimiento del proyecto vive en la cabeza de una
+persona y en un notebook sin comentar.
+:::
+
+::: {.rds-card .decision data-label="10 · CONSERVACIÓN"}
+### ¿Durante cuánto tiempo necesito conservar los datos?
+
+La pregunta que nadie hace nunca, porque el almacenamiento es barato.
+
+**Respuesta aceptable:** un plazo, un criterio y un mecanismo de eliminación
+que alguien haya probado que funciona.
+
+**Señal de alarma:** «los guardamos por si acaso». Cada base que se conserva
+sin criterio es una brecha futura esperando a ocurrir.
+:::
+
+------------------------------------------------------------------------
+
+## Bloque 3 · El efecto sobre las personas {#bloque-3}
+
+::: {.rds-card .dilema data-label="11 · IMPACTO"}
+### ¿Puede mi modelo afectar personas o grupos?
+
+Dos preguntas encadenadas: qué acción se toma con la predicción, y sobre quién
+recae el costo del error.
+
+**Respuesta aceptable:** una tabla que cruce tipo de error con tipo de daño, y
+una medición del desempeño **por grupo**, no solo global.
+
+**Señal de alarma:** se reporta una sola métrica agregada para todo el
+conjunto.
+
+**En DataMarket:** el modelo B marca como «en riesgo» a cerca del 29 % de los
+clientes de estratos 1 y 2, frente a menos del 9 % en estratos 5 y 6.
+:::
+
+::: {.rds-card .riesgo data-label="12 · PUBLICACIÓN"}
+### ¿Qué información publicaré?
+
+Publicar incluye: un tablero, un CSV para un proveedor, un anexo de un
+informe, un gráfico en una presentación.
+
+**Respuesta aceptable:** el nivel mínimo de agregación aceptado, el umbral de
+celda, y la medición del riesgo sobre el producto final —no sobre la base de
+la que salió.
+
+**Señal de alarma:** el tablero se publica y después alguien pregunta si había
+que revisarlo.
+:::
+
+------------------------------------------------------------------------
+
+## Versión imprimible
+
+::: {.rds-card .decision data-label="LAS DOCE PREGUNTAS"}
+1. ¿De dónde provienen estos datos?
+2. ¿Realmente necesito todas las variables?
+3. ¿Existen datos sensibles?
+4. ¿Qué puedo inferir que no estaba explícitamente registrado?
+5. ¿Existe posibilidad de reidentificación?
+6. ¿Para qué fueron recolectados?
+7. ¿Estoy creando perfiles?
+8. ¿Quién tendrá acceso?
+9. ¿Puedo explicar y documentar lo que hice?
+10. ¿Durante cuánto tiempo necesito conservar los datos?
+11. ¿Puede mi modelo afectar personas o grupos?
+12. ¿Qué información publicaré?
+:::
+
+## Plantilla para el repositorio del proyecto
+
+Copien esto en un archivo `CHECKLIST.md` del proyecto real:
+
+```markdown
+# Checklist del analista responsable
+Proyecto:
+Responsable:
+Última revisión:
+
+## 1. Origen de los datos
+Respuesta:
+Evidencia:
+Pendiente:
+
+## 2. Minimización
+Respuesta:
+Evidencia:
+Pendiente:
+
+<!-- ... y así hasta la 12 -->
+
+## Decisiones tomadas
+| Fecha | Decisión | Quién | Evidencia |
+|:--|:--|:--|:--|
+```
+
+::: {.rds-card .reflexiona}
+Un proyecto con esta checklist respondida y fechada resiste una auditoría,
+una rotación de equipo y un cambio de dirección.
+
+Un proyecto sin ella depende de que nadie pregunte.
+:::
+
+## Ver también
+
+- [Mapa de riesgos del pipeline](mapa-riesgos.qmd) — dónde aparece cada
+  riesgo, etapa por etapa.
+- [Glosario operativo](glosario.qmd) — los conceptos, con la pregunta que cada
+  uno responde.
+- [Banco de dilemas](../casos/dilemas.qmd) — qué hacer cuando la checklist
+  arroja dos respuestas incompatibles.

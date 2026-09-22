@@ -1,0 +1,600 @@
+---
+title: "Tenemos los datos. ¿Qué podría salir mal?"
+subtitle: "Introducción a la privacidad, la ética y la toma de decisiones en proyectos de analítica"
+description: "Encuentro virtual 1 · 120 minutos · Unidad 1"
+---
+
+::: {.rds-meta}
+[Encuentro 1]{} [Unidad 1]{} [120 minutos]{} [Semana 1]{} [Slides: [01-datos-decisiones](../slides/01-datos-decisiones.qmd)]{} [Lab: [lab01](../labs/lab01.ipynb)]{}
+:::
+
+## Objetivo del encuentro
+
+Mostrar que la ley, la ética y la protección de datos **no son un anexo
+jurídico** al trabajo del analista estadístico, sino un conjunto de
+restricciones que operan dentro del proyecto de datos, al mismo nivel que la
+calidad, el sesgo o la capacidad de cómputo.
+
+Al terminar el encuentro, el estudiante debería poder tomar cualquier tabla
+que tenga en su trabajo y clasificar sus columnas en al menos cinco
+categorías distintas de riesgo, y justificar por qué eliminaría algunas de
+ellas antes de modelar.
+
+::: {.callout-important}
+## Lo que este encuentro NO hace
+
+No empieza por la legislación. La Ley 1581 de 2012 no se menciona hasta pasada
+la primera hora, y cuando aparece lo hace para resolver una discusión que ya
+está abierta. El marco colombiano se desarrolla en el
+[Encuentro 2](encuentro-02.qmd).
+:::
+
+## Agenda
+
+```{=html}
+<ul class="rds-timeline">
+  <li><span class="t">00–08</span><span class="modo">detonante</span><br>
+      DataMarket Analytics y la pregunta de las 35 variables. Sin diapositiva de bienvenida.</li>
+  <li><span class="t">08–20</span><span class="modo">votación</span><br>
+      Caso A: ¿cuáles de estas variables necesita realmente un modelo de <em>churn</em>?</li>
+  <li><span class="t">20–34</span><span class="modo">exposición</span><br>
+      Del nombre a la huella: identificadores, cuasi-identificadores, datos sensibles.</li>
+  <li><span class="t">34–46</span><span class="modo">caso + votación</span><br>
+      Caso B: borramos nombre, cédula y correo. ¿La base ya es anónima?</li>
+  <li><span class="t">46–78</span><span class="modo">laboratorio</span><br>
+      Lab 1 en Jupyter: clasificar, minimizar, seudonimizar y buscar combinaciones únicas.</li>
+  <li><span class="t">78–90</span><span class="modo">caso</span><br>
+      Caso C: información pública en redes sociales. Visible ≠ disponible.</li>
+  <li><span class="t">90–102</span><span class="modo">caso + exposición</span><br>
+      Caso D: el dato inferido. Una variable inocente que revela otra cosa.</li>
+  <li><span class="t">102–112</span><span class="modo">lectura</span><br>
+      <em>Data Feast</em>: qué encontró Dejusticia al mirar empresas de datos en América Latina.</li>
+  <li><span class="t">112–120</span><span class="modo">cierre</span><br>
+      Checklist v1 y la pregunta de salida: ¿qué tendría que cambiar en mi proyecto de datos?</li>
+</ul>
+```
+
+------------------------------------------------------------------------
+
+## 1. El detonante (00–08)
+
+No hay diapositiva de presentación del curso. La sesión abre con un correo.
+
+::: {.rds-card .caso data-label="CASO · LA SOLICITUD"}
+**De:** Dirección Comercial — DataMarket Analytics
+**Para:** Equipo de Analítica
+**Asunto:** Modelo de abandono de clientes
+
+> Necesitamos saber qué clientes se nos van a ir en los próximos tres meses
+> para poder retenerlos con una oferta. Tenemos la base completa de clientes
+> del último año y medio. Son unos 1 500 registros con todo lo que hemos ido
+> recogiendo: datos de contacto, datos de entrega, comportamiento en el sitio,
+> compras, y unas variables que armó el equipo de marketing.
+>
+> ¿Lo pueden tener para la próxima semana?
+
+La base tiene **35 variables**. El equipo tiene acceso completo. Nadie ha
+puesto ninguna condición.
+:::
+
+::: {.rds-card .decide data-label="DECIDE · PRIMERA VOTACIÓN"}
+::: {.pregunta}
+Si tenemos todos estos datos, ¿deberíamos utilizar todas las variables?
+:::
+
+Tres opciones. Voten antes de ver la base:
+
+1. **Sí.** Más información es mejor información. El modelo decidirá cuáles
+   importan; para eso existe la regularización.
+2. **No, pero por razones técnicas.** Quitaría las redundantes, las de varianza
+   nula y las que generan fuga de información.
+3. **No, y no solo por razones técnicas.** Hay variables que no debería usar
+   aunque mejoren el modelo.
+
+Registren su voto. Volveremos a esta pregunta en el minuto 112.
+:::
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente
+
+La opción 1 suele ganar en la primera votación, sobre todo entre estudiantes
+con más experiencia en modelado. No corrija: anote el conteo en el chat y
+siga. El objetivo del encuentro es que al final la distribución se haya
+movido, y que el movimiento sea atribuible a los casos, no a una afirmación
+de autoridad.
+:::
+
+------------------------------------------------------------------------
+
+## 2. Caso A · ¿Qué necesita realmente un modelo de churn? (08–20)
+
+Mostramos un subconjunto de la base. Solo ocho columnas, para que quepan en
+la cabeza.
+
+::: {.rds-card .datos data-label="DATOS · SUBCONJUNTO A"}
+| nombre | email | edad | municipio | ocupación | compras_6m | historial_navegación | churn |
+|:--|:--|--:|:--|:--|--:|--:|--:|
+| Ana Rojas | ana.rojas412@correo.com | 34 | Bogotá | Ingeniera | 4 | 132 | 0 |
+| Luis Gómez | l.gomez88@mail.co | 61 | Manizales | Pensionado | 0 | 9 | 1 |
+| Camila Vargas | cvargas@webmail.net | 27 | Cali | Estudiante | 7 | 240 | 0 |
+| … | … | … | … | … | … | … | … |
+:::
+
+::: {.rds-card .decide data-label="DECIDE · CASO A"}
+::: {.pregunta}
+¿Cuáles de estas ocho columnas necesita realmente un modelo de churn?
+:::
+
+Trabajen en parejas durante tres minutos. Clasifiquen cada columna en una de
+tres cajas:
+
+- **La necesito** — sin ella el modelo pierde capacidad predictiva real.
+- **No la necesito** — no aporta o su aporte es marginal.
+- **No estoy seguro** — depende de algo que todavía no sé.
+:::
+
+El resultado habitual de este ejercicio es una lista corta y sensata:
+`compras_6m`, `historial_navegación`, quizá `edad`. Y tres columnas que nadie
+defiende con convicción: `nombre`, `email` y `ocupación`.
+
+::: {.rds-card .decision data-label="DECISIÓN · CASO A"}
+Nombre y correo salen del modelo. Nadie los defiende como predictores.
+
+Pero salen del modelo, **no de la base**. Y ahí empieza el problema real:
+el archivo que el analista tiene abierto en su portátil sigue teniendo
+nombre, correo, teléfono y dirección. La decisión de modelado y la decisión
+de tratamiento de datos son decisiones distintas, y casi siempre se confunden.
+:::
+
+::: {.rds-card .reflexiona}
+En su trabajo: ¿cuántas copias hay, en este momento, de una base que contiene
+datos de contacto de personas y que fue creada para un análisis que ya
+terminó?
+:::
+
+------------------------------------------------------------------------
+
+## 3. Del nombre a la huella (20–34)
+
+Bloque expositivo. Once conceptos, pero **ninguno se presenta como definición
+suelta**: cada uno aparece respondiendo a una pregunta que el caso A dejó
+abierta.
+
+### La pregunta que ordena todo
+
+::: {.rds-pregunta}
+¿Qué hace que una fila de esta tabla se refiera a **una persona concreta**?
+:::
+
+```{mermaid}
+%%| fig-cap: "De lo que la persona entrega a lo que el sistema deduce."
+flowchart LR
+    A["Lo que la persona<br/>entrega"] --> B["Lo que el sistema<br/>observa"]
+    B --> C["Lo que el sistema<br/>deduce"]
+    C --> D["Lo que el sistema<br/>decide"]
+
+    A -.- A1["nombre · cédula<br/>correo · dirección"]
+    B -.- B1["visitas · clics<br/>IP · dispositivo<br/>geolocalización"]
+    C -.- C1["segmento · score<br/>probabilidad de abandono<br/>interés inferido"]
+    D -.- D1["oferta · precio<br/>prioridad de atención<br/>exclusión"]
+
+    style A fill:#0b1220,stroke:#2563eb,color:#e2e8f0
+    style B fill:#0b1220,stroke:#0891b2,color:#e2e8f0
+    style C fill:#0b1220,stroke:#7c3aed,color:#e2e8f0
+    style D fill:#0b1220,stroke:#dc2626,color:#e2e8f0
+    style A1 fill:transparent,stroke:#334155,color:#94a3b8
+    style B1 fill:transparent,stroke:#334155,color:#94a3b8
+    style C1 fill:transparent,stroke:#334155,color:#94a3b8
+    style D1 fill:transparent,stroke:#334155,color:#94a3b8
+```
+
+La intuición común es que la privacidad se juega en la primera columna. En la
+práctica, el riesgo se concentra en la tercera y la cuarta: el sistema sabe de
+la persona cosas que la persona nunca escribió en ningún formulario.
+
+### Los once conceptos, en orden de aparición
+
+Se introducen **mientras se recorre la tabla del caso A**, no antes.
+
+| Concepto | La pregunta que responde | En nuestra base |
+|:--|:--|:--|
+| **Dato personal** | ¿Esta información se refiere a una persona identificada o identificable? | Casi todas las columnas, incluidas las que no lo parecen. |
+| **Identificador directo** | ¿Puedo señalar a la persona con esta sola columna? | `nombre`, `documento`, `email`, `telefono`, `direccion` |
+| **Identificador indirecto** | ¿Esta columna apunta a la persona a través de un dispositivo o una cuenta? | `ip`, `cliente_id` |
+| **Cuasi-identificador** | ¿Esta columna, sola, no identifica, pero combinada con otras sí? | `edad`, `sexo`, `ciudad`, `barrio`, `ocupacion`, `estrato` |
+| **Dato sensible** | ¿Su uso indebido puede generar discriminación o afectar la intimidad? | Ninguna columna lo es de forma explícita. Varias lo permiten inferir. |
+| **Dato comportamental** | ¿Registra lo que la persona hizo, no lo que declaró? | `visitas_web`, `productos_vistos`, `compras_6m`, `categoria_top` |
+| **Dato inferido** | ¿Lo produjo la empresa, no la persona? | `segmento`, `score_riesgo_interno` |
+| **Dato agregado** | ¿Describe a un grupo y no a un individuo? | Un promedio por ciudad. Deja de serlo cuando el grupo es muy pequeño. |
+| **Perfilamiento** | ¿Estamos construyendo una representación de la persona para decidir sobre ella? | Sí: eso es exactamente un modelo de *churn* con acción comercial asociada. |
+| **Seudonimización** | ¿Reemplacé el identificador por una clave, conservando la tabla de equivalencias? | Lo haremos en el Lab 1. Sigue siendo dato personal. |
+| **Anonimización** | ¿Es imposible, con medios razonables, volver a la persona? | Es un resultado, no una operación. Casi nunca se logra borrando columnas. |
+
+::: {.rds-card .riesgo data-label="RIESGO · EL ERROR MÁS FRECUENTE"}
+Tratar la **seudonimización** como si fuera **anonimización**.
+
+Reemplazar `nombre` por `H7X29K` no vuelve anónima la base: solo mueve la
+identificación a otro lugar. Si existe una tabla que relaciona `H7X29K` con
+Ana Rojas —y casi siempre existe, porque el negocio la necesita— los datos
+siguen siendo datos personales, con todas las obligaciones asociadas.
+:::
+
+::: {.callout-note collapse="true"}
+## ¿Y esto de dónde sale, jurídicamente?
+
+La distinción entre dato personal, dato sensible y dato anonimizado no es una
+invención pedagógica: está en la Ley 1581 de 2012 (arts. 3 y 5) y, con
+matices relevantes, en el GDPR (arts. 4 y 9). Lo veremos en el
+[Encuentro 2](encuentro-02.qmd). Por ahora basta con la intuición operativa:
+**el riesgo no está en la columna, está en la combinación**.
+:::
+
+------------------------------------------------------------------------
+
+## 4. Caso B · ¿La base ya es anónima? (34–46)
+
+::: {.rds-card .caso data-label="CASO B · LA BASE DEPURADA"}
+El equipo de analítica hace lo correcto y elimina los identificadores
+directos. Borra tres columnas:
+
+`nombre`  ·  `cédula`  ·  `correo electrónico`
+
+La base que queda tiene cinco columnas:
+
+| edad | sexo | municipio | ocupación | diagnóstico |
+|--:|:--|:--|:--|:--|
+| 41 | F | Manizales | Odontóloga | Hipotiroidismo |
+| 33 | M | Bogotá | Ingeniero | — |
+| 58 | F | Villavicencio | Docente | Diabetes tipo 2 |
+| 29 | M | Pasto | Estudiante | — |
+
+El área jurídica de la empresa da el visto bueno: *«ya no tiene datos
+identificables, se puede compartir con el proveedor de analítica»*.
+:::
+
+::: {.rds-card .decide data-label="DECIDE · CASO B"}
+::: {.pregunta}
+¿La base ahora es anónima?
+:::
+
+Voten: **sí / no / depende**. Si votan «depende», digan de qué.
+:::
+
+### La comprobación
+
+No discutimos la respuesta: la calculamos. Con la base sintética del curso:
+
+::: {.rds-card .prueba data-label="PRUEBA · COMBINACIONES ÚNICAS"}
+```python
+import pandas as pd
+
+df = pd.read_csv("data/clientes_sinteticos.csv")
+
+cuasi = ["edad", "sexo", "ciudad", "ocupacion"]
+grupos = df.groupby(cuasi, dropna=False).size()
+
+print("Combinaciones distintas:", len(grupos))
+print("Combinaciones con UNA sola persona:", (grupos == 1).sum())
+print("Porcentaje de registros únicos:",
+      round((grupos == 1).sum() / len(df) * 100, 1), "%")
+```
+
+En la base del curso, alrededor del **84 % de los registros** son únicos con
+solo cuatro variables: edad, sexo, ciudad y ocupación. Ninguna de esas cuatro
+es un identificador. Las cuatro juntas, sí.
+:::
+
+::: {.rds-card .riesgo data-label="RIESGO · REIDENTIFICACIÓN POR CRUCE"}
+Una mujer de 41 años, odontóloga, en Manizales. En una ciudad de ese tamaño,
+con el registro profesional público del gremio, probablemente haya una sola.
+Y la fila que le corresponde trae un diagnóstico.
+
+El daño no requiere un ataque sofisticado. Requiere un directorio profesional,
+un perfil de LinkedIn o un conocido en común.
+:::
+
+::: {.rds-card .decision data-label="DECISIÓN · CASO B"}
+La base **no** es anónima. Es una base de datos personales a la que le
+quitaron las columnas más evidentes.
+
+Qué cambiaría en el pipeline:
+
+- Agregar edad en rangos (por ejemplo, quinquenios) en lugar de valor exacto.
+- Subir el nivel geográfico de municipio a departamento, o agrupar municipios
+  pequeños.
+- Agrupar ocupación en categorías amplias.
+- Medir el resultado: contar cuántos registros quedan con *k* = 1 después de
+  cada transformación, en lugar de suponer que ya está resuelto.
+- Si el diagnóstico es imprescindible para el análisis, tratar la base como
+  dato sensible y no como base depurada.
+
+Todo esto se ejecuta en el [Lab 1](../labs/lab01.ipynb) y se profundiza en la
+[Actividad 4](../actividades/actividad-04.qmd).
+:::
+
+------------------------------------------------------------------------
+
+## 5. Laboratorio 1 (46–78)
+
+::: {.rds-card .prueba data-label="PRUEBA · LABORATORIO"}
+### ¿Qué sabe realmente esta base sobre nosotros?
+
+Abran [`labs/lab01.ipynb`](../labs/lab01.ipynb). Son 14 bloques cortos. La
+consigna es que **cada bloque termina en una pregunta**, y la pregunta se
+responde en el chat antes de pasar al siguiente.
+
+Lo que se hace:
+
+1. Cargar la base y mirar `shape`, columnas y tipos.
+2. Buscar faltantes y decidir qué significan (no solo cuántos hay).
+3. Clasificar las 35 variables en las categorías del bloque 3.
+4. Construir un dataset minimizado y comparar su tamaño con el original.
+5. Seudonimizar con un hash y discutir por qué eso no es anonimizar.
+6. Buscar combinaciones únicas con `groupby` y medir el riesgo.
+
+No es una clase de programación. El código está escrito; lo que se evalúa es
+lo que se decide después de leer la salida.
+:::
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente
+
+Si el grupo es grande, corra usted el notebook compartiendo pantalla y deje
+que ellos voten cada decisión. Si el grupo es pequeño (menos de 15), que cada
+uno lo ejecute. El bloque 13 (`groupby` sobre cuasi-identificadores) es el
+momento de mayor impacto del encuentro: dé tiempo para que la cifra se
+asiente antes de comentarla.
+:::
+
+------------------------------------------------------------------------
+
+## 6. Caso C · Visible no es lo mismo que disponible (78–90)
+
+::: {.rds-card .caso data-label="CASO C · DATOS PÚBLICOS"}
+El equipo de marketing de DataMarket propone algo razonable en apariencia:
+
+> «Los perfiles de redes sociales son públicos. Podemos recoger información
+> de los perfiles de nuestros clientes —intereses, publicaciones, ubicación
+> declarada— y enriquecer la base. No estamos hackeando nada: cualquiera
+> puede verlo entrando al perfil.»
+
+En nuestra base hay 92 registros cuyo `origen_dato` es `enriquecimiento_web`.
+Ninguno de ellos tiene `fecha_autorizacion`.
+:::
+
+::: {.rds-card .decide data-label="DECIDE · CASO C"}
+::: {.pregunta}
+Que la información sea visible en internet, ¿significa automáticamente que
+puede utilizarse para entrenar un modelo?
+:::
+:::
+
+### Tres cosas distintas que se confunden
+
+| | Pregunta | Respuesta en el caso C |
+|:--|:--|:--|
+| **Accesibilidad** | ¿Puedo verlo? | Sí. |
+| **Licitud** | ¿Puedo tratarlo para *esta* finalidad? | No se sabe: depende de la finalidad para la que se publicó y de la autorización. |
+| **Adecuación** | ¿Debería, dado el efecto sobre la persona? | Probablemente no, si la persona no espera que su perfil alimente un modelo comercial. |
+
+::: {.rds-card .riesgo data-label="RIESGO · EXPECTATIVA RAZONABLE"}
+La prueba práctica que usaremos todo el curso:
+
+> Si el titular del dato viera exactamente lo que estamos haciendo con su
+> información, ¿se sorprendería?
+
+Si la respuesta es sí, hay un problema — aunque el dato fuera público, aunque
+la casilla estuviera marcada, aunque técnicamente esté permitido. La
+sorpresa del titular es un indicador temprano de que la finalidad se movió
+sin que nadie lo notara.
+:::
+
+::: {.rds-card .decision data-label="DECISIÓN · CASO C"}
+Los 92 registros de `enriquecimiento_web` se marcan y se excluyen del
+conjunto de entrenamiento hasta que exista evidencia de origen y autorización.
+
+Se documenta: qué se excluyó, cuántos registros, por qué, y quién tomó la
+decisión. Esa documentación es la que el
+[Encuentro 2](encuentro-02.qmd) llamará *evidencia*.
+:::
+
+------------------------------------------------------------------------
+
+## 7. Caso D · El dato inferido (90–102)
+
+::: {.rds-card .caso data-label="CASO D · LA VARIABLE INOCENTE"}
+En la base del curso hay tres columnas que a nadie le parecen problemáticas:
+
+- `compras_farmacia_6m` — número de compras en la categoría farmacia.
+- `entrega_asistida` — si el pedido requirió entrega asistida a domicilio.
+- `busquedas_maternidad` — búsquedas en la categoría bebé y maternidad.
+
+Son datos de comportamiento comercial. No hay diagnósticos, no hay historias
+clínicas, no hay nada que un formulario haya preguntado.
+:::
+
+::: {.rds-card .decide data-label="DECIDE · CASO D"}
+::: {.pregunta}
+¿Qué puede deducir la empresa con estas tres columnas que la persona nunca le
+contó?
+:::
+
+Tres minutos. Escriban una inferencia por columna.
+:::
+
+Lo que suele salir, y es correcto:
+
+| Columna observada | Inferencia plausible | Categoría de la inferencia |
+|:--|:--|:--|
+| `compras_farmacia_6m` alto y sostenido | Condición de salud crónica | Salud |
+| `entrega_asistida` = 1 | Movilidad reducida, discapacidad, edad avanzada | Salud / discapacidad |
+| `busquedas_maternidad` alto | Embarazo o intención reproductiva | Salud / vida reproductiva |
+
+::: {.rds-card .riesgo data-label="RIESGO · DATO INFERIDO"}
+Ninguna de esas tres columnas es, formalmente, un dato sensible. Las tres
+permiten producirlo.
+
+El problema es estructural: las reglas de protección se escribieron pensando
+en el dato que la persona **entrega**, y el valor económico de la analítica
+está en el dato que la empresa **deduce**. Dejusticia lo documenta con
+precisión: las empresas con modelos de negocio basados en datos obtienen
+información sensible «o algo muy cercano a ella» mediante inferencia, en un
+terreno donde prácticamente no hay norma aplicable [@newman2020datafeast].
+
+Y una vez producida, la inferencia *es* un dato sobre esa persona: se
+almacena, se usa para decidir y puede equivocarse. Un modelo que clasifica
+erróneamente a alguien como «probablemente embarazada» no comete un error
+estadístico neutro.
+:::
+
+::: {.rds-card .dilema data-label="DILEMA · EL PRIMER COSTO REAL"}
+El equipo prueba dos versiones del modelo de *churn*:
+
+- **Modelo A** — solo comportamiento de compra y navegación. AUC ≈ **0.83**.
+- **Modelo B** — lo mismo, más edad, estrato, ingresos y las tres columnas del
+  caso D. AUC ≈ **0.88**.
+
+Cuatro o cinco puntos de AUC. En una campaña de retención de cierto tamaño, eso es
+dinero identificable y defendible ante la gerencia.
+
+::: {.pregunta}
+¿Es suficiente que B prediga mejor para preferirlo?
+:::
+
+Voten. Y después, quienes votaron por B: ¿qué le dirían a un cliente que
+pregunta por qué recibió una oferta distinta a la de su vecino? Lo
+verificaremos con código en el [Lab 2](../labs/lab02.ipynb).
+:::
+
+------------------------------------------------------------------------
+
+## 8. Data Feast (102–112)
+
+Lectura académica del encuentro: Newman-Pont, Ospina-Celis y Upegui (2020),
+*Data Feast: Enterprises and Personal Data in Latin America*, Dejusticia
+[@newman2020datafeast].
+
+No lo leemos capítulo por capítulo. Lo usamos como **fuente de casos**: es un
+estudio empírico sobre cómo operan realmente las empresas basadas en datos en
+Brasil, Chile, Colombia y México, y qué encuentran cuando se compara esa
+operación con la norma local.
+
+::: {.rds-card .datos data-label="DATOS · QUÉ ENCONTRÓ DEJUSTICIA"}
+Cinco hallazgos que alimentan directamente los casos de este curso:
+
+1. **El valor está en la inferencia, no en el formulario.** Las empresas
+   analizadas deducen datos sensibles —orientación sexual, estado de salud,
+   convicciones— cruzando datos que no son sensibles: historial de búsqueda,
+   compras, navegación.
+2. **La recolección ya no es declarativa.** El rastreo web, las *cookies* de
+   seguimiento y los botones de redes sociales incorporados en sitios de
+   terceros recogen más que cualquier formulario, y las políticas de
+   privacidad rara vez lo explican con claridad.
+3. **El consentimiento en bloque no informa nada.** Las políticas analizadas
+   son largas, técnicas, dispersas en varios documentos y se aceptan o
+   rechazan completas: no permiten autorizar una finalidad y rechazar otra.
+4. **El perfilamiento casi no está regulado en la región.** Al momento del
+   estudio, las leyes de Brasil, Chile, Colombia y México guardaban silencio
+   sobre cómo puede perfilarse a una persona y qué decisiones automatizadas
+   pueden tomarse a partir de ese perfil.
+5. **La frontera territorial se volvió porosa.** Los datos se recogen en un
+   país, se procesan en otro y se usan en un tercero. Volveremos sobre esto
+   en el [caso Facebook](../casos/caso-facebook.qmd).
+:::
+
+::: {.rds-card .reflexiona}
+Los cuatro casos de este encuentro —A, B, C y D— no son hipótesis de aula.
+Son versiones reducidas de prácticas que el estudio documentó en empresas
+que operan en Colombia.
+:::
+
+::: {.callout-note collapse="true"}
+## Para el trabajo autónomo de la semana
+
+Del informe, leer la **introducción** (economía digital y Big Data) y el
+**capítulo sobre Colombia**. Traer una nota de media página respondiendo:
+*¿cuál de los hallazgos del informe describe mejor algo que usted ha visto en
+su propio entorno profesional?*
+:::
+
+------------------------------------------------------------------------
+
+## 9. Cierre (112–120)
+
+### La checklist, versión 1
+
+De las doce preguntas de la
+[Checklist del analista responsable](../recursos/checklist-proyecto-datos.qmd),
+hoy se activan cinco. Las otras siete aparecerán en los encuentros siguientes.
+
+::: {.rds-card .decision data-label="CHECKLIST v1 · ACTIVA DESDE HOY"}
+1. ¿De dónde provienen estos datos?
+2. ¿Realmente necesito todas las variables?
+3. ¿Existen datos sensibles?
+4. ¿Qué puedo inferir que no estaba explícitamente registrado?
+5. ¿Existe posibilidad de reidentificación?
+:::
+
+### Segunda votación
+
+Volvemos a la pregunta del minuto 8, con las mismas tres opciones. Se compara
+el conteo con el del inicio.
+
+::: {.rds-pregunta}
+Si tenemos todos estos datos, ¿deberíamos utilizar todas las variables?
+:::
+
+### Pregunta de salida
+
+::: {.rds-card .reflexiona data-label="PREGUNTA DE SALIDA"}
+Individual, por escrito, tres líneas:
+
+::: {.pregunta}
+¿Qué tendría que cambiar en mi proyecto de datos?
+:::
+
+No en el de DataMarket: en uno real, propio, que esté en curso.
+:::
+
+------------------------------------------------------------------------
+
+## Materiales del encuentro
+
+```{=html}
+<div class="rds-grid cols-2">
+  <a class="rds-tile" href="../slides/01-datos-decisiones.html">
+    <div class="num">Presentación</div>
+    <h3>01 · Datos, decisiones y personas</h3>
+    <p>24 diapositivas Reveal.js con notas del presentador y revelación progresiva.</p>
+    <div class="meta">Tecla S para las notas · F para pantalla completa</div>
+  </a>
+  <a class="rds-tile" href="../labs/lab01.html">
+    <div class="num">Laboratorio</div>
+    <h3>Lab 1 · ¿Qué sabe esta base sobre nosotros?</h3>
+    <p>14 bloques en Jupyter con pandas. Clasificar, minimizar, seudonimizar, medir unicidad.</p>
+    <div class="meta">≈ 35 minutos</div>
+  </a>
+  <a class="rds-tile" href="../casos/caso-datamarket.html">
+    <div class="num">Caso transversal</div>
+    <h3>DataMarket Analytics</h3>
+    <p>La empresa, la base, el diccionario de datos y la evolución semana a semana.</p>
+    <div class="meta">Referencia permanente</div>
+  </a>
+  <a class="rds-tile" href="../recursos/glosario.html">
+    <div class="num">Recurso</div>
+    <h3>Glosario operativo</h3>
+    <p>Los once conceptos del bloque 3, cada uno con la pregunta que responde y su efecto en el pipeline.</p>
+    <div class="meta">Consulta rápida</div>
+  </a>
+</div>
+```
+
+## Lecturas
+
+- Newman-Pont, V., Ospina-Celis, D. y Upegui, J. C. (Eds.). (2020).
+  *Data Feast: Enterprises and Personal Data in Latin America*. Dejusticia
+  [@newman2020datafeast]. — Introducción y capítulo sobre Colombia.
+- [Glosario operativo del curso](../recursos/glosario.qmd) — para repasar los
+  once conceptos.
+
+[→ Continuar al Encuentro 2](encuentro-02.qmd)

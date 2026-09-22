@@ -1,0 +1,51 @@
+/* =========================================================================
+   Responsible Data Lab — hoja complementaria
+   Solo contiene: (a) la carga tipográfica y (b) ajustes que no dependen
+   de variables Sass. Toda la identidad visual vive en styles/custom.scss
+   (modo claro) y styles/custom-dark.scss (modo oscuro).
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+/* Impresión: las tarjetas no deben partirse entre páginas. */
+@media print {
+  .rds-card,
+  .rds-tile,
+  .rds-pipeline {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+  .rds-hero {
+    background: none !important;
+    color: #0b1220 !important;
+  }
+  .rds-hero h1,
+  .rds-hero .rds-subtitle,
+  .rds-hero .rds-claim {
+    color: #0b1220 !important;
+  }
+}
+
+/* Accesibilidad: respetar la preferencia de menos movimiento. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Los diagramas Mermaid se centran y no desbordan en móvil. */
+.cell-output-display > .mermaid,
+pre.mermaid,
+div.mermaid {
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  margin: 1.6rem 0;
+}
+
+/* Enlaces del índice lateral en monoespaciada discreta. */
+#quarto-sidebar .sidebar-item-text {
+  font-size: 0.88rem;
+}

@@ -1,0 +1,84 @@
+Responsible Data Lab — Leyes, Ética y Protección de Datos
+Especialización en Análisis Estadístico
+
+Este repositorio tiene licencia dual.
+
+===========================================================================
+1. CÓDIGO — Licencia MIT
+===========================================================================
+
+Se aplica a: scripts/, labs/*.ipynb (el código de las celdas), styles/,
+_quarto.yml, .github/ y cualquier otro archivo de código o configuración.
+
+Copyright (c) 2026
+
+Por la presente se concede permiso, libre de cargos, a cualquier persona que
+obtenga una copia de este software y de los archivos de documentación
+asociados (el "Software"), a utilizar el Software sin restricción, incluyendo
+sin limitación los derechos a usar, copiar, modificar, fusionar, publicar,
+distribuir, sublicenciar y/o vender copias del Software, y a permitir a las
+personas a las que se les proporcione el Software a hacer lo mismo, sujeto a
+las siguientes condiciones:
+
+El aviso de copyright anterior y este aviso de permiso se incluirán en todas
+las copias o partes sustanciales del Software.
+
+EL SOFTWARE SE PROPORCIONA "COMO ESTÁ", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O
+IMPLÍCITA, INCLUYENDO PERO NO LIMITADO A GARANTÍAS DE COMERCIALIZACIÓN,
+IDONEIDAD PARA UN PROPÓSITO PARTICULAR Y NO INFRACCIÓN. EN NINGÚN CASO LOS
+AUTORES O TITULARES DEL COPYRIGHT SERÁN RESPONSABLES DE NINGUNA RECLAMACIÓN,
+DAÑOS U OTRAS RESPONSABILIDADES, YA SEA EN UNA ACCIÓN CONTRACTUAL, AGRAVIO O
+CUALQUIER OTRO MOTIVO, DERIVADAS DE, FUERA DE O EN CONEXIÓN CON EL SOFTWARE O
+SU USO U OTRO TIPO DE ACCIONES EN EL SOFTWARE.
+
+===========================================================================
+2. CONTENIDO — Creative Commons BY-NC-SA 4.0
+===========================================================================
+
+Se aplica a: todos los archivos .qmd, el texto de los laboratorios, las
+presentaciones, los casos, las actividades y los recursos didácticos.
+
+Esta obra está bajo una Licencia Creative Commons
+Atribución-NoComercial-CompartirIgual 4.0 Internacional.
+
+Usted es libre de:
+
+  - Compartir: copiar y redistribuir el material en cualquier medio o formato.
+  - Adaptar: remezclar, transformar y construir a partir del material.
+
+Bajo los siguientes términos:
+
+  - Atribución: debe dar crédito de manera adecuada, brindar un enlace a la
+    licencia e indicar si se han realizado cambios.
+  - NoComercial: no puede hacer uso del material con propósitos comerciales.
+  - CompartirIgual: si remezcla, transforma o crea a partir del material, debe
+    distribuir su contribución bajo la misma licencia del original.
+
+Texto completo:
+https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.es
+
+===========================================================================
+3. OBRAS DE TERCEROS
+===========================================================================
+
+Las obras citadas conservan sus propias licencias y condiciones de uso:
+
+  - Newman-Pont, V., Ospina-Celis, D. y Upegui, J. C. (Eds.) (2020).
+    "Data Feast: Enterprises and Personal Data in Latin America".
+    Dejusticia, Working Paper 10. Licencia CC BY-NC-SA 4.0.
+
+  - Los textos normativos citados (Ley 1581 de 2012, Reglamento UE 2016/679,
+    Lei 13.709/2018, Ley 21.719 y demás) son documentos oficiales y se citan
+    únicamente con fines didácticos. Deben consultarse en sus fuentes
+    oficiales.
+
+===========================================================================
+4. DATOS
+===========================================================================
+
+El archivo data/clientes_sinteticos.csv es COMPLETAMENTE SINTÉTICO. Fue
+generado por scripts/generar_datos.py mediante un generador pseudoaleatorio
+con semilla fija. Ninguna persona real está representada en él, y ninguna
+combinación de valores corresponde a una persona identificable.
+
+Este material no constituye asesoría jurídica.

@@ -1,0 +1,160 @@
+---
+title: "Actividad 3 · Ética de los datos en estadísticas del sector público"
+subtitle: "Cuando el titular no puede irse a la competencia"
+description: "25 % · Entrega semana 7 · Trabajo en grupos de 2 o 3"
+---
+
+::: {.rds-meta}
+[Actividad 3]{} [Unidad 2]{} [25 %]{} [Entrega: semana 7]{} [Grupos de 2 o 3]{}
+:::
+
+::: {.callout-note}
+## Estado de esta actividad
+
+El enunciado está completo y es suficiente para trabajar. Los materiales de
+apoyo del [Encuentro 3](../encuentros/encuentro-03.qmd) —del que esta
+actividad depende— están en desarrollo y se publicarán antes de la semana 5.
+:::
+
+## Por qué el sector público es un caso distinto
+
+En DataMarket, un cliente descontento puede irse. Esa posibilidad —aunque sea
+teórica— disciplina a la empresa.
+
+En la estadística pública no existe esa salida.
+
+::: {.rds-card .caso data-label="LA DIFERENCIA ESTRUCTURAL"}
+| | Sector privado | Sector público |
+|:--|:--|:--|
+| **Relación** | Voluntaria y revocable | Obligatoria o difícilmente evitable |
+| **Origen del dato** | Transacción comercial | Registro administrativo, trámite, censo, obligación legal |
+| **Salida del titular** | Cambiar de proveedor | No hay |
+| **Efecto del error** | Una oferta equivocada | Acceso o exclusión de un beneficio, subsidio o servicio |
+| **Escala** | Los clientes de una empresa | La población entera, incluidas personas sin ninguna alternativa |
+| **Publicación** | Interna, o marketing | Obligación de transparencia y de dato abierto |
+
+La última fila crea una tensión que no existe en el sector privado: la misma
+institución está obligada a **publicar** y obligada a **proteger**.
+:::
+
+## El encargo
+
+Elijan **un caso real** de producción o publicación de estadísticas públicas
+—colombiano o de otro país— y analícenlo desde los cuatro ejes del curso.
+
+### Requisitos del caso elegido
+
+1. Debe ser **real y documentado**: con fuentes públicas verificables.
+2. Debe involucrar **datos sobre personas**, no solo agregados económicos.
+3. Debe existir una **decisión** identificable: publicar o no, desagregar o
+   no, cruzar bases o no, usar un modelo o no.
+4. No puede ser un caso trabajado en clase.
+
+### Ámbitos sugeridos
+
+- Focalización de subsidios y programas sociales.
+- Registros administrativos de salud usados con fines estadísticos.
+- Publicación de microdatos y de datos abiertos con desagregación
+  territorial fina.
+- Cruce de registros entre entidades para depurar bases o detectar fraude.
+- Estadísticas sobre poblaciones pequeñas o en situación de vulnerabilidad.
+- Modelos predictivos usados por entidades públicas para priorizar atención.
+
+::: {.rds-card .riesgo data-label="REGLA INNEGOCIABLE"}
+El trabajo se hace con **información pública ya publicada**.
+
+Nadie debe acceder a microdatos no públicos, solicitar bases a colegas de una
+entidad, usar credenciales de su trabajo ni reproducir datos personales
+reales en el documento entregado.
+
+Si el caso elegido requiere datos que no son públicos, es el caso equivocado.
+:::
+
+## Producto
+
+Documento de **máximo 10 páginas** más anexos.
+
+### 1 · Descripción del caso (1–2 páginas)
+
+Qué entidad, qué dato, qué finalidad declarada, qué decisión se tomó y cuándo.
+Con fuentes.
+
+### 2 · Análisis por los cuatro ejes (4–5 páginas)
+
+El eje central de la Unidad 2: distinguir cosas que no son sinónimos.
+
+| Eje | Pregunta que debe responder el análisis |
+|:--|:--|
+| **Legalidad** | ¿Qué norma habilita o limita este tratamiento? ¿Se cumplió? |
+| **Ética** | Suponiendo que fue legal, ¿era defendible? ¿Ante quién? |
+| **Calidad estadística** | ¿El dato soportaba la decisión que se tomó con él? ¿Estaba actualizado, era representativo, tenía el nivel de desagregación adecuado? |
+| **Privacidad** | ¿Se podía identificar a alguien en el resultado publicado? ¿Alguien lo midió? |
+
+Un buen trabajo muestra al menos un punto donde **los ejes se contradicen**:
+donde lo legal no era lo ético, o donde proteger la privacidad degradaba la
+calidad estadística hasta volver inútil el producto.
+
+### 3 · Análisis de sesgo y de efecto diferencial (2 páginas)
+
+¿Qué grupos quedaron mejor o peor representados? ¿Qué pasa con las personas
+que no aparecen en el registro?
+
+::: {.rds-card .reflexiona}
+La pregunta más importante de la estadística pública no es sobre quién está en
+los datos. Es sobre **quién no está**, y qué decisiones se toman sobre esas
+personas a partir de datos donde no aparecen.
+:::
+
+### 4 · Recomendaciones (1–2 páginas)
+
+De cinco a ocho recomendaciones dirigidas a la entidad, cada una con:
+
+- Qué hacer.
+- En qué etapa del proceso estadístico.
+- Qué evidencia queda.
+- Qué se pierde al hacerlo (siempre se pierde algo).
+
+## Marcos de referencia
+
+Además del marco normativo colombiano, la actividad espera que incorporen al
+menos **uno** de estos marcos de ética estadística, citado correctamente:
+
+- Principios Fundamentales de las Estadísticas Oficiales (Naciones Unidas).
+- Código de buenas prácticas o marco de aseguramiento de calidad del sistema
+  estadístico correspondiente.
+- Declaración de ética profesional del International Statistical Institute.
+- Marcos de ética de datos o de inteligencia artificial aplicables al sector
+  público en el país del caso.
+
+No se trata de citarlos decorativamente. Se trata de usar uno de ellos para
+sostener una afirmación concreta sobre el caso.
+
+## Rúbrica
+
+| Eje | Qué se evalúa | Peso |
+|:--|:--|--:|
+| **Diagnóstico** | El caso está bien documentado, con fuentes verificables, y la descripción es precisa. | 20 % |
+| **Análisis de riesgo** | Distingue con claridad legalidad, ética, calidad y privacidad, e identifica al menos una tensión real entre ellas. Analiza el efecto diferencial sobre grupos. | 35 % |
+| **Decisión técnica** | Las recomendaciones son ejecutables por la entidad, ubicadas en una etapa del proceso, y reconocen lo que se pierde. | 30 % |
+| **Evidencia** | Fuentes oficiales, marco de ética correctamente citado, sin datos personales reales en el documento. | 15 % |
+
+## Errores frecuentes
+
+::: {.rds-card .reflexiona}
+**Confundir el análisis con una denuncia.** El objetivo no es señalar
+culpables sino entender qué decisión se tomó, con qué información y qué
+alternativas existían.
+
+**Suponer que el sector público es menos exigente.** En varios aspectos es al
+revés: hay obligaciones de transparencia, de reserva estadística y de
+protección que el sector privado no tiene.
+
+**Resolver todo con «anonimizar».** Después del [Lab 1](../labs/lab01.ipynb) ya
+sabemos que eso no es una instrucción sino un resultado que hay que medir.
+
+**Ignorar la calidad estadística.** Es el eje que más se olvida y el que más
+daño hace: una decisión de política pública tomada con un dato desactualizado
+afecta a miles de personas, y ninguna ley de protección de datos lo impide.
+:::
+
+[← Actividad 2](actividad-02.qmd) · [→ Actividad 4](actividad-04.qmd)

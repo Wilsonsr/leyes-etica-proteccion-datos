@@ -1,0 +1,172 @@
+---
+title: "Programa"
+subtitle: "Leyes, Ética y Protección de Datos · Especialización en Análisis Estadístico"
+description: "Nueve semanas, tres unidades, cinco encuentros virtuales y cuatro actividades evaluativas."
+---
+
+::: {.rds-meta}
+[9 semanas]{} [3 unidades]{} [5 encuentros virtuales]{} [4 actividades · 25 % c/u]{} [Modalidad virtual]{}
+:::
+
+## Qué promete este curso
+
+Al terminar, un estudiante de esta especialización debería ser capaz de mirar
+un proyecto de datos —propio o ajeno— y responder con argumentos tres cosas:
+
+1. **Qué restricciones legales, políticas y éticas lo afectan**, y en qué
+   etapa del pipeline aparecen.
+2. **Qué decisiones técnicas concretas** se derivan de esas restricciones:
+   qué variable se excluye, qué transformación se aplica, qué evidencia se
+   documenta, qué modelo no se despliega.
+3. **Qué queda registrado** de todo lo anterior, para que la decisión sea
+   auditable por alguien que no estuvo en la sala.
+
+Lo que este curso **no** promete: convertir a nadie en abogado. Los conceptos
+jurídicos aparecen traducidos a preguntas que un analista puede responder con
+su propio dataset delante.
+
+## Resultados de aprendizaje
+
+| Unidad | Resultado de aprendizaje |
+|:--|:--|
+| 1 | Identifica las restricciones legales, políticas y/o éticas que pueden afectar los análisis de datos. |
+| 2 | Evalúa las implicaciones éticas de decisiones analíticas en contextos públicos y privados, incluido el sesgo algorítmico. |
+| 3 | Aplica técnicas de protección de datos —minimización, seudonimización, anonimización, control de acceso— en proyectos con datos masivos e inteligencia artificial. |
+
+## Estructura
+
+### Unidad 1 · Fundamentos legales de la protección de datos {#unidad-1}
+
+Semanas 1 a 4. La pregunta es **¿podemos hacerlo?**
+
+| # | Contenido | Dónde se trabaja |
+|:--|:--|:--|
+| 1.1 | Introducción al curso | [Encuentro 1](encuentros/encuentro-01.qmd) |
+| 1.2 | Relación entre leyes, ética y ciencia de datos | [Encuentro 1](encuentros/encuentro-01.qmd) · [Encuentro 2](encuentros/encuentro-02.qmd) |
+| 1.3 | Marco colombiano de protección de datos | [Encuentro 2](encuentros/encuentro-02.qmd) |
+| 1.4 | Marco internacional y latinoamericano | [Encuentro 2](encuentros/encuentro-02.qmd) · [Actividad 1](actividades/actividad-01.qmd) |
+
+**Encuentros virtuales**
+
+- **Encuentro 1** — *Tenemos los datos. ¿Qué podría salir mal?* · 2 horas ·
+  Introducción al curso y motivación.
+- **Encuentro 2** — *Del requisito a la decisión: cómo cambian las reglas un
+  proyecto de datos* · 2 horas · Relación entre las leyes y la ciencia de datos.
+
+**Evaluación**
+
+- [Actividad 1](actividades/actividad-01.qmd) — Comparación entre legislaciones
+  latinoamericanas, aplicada al caso DataMarket. **25 %**
+- [Actividad 2](actividades/actividad-02.qmd) — Caso de una empresa colombiana
+  frente al GDPR. **25 %**
+
+### Unidad 2 · Ética de los datos en la práctica profesional {#unidad-2}
+
+Semanas 5 a 7. La pregunta es **¿debemos hacerlo?**
+
+| # | Contenido | Dónde se trabaja |
+|:--|:--|:--|
+| 2.1 | Ética y ciencia de datos | [Encuentro 3](encuentros/encuentro-03.qmd) |
+| 2.2 | Principios éticos aplicados a decisiones analíticas | [Encuentro 3](encuentros/encuentro-03.qmd) |
+| 2.3 | Ética de los datos en el sector público | [Actividad 3](actividades/actividad-03.qmd) |
+| 2.4 | Ética de los datos en el sector privado | [Encuentro 3](encuentros/encuentro-03.qmd) |
+| 2.5 | Sesgo algorítmico | [Encuentro 3](encuentros/encuentro-03.qmd) |
+
+**Encuentro virtual**
+
+- **Encuentro 3** — Relación entre ética y ciencia de datos.
+
+**Evaluación**
+
+- [Actividad 3](actividades/actividad-03.qmd) — Ética de los datos en
+  estadísticas del sector público. **25 %**
+
+### Unidad 3 · Técnicas y desafíos en la protección y manejo de datos masivos e IA {#unidad-3}
+
+Semanas 8 y 9. La pregunta es **¿cómo lo hacemos responsablemente?**
+
+| # | Contenido | Dónde se trabaja |
+|:--|:--|:--|
+| 3.1 | Anonimización y seudonimización | [Encuentro 4](encuentros/encuentro-04.qmd) · [Actividad 4](actividades/actividad-04.qmd) |
+| 3.2 | Seguridad de la información aplicada a proyectos analíticos | [Encuentro 4](encuentros/encuentro-04.qmd) |
+| 3.3 | Buenas prácticas y gobernanza de datos | [Encuentro 5](encuentros/encuentro-05.qmd) |
+| 3.4 | Big Data | [Encuentro 4](encuentros/encuentro-04.qmd) |
+| 3.5 | Inteligencia artificial y decisiones automatizadas | [Encuentro 4](encuentros/encuentro-04.qmd) · [Encuentro 5](encuentros/encuentro-05.qmd) |
+
+**Encuentros virtuales**
+
+- **Encuentro 4** — Herramientas para protección y manejo de datos.
+- **Encuentro 5** — Cierre y construcción colaborativa de un decálogo de
+  buenas prácticas.
+
+**Evaluación**
+
+- [Actividad 4](actividades/actividad-04.qmd) — Ejercicio práctico de
+  anonimización. **25 %**
+
+## Calendario
+
+| Semana | Unidad | Encuentro | Caso DataMarket | Entrega |
+|:--:|:--:|:--|:--|:--|
+| 1 | 1 | **E1** · Tenemos los datos | Quiere predecir *churn* con 35 variables | — |
+| 2 | 1 | **E2** · Del requisito a la decisión | Aparecen problemas de origen y finalidad | — |
+| 3 | 1 | — (trabajo autónomo) | Quiere operar en Brasil y Chile | **Actividad 1** |
+| 4 | 1 | — (trabajo autónomo) | Empieza a tener clientes en la UE | **Actividad 2** |
+| 5 | 2 | **E3** · Ética y ciencia de datos | El modelo discrimina por estrato y edad | — |
+| 6 | 2 | — (trabajo autónomo) | Comité de ética interno | — |
+| 7 | 2 | — (trabajo autónomo) | Quiere compartir la base con un tercero | **Actividad 3** |
+| 8 | 3 | **E4** · Herramientas de protección | Tiene que anonimizar de verdad | **Actividad 4** |
+| 9 | 3 | **E5** · Decálogo colaborativo | Publica su política interna | — |
+
+## Evaluación
+
+Cuatro actividades, 25 % cada una.
+
+| Actividad | Producto | Peso |
+|:--|:--|:--:|
+| [1 · Operar en tres países](actividades/actividad-01.qmd) | Matriz comparada Colombia–Brasil–Chile + columna «¿qué cambia en el proyecto?» | 25 % |
+| [2 · Auditoría GDPR](actividades/actividad-02.qmd) | Informe ejecutivo + mapa de flujo de datos + registro de riesgos y decisiones | 25 % |
+| [3 · Ética en el sector público](actividades/actividad-03.qmd) | Análisis de un caso real de estadística pública + recomendaciones | 25 % |
+| [4 · Anonimización](actividades/actividad-04.qmd) | Notebook reproducible + informe de riesgo de reidentificación | 25 % |
+
+### Criterios generales
+
+Todas las actividades se califican sobre los mismos cuatro ejes. El peso
+relativo cambia según la actividad y se indica en cada enunciado.
+
+| Eje | Qué se evalúa |
+|:--|:--|
+| **Diagnóstico** | Identifica correctamente qué datos hay, de dónde vienen y qué se está haciendo con ellos. |
+| **Análisis de riesgo** | Conecta una característica concreta del dato o del modelo con un daño plausible a una persona o grupo identificable. |
+| **Decisión técnica** | Propone un cambio ejecutable en el pipeline, no una recomendación genérica. Se acepta «no hacerlo» como decisión, si está argumentada. |
+| **Evidencia** | Deja rastro: código, tabla, captura, referencia normativa verificable. Una afirmación sin fuente o sin salida reproducible no cuenta. |
+
+::: {.callout-note}
+## Sobre citar normas
+
+Cuando una actividad exija referirse a una norma, la referencia debe apuntar a
+una **fuente oficial vigente** (por ejemplo, el Gestor Normativo de Función
+Pública, SUIN-Juriscol, la Superintendencia de Industria y Comercio o EUR-Lex).
+No se aceptan resúmenes de blogs ni normas citadas de memoria. Ver
+[Lecturas y bibliografía](lecturas/index.qmd).
+:::
+
+## Materiales
+
+- **Base de datos del curso**: `data/clientes_sinteticos.csv` (1 512 registros,
+  35 variables, sintética y reproducible).
+- **Generador**: `scripts/generar_datos.py`.
+- **Laboratorios**: [Lab 1](labs/lab01.ipynb) y [Lab 2](labs/lab02.ipynb).
+- **Lectura académica principal**: Newman-Pont, Ospina-Celis y Upegui (2020),
+  *Data Feast: Enterprises and Personal Data in Latin America*, Dejusticia.
+- **Caso histórico**: Márquez Buitrago (2016), sobre la aplicación de la
+  Ley 1581 de 2012 a Facebook en Colombia.
+
+## Requisitos técnicos
+
+Manejo básico de Python y `pandas`. No se requiere experiencia previa en
+derecho ni en seguridad de la información. Quien prefiera trabajar en R puede
+hacerlo: los laboratorios están escritos en Python, pero las decisiones que se
+piden son independientes del lenguaje.
+
+[→ Cómo trabajamos en cada encuentro](metodologia.qmd)

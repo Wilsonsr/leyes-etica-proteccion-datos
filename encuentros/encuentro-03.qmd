@@ -1,0 +1,157 @@
+---
+title: "Cuando el modelo funciona y aun así no lo firmamos"
+subtitle: "Ética y ciencia de datos · sector público, sector privado y sesgo algorítmico"
+description: "Encuentro virtual 3 · 120 minutos · Unidad 2 · Estructura preparada para desarrollo"
+---
+
+::: {.rds-meta}
+[Encuentro 3]{} [Unidad 2]{} [120 minutos]{} [Semana 5]{} [En desarrollo]{}
+:::
+
+::: {.callout-note}
+## Estado de este encuentro
+
+Estructura y guion general definidos. Los materiales completos —slides
+`03-etica-decisiones.qmd` y `labs/lab03.ipynb`— se publican antes de la
+semana 5.
+
+Lo que está aquí es suficiente para preparar la sesión y para que los
+estudiantes sepan hacia dónde va la unidad.
+:::
+
+## Pregunta central
+
+::: {.rds-pregunta}
+El modelo es legal, es seguro y es estadísticamente sólido.
+¿Por qué hay algo que no cuadra?
+:::
+
+## De dónde venimos
+
+El [Encuentro 2](encuentro-02.qmd) terminó con un número incómodo: el modelo B
+predice mejor, y lo hace usando estrato, ingresos y proxies de condiciones de
+salud.
+
+Se tomó una decisión provisional —desplegar el modelo A— pero no se resolvió
+la pregunta de fondo: **¿en qué momento algo deja de ser una cuestión de
+cumplimiento y pasa a ser una cuestión de criterio?**
+
+## Objetivo
+
+Que el estudiante pueda:
+
+1. Distinguir con claridad entre lo legal, lo ético, lo estadísticamente
+   correcto y lo seguro, y sostener esa distinción con un ejemplo propio.
+2. Medir sesgo y efecto diferencial en un modelo, no solo afirmarlos.
+3. Reconocer las diferencias estructurales entre el sector público y el
+   privado en materia de datos.
+4. Construir un argumento defendible para una decisión donde ambas opciones
+   tienen costo.
+
+## Agenda prevista
+
+```{=html}
+<ul class="rds-timeline">
+  <li><span class="t">00–10</span><span class="modo">detonante</span><br>
+      Un modelo perfecto que nadie quiere firmar. Caso corto, votación inmediata.</li>
+  <li><span class="t">10–25</span><span class="modo">exposición</span><br>
+      Las cinco columnas que no son sinónimos: legalidad, ética, calidad, seguridad, privacidad.</li>
+  <li><span class="t">25–40</span><span class="modo">casos</span><br>
+      Tres situaciones donde una columna dice sí y otra dice no.</li>
+  <li><span class="t">40–70</span><span class="modo">laboratorio</span><br>
+      Lab 3: medir sesgo por grupo en el modelo B de DataMarket.</li>
+  <li><span class="t">70–85</span><span class="modo">exposición</span><br>
+      Sector público: por qué el titular no puede irse a la competencia.</li>
+  <li><span class="t">85–105</span><span class="modo">dilema</span><br>
+      La variable que no está: ¿se recoge un dato sensible para poder auditar la discriminación?</li>
+  <li><span class="t">105–120</span><span class="modo">cierre</span><br>
+      Checklist v3 completa (12 preguntas) y pregunta de salida.</li>
+</ul>
+```
+
+## Contenidos
+
+### 2.1 Ética y ciencia de datos
+
+El punto de partida no es un catálogo de principios sino una constatación: la
+mayoría de las decisiones difíciles de un proyecto de datos **no están
+reguladas**. La norma cubre el piso; el criterio profesional cubre el resto.
+
+::: {.rds-card .dilema data-label="EL ESPACIO DE LA UNIDAD 2"}
+```
+   Lo prohibido        |   Lo permitido pero discutible   |  Lo evidente
+   ------------------- | -------------------------------- | -------------
+   Unidad 1            |          Unidad 2                |  Sentido común
+```
+
+Casi todo el trabajo profesional real ocurre en la franja del medio.
+:::
+
+### 2.2 Principios éticos aplicados a decisiones analíticas
+
+Se trabajarán los marcos habituales —autonomía, no maleficencia, justicia,
+explicabilidad— pero siempre traducidos a una pregunta operativa, en la forma
+de la matriz del [Encuentro 2](encuentro-02.qmd).
+
+### 2.3 Sector público
+
+Material base: la tabla de diferencias estructurales de la
+[Actividad 3](../actividades/actividad-03.qmd). La idea central es que en el
+sector público **no existe la salida del mercado**: quien queda mal
+clasificado por un sistema de focalización no puede cambiar de Estado.
+
+### 2.4 Sector privado
+
+Aquí entra de nuevo *Data Feast*: el estudio documenta cómo las empresas
+basadas en datos operan en la región y dónde la norma se queda corta
+[@newman2020datafeast].
+
+### 2.5 Sesgo algorítmico
+
+No como concepto abstracto sino como **medición**. El laboratorio retoma el
+modelo B y mide:
+
+- Tasa de marcado por grupo (estrato, edad, sexo).
+- Tasas de falso positivo y falso negativo por grupo.
+- Qué cambia si se eliminan los proxies.
+- Qué cambia si se cambia el umbral.
+
+::: {.rds-card .prueba data-label="ADELANTO · YA SE PUEDE CORRER"}
+El bloque 9 del [Lab 2](../labs/lab02.ipynb) ya calcula el error por estrato
+para ambos modelos. Quien quiera adelantarse, puede empezar por ahí:
+
+```python
+print(error_por_grupo(modelo_b, "estrato").to_string())
+```
+
+El patrón está a la vista: el modelo B marca como «en riesgo» a cerca del
+29 % de los clientes de estratos 1 y 2, frente a menos del 9 % en estratos
+5 y 6.
+:::
+
+## Evaluación asociada
+
+[Actividad 3 · Ética de los datos en estadísticas del sector público](../actividades/actividad-03.qmd)
+— 25 %, entrega en la semana 7. El enunciado ya está publicado.
+
+## Checklist que se activa
+
+Las dos últimas preguntas de la
+[Checklist del analista responsable](../recursos/checklist-proyecto-datos.qmd):
+
+11. ¿Puede mi modelo afectar personas o grupos?
+12. ¿Qué información publicaré?
+
+Con esto, las doce quedan activas.
+
+## Materiales
+
+| Material | Estado |
+|:--|:--|
+| Guion del encuentro | Estructura definida |
+| `slides/03-etica-decisiones.qmd` | Pendiente · antes de la semana 5 |
+| `labs/lab03.ipynb` | Pendiente · antes de la semana 5 |
+| [Banco de dilemas](../casos/dilemas.qmd), dilemas 05 a 08 | Publicado |
+| [Actividad 3](../actividades/actividad-03.qmd) | Publicada |
+
+[← Encuentro 2](encuentro-02.qmd) · [→ Encuentro 4](encuentro-04.qmd)

@@ -1,0 +1,32 @@
+# Salidas de Quarto
+/_site/
+/docs/
+/.quarto/
+*_files/
+*_cache/
+/_freeze/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Artefactos generados por los laboratorios
+labs/auditoria_pipeline_datamarket.csv
+labs/registro_decision_modelo.csv
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# NOTA: data/clientes_sinteticos.csv SÍ se versiona.
+# Es un archivo sintético, pequeño y reproducible, y el sitio lo necesita
+# para renderizar los laboratorios.

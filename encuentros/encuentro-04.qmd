@@ -1,0 +1,141 @@
+---
+title: "«Anonimícenla y se la mandamos el viernes»"
+subtitle: "Herramientas para la protección y el manejo de datos masivos e IA"
+description: "Encuentro virtual 4 · 120 minutos · Unidad 3 · Estructura preparada para desarrollo"
+---
+
+::: {.rds-meta}
+[Encuentro 4]{} [Unidad 3]{} [120 minutos]{} [Semana 8]{} [En desarrollo]{}
+:::
+
+::: {.callout-note}
+## Estado de este encuentro
+
+Estructura y guion general definidos. Los materiales completos —slides
+`04-tecnicas-proteccion.qmd` y `labs/lab04.ipynb`— se publican antes de la
+semana 8.
+
+La [Actividad 4](../actividades/actividad-04.qmd), que es el producto
+evaluable de esta unidad, ya está publicada completa y se puede resolver con
+lo visto en el [Lab 1](../labs/lab01.ipynb).
+:::
+
+## Pregunta central
+
+::: {.rds-pregunta}
+¿Cuánta utilidad estamos dispuestos a perder, y quién decide eso?
+:::
+
+## De dónde venimos
+
+Semana 7: DataMarket contrató un proveedor externo para construir el motor de
+recomendación. El proveedor pide la base. La instrucción llega en una línea:
+*«anonimícenla»*.
+
+El [Lab 1](../labs/lab01.ipynb) ya demostró que eso no es una operación sino un
+resultado que hay que medir. Este encuentro construye las herramientas.
+
+## Objetivo
+
+Que el estudiante pueda tomar una base real, aplicar un conjunto de técnicas
+de protección, **medir** el riesgo residual y la pérdida de utilidad, y
+sostener una decisión de entrega con evidencia.
+
+## Agenda prevista
+
+```{=html}
+<ul class="rds-timeline">
+  <li><span class="t">00–10</span><span class="modo">detonante</span><br>
+      El correo del proveedor. Dos exigencias contradictorias en dos frases.</li>
+  <li><span class="t">10–28</span><span class="modo">exposición</span><br>
+      El catálogo de técnicas: qué hace cada una y qué cuesta.</li>
+  <li><span class="t">28–40</span><span class="modo">métricas</span><br>
+      k-anonimato, diversidad del atributo sensible y medición de utilidad.</li>
+  <li><span class="t">40–78</span><span class="modo">laboratorio</span><br>
+      Lab 4: anonimizar la base de DataMarket, midiendo en cada paso.</li>
+  <li><span class="t">78–92</span><span class="modo">exposición</span><br>
+      Seguridad aplicada a proyectos analíticos: accesos, copias, ambientes.</li>
+  <li><span class="t">92–108</span><span class="modo">caso + dilema</span><br>
+      Big Data e IA: qué cambia cuando el volumen y el modelo crecen.</li>
+  <li><span class="t">108–120</span><span class="modo">cierre</span><br>
+      La decisión de entrega y preparación del decálogo.</li>
+</ul>
+```
+
+## Contenidos
+
+### 3.1 Anonimización y seudonimización
+
+El catálogo completo de técnicas está en la
+[Actividad 4](../actividades/actividad-04.qmd). En el encuentro se trabajan
+aplicadas, no listadas:
+
+| Técnica | Qué cuesta |
+|:--|:--|
+| Supresión de variables | Todo el análisis que dependía de ellas |
+| Seudonimización | No anonimiza: la tabla de equivalencias sigue existiendo |
+| Generalización | Resolución analítica |
+| Supresión de celdas | Sesga la base si los suprimidos no son aleatorios |
+| Agregación | Impide cualquier modelado individual |
+| Perturbación / ruido | Cambia las distribuciones; hay que documentar cuánto |
+| Top / bottom coding | El comportamiento de las colas |
+| Datos sintéticos | Puede no preservar las relaciones que importan |
+
+### 3.2 Seguridad de la información aplicada a proyectos analíticos
+
+No es un módulo de ciberseguridad. Son las cuatro decisiones que un equipo de
+analítica sí controla:
+
+1. Dónde vive el archivo y cuántas copias existen.
+2. Quién tiene acceso y con qué nivel de detalle.
+3. Separación entre la tabla de identificación y la de análisis.
+4. Qué pasa cuando alguien se va del equipo.
+
+### 3.3 Buenas prácticas y gobernanza de datos
+
+Prepara el [Encuentro 5](encuentro-05.qmd): qué hace que una regla interna se
+cumpla en la práctica y no se quede en un documento.
+
+### 3.4 Big Data
+
+Qué cambia cuando el volumen crece: la reidentificación se vuelve más fácil,
+no más difícil; el consentimiento informado pierde sentido cuando las
+finalidades futuras aún no están definidas; y la trazabilidad se vuelve el
+único control viable.
+
+### 3.5 Inteligencia artificial y decisiones automatizadas
+
+::: {.rds-card .riesgo data-label="RIESGO · LO QUE CAMBIA CON LOS MODELOS GRANDES"}
+Cuatro problemas que un modelo de regresión logística no tenía:
+
+1. **Memorización.** Un modelo entrenado con datos personales puede
+   reproducirlos. El modelo mismo pasa a ser un activo que contiene datos.
+2. **Opacidad.** «Explicar la lógica» deja de ser trivial. No basta con
+   mostrar coeficientes.
+3. **Escala del error.** El mismo sesgo aplicado a millones de decisiones
+   automáticas produce un efecto estructural.
+4. **Procedencia de los datos de entrenamiento.** Un corpus obtenido por
+   *scraping* arrastra todos los problemas del [Caso C](encuentro-01.qmd) del
+   Encuentro 1, multiplicados.
+:::
+
+Este bloque debe mantenerse **actualizado cada semestre**, porque es el que
+más rápido se desactualiza. La regla del curso aplica con especial fuerza
+aquí: verificar la fuente oficial vigente antes de afirmar nada.
+
+## Evaluación asociada
+
+[Actividad 4 · Ejercicio práctico de anonimización](../actividades/actividad-04.qmd)
+— 25 %, entrega en la semana 8. Publicada.
+
+## Materiales
+
+| Material | Estado |
+|:--|:--|
+| Guion del encuentro | Estructura definida |
+| `slides/04-tecnicas-proteccion.qmd` | Pendiente · antes de la semana 8 |
+| `labs/lab04.ipynb` | Pendiente · antes de la semana 8 |
+| [Actividad 4](../actividades/actividad-04.qmd) | Publicada, resoluble con el Lab 1 |
+| [Banco de dilemas](../casos/dilemas.qmd), dilemas 09 a 12 | Publicado |
+
+[← Encuentro 3](encuentro-03.qmd) · [→ Encuentro 5](encuentro-05.qmd)

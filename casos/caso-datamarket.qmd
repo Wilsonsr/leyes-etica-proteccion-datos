@@ -1,0 +1,242 @@
+---
+title: "DataMarket Analytics"
+subtitle: "El caso transversal del curso"
+description: "Una empresa ficticia, una base sintética y nueve semanas de decisiones."
+---
+
+::: {.rds-sintetico}
+DataMarket Analytics **no existe**. La base `data/clientes_sinteticos.csv` es
+sintética, generada por `scripts/generar_datos.py` con semilla fija. Ninguna
+persona real está representada en este repositorio, y ninguna de las
+situaciones descritas corresponde a una empresa identificable.
+:::
+
+## La empresa
+
+::: {.rds-card .caso data-label="PERFIL"}
+**DataMarket Analytics S.A.S.**
+
+Comercio electrónico colombiano, fundado en 2019. Vende tecnología, hogar,
+moda, deportes, mascotas, productos de salud y bienestar, artículos de bebé y
+maternidad, supermercado y libros.
+
+- **Sede:** Bogotá. Bodegas en Bogotá, Medellín y Barranquilla.
+- **Clientes activos:** alrededor de 1 500 en la base consolidada.
+- **Equipo de analítica:** tres personas. Reportan a la Dirección Comercial.
+- **No tiene** oficial de protección de datos, ni comité de ética, ni
+  inventario formal de bases de datos.
+
+Esa última línea es la más importante del perfil. DataMarket no es una empresa
+negligente: es una empresa normal.
+:::
+
+### Por qué esta empresa y no un banco o un hospital
+
+Deliberadamente, el caso **no** involucra datos de salud, historia crediticia
+ni información de menores. Son sectores donde la respuesta correcta suele ser
+evidente y donde existe regulación sectorial específica.
+
+Un *e-commerce* es más incómodo: todos los datos parecen inofensivos, nadie
+firmó nada especial, y sin embargo la combinación permite saber cosas que
+ninguna persona contó voluntariamente.
+
+## La base de datos
+
+1 512 registros y 35 variables. Se carga así:
+
+```python
+import pandas as pd
+df = pd.read_csv("data/clientes_sinteticos.csv")
+```
+
+### Diccionario de datos
+
+: 35 variables, clasificadas por el riesgo que introducen —no por su tipo {.rds-decision-table}
+
+| Variable | Tipo | Categoría de riesgo | Descripción |
+|:--|:--|:--|:--|
+| `cliente_id` | texto | indirecto | Identificador interno `DM-#####` |
+| `nombre` | texto | **directo** | Nombre y apellido sintéticos |
+| `email` | texto | **directo** | Correo sintético. Hay duplicados y variaciones de formato |
+| `telefono` | texto | **directo** | Móvil sintético. Formato inconsistente a propósito |
+| `documento` | texto | **directo** | Prefijo `SYN-` para que nunca se confunda con un documento real |
+| `fecha_nacimiento` | fecha | cuasi | Derivada de la edad |
+| `edad` | entero | cuasi | 18 a 82 |
+| `sexo` | texto | cuasi | `F`, `M`, `Otro`, `Prefiere no responder` |
+| `ciudad` | texto | cuasi | 12 ciudades colombianas |
+| `barrio` | texto | cuasi | Barrio dentro de la ciudad. Sube mucho el riesgo de unicidad |
+| `direccion` | texto | **directo** | Dirección sintética |
+| `latitud` | decimal | indirecto | Coordenada con ruido de ±3 km |
+| `longitud` | decimal | indirecto | Coordenada con ruido de ±3 km |
+| `estrato` | entero | cuasi | 1 a 6. Proxy socioeconómico |
+| `ocupacion` | texto | cuasi | 12 categorías. 5 % de faltantes |
+| `ingresos_mensuales` | decimal | cuasi | Correlacionado con estrato. 9 % de faltantes |
+| `dispositivo` | texto | indirecto | Android, iOS, Windows, macOS, Linux |
+| `ip` | texto | indirecto | Identificador en línea |
+| `pais_residencia` | texto | cuasi | 90 % Colombia. **74 registros en la Unión Europea** |
+| `canal_adquisicion` | texto | comportamiento | Cómo llegó el cliente |
+| `origen_dato` | texto | **control** | De dónde salió el registro. La variable más importante del caso |
+| `fecha_autorizacion` | fecha | **control** | Vacía en 236 registros |
+| `consentimiento_marketing` | binario | **control** | 1 = autorizó comunicaciones comerciales |
+| `visitas_web` | entero | comportamiento | Visitas en 6 meses |
+| `productos_vistos` | entero | comportamiento | Productos vistos en 6 meses |
+| `categoria_top` | texto | comportamiento | Categoría más comprada |
+| `compras_6m` | entero | comportamiento | Compras en 6 meses |
+| `monto_compras` | decimal | comportamiento | Monto acumulado en pesos |
+| `fecha_ultima_compra` | fecha | comportamiento | Base para calcular recencia |
+| `compras_farmacia_6m` | entero | **proxy sensible** | Permite inferir condición de salud |
+| `entrega_asistida` | binario | **proxy sensible** | Permite inferir discapacidad o movilidad reducida |
+| `busquedas_maternidad` | entero | **proxy sensible** | Permite inferir embarazo |
+| `score_riesgo_interno` | entero | **inferido** | 0 a 100. Lo produjo un modelo anterior de la empresa |
+| `segmento` | texto | **inferido** | `fiel`, `estable`, `en_riesgo`, `critico` |
+| `churn` | binario | objetivo | 1 = abandonó |
+
+::: {.callout-note}
+## Lo que `dias_desde_ultima_compra` enseña por no estar
+
+La variable de recencia —la más predictiva del modelo— **no está en el CSV**.
+Los estudiantes la construyen en el bloque 4 del
+[Lab 2](../labs/lab02.ipynb), a partir de `fecha_ultima_compra`.
+
+Es intencional: obliga a que el *feature engineering* sea un acto visible y
+no una casilla que ya venía marcada. La misma línea de código que crea
+`dias_desde_ultima_compra` podría crear `probabilidad_de_embarazo`.
+:::
+
+### Las tres variables incómodas
+
+::: {.rds-card .riesgo data-label="RIESGO · PROXIES DE DATOS SENSIBLES"}
+`compras_farmacia_6m` · `entrega_asistida` · `busquedas_maternidad`
+
+Ninguna es, formalmente, un dato sensible. Las tres permiten producir uno.
+
+En el generador, las tres contribuyen deliberadamente a la variable objetivo
+`churn`. Por eso el «modelo B» del [Lab 2](../labs/lab02.ipynb) predice mejor:
+el dilema no es retórico, está en los datos.
+:::
+
+### Los seis orígenes
+
+`origen_dato` es la columna que sostiene toda la Unidad 1.
+
+| Origen | Registros aprox. | ¿Hay autorización fechada? | Comentario |
+|:--|--:|:--:|:--|
+| `facturacion` | 464 | Sí | Recolectado para emitir factura |
+| `entrega_domicilio` | 348 | Sí | Recolectado para entregar el pedido |
+| `registro_cuenta` | 289 | Sí | El usuario creó una cuenta |
+| `programa_fidelizacion` | 175 | Sí | Incluye autorización de marketing |
+| `lista_comprada_tercero` | 144 | **No** | Base adquirida a un proveedor |
+| `enriquecimiento_web` | 92 | **No** | Datos tomados de perfiles públicos |
+
+Los **236 registros** sin autorización fechada son el 15,6 % de la base. Toda
+la discusión sobre finalidad, licitud y evidencia se ancla en ese número.
+
+## La evolución del caso
+
+El mismo caso cambia de forma cada semana. La base no cambia: cambia lo que la
+empresa quiere hacer con ella.
+
+```{mermaid}
+timeline
+    title DataMarket Analytics · nueve semanas
+    Semana 1 : Quiere predecir churn : 35 variables disponibles
+    Semana 2 : Aparecen los problemas : origen, finalidad, tratamiento
+    Semana 3 : Quiere operar en la región : Brasil y Chile
+    Semana 4 : Clientes en Europa : 74 registros en la UE
+    Semana 5 : El modelo discrimina : estrato, edad, proxies de salud
+    Semana 7 : Quiere compartir la base : con un proveedor externo
+    Semana 8 : Tiene que anonimizar : y medir si lo logró
+    Semana 9 : Escribe su decálogo : construido por el curso
+```
+
+### Semana 1 · «Tenemos los datos»
+
+La Dirección Comercial pide un modelo de abandono. El equipo tiene acceso
+completo y ninguna restricción. Se trabaja en el
+[Encuentro 1](../encuentros/encuentro-01.qmd).
+
+**Lo que se descubre:** borrar el nombre no anonimiza. Cuatro
+cuasi-identificadores dejan sola a la gran mayoría de las personas de la base.
+
+### Semana 2 · «Ya que la tenemos, usémosla para todo»
+
+Llega la petición de ampliar el alcance: segmentación, predicción de compra,
+publicidad personalizada, recomendación. Los datos se habían recolectado para
+facturación, entregas y administración de clientes.
+[Encuentro 2](../encuentros/encuentro-02.qmd).
+
+**Lo que se descubre:** 236 registros sin evidencia de origen, y un modelo que
+mejora cuando se le dan variables que no debería usar.
+
+### Semana 3 · «Vamos a abrir operación en la región»
+
+DataMarket quiere vender en **Brasil** y **Chile**. Los tres regímenes son
+distintos, y dos de ellos son más exigentes que el colombiano en puntos
+concretos que afectan el pipeline.
+[Actividad 1](../actividades/actividad-01.qmd).
+
+### Semana 4 · «Tenemos clientes en Europa»
+
+74 registros con residencia en España, Alemania, Francia e Italia. Suficiente
+para que el GDPR sea aplicable.
+[Actividad 2](../actividades/actividad-02.qmd).
+
+### Semana 5 · «El modelo funciona, pero…»
+
+El análisis por grupo muestra que el modelo B marca como «en riesgo» a una
+proporción mucho mayor de clientes de estratos 1 y 2 que de estratos 5 y 6. La
+acción asociada define si eso es un problema o una catástrofe.
+[Encuentro 3](../encuentros/encuentro-03.qmd).
+
+### Semana 7 · «El proveedor necesita la base»
+
+Un tercero va a construir el motor de recomendación y pide los datos. ¿Qué se
+entrega, en qué formato y bajo qué condiciones?
+[Actividad 3](../actividades/actividad-03.qmd) trabaja el mismo problema en el
+sector público.
+
+### Semana 8 · «Anonimícenla»
+
+La instrucción llega en una línea. Ejecutarla bien toma un laboratorio
+completo, y termina en un número: cuántos registros siguen siendo únicos
+después de la transformación.
+[Encuentro 4](../encuentros/encuentro-04.qmd) ·
+[Actividad 4](../actividades/actividad-04.qmd).
+
+### Semana 9 · El decálogo
+
+Los estudiantes escriben las diez reglas que DataMarket debería haber tenido
+desde la semana 1. [Encuentro 5](../encuentros/encuentro-05.qmd).
+
+## Regenerar la base
+
+```bash
+python scripts/generar_datos.py
+```
+
+Con parámetros:
+
+```bash
+python scripts/generar_datos.py --n 3000 --semilla 7 --salida data/otra_base.csv
+```
+
+La semilla por defecto es `2026`. Cambiarla produce una base distinta pero
+con las mismas propiedades estructurales: los mismos orígenes problemáticos,
+los mismos proxies y la misma relación entre las variables sensibles y el
+abandono.
+
+::: {.callout-warning}
+## Regla del curso
+
+Nunca se sustituye esta base por datos reales de la organización de un
+estudiante, ni siquiera «para que el ejercicio sea más realista». Si alguien
+quiere aplicar los métodos a su propio trabajo, lo hace por fuera del curso,
+en la infraestructura de su empresa y bajo las políticas de su empresa.
+:::
+
+## Ver también
+
+- [Caso histórico · Facebook en Colombia](caso-facebook.qmd)
+- [Banco de dilemas](dilemas.qmd)
+- [Mapa de riesgos del pipeline](../recursos/mapa-riesgos.qmd)
+- [Glosario operativo](../recursos/glosario.qmd)

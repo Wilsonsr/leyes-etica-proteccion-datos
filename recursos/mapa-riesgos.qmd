@@ -1,0 +1,275 @@
+---
+title: "Mapa de riesgos del pipeline"
+subtitle: "Dónde aparece cada riesgo y qué control lo contiene"
+description: "Referencia rápida: doce etapas, sus riesgos típicos y el control correspondiente."
+---
+
+::: {.rds-meta}
+[Recurso]{} [12 etapas]{} [Referencia rápida]{}
+:::
+
+## El mapa completo
+
+```{mermaid}
+flowchart TB
+    subgraph ENTRADA [" "]
+        F["FUENTE"] --> R["RECOLECCIÓN"] --> A["ALMACENAMIENTO"]
+    end
+    subgraph PREPARACION [" "]
+        I["INTEGRACIÓN"] --> L["LIMPIEZA"] --> FE["FEATURE<br/>ENGINEERING"]
+    end
+    subgraph MODELADO [" "]
+        M["MODELO"] --> P["PREDICCIÓN"] --> D["DECISIÓN"]
+    end
+    subgraph SALIDA [" "]
+        PU["PUBLICACIÓN"] --> C["CONSERVACIÓN"] --> E["ELIMINACIÓN"]
+    end
+
+    A --> I
+    FE --> M
+    D --> PU
+
+    style F fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style R fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style A fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style I fill:#0b1220,stroke:#f87171,color:#e2e8f0
+    style L fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style FE fill:#0b1220,stroke:#f87171,color:#e2e8f0
+    style M fill:#0b1220,stroke:#f87171,color:#e2e8f0
+    style P fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style D fill:#0b1220,stroke:#f87171,color:#e2e8f0
+    style PU fill:#0b1220,stroke:#f87171,color:#e2e8f0
+    style C fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style E fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+```
+
+Las etapas en rojo son los **cuatro puntos ciegos**: donde el riesgo es mayor y
+la documentación suele ser menor.
+
+------------------------------------------------------------------------
+
+## Etapa por etapa
+
+### 1 · Fuente
+
+::: {.rds-card .riesgo data-label="RIESGOS"}
+- Origen no documentado o imposible de reconstruir.
+- Datos adquiridos a terceros sin cadena de autorización verificable.
+- Datos obtenidos por *scraping* de fuentes públicas.
+- Mezcla de fuentes con condiciones de uso incompatibles.
+:::
+
+**Pregunta de control:** ¿de dónde provienen estos datos?
+
+**Controles:** inventario de fuentes con volumen y fecha; columna de origen en
+la propia base; exclusión explícita de fuentes sin evidencia.
+
+**Evidencia:** tabla de fuentes; conteo de registros por origen.
+
+### 2 · Recolección
+
+::: {.rds-card .riesgo data-label="RIESGOS"}
+- Finalidad declarada vaga o inexistente.
+- Autorización obtenida en bloque, sin separar finalidades.
+- Recolección de más variables de las necesarias «por si acaso».
+- No queda registro de cuándo ni cómo se autorizó.
+:::
+
+**Pregunta de control:** ¿para qué fueron obtenidos?
+
+**Controles:** finalidad escrita antes de recolectar; separación de
+autorizaciones por finalidad; registro fechado.
+
+**Evidencia:** aviso de privacidad vigente; columna de fecha de autorización.
+
+### 3 · Almacenamiento
+
+::: {.rds-card .riesgo data-label="RIESGOS"}
+- Copias descontroladas en portátiles, correos y carpetas compartidas.
+- Acceso amplio por comodidad operativa.
+- Identificadores directos almacenados junto a los datos de análisis.
+- Sin cifrado en reposo.
+:::
+
+**Pregunta de control:** ¿dónde viven y quién los ve?
+
+**Controles:** separación física entre la tabla de identificación y la de
+análisis; roles y permisos; prohibición de copias locales.
+
+**Evidencia:** matriz de accesos; inventario de copias.
+
+### 4 · Integración ⚠
+
+::: {.rds-card .riesgo data-label="RIESGOS · PUNTO CIEGO"}
+- Dos bases inofensivas por separado producen una base identificadora al
+  cruzarse.
+- El cruce introduce datos recolectados para otra finalidad.
+- Aumenta el número de cuasi-identificadores y, con él, la unicidad.
+- El cruce se hace en un script que nadie documenta.
+:::
+
+**Pregunta de control:** ¿podemos combinar estas bases?
+
+**Controles:** evaluación de compatibilidad de finalidades antes del cruce;
+medición de unicidad antes y después; aprobación explícita del cruce.
+
+**Evidencia:** nota de compatibilidad; *k* mínimo antes / después.
+
+### 5 · Limpieza
+
+::: {.rds-card .riesgo data-label="RIESGOS"}
+- Imputar faltantes que en realidad eran señales (como la ausencia de
+  autorización).
+- Eliminar registros «raros» que corresponden a grupos minoritarios.
+- Corregir datos hasta volverlos inexactos respecto de la realidad de la
+  persona.
+- Destruir evidencia al borrar en lugar de marcar.
+:::
+
+**Pregunta de control:** ¿qué estamos corrigiendo y qué estamos borrando?
+
+**Controles:** marcar en lugar de borrar; analizar el patrón de los faltantes
+antes de imputar; revisar el efecto de la limpieza por grupo.
+
+**Evidencia:** log de limpieza; conteos antes / después por categoría.
+
+### 6 · Feature engineering ⚠
+
+::: {.rds-card .riesgo data-label="RIESGOS · PUNTO CIEGO"}
+- Crear inferencias sobre condiciones sensibles sin nombrarlas como tales.
+- Construir proxies de atributos protegidos sin darse cuenta.
+- Generar variables cuya interpretación nadie puede explicar después.
+- Fuga de información desde la variable objetivo.
+:::
+
+**Pregunta de control:** ¿qué inferencias nuevas estamos creando?
+
+**Controles:** lista blanca de variables derivadas; revisión explícita de qué
+infiere cada una; prohibición de derivar atributos sensibles sin base
+documentada.
+
+**Evidencia:** diccionario de variables derivadas con su justificación.
+
+### 7 · Modelo ⚠
+
+::: {.rds-card .riesgo data-label="RIESGOS · PUNTO CIEGO"}
+- Perfilamiento de personas sin que el equipo lo nombre así.
+- Uso de proxies de atributos protegidos que mejoran la métrica.
+- Desempeño desigual entre grupos, invisible en la métrica global.
+- Modelo imposible de explicar a la persona afectada.
+:::
+
+**Pregunta de control:** ¿estamos perfilando personas?
+
+**Controles:** comparar un modelo con y sin las variables discutibles; medir
+desempeño por grupo; documentar por qué se excluyó cada variable.
+
+**Evidencia:** tabla comparativa de modelos; métricas desagregadas; registro
+de decisión.
+
+### 8 · Predicción
+
+::: {.rds-card .riesgo data-label="RIESGOS"}
+- El umbral lo fija quien no asume la consecuencia.
+- El score se interpreta como un hecho sobre la persona, no como una
+  probabilidad.
+- No hay medición de cuánto se desactualiza el modelo con el tiempo.
+:::
+
+**Pregunta de control:** ¿qué error es aceptable y para quién?
+
+**Controles:** umbral aprobado por quien responde por la decisión; matriz de
+confusión por grupo; monitoreo periódico.
+
+**Evidencia:** acta de aprobación del umbral; reporte de monitoreo.
+
+### 9 · Decisión ⚠
+
+::: {.rds-card .riesgo data-label="RIESGOS · PUNTO CIEGO"}
+- Decisión totalmente automatizada con efectos significativos sobre la
+  persona.
+- El daño del error lo asume la persona y no la empresa.
+- No existe ningún canal para que alguien cuestione la decisión.
+- Nadie identificable firmó nada.
+:::
+
+**Pregunta de control:** ¿quién puede verse afectado?
+
+**Controles:** intervención humana significativa antes de aplicar la acción;
+tabla de tipo de error contra tipo de daño; canal de reclamación.
+
+**Evidencia:** log de aprobación con responsable y fecha.
+
+### 10 · Publicación ⚠
+
+::: {.rds-card .riesgo data-label="RIESGOS · PUNTO CIEGO"}
+- Reidentificación a partir de tablas agregadas con celdas pequeñas.
+- Entrega de la base completa a un tercero «porque firmó confidencialidad».
+- Tablero con filtros que permiten llegar a un individuo.
+- Publicación de un producto derivado sin medir su propio riesgo.
+:::
+
+**Pregunta de control:** ¿puede alguien ser identificado?
+
+**Controles:** umbral mínimo de celda; supresión y generalización; medición del
+riesgo sobre el producto publicado, no sobre la base de origen.
+
+**Evidencia:** informe de riesgo de reidentificación con umbral explícito.
+
+### 11 · Conservación
+
+::: {.rds-card .riesgo data-label="RIESGOS"}
+- Datos conservados indefinidamente sin criterio.
+- Copias antiguas que nadie recuerda y que siguen siendo accesibles.
+- Datos desactualizados usados para decidir sobre personas.
+:::
+
+**Pregunta de control:** ¿hasta cuándo necesitamos esto?
+
+**Controles:** plazo definido por finalidad; revisión periódica del inventario.
+
+**Evidencia:** política de retención; registro de revisiones.
+
+### 12 · Eliminación
+
+::: {.rds-card .riesgo data-label="RIESGOS"}
+- Eliminar el registro principal pero no los respaldos, los logs ni las
+  copias de trabajo.
+- Confundir eliminar con archivar.
+- No poder demostrar que se eliminó.
+:::
+
+**Pregunta de control:** ¿sabemos borrar, de verdad?
+
+**Controles:** procedimiento de eliminación que cubra respaldos; prueba
+periódica del procedimiento.
+
+**Evidencia:** constancia de eliminación con alcance y fecha.
+
+------------------------------------------------------------------------
+
+## Tabla resumen
+
+: Doce etapas, doce preguntas {.rds-decision-table}
+
+| Etapa | Pregunta de control | Evidencia mínima |
+|:--|:--|:--|
+| Fuente | ¿De dónde provienen? | Inventario de fuentes |
+| Recolección | ¿Para qué se obtuvieron? | Finalidad documentada y fechada |
+| Almacenamiento | ¿Quién los ve? | Matriz de accesos |
+| **Integración** | ¿Podemos cruzarlas? | *k* antes / después del cruce |
+| Limpieza | ¿Qué borramos? | Log de limpieza |
+| **Features** | ¿Qué inferimos? | Diccionario de derivadas |
+| **Modelo** | ¿Perfilamos personas? | Comparación de modelos |
+| Predicción | ¿Qué error aceptamos? | Umbral aprobado |
+| **Decisión** | ¿A quién afecta? | Log de aprobación humana |
+| **Publicación** | ¿Alguien es identificable? | Informe de reidentificación |
+| Conservación | ¿Hasta cuándo? | Política de retención |
+| Eliminación | ¿Sabemos borrar? | Constancia de eliminación |
+
+## Ver también
+
+- [Checklist del analista responsable](checklist-proyecto-datos.qmd)
+- [Glosario operativo](glosario.qmd)
+- [Lab 2 · Auditoría rápida de un pipeline](../labs/lab02.ipynb) — donde esta
+  tabla se construye en código.

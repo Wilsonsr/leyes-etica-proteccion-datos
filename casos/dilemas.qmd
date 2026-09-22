@@ -1,0 +1,270 @@
+---
+title: "Banco de dilemas"
+subtitle: "Doce decisiones donde ganar algo implica perder algo"
+description: "Material de discusión para los encuentros. Cada dilema tiene dos posiciones defendibles."
+---
+
+::: {.rds-meta}
+[12 dilemas]{} [3–8 minutos cada uno]{} [Uso: encuentros y foros]{}
+:::
+
+## Cómo usar este banco
+
+Un dilema no es una pregunta con truco. Es una situación donde **las dos
+opciones tienen costo** y donde una persona razonable, bien informada y de
+buena fe puede defender cualquiera de las dos.
+
+La regla de uso en clase:
+
+1. Se lee el dilema en voz alta. Nada más.
+2. Votación inmediata, sin discusión previa. Se anota el conteo.
+3. Tres minutos de argumentos, alternando posiciones.
+4. Segunda votación. Se compara.
+5. El docente **no revela una respuesta correcta**, porque no la hay. Lo que
+   sí hace es nombrar qué principio está en tensión con cuál.
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente
+
+La tentación permanente es cerrar el dilema con la respuesta «responsable».
+Resistirla. Un curso donde la respuesta ética siempre coincide con la
+respuesta cómoda no prepara a nadie: en el trabajo real, la decisión correcta
+casi siempre cuesta dinero, tiempo o capital político, y eso hay que poder
+sostenerlo con argumentos, no con eslóganes.
+:::
+
+------------------------------------------------------------------------
+
+## Unidad 1 · ¿Podemos hacerlo?
+
+::: {.rds-card .dilema data-label="DILEMA 01 · EL AUC QUE MEJORA"}
+El modelo de *churn* mejora de 0.83 a 0.88 de AUC cuando se agregan `estrato`,
+`ingresos_mensuales` y tres variables de comportamiento que permiten inferir
+condiciones de salud.
+
+La campaña de retención con el modelo actual recupera un número de clientes
+que la Dirección considera insuficiente. Con el modelo mejorado, el número
+sería aceptable.
+
+::: {.pregunta}
+¿Se despliega el modelo B?
+:::
+
+**Tensión:** eficacia del proyecto ↔ finalidad y no discriminación.
+**Pregunta que desempata:** ¿qué acción se toma con la predicción, y quién
+asume el costo del error?
+:::
+
+::: {.rds-card .dilema data-label="DILEMA 02 · LOS 236 REGISTROS"}
+El 15,6 % de la base proviene de una lista comprada a un tercero y de
+enriquecimiento con perfiles públicos. No hay evidencia de autorización.
+
+Excluirlos reduce el tamaño de entrenamiento y, con él, algo de desempeño. La
+empresa ya pagó por esa lista.
+
+::: {.pregunta}
+¿Se excluyen del entrenamiento, se excluyen de toda la operación, o se usan
+mientras se regulariza la situación?
+:::
+
+**Tensión:** costo hundido ↔ licitud del tratamiento.
+**Pregunta que desempata:** si mañana un titular de esa lista pregunta de
+dónde salieron sus datos, ¿qué se le responde?
+:::
+
+::: {.rds-card .dilema data-label="DILEMA 03 · LA ENCUESTA ANÓNIMA"}
+Una encuesta de clima laboral se promete «totalmente anónima». No se pregunta
+el nombre. Sí se pregunta: área, cargo, antigüedad, sexo y rango de edad.
+
+En un área de nueve personas hay una sola mujer con más de diez años de
+antigüedad. Sus respuestas son identificables para cualquiera del equipo.
+
+::: {.pregunta}
+¿Se publican los resultados desagregados por área, que es justo lo que la
+gerencia pidió?
+:::
+
+**Tensión:** utilidad del análisis ↔ confidencialidad prometida.
+**Pregunta que desempata:** ¿qué le dijimos a las personas cuando les pedimos
+que respondieran?
+:::
+
+::: {.rds-card .dilema data-label="DILEMA 04 · LA EXCEPCIÓN ESTADÍSTICA"}
+La Ley 1581 de 2012 permite, en ciertos casos, tratar datos con fines
+históricos, estadísticos o científicos sin autorización, adoptando medidas
+para suprimir la identidad de los titulares.
+
+Un equipo de investigación invoca esa excepción para usar la base completa de
+DataMarket en un estudio de comportamiento de consumo. Elimina nombres,
+correos y documentos.
+
+::: {.pregunta}
+¿La excepción los cubre?
+:::
+
+**Tensión:** investigación legítima ↔ suficiencia real de la supresión de
+identidad.
+**Pregunta que desempata:** ¿midieron la unicidad después de suprimir, o
+supusieron que bastaba?
+:::
+
+------------------------------------------------------------------------
+
+## Unidad 2 · ¿Debemos hacerlo?
+
+::: {.rds-card .dilema data-label="DILEMA 05 · EL MODELO QUE ACIERTA"}
+Un modelo de recomendación detecta con alta precisión a clientas
+probablemente embarazadas, antes de que lo anuncien, y les envía publicidad de
+productos de maternidad.
+
+No se equivoca casi nunca. El *uplift* comercial es notable. Ninguna clienta
+ha reclamado.
+
+::: {.pregunta}
+¿Es un problema, si el modelo acierta y nadie se queja?
+:::
+
+**Tensión:** desempeño ↔ expectativa razonable del titular.
+**Pregunta que desempata:** ¿qué pasa con las clientas para quienes ese acierto
+revela algo que no habían contado en su casa?
+:::
+
+::: {.rds-card .dilema data-label="DILEMA 06 · LA VARIABLE QUE NO ESTÁ"}
+Para auditar si el modelo discrimina por origen étnico, habría que tener la
+variable de pertenencia étnica. La empresa no la recoge —precisamente porque
+es un dato sensible.
+
+Sin esa variable no se puede medir el sesgo. Con esa variable, se crea un
+riesgo nuevo.
+
+::: {.pregunta}
+¿Se recoge el dato sensible para poder auditar la discriminación?
+:::
+
+**Tensión:** minimización de datos ↔ capacidad de detectar daño.
+**Pregunta que desempata:** ¿hay alguna forma de medir el sesgo sin
+almacenar el atributo a nivel individual?
+:::
+
+::: {.rds-card .dilema data-label="DILEMA 07 · EL UMBRAL QUE DECIDE"}
+El umbral del modelo lo fija el analista. Con 0.5 se marca como «en riesgo» al
+14 % de los clientes; con 0.35, al 31 %.
+
+Nadie en la Dirección entiende qué significa el umbral. Preguntan cuál es
+«el correcto».
+
+::: {.pregunta}
+¿El analista fija el umbral, o exige que lo fije quien asume la consecuencia?
+:::
+
+**Tensión:** autonomía técnica ↔ responsabilidad por la decisión.
+**Pregunta que desempata:** si el umbral acaba perjudicando a alguien, ¿quién
+firmó?
+:::
+
+::: {.rds-card .dilema data-label="DILEMA 08 · LO QUE EL EQUIPO YA SABE"}
+Durante un análisis de datos de recursos humanos, el equipo nota un patrón
+claro: las promociones se concentran en un grupo y se evitan en otro. El
+hallazgo no formaba parte del encargo.
+
+Reportarlo expone a la organización. No reportarlo convierte al equipo en
+cómplice de algo que ya vio.
+
+::: {.pregunta}
+¿Se reporta un hallazgo que nadie pidió?
+:::
+
+**Tensión:** alcance del encargo ↔ responsabilidad profesional.
+**Pregunta que desempata:** ¿cómo se vería esto si saliera a la luz en dos
+años y constara que el equipo lo sabía?
+:::
+
+------------------------------------------------------------------------
+
+## Unidad 3 · ¿Cómo lo hacemos responsablemente?
+
+::: {.rds-card .dilema data-label="DILEMA 09 · ANONIMIZAR HASTA QUE SIRVA"}
+Para publicar el tablero de resultados hay que agregar tanto que el análisis
+territorial deja de ser útil: los municipios pequeños se pierden en la
+categoría «otros», que es donde más importaba mirar.
+
+::: {.pregunta}
+¿Se publica el tablero agregado e inútil, el desagregado y riesgoso, o no se
+publica?
+:::
+
+**Tensión:** utilidad pública ↔ riesgo de reidentificación.
+**Pregunta que desempata:** ¿hay una tercera vía —acceso controlado, datos
+sintéticos, consulta con supresión automática— o solo estamos eligiendo entre
+las dos opciones más fáciles?
+:::
+
+::: {.rds-card .dilema data-label="DILEMA 10 · LA COPIA EN EL PORTÁTIL"}
+La analista trabaja desde casa. La base completa está en su portátil personal
+porque el acceso remoto al servidor es lento y el entregable es para mañana.
+
+Todo el mundo lo hace. Nunca ha pasado nada.
+
+::: {.pregunta}
+¿Es un problema real o una regla de cumplimiento que nadie sigue?
+:::
+
+**Tensión:** productividad ↔ seguridad.
+**Pregunta que desempata:** ¿cuántas copias de esa base existen hoy, y alguien
+sabría enumerarlas?
+:::
+
+::: {.rds-card .dilema data-label="DILEMA 11 · EL PROVEEDOR EXTERNO"}
+El motor de recomendación lo construye un proveedor. Pide la base completa
+«para explorar mejor». Firmó un acuerdo de confidencialidad.
+
+Entregar menos datos implica más iteraciones, más tiempo y más costo.
+
+::: {.pregunta}
+¿Qué se le entrega: la base completa, una muestra, una versión seudonimizada,
+o solo agregados?
+:::
+
+**Tensión:** eficiencia del proyecto ↔ circulación restringida.
+**Pregunta que desempata:** si el proveedor sufre una brecha, ¿qué se filtró
+exactamente, y quién responde ante los titulares?
+:::
+
+::: {.rds-card .dilema data-label="DILEMA 12 · EL MODELO QUE YA ESTÁ EN PRODUCCIÓN"}
+Un modelo lleva dos años en producción y funciona. Una revisión encuentra que
+se entrenó con datos de origen dudoso y que nunca se documentó la finalidad.
+
+Retirarlo interrumpe una operación de la que dependen varias áreas.
+Mantenerlo perpetúa el problema.
+
+::: {.pregunta}
+¿Se apaga el modelo mientras se regulariza, o se regulariza con el modelo
+corriendo?
+:::
+
+**Tensión:** continuidad operativa ↔ licitud y trazabilidad.
+**Pregunta que desempata:** ¿qué plazo es razonable, y qué pasa si se vence y
+nadie hizo nada?
+:::
+
+------------------------------------------------------------------------
+
+## Para el decálogo del Encuentro 5
+
+Cada dilema de este banco es candidato a convertirse en una regla del
+[decálogo](../encuentros/encuentro-05.qmd). La conversión sigue una forma
+fija:
+
+::: {.rds-card .decision data-label="DE DILEMA A REGLA"}
+**Dilema 07** — ¿quién fija el umbral?
+
+**Regla candidata** — «El umbral de decisión de cualquier modelo que afecte a
+personas lo aprueba por escrito quien asume la consecuencia de la decisión,
+no quien entrena el modelo. Queda registrado con fecha y responsable.»
+
+Una buena regla del decálogo: nombra el momento, nombra al responsable y deja
+evidencia. Una mala regla: «actuar siempre con responsabilidad».
+:::
+
+[→ Caso transversal DataMarket](caso-datamarket.qmd) ·
+[→ Checklist del analista responsable](../recursos/checklist-proyecto-datos.qmd)

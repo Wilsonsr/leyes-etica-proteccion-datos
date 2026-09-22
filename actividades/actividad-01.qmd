@@ -1,0 +1,217 @@
+---
+title: "Actividad 1 · DataMarket quiere operar en tres países"
+subtitle: "Comparación entre legislaciones latinoamericanas aplicada a un proyecto de datos"
+description: "25 % · Entrega semana 3 · Trabajo en grupos de 2 o 3"
+---
+
+::: {.rds-meta}
+[Actividad 1]{} [Unidad 1]{} [25 %]{} [Entrega: semana 3]{} [Grupos de 2 o 3]{}
+:::
+
+## El encargo
+
+::: {.rds-card .caso data-label="DATAMARKET · SEMANA 3"}
+**De:** Gerencia General — DataMarket Analytics
+**Asunto:** Expansión regional
+
+> El próximo año abrimos operación en **Brasil** y **Chile**. Mismo sitio web,
+> misma plataforma, mismo equipo de analítica en Bogotá. Los datos seguirían
+> almacenados en nuestros servidores en Colombia.
+>
+> Antes de comprometernos, necesito saber qué tenemos que cambiar. No quiero
+> un informe jurídico de cincuenta páginas: quiero saber **qué hace distinto
+> mi equipo de analítica** a partir del día uno.
+:::
+
+::: {.callout-important}
+## Lo que NO es esta actividad
+
+No es transcribir tres leyes en tres columnas. Un trabajo que se limite a
+copiar articulados —aunque los copie bien— se califica sobre el eje de
+diagnóstico únicamente, y pierde los otros tres.
+
+La columna que más pesa es la última: **¿qué cambia en el proyecto?**
+:::
+
+## Producto
+
+Un documento de **máximo 8 páginas** (sin contar anexos) que contenga:
+
+1. **Una matriz comparada** con la estructura indicada abajo.
+2. **Una sección de decisiones**: qué cambia, concretamente, en el pipeline de
+   DataMarket para cada país.
+3. **Un anexo de fuentes**: cada afirmación normativa con su fuente oficial,
+   artículo y fecha de consulta.
+
+Formato libre (PDF, Quarto, Word). Si lo entregan en Quarto o Markdown, mejor:
+se puede versionar.
+
+## La matriz
+
+Ocho filas, cinco columnas. Las cuatro primeras columnas son diagnóstico; la
+quinta es el trabajo real.
+
+: Estructura obligatoria de la matriz {.rds-decision-table}
+
+| Aspecto | Colombia | Brasil | Chile | **¿Qué cambia en el proyecto?** |
+|:--|:--|:--|:--|:--|
+| 1. Norma aplicable y autoridad | | | | |
+| 2. Ámbito territorial | | | | |
+| 3. Bases que habilitan el tratamiento | | | | |
+| 4. Datos sensibles | | | | |
+| 5. Derechos de las personas | | | | |
+| 6. Decisiones automatizadas y perfilamiento | | | | |
+| 7. Transferencia internacional de datos | | | | |
+| 8. Seguridad, incidentes y documentación | | | | |
+
+### Cómo se llena la última columna
+
+Mal:
+
+> «Habrá que cumplir con la LGPD.»
+
+Bien:
+
+> «La LGPD reconoce el derecho a solicitar revisión de decisiones tomadas
+> únicamente con base en tratamiento automatizado. Como la campaña de
+> retención asigna descuentos de forma automática a partir del score de
+> *churn*, para los clientes en Brasil hay que **introducir un paso de
+> aprobación humana por lote** antes de aplicar la acción, y **registrar** ese
+> paso. En el pipeline: nueva etapa entre `predicción` y `decisión`, con log
+> de quién aprobó y cuándo.»
+
+La diferencia entre las dos respuestas es la nota.
+
+## Puntos de partida verificados
+
+Estos son **anclas**, no la respuesta. Cada grupo debe verificar, ampliar y
+citar la fuente oficial.
+
+::: {.rds-card .datos data-label="COLOMBIA"}
+- **Norma:** Ley Estatutaria 1581 de 2012, reglamentada por el Decreto 1377 de
+  2013, compilado en el Decreto 1074 de 2015. Régimen especial para
+  información financiera y crediticia: Ley 1266 de 2008.
+- **Autoridad:** Superintendencia de Industria y Comercio (SIC), Delegatura
+  para la Protección de Datos Personales. Administra el Registro Nacional de
+  Bases de Datos.
+- **Eje del sistema:** la **autorización** previa, expresa e informada del
+  titular, con excepciones tasadas (arts. 9 y 10).
+- **Dato adicional que deben investigar:** cómo trata la ley la transferencia
+  internacional (art. 26) y qué instrumentos ha usado la SIC para declarar
+  países con nivel adecuado de protección.
+- **En trámite:** en agosto de 2025 el Gobierno radicó un proyecto de ley para
+  actualizar el régimen. Si lo mencionan, márquenlo claramente como proyecto.
+:::
+
+::: {.rds-card .datos data-label="BRASIL"}
+- **Norma:** Lei Geral de Proteção de Dados Pessoais — Lei nº 13.709 de 2018
+  (LGPD).
+- **Autoridad:** Autoridade Nacional de Proteção de Dados (ANPD).
+- **Diferencia estructural con Colombia:** la LGPD no gira alrededor del
+  consentimiento. Establece un conjunto de **bases legales** alternativas
+  (art. 7), entre ellas la ejecución de contrato, el cumplimiento de
+  obligación legal y el legítimo interés.
+- **Puntos que afectan directamente el pipeline:** derechos del titular
+  (art. 18), incluida la portabilidad; revisión de decisiones automatizadas
+  (art. 20); figura del **encarregado** (art. 41); informe de impacto a la
+  protección de datos (art. 38); transferencia internacional (art. 33).
+- **Fuentes oficiales:** Planalto (texto de la ley) y sitio de la ANPD
+  (guías, resoluciones y regulación de transferencias).
+:::
+
+::: {.rds-card .datos data-label="CHILE"}
+- **Norma:** Ley 21.719, publicada en diciembre de 2024, que reforma
+  integralmente la Ley 19.628 sobre protección de la vida privada.
+- **Fecha crítica:** entra en vigencia el **1 de diciembre de 2026**. Es
+  decir, cuando DataMarket abra operación, el régimen nuevo ya estará rigiendo.
+- **Autoridad:** crea la **Agencia de Protección de Datos Personales**, que
+  Chile no tenía. Esto es un cambio institucional de fondo, no un detalle.
+- **Puntos que afectan el pipeline:** bases de licitud, derechos ARCOP más
+  portabilidad, régimen de datos sensibles, transferencias internacionales con
+  mecanismos como cláusulas contractuales modelo, y un esquema de sanciones.
+- **Trampa de la actividad:** buena parte del material disponible en internet
+  describe la Ley 19.628 antigua, que era notoriamente débil. Verifiquen
+  siempre si la fuente se refiere al régimen anterior o al nuevo.
+:::
+
+::: {.callout-warning}
+## Advertencia de vigencia
+
+Los tres regímenes están en movimiento. Colombia tiene un proyecto de reforma
+en trámite, Chile tiene una ley publicada que aún no rige plenamente y Brasil
+sigue emitiendo regulación infralegal a través de la ANPD.
+
+**Todo dato normativo del trabajo debe llevar fecha de consulta.** Un informe
+sin fechas es un informe que caducará sin que nadie lo note.
+:::
+
+## Fuentes oficiales exigidas
+
+Se aceptan únicamente fuentes oficiales o el texto normativo mismo. Doctrina y
+artículos académicos sirven para interpretar, no para establecer qué dice la
+norma.
+
+| País | Fuente primaria |
+|:--|:--|
+| Colombia | [Gestor Normativo — Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/) · [SUIN-Juriscol](https://www.suin-juriscol.gov.co/) · [SIC](https://www.sic.gov.co/) |
+| Brasil | [Planalto — Lei 13.709/2018](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm) · [ANPD](https://www.gov.br/anpd/) |
+| Chile | [Ley Chile — Biblioteca del Congreso Nacional](https://www.bcn.cl/leychile/) |
+
+::: {.rds-card .riesgo data-label="RIESGO · LA FUENTE DE SEGUNDA MANO"}
+El error más común de esta actividad no es equivocarse de artículo: es citar
+un blog de una firma de abogados que resume una norma derogada.
+
+Si una afirmación del trabajo no se puede rastrear hasta un texto oficial con
+un enlace que funcione, esa afirmación no existe para efectos de calificación.
+:::
+
+## Entregables por grupo
+
+1. `matriz-comparada.*` — la matriz completa, ocho filas.
+2. `decisiones-datamarket.*` — de tres a cinco decisiones concretas de
+   pipeline, con la estructura *etapa afectada → cambio → evidencia que
+   queda*.
+3. `fuentes.*` — tabla de fuentes con: país, norma, artículo, URL oficial,
+   fecha de consulta.
+
+Pueden ser tres secciones de un mismo documento.
+
+## Rúbrica
+
+| Eje | Qué se evalúa | Peso |
+|:--|:--|--:|
+| **Diagnóstico** | La matriz es correcta, completa y está anclada en normas vigentes correctamente identificadas. | 25 % |
+| **Análisis de riesgo** | Identifica dónde la diferencia entre regímenes crea un riesgo real para el proyecto o para las personas, no solo una diferencia formal. | 25 % |
+| **Decisión técnica** | La columna «¿qué cambia en el proyecto?» propone cambios ejecutables, ubicados en una etapa del pipeline. | 35 % |
+| **Evidencia** | Todas las afirmaciones normativas tienen fuente oficial, artículo y fecha. Los enlaces funcionan. | 15 % |
+
+::: {.callout-note}
+## Sobre la elección de países
+
+La comparación obligatoria es **Colombia – Brasil – Chile**, porque el
+contraste entre un régimen maduro con autoridad consolidada (Brasil), uno en
+transición institucional (Chile) y el colombiano es el más productivo para
+esta discusión.
+
+Un grupo que prefiera **México, Argentina o Perú** puede solicitarlo por
+escrito antes del inicio de la semana 3, justificando qué contraste específico
+quiere explorar. La rúbrica no cambia.
+:::
+
+## Preguntas que un buen trabajo responde
+
+Sin ser obligatorias, estas preguntas separan un trabajo correcto de uno
+bueno:
+
+1. Si los servidores siguen en Colombia y los clientes están en Brasil, ¿qué
+   régimen aplica y por qué? ¿Es la misma lógica que discutimos en el
+   [caso Facebook](../casos/caso-facebook.qmd)?
+2. ¿Qué es más costoso para DataMarket: cumplir tres regímenes distintos o
+   aplicar el más exigente a toda la operación? Respondan con argumentos de
+   ingeniería, no solo de costo legal.
+3. ¿Hay algo que Colombia exija y que los otros dos no? El ejercicio no tiene
+   por qué concluir que Colombia siempre es el régimen más laxo.
+4. ¿Qué pasa con los 236 registros sin evidencia de origen cuando la empresa
+   opera en tres países?
+
+[→ Actividad 2 · Auditoría frente al GDPR](actividad-02.qmd)

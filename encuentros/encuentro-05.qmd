@@ -1,0 +1,175 @@
+---
+title: "El decálogo"
+subtitle: "Cierre y construcción colaborativa de buenas prácticas"
+description: "Encuentro virtual 5 · 120 minutos · Unidad 3 · Estructura preparada para desarrollo"
+---
+
+::: {.rds-meta}
+[Encuentro 5]{} [Unidad 3]{} [120 minutos]{} [Semana 9]{} [En desarrollo]{}
+:::
+
+::: {.callout-note}
+## Estado de este encuentro
+
+El método de construcción está definido y es el contenido principal: este
+encuentro **no tiene material expositivo nuevo**. Lo que se publica antes de
+la semana 9 es la plantilla de trabajo colaborativo y el formato de
+publicación del decálogo resultante.
+:::
+
+## Qué se hace en este encuentro
+
+No hay exposición. Los estudiantes escriben, discuten y aprueban las diez
+reglas que DataMarket Analytics debería haber tenido desde la semana 1 — y
+que, con los ajustes del caso, podrían llevarse a su propia organización.
+
+::: {.rds-pregunta}
+Si mañana entrara alguien nuevo al equipo de analítica, ¿qué diez reglas
+tendría que conocer antes de tocar la primera base?
+:::
+
+## Materia prima
+
+El decálogo no se escribe desde cero. Se construye con lo que el curso ya
+produjo:
+
+```{mermaid}
+flowchart LR
+    A["Respuestas de salida<br/>de los 4 encuentros<br/>«¿qué tendría que cambiar<br/>en mi proyecto?»"] --> D
+    B["Checklist del analista<br/>12 preguntas"] --> D
+    C["Banco de dilemas<br/>12 tensiones"] --> D
+    E["Hallazgos de las<br/>4 actividades"] --> D
+    D["DECÁLOGO"]
+
+    style A fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style B fill:#0b1220,stroke:#60a5fa,color:#e2e8f0
+    style C fill:#0b1220,stroke:#f472b6,color:#e2e8f0
+    style E fill:#0b1220,stroke:#a78bfa,color:#e2e8f0
+    style D fill:#0b1220,stroke:#2dd4bf,color:#e2e8f0
+```
+
+## Qué es una buena regla
+
+::: {.rds-card .decision data-label="CRITERIO DE ACEPTACIÓN"}
+Una regla entra al decálogo solo si cumple **las cuatro condiciones**:
+
+1. **Nombra un momento.** «Antes de incorporar una variable al dataset de
+   modelado», no «siempre».
+2. **Nombra un responsable.** Quién hace o aprueba, no «el equipo».
+3. **Deja evidencia.** Qué queda escrito cuando la regla se cumple.
+4. **Se puede incumplir.** Si es imposible violarla, no es una regla: es una
+   descripción.
+:::
+
+::: {.rds-card .riesgo data-label="RIESGO · LAS REGLAS QUE NO SIRVEN"}
+- «Actuar siempre con responsabilidad.» — No nombra momento, ni responsable,
+  ni evidencia.
+- «Cumplir la normatividad vigente.» — Es una obligación, no una regla de
+  trabajo.
+- «Proteger la privacidad de los usuarios.» — Nadie sabe qué hacer el lunes
+  con esto.
+- «Usar solo los datos necesarios.» — Va bien encaminada, pero le falta: ¿quién
+  define «necesario» y dónde queda escrito?
+:::
+
+### Ejemplo de conversión
+
+::: {.rds-card .caso data-label="DE DILEMA A REGLA"}
+**Dilema 07** del banco — ¿quién fija el umbral del modelo?
+
+**Regla aprobada:**
+
+> «El umbral de decisión de cualquier modelo que afecte a personas lo aprueba
+> por escrito quien asume la consecuencia de la decisión, no quien entrena el
+> modelo. La aprobación queda registrada con fecha, responsable y el conteo de
+> personas afectadas en cada escenario evaluado.»
+
+Momento: antes del despliegue. Responsable: quien asume la consecuencia.
+Evidencia: registro fechado. Incumplible: sí, y se nota.
+:::
+
+## Método de trabajo
+
+```{=html}
+<ul class="rds-timeline">
+  <li><span class="t">00–15</span><span class="modo">recuperación</span><br>
+      Se proyectan todas las respuestas de salida del curso, anonimizadas. Lectura silenciosa.</li>
+  <li><span class="t">15–35</span><span class="modo">grupos</span><br>
+      Grupos de 3. Cada grupo propone 4 reglas candidatas, en el formato de las cuatro condiciones.</li>
+  <li><span class="t">35–55</span><span class="modo">plenaria</span><br>
+      Se proyectan todas las candidatas. Se agrupan las repetidas. Queda un tablero con 15–25 reglas.</li>
+  <li><span class="t">55–75</span><span class="modo">depuración</span><br>
+      Cada regla pasa el filtro de las cuatro condiciones. Las que fallan se reescriben o se descartan.</li>
+  <li><span class="t">75–95</span><span class="modo">votación</span><br>
+      Cada estudiante tiene 5 votos. Se eligen las 10 con más apoyo.</li>
+  <li><span class="t">95–110</span><span class="modo">redacción</span><br>
+      Redacción final en vivo. Se discute palabra por palabra las que quedaron ambiguas.</li>
+  <li><span class="t">110–120</span><span class="modo">compromiso</span><br>
+      Cada estudiante elige UNA regla que se compromete a llevar a su organización, y dice cuál y por qué.</li>
+</ul>
+```
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente
+
+El momento de mayor valor es la depuración (55–75). Es donde se descubre que
+la mitad de las reglas propuestas son eslóganes. Resistir la tentación de
+salvarlas: una regla mal formulada en un decálogo real es peor que su
+ausencia, porque da cobertura sin producir ningún cambio.
+
+Si al final quedan ocho reglas sólidas en vez de diez, el decálogo tiene ocho
+reglas. Es un resultado mejor que diez con dos de relleno.
+:::
+
+## Producto
+
+::: {.rds-card .decision data-label="DECÁLOGO DE BUENAS PRÁCTICAS"}
+Un documento de una a dos páginas, firmado colectivamente por el grupo, que
+se publica en este repositorio en `recursos/decalogo-<semestre>.qmd`.
+
+Cada regla con:
+
+- El enunciado.
+- El momento del pipeline en que aplica.
+- La evidencia que deja.
+- El dilema o hallazgo del curso que la originó.
+:::
+
+Los decálogos de distintas cohortes se conservan. Comparar el de un semestre
+con el del siguiente es, en sí mismo, material de clase.
+
+## No hay actividad evaluativa
+
+El Encuentro 5 no tiene entrega calificada. Las cuatro actividades cierran en
+la semana 8.
+
+Lo que sí hay es el compromiso individual del bloque final: una regla, propia,
+que cada estudiante se lleva a su trabajo. No se califica. Se nombra en voz
+alta, que es una forma más exigente de compromiso.
+
+## Materiales
+
+| Material | Estado |
+|:--|:--|
+| Método de construcción | Definido (este documento) |
+| Plantilla de trabajo colaborativo | Pendiente · antes de la semana 9 |
+| Formato de publicación del decálogo | Pendiente · antes de la semana 9 |
+| [Banco de dilemas](../casos/dilemas.qmd) | Publicado — materia prima |
+| [Checklist del analista](../recursos/checklist-proyecto-datos.qmd) | Publicado — materia prima |
+
+## Cierre del curso
+
+::: {.rds-card .reflexiona data-label="LA ÚLTIMA PREGUNTA"}
+La primera diapositiva del curso preguntaba:
+
+> Que algo sea técnicamente posible y estadísticamente válido, ¿significa que
+> debemos hacerlo?
+
+Nueve semanas después la pregunta sigue sin tener una respuesta única. Lo que
+cambió es que ahora hay un método para responderla caso por caso, con
+evidencia, y dejando rastro de por qué se decidió lo que se decidió.
+
+Eso es todo lo que un curso de este tipo puede honestamente ofrecer.
+:::
+
+[← Encuentro 4](encuentro-04.qmd) · [→ Inicio](../index.qmd)

@@ -1,0 +1,238 @@
+---
+title: "Actividad 2 · Auditoría inicial frente al GDPR"
+subtitle: "Una empresa colombiana descubre que tiene clientes en Europa"
+description: "25 % · Entrega semana 4 · Trabajo individual o en parejas"
+---
+
+::: {.rds-meta}
+[Actividad 2]{} [Unidad 1]{} [25 %]{} [Entrega: semana 4]{} [Individual o en parejas]{}
+:::
+
+## El encargo
+
+::: {.rds-card .caso data-label="DATAMARKET · SEMANA 4"}
+**De:** Gerencia General
+**Asunto:** URGENTE — un cliente nos escribió desde Madrid
+
+> Recibimos un correo de una clienta que vive en Madrid. Pide que le
+> entreguemos «todos los datos personales que tengan sobre ella, en formato
+> electrónico», y que le expliquemos «la lógica del sistema automatizado que
+> determina las ofertas que recibe».
+>
+> Menciona el Reglamento General de Protección de Datos.
+>
+> Revisamos la base: tenemos **74 clientes con residencia en la Unión
+> Europea**. Nunca lo habíamos mirado.
+>
+> Necesito saber en qué situación estamos y qué hacemos.
+:::
+
+::: {.rds-card .decide data-label="EL ENCARGO, EN UNA LÍNEA"}
+::: {.pregunta}
+Realice una auditoría inicial del proyecto e identifique qué elementos
+deberían revisarse frente al GDPR.
+:::
+:::
+
+## Producto
+
+Cuatro piezas. Las cuatro son obligatorias.
+
+### 1 · Informe ejecutivo
+
+Máximo **3 páginas**. Dirigido a la Gerencia General, no al área jurídica.
+
+Debe responder, en este orden:
+
+1. **¿Nos aplica el GDPR?** Sí o no, con el fundamento en una frase.
+2. **¿Qué encontramos?** Los tres o cuatro hallazgos principales, ordenados
+   por gravedad.
+3. **¿Qué hacemos ahora?** Acciones inmediatas (esta semana), de corto plazo
+   (este mes) y estructurales.
+4. **¿Qué riesgo asumimos si no hacemos nada?** Sin dramatizar y sin
+   minimizar.
+
+Lenguaje profesional, no jurídico. La Gerencia debe poder tomar una decisión
+después de leerlo.
+
+### 2 · Mapa del flujo de datos
+
+Un diagrama que muestre el recorrido completo del dato desde que la persona lo
+entrega hasta que se elimina o se conserva indefinidamente.
+
+Debe identificar, para cada etapa: **qué dato**, **dónde ocurre**
+(geográficamente), **quién lo toca** y **si sale del perímetro de la empresa**.
+
+Se puede hacer en Mermaid, en una herramienta de diagramación o a mano y
+escaneado. Lo que importa es que se entienda y que sea completo.
+
+::: {.callout-tip collapse="true"}
+## Plantilla Mermaid de partida
+
+````
+```{{mermaid}}
+flowchart LR
+    U["Cliente en la UE"] --> W["Sitio web<br/>servidor: ?"]
+    W --> BD["Base de clientes<br/>ubicación: ?"]
+    BD --> ET["Pipeline de analítica<br/>equipo: Bogotá"]
+    ET --> M["Modelo de churn"]
+    M --> AC["Acción comercial"]
+    AC --> U
+    BD --> T["Terceros<br/>¿cuáles?"]
+```
+````
+
+Complétenla: agreguen las etapas que faltan, marquen las transferencias
+internacionales y señalen dónde no saben la respuesta. **Señalar lo que no se
+sabe cuenta como hallazgo**, no como omisión.
+:::
+
+### 3 · Registro de riesgos
+
+Tabla con esta estructura mínima:
+
+| # | Hallazgo | Artículo GDPR pertinente | Riesgo para la persona | Riesgo para la empresa | Severidad | Decisión requerida | Responsable |
+|:--|:--|:--|:--|:--|:--|:--|:--|
+
+Mínimo **ocho** filas. La columna «riesgo para la persona» va primero a
+propósito: si un hallazgo solo tiene riesgo para la empresa, probablemente
+está mal formulado.
+
+### 4 · Recomendaciones
+
+De cinco a ocho, cada una con:
+
+- **Qué** hacer, en una frase imperativa.
+- **En qué etapa** del pipeline se ejecuta.
+- **Qué evidencia** queda cuando se hace.
+- **Qué pasa si no se hace.**
+
+## Dónde mirar
+
+La auditoría debe cubrir, como mínimo, estos siete frentes. Los artículos son
+puntos de partida para que ustedes verifiquen el texto en EUR-Lex, no citas
+para copiar.
+
+::: {.rds-card .datos data-label="LOS SIETE FRENTES"}
+**1 · Ámbito de aplicación (art. 3).** ¿Por qué aplica, si la empresa está en
+Colombia? ¿Qué actividad concreta de DataMarket dispara la aplicación?
+
+**2 · Principios (art. 5).** Licitud, lealtad y transparencia; limitación de
+la finalidad; minimización; exactitud; limitación del plazo de conservación;
+integridad y confidencialidad; y responsabilidad proactiva. Revisen la base
+contra cada uno. `origen_dato` y `fecha_autorizacion` son la evidencia.
+
+**3 · Base de licitud (art. 6).** ¿Cuál de las seis bases sostiene el modelo
+de *churn*? ¿Y la publicidad personalizada? **No pueden ser la misma sin
+justificarlo.** Si eligen interés legítimo, hagan la ponderación.
+
+**4 · Categorías especiales (art. 9).** Ninguna columna es formalmente un dato
+de categoría especial. Tres son proxies:
+`compras_farmacia_6m`, `entrega_asistida`, `busquedas_maternidad`.
+Discutan si el tratamiento que hace DataMarket con ellas equivale, en la
+práctica, a tratar datos de salud.
+
+**5 · Derechos (arts. 12 a 22).** La clienta de Madrid pidió dos cosas
+distintas: acceso y portabilidad (arts. 15 y 20) por un lado, y explicación de
+la lógica de la decisión automatizada (arts. 13 a 15 y 22) por otro. ¿Podría
+DataMarket atender ambas hoy? ¿Con qué herramienta? ¿En cuánto tiempo?
+
+**6 · Obligaciones de diseño (arts. 25, 30, 32, 33, 34 y 35).** Protección
+desde el diseño y por defecto; registro de actividades de tratamiento;
+seguridad; notificación de brechas; y evaluación de impacto cuando el
+tratamiento es de alto riesgo. La elaboración de perfiles a gran escala está
+expresamente contemplada como supuesto de alto riesgo.
+
+**7 · Transferencias internacionales (arts. 44 a 49).** Los datos de personas
+en la UE se procesan en Colombia. ¿Bajo qué mecanismo? Investiguen qué
+condición tiene Colombia frente a la Comisión Europea y qué instrumentos
+existen si esa condición no basta.
+:::
+
+::: {.rds-card .riesgo data-label="RIESGO · EL HALLAZGO QUE FALTA EN CASI TODOS LOS TRABAJOS"}
+La pregunta del artículo 22 es la más fácil de pasar por alto y la que más
+cambia el sistema.
+
+Si la campaña de retención asigna automáticamente descuentos, precios o
+prioridad de atención a partir del score de *churn*, sin intervención humana
+significativa, eso es una decisión automatizada con efectos sobre la persona.
+
+No se resuelve con una cláusula en la política de privacidad. Se resuelve
+**rediseñando el flujo**.
+:::
+
+## Punto de partida técnico
+
+Los datos están en el repositorio. Una auditoría que no mire la base es una
+auditoría de escritorio.
+
+```python
+import pandas as pd
+
+df = pd.read_csv("data/clientes_sinteticos.csv")
+
+UE = ["Espana", "Alemania", "Francia", "Italia"]
+ue = df[df["pais_residencia"].isin(UE)]
+
+print("Clientes en la UE:", len(ue))
+print()
+print("Origen de sus datos:")
+print(ue["origen_dato"].value_counts().to_string())
+print()
+print("Sin fecha de autorización:", ue["fecha_autorizacion"].isna().sum())
+print("Con consentimiento de marketing:", ue["consentimiento_marketing"].sum())
+```
+
+::: {.rds-card .prueba data-label="PRUEBA · ANTES DE ESCRIBIR EL INFORME"}
+Ejecuten ese bloque. Las cifras que salgan deben aparecer en el informe
+ejecutivo.
+
+Un informe que dice «algunos clientes europeos podrían no tener autorización»
+vale menos que uno que dice «de los 74 clientes en la UE, N provienen de una
+lista comprada a un tercero y no tienen registro de autorización».
+:::
+
+## Fuentes exigidas
+
+- **Texto del Reglamento:**
+  [EUR-Lex — Reglamento (UE) 2016/679](https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679).
+  Citen artículo y, si usan considerandos, indíquenlo.
+- **Decisiones de adecuación y transferencias:** sitio oficial de la Comisión
+  Europea.
+- **Marco colombiano**, para la comparación:
+  [Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/) ·
+  [SIC](https://www.sic.gov.co/).
+
+No se aceptan resúmenes de blogs ni material de proveedores de software de
+cumplimiento como fuente de lo que dice la norma.
+
+## Rúbrica
+
+| Eje | Qué se evalúa | Peso |
+|:--|:--|--:|
+| **Diagnóstico** | Determina correctamente la aplicabilidad y cubre los siete frentes. El mapa de flujo es completo y honesto sobre lo que no se sabe. | 25 % |
+| **Análisis de riesgo** | El registro de riesgos conecta hallazgos concretos con daños plausibles a personas identificables, y los prioriza con criterio. | 25 % |
+| **Decisión técnica** | Las recomendaciones son ejecutables, ubicadas en una etapa del pipeline, con evidencia asociada. Se distingue lo inmediato de lo estructural. | 30 % |
+| **Evidencia** | Cifras tomadas de la base, artículos verificados en EUR-Lex, enlaces funcionales. | 20 % |
+
+## Errores frecuentes
+
+::: {.rds-card .reflexiona}
+**«Hay que pedir consentimiento a todos.»** El GDPR ofrece seis bases de
+licitud. El consentimiento suele ser la peor opción para un tratamiento que la
+empresa necesita hacer de todos modos, porque puede retirarse en cualquier
+momento.
+
+**«Como son solo 74 clientes, no vale la pena.»** El umbral de aplicación no
+es cuantitativo. Y además: ¿cuántos van a ser en dos años?
+
+**«Basta con actualizar la política de privacidad.»** Casi ningún hallazgo
+real de esta auditoría se resuelve con texto. Se resuelven con cambios en el
+pipeline, en los accesos y en el flujo de decisión.
+
+**«Movemos los servidores a Europa y listo.»** Cambia el análisis de
+transferencias, no el resto. Los artículos 5, 6, 22, 25 y 35 siguen
+aplicando.
+:::
+
+[← Actividad 1](actividad-01.qmd) · [→ Actividad 3](actividad-03.qmd)

@@ -1,0 +1,611 @@
+/*-- scss:defaults --*/
+
+// =========================================================================
+// RESPONSIBLE DATA LAB — identidad visual
+// Leyes, Ética y Protección de Datos · Especialización en Análisis Estadístico
+//
+// Referencias estéticas: documentación técnica, notebooks, dashboards
+// analíticos, portales de ingeniería de datos.
+// Deliberadamente NO: serif institucional, dorados, ornamentos jurídicos.
+// =========================================================================
+
+// ---- Tipografía ---------------------------------------------------------
+// Las familias IBM Plex se cargan desde styles/extra.css (@import de Google Fonts).
+$font-family-sans-serif: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !default;
+$font-family-monospace: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace !default;
+$font-size-root: 16px !default;
+$headings-font-weight: 600 !default;
+$line-height-base: 1.65 !default;
+
+// ---- Paleta: slate + cian técnico --------------------------------------
+$rds-ink:        #0b1220;   // fondo más oscuro / texto en claro
+$rds-slate-900:  #111a2b;
+$rds-slate-800:  #1b2638;
+$rds-slate-700:  #334155;
+$rds-slate-600:  #475569;
+$rds-slate-400:  #94a3b8;
+$rds-slate-200:  #e2e8f0;
+$rds-slate-100:  #f1f5f9;
+$rds-slate-050:  #f8fafc;
+
+$rds-cyan:       #06b6d4;   // acento principal
+$rds-cyan-dark:  #0e7490;
+$rds-blue:       #2563eb;   // acento secundario
+$rds-indigo:     #4f46e5;
+
+// Colores semánticos de las tarjetas del curso
+$rds-caso:       #2563eb;   // azul     — situación a resolver
+$rds-datos:      #0891b2;   // cian     — evidencia
+$rds-decide:     #7c3aed;   // violeta  — el estudiante decide
+$rds-dilema:     #db2777;   // magenta  — hay tensión, no hay respuesta única
+$rds-riesgo:     #dc2626;   // rojo     — algo puede salir mal
+$rds-prueba:     #059669;   // verde    — ejecuta código
+$rds-reflexiona: #d97706;   // ámbar    — pausa
+$rds-decision:   #0f766e;   // teal     — cierre, se registra una decisión
+$rds-codigo:     #475569;   // gris     — bloque técnico
+
+$primary:   $rds-cyan-dark !default;
+$secondary: $rds-slate-600 !default;
+$success:   $rds-prueba !default;
+$info:      $rds-blue !default;
+$warning:   $rds-reflexiona !default;
+$danger:    $rds-riesgo !default;
+$light:     $rds-slate-050 !default;
+$dark:      $rds-slate-900 !default;
+
+$body-bg:    #ffffff !default;
+$body-color: #1e293b !default;
+$link-color: $rds-cyan-dark !default;
+
+$border-radius: 0.6rem !default;
+$card-border-radius: 0.6rem !default;
+
+// ---- Código -------------------------------------------------------------
+$code-bg: $rds-slate-050 !default;
+$code-color: #0f172a !default;
+$code-block-bg: #f7f9fc !default;
+
+// ---- Navbar -------------------------------------------------------------
+$navbar-bg: $rds-slate-900 !default;
+$navbar-fg: #e2e8f0 !default;
+$navbar-hl: $rds-cyan !default;
+
+// ---- Footer -------------------------------------------------------------
+$footer-bg: $rds-slate-050 !default;
+$footer-fg: $rds-slate-600 !default;
+
+
+/*-- scss:rules --*/
+
+// =========================================================================
+// 0. Corrección de variable y tokens CSS reutilizables
+// =========================================================================
+:root {
+  --rds-ink: #0b1220;
+  --rds-slate-900: #111a2b;
+  --rds-slate-800: #1b2638;
+  --rds-slate-700: #334155;
+  --rds-slate-600: #475569;
+  --rds-slate-400: #94a3b8;
+  --rds-slate-200: #e2e8f0;
+  --rds-slate-100: #f1f5f9;
+  --rds-slate-050: #f8fafc;
+
+  --rds-surface: #ffffff;
+  --rds-surface-2: #f8fafc;
+  --rds-border: #e2e8f0;
+  --rds-text: #1e293b;
+  --rds-text-soft: #64748b;
+
+  --rds-cyan: #06b6d4;
+  --rds-cyan-dark: #0e7490;
+
+  --rds-caso: #2563eb;
+  --rds-datos: #0891b2;
+  --rds-decide: #7c3aed;
+  --rds-dilema: #db2777;
+  --rds-riesgo: #dc2626;
+  --rds-prueba: #059669;
+  --rds-reflexiona: #d97706;
+  --rds-decision: #0f766e;
+  --rds-codigo: #475569;
+
+  --rds-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 8px 24px rgba(15, 23, 42, .06);
+  --rds-shadow-hover: 0 2px 4px rgba(15, 23, 42, .06), 0 16px 40px rgba(15, 23, 42, .10);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
+}
+
+h1, h2, h3, h4 { letter-spacing: -0.02em; }
+
+h2 {
+  margin-top: 2.6rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--rds-border);
+}
+
+// =========================================================================
+// 1. Navbar y marca
+// =========================================================================
+.navbar {
+  border-bottom: 1px solid rgba(148, 163, 184, .18);
+  backdrop-filter: saturate(180%) blur(8px);
+}
+
+.navbar-brand {
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.navbar-brand::before {
+  content: "▚ ";
+  color: var(--rds-cyan);
+}
+
+// =========================================================================
+// 2. Portada (hero)
+// =========================================================================
+.rds-hero {
+  position: relative;
+  margin: -1rem -1rem 3rem -1rem;
+  padding: 4.5rem 2rem 3.5rem 2rem;
+  border-radius: 0 0 1.2rem 1.2rem;
+  background:
+    radial-gradient(1200px 400px at 12% -10%, rgba(6, 182, 212, .22), transparent 60%),
+    radial-gradient(900px 380px at 88% 0%, rgba(37, 99, 235, .18), transparent 60%),
+    linear-gradient(180deg, #0b1220 0%, #111a2b 100%);
+  color: #e2e8f0;
+  overflow: hidden;
+}
+
+// Retícula sutil tipo "plano de datos"
+.rds-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, .10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .10) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,.65), transparent 85%);
+  pointer-events: none;
+}
+
+.rds-hero > * { position: relative; z-index: 1; }
+
+.rds-kicker {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .82rem;
+  font-weight: 500;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--rds-cyan);
+  margin-bottom: .9rem;
+}
+
+.rds-hero h1,
+.rds-title {
+  font-size: clamp(2.1rem, 5.2vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  margin: 0 0 .9rem 0;
+  color: #f8fafc;
+  border: 0;
+}
+
+.rds-subtitle {
+  font-size: 1.05rem;
+  color: #94a3b8;
+  max-width: 62ch;
+  margin-bottom: 0;
+}
+
+.rds-subtitle strong { color: #cbd5e1; font-weight: 500; }
+
+.rds-claim {
+  margin: 2.4rem 0 0 0;
+  padding-left: 1.1rem;
+  border-left: 3px solid var(--rds-cyan);
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.35;
+  color: #e2e8f0;
+  max-width: 34ch;
+}
+
+.rds-claim em { color: var(--rds-cyan); font-style: normal; font-weight: 500; }
+
+// =========================================================================
+// 3. Tarjetas pedagógicas: CASO · DILEMA · DECIDE · DATOS · RIESGO ·
+//    PRUEBA · CÓDIGO · REFLEXIONA · DECISIÓN
+// =========================================================================
+.rds-card {
+  position: relative;
+  margin: 1.9rem 0;
+  padding: 1.55rem 1.4rem 1.2rem 1.4rem;
+  background: var(--rds-surface);
+  border: 1px solid var(--rds-border);
+  border-left: 4px solid var(--rds-slate-400);
+  border-radius: .55rem;
+  box-shadow: var(--rds-shadow);
+}
+
+.rds-card > :first-child { margin-top: 0; }
+.rds-card > :last-child { margin-bottom: 0; }
+
+.rds-card h3,
+.rds-card h4 {
+  margin-top: 0;
+  margin-bottom: .6rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  border: 0;
+  padding: 0;
+}
+
+// Etiqueta flotante
+.rds-card::before {
+  position: absolute;
+  top: -.72rem;
+  left: 1.1rem;
+  padding: .16rem .62rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--rds-slate-600);
+  border-radius: .3rem;
+  content: "NOTA";
+}
+
+// Permite sobrescribir el texto de la etiqueta:
+// ::: {.rds-card .caso data-label="CASO A · LA BASE COMPLETA"}
+.rds-card[data-label]::before { content: attr(data-label); }
+
+@mixin rds-variant($color, $etiqueta) {
+  border-left-color: $color;
+  &::before { background: $color; content: $etiqueta; }
+  &[data-label]::before { content: attr(data-label); }
+}
+
+.rds-card.caso       { @include rds-variant(var(--rds-caso), "CASO"); }
+.rds-card.datos      { @include rds-variant(var(--rds-datos), "DATOS"); }
+.rds-card.decide     { @include rds-variant(var(--rds-decide), "DECIDE"); }
+.rds-card.dilema     { @include rds-variant(var(--rds-dilema), "DILEMA"); }
+.rds-card.riesgo     { @include rds-variant(var(--rds-riesgo), "RIESGO"); }
+.rds-card.prueba     { @include rds-variant(var(--rds-prueba), "PRUEBA"); }
+.rds-card.codigo     { @include rds-variant(var(--rds-codigo), "CÓDIGO"); }
+.rds-card.reflexiona { @include rds-variant(var(--rds-reflexiona), "REFLEXIONA"); }
+.rds-card.decision   { @include rds-variant(var(--rds-decision), "DECISIÓN"); }
+
+// Fondos muy tenues según variante
+.rds-card.caso       { background: linear-gradient(180deg, rgba(37,99,235,.045), transparent 60%); }
+.rds-card.datos      { background: linear-gradient(180deg, rgba(8,145,178,.05), transparent 60%); }
+.rds-card.decide     { background: linear-gradient(180deg, rgba(124,58,237,.05), transparent 60%); }
+.rds-card.dilema     { background: linear-gradient(180deg, rgba(219,39,119,.05), transparent 60%); }
+.rds-card.riesgo     { background: linear-gradient(180deg, rgba(220,38,38,.05), transparent 60%); }
+.rds-card.prueba     { background: linear-gradient(180deg, rgba(5,150,105,.05), transparent 60%); }
+.rds-card.reflexiona { background: linear-gradient(180deg, rgba(217,119,6,.05), transparent 60%); }
+.rds-card.decision   { background: linear-gradient(180deg, rgba(15,118,110,.06), transparent 60%); }
+
+// Pregunta destacada dentro de una tarjeta
+.rds-card .pregunta,
+.rds-pregunta {
+  font-size: 1.12rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--rds-text);
+  margin: .8rem 0;
+  padding-left: .9rem;
+  border-left: 2px solid currentColor;
+}
+
+// =========================================================================
+// 4. Rejilla de tarjetas (portada, índices de unidad)
+// =========================================================================
+.rds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 1.15rem;
+  margin: 2rem 0 2.6rem 0;
+}
+
+.rds-grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+.rds-tile {
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem 1.25rem;
+  background: var(--rds-surface);
+  border: 1px solid var(--rds-border);
+  border-radius: .7rem;
+  box-shadow: var(--rds-shadow);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  text-decoration: none !important;
+  color: inherit !important;
+  height: 100%;
+}
+
+a.rds-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--rds-shadow-hover);
+  border-color: var(--rds-cyan);
+}
+
+.rds-tile .num {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  color: var(--rds-cyan-dark);
+  margin-bottom: .55rem;
+  text-transform: uppercase;
+}
+
+.rds-tile h3 {
+  margin: 0 0 .45rem 0;
+  font-size: 1.06rem;
+  font-weight: 600;
+  line-height: 1.25;
+  border: 0;
+  padding: 0;
+}
+
+.rds-tile p {
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.5;
+  color: var(--rds-text-soft);
+}
+
+.rds-tile .meta {
+  margin-top: auto;
+  padding-top: .9rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  color: var(--rds-slate-400);
+}
+
+// Las tres grandes preguntas de la portada
+.rds-question {
+  border-top: 3px solid var(--rds-cyan);
+}
+.rds-question .q {
+  font-size: 1.22rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: .55rem;
+}
+.rds-question .u {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .7rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--rds-cyan-dark);
+  margin-bottom: .5rem;
+}
+
+// =========================================================================
+// 5. Pipeline horizontal / vertical en CSS puro
+// =========================================================================
+.rds-pipeline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: .4rem;
+  margin: 1.8rem 0;
+  padding: 1rem;
+  background: var(--rds-surface-2);
+  border: 1px solid var(--rds-border);
+  border-radius: .7rem;
+  overflow-x: auto;
+}
+
+.rds-stage {
+  position: relative;
+  flex: 1 1 110px;
+  min-width: 105px;
+  padding: .7rem .55rem;
+  background: var(--rds-surface);
+  border: 1px solid var(--rds-border);
+  border-top: 3px solid var(--rds-cyan);
+  border-radius: .45rem;
+  text-align: center;
+}
+
+.rds-stage .nombre {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--rds-text);
+  margin-bottom: .3rem;
+}
+
+.rds-stage .pregunta {
+  display: block;
+  font-size: .76rem;
+  line-height: 1.35;
+  color: var(--rds-text-soft);
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+}
+
+.rds-stage.alerta { border-top-color: var(--rds-riesgo); }
+.rds-stage.alerta .nombre { color: var(--rds-riesgo); }
+
+// =========================================================================
+// 6. Tablas limpias
+// =========================================================================
+table.table,
+.table {
+  font-size: .92rem;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table thead th {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--rds-text-soft);
+  background: var(--rds-surface-2);
+  border-bottom: 2px solid var(--rds-border) !important;
+  vertical-align: bottom;
+}
+
+.table td, .table th { padding: .55rem .7rem; }
+.table tbody tr:hover { background: rgba(6, 182, 212, .045); }
+
+// =========================================================================
+// 7. Código y salidas
+// =========================================================================
+div.sourceCode {
+  border: 1px solid var(--rds-border);
+  border-radius: .5rem;
+  box-shadow: none;
+}
+
+pre code { font-size: .86rem; line-height: 1.55; }
+
+code:not(.sourceCode) {
+  font-size: .88em;
+  padding: .1rem .32rem;
+  background: var(--rds-slate-100);
+  border-radius: .25rem;
+  color: #0f172a;
+}
+
+// Celdas de notebook
+.cell-output-stdout pre,
+.cell-output pre {
+  font-size: .82rem;
+  background: var(--rds-surface-2);
+  border: 1px solid var(--rds-border);
+  border-radius: .45rem;
+  padding: .7rem .85rem;
+}
+
+// =========================================================================
+// 8. Callouts de Quarto — afinados, no ruidosos
+// =========================================================================
+.callout {
+  border-radius: .5rem;
+  border-width: 1px;
+  box-shadow: none;
+}
+.callout.callout-style-default > .callout-header { font-weight: 600; }
+
+// =========================================================================
+// 9. Utilidades
+// =========================================================================
+.rds-chip {
+  display: inline-block;
+  padding: .12rem .55rem;
+  margin: 0 .18rem .3rem 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--rds-cyan-dark);
+  background: rgba(6, 182, 212, .10);
+  border: 1px solid rgba(6, 182, 212, .28);
+  border-radius: 1rem;
+}
+
+.rds-chip.riesgo  { color: var(--rds-riesgo);  background: rgba(220,38,38,.08);  border-color: rgba(220,38,38,.25); }
+.rds-chip.ok      { color: var(--rds-prueba);  background: rgba(5,150,105,.08);  border-color: rgba(5,150,105,.25); }
+.rds-chip.neutro  { color: var(--rds-slate-600); background: var(--rds-slate-100); border-color: var(--rds-border); }
+
+.rds-meta {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .78rem;
+  color: var(--rds-text-soft);
+  padding: .7rem .9rem;
+  background: var(--rds-surface-2);
+  border: 1px solid var(--rds-border);
+  border-radius: .5rem;
+  margin-bottom: 1.6rem;
+}
+
+.rds-meta span + span::before {
+  content: " · ";
+  color: var(--rds-slate-400);
+}
+
+// Cronómetro del encuentro
+.rds-timeline { margin: 1.8rem 0; border-left: 2px solid var(--rds-border); padding-left: 0; list-style: none; }
+
+.rds-timeline li {
+  position: relative;
+  padding: .1rem 0 1.15rem 1.5rem;
+  list-style: none;
+}
+
+.rds-timeline li::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: .5rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--rds-cyan);
+  border: 2px solid var(--rds-surface);
+}
+
+.rds-timeline .t {
+  display: inline-block;
+  min-width: 5.6rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .76rem;
+  font-weight: 600;
+  color: var(--rds-cyan-dark);
+}
+
+.rds-timeline .modo {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--rds-slate-400);
+  margin-left: .4rem;
+}
+
+// Firma de "esto es sintético"
+.rds-sintetico {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .74rem;
+  color: var(--rds-text-soft);
+  padding: .55rem .8rem;
+  border: 1px dashed var(--rds-border);
+  border-radius: .45rem;
+  margin: 1.4rem 0;
+}
+
+.rds-sintetico::before { content: "◇ "; color: var(--rds-cyan); }
+
+// Tabla de decisión compacta
+.rds-decision-table td:first-child {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+// Ocultar el título duplicado cuando la página usa un hero propio
+.rds-nohead h1.title { display: none; }

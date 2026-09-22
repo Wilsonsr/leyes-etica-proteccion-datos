@@ -1,0 +1,551 @@
+---
+title: "Del requisito<br>a la decisión"
+subtitle: "Encuentro 2 · Cómo cambian las reglas un proyecto de datos"
+author: "Leyes, Ética y Protección de Datos · Especialización en Análisis Estadístico"
+date: today
+date-format: "MMMM [de] YYYY"
+lang: es
+format:
+  revealjs:
+    theme: [dark, ../styles/reveal-rds.scss]
+    width: 1280
+    height: 760
+    margin: 0.07
+    slide-number: c/t
+    show-slide-number: all
+    progress: true
+    hash-type: number
+    transition: fade
+    transition-speed: fast
+    background-transition: fade
+    controls: true
+    center: true
+    touch: true
+    history: true
+    code-line-numbers: false
+    highlight-style: github-dark
+    menu:
+      side: left
+      width: wide
+    link-external-newwindow: true
+    footer: "Responsible Data Lab · Encuentro 2"
+---
+
+## {.center background-color="#0b1220"}
+
+::: {.kicker}
+Encuentro 2 · 120 minutos
+:::
+
+::: {.pregunta-grande}
+¿Qué cambia en nuestro *pipeline*<br>
+cuando aparecen restricciones<br>
+legales y de privacidad?
+:::
+
+::: {.notes}
+El encuentro anterior terminó con una lista de cosas incómodas. Hoy las
+convertimos en cambios concretos: qué línea se modifica, qué archivo se deja
+de producir, qué se documenta.
+:::
+
+## Mismo caso. Misma base. Otra petición.
+
+::: {.rds-card .caso data-label="DATAMARKET · SEMANA 2"}
+> Excelente trabajo con el modelo. Aprovechando que ya tenemos la base
+> consolidada, queremos usarla también para **segmentar**, **predecir la
+> próxima compra**, lanzar **publicidad personalizada** en redes y alimentar
+> un **motor de recomendación**.
+>
+> No hay que pedir nada nuevo, ¿cierto? Los datos ya los tenemos.
+:::
+
+::: {.fragment}
+Lo que el correo no menciona: esos datos se recogieron para
+**facturación**, **entregas** y **administración de clientes**.
+:::
+
+::: {.notes}
+Dejar que la contradicción aparezca sola. Casi siempre alguien la nota antes
+de que el docente la señale.
+:::
+
+## Votación de apertura {background-color="#101a2c"}
+
+::: {.pregunta-grande}
+¿Podemos usar los datos para *cualquier* finalidad<br>porque ya los tenemos
+almacenados?
+:::
+
+::: {.fragment}
+::: {.rds-grid}
+::: {.rds-tile}
+[Opción 1]{.num}
+**Sí.** Son nuestros clientes y están en nuestros servidores.
+:::
+::: {.rds-tile}
+[Opción 2]{.num}
+**No.** La finalidad de recolección limita el uso posterior.
+:::
+::: {.rds-tile}
+[Opción 3]{.num}
+**Depende.** Algunas de las cuatro peticiones son compatibles; otras no.
+:::
+:::
+:::
+
+::: {.notes}
+La opción 3 es la productiva, pero no se llega por autoridad. A quien vote 3,
+pedirle que diga CUÁLES son compatibles. Esa lista es la diapositiva
+siguiente.
+:::
+
+## Las cuatro peticiones no son equivalentes
+
+| Petición | ¿Compatible con el origen? | Por qué |
+|:--|:--|:--|
+| Segmentar por valor | Discutible, tirando a sí | Análisis interno de una relación que ya existe |
+| Predecir próxima compra | Discutible | Interno, pero ya construye un perfil predictivo |
+| **Publicidad en redes** | **No, sin autorización específica** | **Comunica datos a un tercero para otra finalidad** |
+| Motor de recomendación | Depende del diseño | Cambia si perfila con sensibles inferidos |
+
+::: {.fragment .rds-card .riesgo data-label="DERIVA DE FINALIDAD"}
+Ninguna es escandalosa por separado. El problema es **acumulativo**.
+
+Casi nunca hay mala intención: hay ausencia de alguien que vuelva a preguntar
+para qué se recogieron los datos.
+:::
+
+::: {.notes}
+El término técnico es *function creep*. Vale la pena nombrarlo: les va a
+servir para identificarlo en su propio trabajo.
+:::
+
+## El pipeline completo
+
+::: {.rds-pipeline}
+::: {.rds-stage}
+[Fuente]{.nombre}[¿De dónde vienen?]{.pregunta}
+:::
+::: {.rds-stage}
+[Recolección]{.nombre}[¿Para qué se obtuvieron?]{.pregunta}
+:::
+::: {.rds-stage}
+[Almacenamiento]{.nombre}[¿Quién los ve?]{.pregunta}
+:::
+::: {.rds-stage .alerta}
+[Integración]{.nombre}[¿Podemos cruzarlas?]{.pregunta}
+:::
+::: {.rds-stage}
+[Limpieza]{.nombre}[¿Qué borramos?]{.pregunta}
+:::
+::: {.rds-stage .alerta}
+[Features]{.nombre}[¿Qué inferimos?]{.pregunta}
+:::
+:::
+
+::: {.rds-pipeline}
+::: {.rds-stage .alerta}
+[Modelo]{.nombre}[¿Perfilamos personas?]{.pregunta}
+:::
+::: {.rds-stage}
+[Predicción]{.nombre}[¿Qué error aceptamos?]{.pregunta}
+:::
+::: {.rds-stage .alerta}
+[Decisión]{.nombre}[¿A quién afecta?]{.pregunta}
+:::
+::: {.rds-stage .alerta}
+[Publicación]{.nombre}[¿Alguien es identificable?]{.pregunta}
+:::
+::: {.rds-stage}
+[Conservación]{.nombre}[¿Hasta cuándo?]{.pregunta}
+:::
+::: {.rds-stage}
+[Eliminación]{.nombre}[¿Sabemos borrar?]{.pregunta}
+:::
+:::
+
+::: {.notes}
+Construirlo con ellos: pedir la pregunta de control de cada etapa antes de
+mostrarla. Las etapas marcadas en rojo son las cuatro donde casi siempre
+falla.
+:::
+
+## Los cuatro puntos ciegos
+
+::: {.rds-grid}
+::: {.rds-tile}
+[Integración]{.num}
+Dos bases inofensivas por separado producen una peligrosa al cruzarse. Es la
+operación que **más riesgo crea** y **menos se documenta**.
+:::
+::: {.rds-tile}
+[Feature engineering]{.num}
+Es donde el analista **fabrica** datos nuevos sobre personas.
+`dias_desde_ultima_compra` y `probabilidad_de_embarazo` se crean con la misma
+línea de código.
+:::
+::: {.rds-tile}
+[Decisión]{.num}
+El modelo no hace daño. La **acción** que se toma con su salida, sí.
+:::
+::: {.rds-tile}
+[Publicación]{.num}
+Un CSV para el proveedor, un tablero, una carpeta compartida. El dato sale del
+perímetro.
+:::
+:::
+
+::: {.notes}
+Preguntar: de las doce etapas, ¿cuántas están documentadas en su proyecto
+actual? Suele haber silencio incómodo, que es el objetivo.
+:::
+
+## Aquí iría una diapositiva titulada… {background-color="#1a1210"}
+
+::: {.pregunta-grande}
+«Artículo 4 de la Ley 1581 de 2012:<br>principios rectores»
+:::
+
+::: {.fragment}
+No la vamos a hacer.
+:::
+
+::: {.notes}
+Pausa deliberada. Es el único momento del curso en que se hace explícito el
+giro pedagógico.
+:::
+
+## Si eres analista, estas son las preguntas que debes hacer
+
+::: {.rds-card .decide data-label="LA MISMA INFORMACIÓN, COMO HERRAMIENTA"}
+| Principio | Pregunta del analista |
+|:--|:--|
+| Finalidad | ¿Para qué fueron recolectados, y es esto lo mismo? |
+| Libertad | ¿Hay autorización verificable, y para qué alcance? |
+| Calidad | ¿Los datos son correctos, completos y actuales? |
+| Transparencia | ¿Podría explicárselo al titular en una frase? |
+| Circulación restringida | ¿Quién necesita ver esto para su trabajo? |
+| Seguridad | ¿Dónde está el archivo y quién más lo tiene? |
+| Confidencialidad | ¿Qué puedo publicar sin identificar a nadie? |
+:::
+
+::: {.notes}
+La columna izquierda es el vocabulario para hablar con el área jurídica. La
+derecha es lo que un analista puede aplicar hoy sin consultar a nadie.
+:::
+
+## La matriz completa
+
+| Principio | Riesgo si se ignora | Decisión técnica | Evidencia |
+|:--|:--|:--|:--|
+| **Finalidad** | Uso secundario no esperado | Revisar finalidad antes de incorporar la variable | Documentación de origen y propósito |
+| **Calidad** | Decisiones incorrectas sobre personas | Reglas de validación; antigüedad máxima | Log de validación |
+| **Seguridad** | Exposición innecesaria | Roles y permisos | Matriz de accesos |
+| **Confidencialidad** | Reidentificación | Agregación o anonimización | Informe de riesgo con umbral |
+
+::: {.fragment .rds-card .decision}
+De izquierda a derecha es una **traducción**.<br>
+De derecha a izquierda es una **auditoría**.
+:::
+
+::: {.notes}
+Si alguien pregunta «¿cumplen el principio de finalidad?», la respuesta no es
+«sí»: es la última columna.
+:::
+
+## Una traza completa
+
+::: {.rds-card .caso data-label="FINALIDAD · CASO REAL DE LA BASE"}
+**Lo que encontramos** — 144 registros con `origen_dato = lista_comprada_tercero`
+y 92 con `enriquecimiento_web`. Ninguno de los **236** tiene
+`fecha_autorizacion`.
+
+**Riesgo** — Entrenar con datos cuyo origen no podemos acreditar.
+
+**Decisión** — Se marcan y se excluyen del entrenamiento. **No se borran**:
+borrarlos destruiría la evidencia de que existieron.
+
+**Evidencia** — Celda del notebook con el filtro, conteo antes y después,
+nota de quién decidió y cuándo.
+:::
+
+::: {.notes}
+El detalle de «no se borran» suele sorprender. Es importante: la trazabilidad
+y la minimización a veces tiran en direcciones opuestas, y hay que decidir
+explícitamente.
+:::
+
+## Laboratorio 2 · 35 minutos {background-color="#0f1c18"}
+
+::: {.rds-card .prueba data-label="PRUEBA · LAB 2"}
+### Auditoría rápida de un pipeline
+
+**Parte A** — Construir en código la matriz
+`etapa · dato · riesgo · pregunta · control · decisión`
+para las ocho etapas del proyecto DataMarket.
+
+**Parte B** — Entrenar dos regresiones logísticas de *churn* y compararlas.
+
+El laboratorio **no** es sobre rendimiento predictivo. Las métricas están ahí
+para sostener una discusión.
+:::
+
+::: {.notes}
+Si el tiempo aprieta, la parte A se puede dejar como trabajo autónomo y
+concentrar la sesión en la parte B, que es donde está el dilema.
+:::
+
+## El dilema, con números {background-color="#1a0f18"}
+
+::: {.rds-card .dilema data-label="MODELO A vs MODELO B"}
+| | Variables | AUC |
+|:--|:--|--:|
+| **A** | Comportamiento de compra y navegación | **0.83** |
+| **B** | A + edad, estrato, ingresos, farmacia, entrega asistida, maternidad | **0.88** |
+:::
+
+::: {.fragment .pregunta-grande}
+¿Es suficiente que B tenga mayor AUC<br>para *preferirlo*?
+:::
+
+::: {.notes}
+No dejar que se resuelva por votación rápida. Las tres preguntas auxiliares
+de la siguiente diapositiva son las que convierten la opinión en argumento.
+:::
+
+## Tres preguntas antes de responder
+
+::: {.fragment}
+**1 · ¿Qué variables aportan la diferencia?**<br>
+Si son `estrato` e `ingresos`, el modelo aprendió a distinguir por condición
+socioeconómica.
+:::
+
+::: {.fragment}
+**2 · ¿Sobre quién se equivoca cada modelo?**<br>
+Un AUC global idéntico puede esconder tasas de error muy distintas por grupo
+de edad o de estrato.
+:::
+
+::: {.fragment}
+**3 · ¿Qué se hace con la predicción?**<br>
+Si la acción es una oferta, el falso negativo es una oportunidad perdida.<br>
+Si la acción es bajar la prioridad de atención, el falso positivo es un daño.
+:::
+
+::: {.fragment .nota-pie}
+Las tres se responden con código en el Lab 2.
+:::
+
+::: {.notes}
+La tercera es la que más cuesta. La mayoría de equipos evalúa el modelo y no
+la decisión que el modelo habilita.
+:::
+
+## El marco colombiano, en una imagen
+
+```{mermaid}
+flowchart TB
+    CP["Constitución, art. 15<br/>Habeas data"] --> L1266["Ley 1266 de 2008<br/>Datos financieros y crediticios"]
+    CP --> L1581["Ley 1581 de 2012<br/>Régimen general"]
+    L1581 --> D1074["Decreto 1074 de 2015<br/>(compila el 1377 de 2013)"]
+    L1581 --> SIC["SIC · autoridad de control"]
+    SIC --> RNBD["Registro Nacional<br/>de Bases de Datos"]
+    style CP fill:#101a2c,stroke:#22d3ee,color:#e2e8f0
+    style L1581 fill:#101a2c,stroke:#60a5fa,color:#e2e8f0
+    style L1266 fill:#101a2c,stroke:#334155,color:#94a3b8
+    style D1074 fill:#101a2c,stroke:#334155,color:#94a3b8
+    style SIC fill:#101a2c,stroke:#a78bfa,color:#e2e8f0
+    style RNBD fill:#101a2c,stroke:#334155,color:#94a3b8
+```
+
+::: {.notes}
+Doce minutos máximo para todo el bloque normativo. Entra a resolver preguntas
+que ya están abiertas, no a abrir preguntas nuevas.
+:::
+
+## Lo mínimo que un analista necesita
+
+::: {.rds-card .datos data-label="LEY 1581 DE 2012"}
+1. **Definiciones operativas** (art. 3) — dato personal, titular, responsable,
+   encargado. La distinción responsable/encargado define quién responde
+   cuando se contrata un proveedor de analítica.
+2. **Principios** (art. 4) — los siete de la matriz.
+3. **Datos sensibles** (arts. 5 y 6) — prohibición general con excepciones
+   tasadas. Niñas, niños y adolescentes, régimen propio (art. 7).
+4. **Derechos y autorización** (arts. 8, 9 y 10) — incluida la excepción para
+   fines históricos, estadísticos o científicos con supresión de identidad.
+5. **Deberes** (arts. 17 y 18) — incluido informar a la autoridad ante
+   violaciones a los códigos de seguridad.
+:::
+
+::: {.notes}
+El punto 4 es el que más les toca directamente: muchos trabajan con datos
+estadísticos y creen que la excepción los exime de todo. No: exige medidas de
+supresión de identidad, que es justo lo que el Lab 1 mostró que no es trivial.
+:::
+
+## Verifique. No cite de memoria. {background-color="#1a1210"}
+
+::: {.rds-card .riesgo data-label="REGLA DEL CURSO"}
+Las obligaciones concretas —por ejemplo, quién debe inscribir bases en el
+RNBD— han cambiado por vía reglamentaria más de una vez.
+
+Antes de afirmar algo en un informe, confirme el texto vigente:
+
+- **Gestor Normativo** — Función Pública
+- **SUIN-Juriscol**
+- **Superintendencia de Industria y Comercio**
+- **EUR-Lex** para el GDPR
+
+Una afirmación normativa sin fuente oficial verificable **no cuenta como
+argumento** en este curso.
+:::
+
+::: {.notes}
+Aplicar esta regla también a lo que dice el docente. Si alguien encuentra un
+error en el material, gana la discusión.
+:::
+
+## GDPR · cuatro diferencias que cambian el diseño
+
+::: {.fragment}
+**1 · Quién queda cubierto.** Se aplica por la ubicación de la **persona**
+(art. 3), no del responsable. En nuestra base: **74 registros** con
+residencia en la UE.
+:::
+
+::: {.fragment}
+**2 · La autorización no es la única puerta.** Seis bases de licitud
+(art. 6). Hay que **elegir una y documentarla**.
+:::
+
+::: {.fragment}
+**3 · Derechos que cambian el sistema.** Portabilidad (20), oposición (21) y
+decisiones exclusivamente automatizadas (22).
+:::
+
+::: {.fragment}
+**4 · Obligaciones que se ejecutan en el pipeline.** Privacidad desde el
+diseño (25), registro de actividades (30), notificación de brechas (33-34),
+evaluación de impacto (35).
+:::
+
+::: {.notes}
+El artículo 22 es el que más afecta a un equipo de analítica: si el modelo de
+churn decide solo quién recibe oferta, hay que rediseñar el flujo para
+introducir intervención humana significativa.
+:::
+
+## Microactividad · 3 minutos {background-color="#101a2c"}
+
+::: {.rds-card .decide data-label="DECIDE · EN PAREJAS"}
+DataMarket descubre que tiene **74 clientes residentes en la UE**.
+
+::: {.pregunta}
+Nombre **una** cosa concreta que el equipo de analítica —no el área
+jurídica— tendría que cambiar el lunes por la mañana.
+:::
+:::
+
+::: {.fragment .nota-pie}
+Esto es, literalmente, el punto de partida de la Actividad 2.
+:::
+
+::: {.notes}
+Respuestas válidas: marcar y separar esos registros; documentar la base de
+licitud; revisar si la decisión de campaña es totalmente automatizada;
+revisar qué proveedor externo recibe la base.
+:::
+
+## Checklist del analista responsable · v2
+
+::: {.rds-grid}
+::: {.rds-tile}
+[Desde el Encuentro 1]{.num}
+1 · ¿De dónde provienen?<br>
+2 · ¿Necesito todas las variables?<br>
+3 · ¿Hay datos sensibles?<br>
+4 · ¿Qué puedo inferir?<br>
+5 · ¿Hay reidentificación posible?
+:::
+::: {.rds-tile}
+[Nuevas desde hoy]{.num}
+6 · ¿Para qué fueron recolectados?<br>
+7 · ¿Estoy creando perfiles?<br>
+8 · ¿Quién tendrá acceso?<br>
+9 · ¿Puedo explicar y documentar?<br>
+10 · ¿Cuánto tiempo los conservo?
+:::
+:::
+
+::: {.fragment .nota-pie}
+Quedan dos. Se activan en la Unidad 2.
+:::
+
+::: {.notes}
+Las dos que faltan son «¿puede mi modelo afectar personas o grupos?» y «¿qué
+información publicaré?». Se activan con el encuentro de ética y sesgo.
+:::
+
+## Pregunta de salida
+
+::: {.rds-card .reflexiona data-label="INDIVIDUAL · POR ESCRITO"}
+::: {.pregunta}
+¿Qué tendría que cambiar en mi proyecto de datos?
+:::
+
+Hoy con una restricción: la respuesta debe nombrar **una etapa del pipeline**
+y **un cambio ejecutable**.
+
+No vale «ser más cuidadoso».
+:::
+
+::: {.notes}
+Recoger por el foro. Estas respuestas alimentan directamente el decálogo del
+Encuentro 5.
+:::
+
+## Lo que viene
+
+::: {.rds-grid}
+::: {.rds-tile}
+[Semana 3]{.num}
+**Actividad 1** — DataMarket quiere operar en Brasil y Chile. Matriz comparada
+y columna «¿qué cambia en el proyecto?».
+:::
+::: {.rds-tile}
+[Semana 4]{.num}
+**Actividad 2** — Auditoría inicial frente al GDPR. Informe ejecutivo, mapa de
+flujo, riesgos y decisiones.
+:::
+::: {.rds-tile}
+[Semana 5]{.num}
+**Encuentro 3** — Ética y ciencia de datos. El modelo B vuelve, y esta vez
+miramos sobre quién se equivoca.
+:::
+:::
+
+::: {.notes}
+Cerrar el encuentro con la lectura del caso Facebook, que es el puente entre
+el marco colombiano y la Actividad 2.
+:::
+
+## {.center background-color="#0b1220"}
+
+::: {.pregunta-grande}
+La legislación es *una* restricción del sistema.<br>
+Las otras son calidad, sesgo, seguridad,<br>
+finalidad, impacto y explicabilidad.
+:::
+
+::: {.nota-pie}
+Responsible Data Lab · Leyes, Ética y Protección de Datos<br>
+Especialización en Análisis Estadístico
+:::
+
+::: {.notes}
+Ninguna de las seis es sinónimo de las otras. Distinguirlas es buena parte del
+oficio.
+:::

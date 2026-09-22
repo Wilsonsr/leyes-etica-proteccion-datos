@@ -1,0 +1,512 @@
+---
+title: "Del requisito a la decisión"
+subtitle: "Cómo cambian las reglas un proyecto de datos"
+description: "Encuentro virtual 2 · 120 minutos · Unidad 1"
+---
+
+::: {.rds-meta}
+[Encuentro 2]{} [Unidad 1]{} [120 minutos]{} [Semana 2]{} [Slides: [02-reglas-proyectos-datos](../slides/02-reglas-proyectos-datos.qmd)]{} [Lab: [lab02](../labs/lab02.ipynb)]{}
+:::
+
+## Pregunta central
+
+::: {.rds-pregunta}
+¿Qué cambia en nuestro *pipeline* cuando aparecen restricciones legales y de
+privacidad?
+:::
+
+El Encuentro 1 terminó con una lista de cosas incómodas: variables que no
+deberíamos usar, registros sin evidencia de autorización, una base que no era
+anónima. Hoy convertimos esa incomodidad en **cambios concretos en el
+pipeline**: qué línea de código se modifica, qué archivo se deja de producir,
+qué se documenta.
+
+## Objetivo
+
+Que el estudiante pueda recorrer cualquier proyecto de datos etapa por etapa y,
+en cada una, nombrar el riesgo, la pregunta de control y la decisión técnica
+correspondiente. Y que, al hacerlo, encuentre los principios del marco
+colombiano *donde realmente viven*: dentro de las decisiones de ingeniería.
+
+## Agenda
+
+```{=html}
+<ul class="rds-timeline">
+  <li><span class="t">00–10</span><span class="modo">detonante</span><br>
+      La nueva petición de DataMarket. Los mismos datos, otra finalidad.</li>
+  <li><span class="t">10–22</span><span class="modo">votación + discusión</span><br>
+      ¿Podemos usar los datos que ya tenemos para cualquier cosa?</li>
+  <li><span class="t">22–42</span><span class="modo">construcción colectiva</span><br>
+      El pipeline de doce etapas y la pregunta de control de cada una.</li>
+  <li><span class="t">42–58</span><span class="modo">exposición</span><br>
+      «Si eres analista, estas son las preguntas que debes hacer». La matriz.</li>
+  <li><span class="t">58–92</span><span class="modo">laboratorio</span><br>
+      Lab 2: auditoría del pipeline y comparación de dos modelos de churn.</li>
+  <li><span class="t">92–104</span><span class="modo">marco colombiano</span><br>
+      Ley 1581 de 2012 y normativa complementaria, leída desde el pipeline.</li>
+  <li><span class="t">104–114</span><span class="modo">comparación</span><br>
+      GDPR: qué se hace distinto y por qué importa para la Actividad 2.</li>
+  <li><span class="t">114–120</span><span class="modo">cierre</span><br>
+      Checklist v2 y pregunta de salida.</li>
+</ul>
+```
+
+------------------------------------------------------------------------
+
+## 1. El detonante (00–10)
+
+Mismo caso, misma base, otra petición.
+
+::: {.rds-card .caso data-label="CASO · LA SEGUNDA PETICIÓN"}
+**De:** Dirección Comercial — DataMarket Analytics
+**Asunto:** RE: Modelo de abandono — ampliación de alcance
+
+> Excelente trabajo con el modelo. Aprovechando que ya tenemos la base
+> consolidada, queremos usarla también para:
+>
+> - **segmentar** a los clientes por valor y estilo de vida,
+> - **predecir** qué producto va a comprar cada uno,
+> - lanzar **publicidad personalizada** en redes sociales,
+> - alimentar un **motor de recomendación** en el sitio.
+>
+> No hay que pedir nada nuevo, ¿cierto? Los datos ya los tenemos.
+
+**Contexto que el correo no menciona:** esos datos se recolectaron
+originalmente para **facturación**, **entregas** y **administración de
+clientes**.
+:::
+
+::: {.rds-card .decide data-label="DECIDE · VOTACIÓN DE APERTURA"}
+::: {.pregunta}
+¿Podemos usar automáticamente los datos para cualquier finalidad, porque ya
+los tenemos almacenados?
+:::
+
+1. **Sí.** Son nuestros clientes y nuestros datos. Ya están en nuestros
+   servidores.
+2. **No.** La finalidad de recolección limita el uso posterior.
+3. **Depende de la finalidad nueva.** Algunas de las cuatro peticiones son
+   compatibles con el origen; otras no.
+:::
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente
+
+La opción 3 es la más productiva, pero no se puede llegar a ella por
+autoridad: hay que construirla. Pida que quienes voten 3 digan *cuáles* de
+las cuatro peticiones son compatibles y cuáles no. Esa lista es el material
+del bloque siguiente.
+:::
+
+### Las cuatro peticiones no son equivalentes
+
+| Petición | ¿Compatible con «facturación, entrega, administración»? | Por qué |
+|:--|:--|:--|
+| Segmentar por valor | Discutible, tirando a sí | Es análisis interno sobre la relación comercial que ya existe. |
+| Predecir próxima compra | Discutible | Sigue siendo interno, pero ya construye un perfil predictivo. |
+| Publicidad personalizada en redes | No, sin autorización específica | Implica **comunicar datos a un tercero** (la plataforma) para una finalidad distinta. |
+| Motor de recomendación | Depende del diseño | Si usa solo el histórico propio y no perfila con datos sensibles inferidos, es otra conversación. |
+
+::: {.rds-card .riesgo data-label="RIESGO · DERIVA DE FINALIDAD"}
+Ninguna de estas peticiones es escandalosa por sí sola. El problema es
+**acumulativo**: cada una parece un pequeño paso desde la anterior, y al cabo
+de seis meses los datos que una persona entregó para que le llegara un pedido
+alimentan un sistema publicitario externo.
+
+A esto se le llama *function creep* o deriva de finalidad, y casi nunca es
+producto de una mala intención: es producto de que nadie volvió a preguntar
+para qué se habían recogido los datos.
+:::
+
+------------------------------------------------------------------------
+
+## 2. El pipeline, etapa por etapa (22–42)
+
+Construcción colectiva. Se dibuja el pipeline en pantalla y, para cada etapa,
+**el grupo propone la pregunta de control** antes de que aparezca la del
+material.
+
+```{=html}
+<div class="rds-pipeline">
+  <div class="rds-stage"><span class="nombre">Fuente</span><span class="pregunta">¿De dónde provienen los datos?</span></div>
+  <div class="rds-stage"><span class="nombre">Recolección</span><span class="pregunta">¿Para qué fueron obtenidos?</span></div>
+  <div class="rds-stage"><span class="nombre">Almacenamiento</span><span class="pregunta">¿Dónde viven y quién los ve?</span></div>
+  <div class="rds-stage alerta"><span class="nombre">Integración</span><span class="pregunta">¿Podemos combinar estas bases?</span></div>
+  <div class="rds-stage"><span class="nombre">Limpieza</span><span class="pregunta">¿Qué estamos corrigiendo y qué estamos borrando?</span></div>
+  <div class="rds-stage alerta"><span class="nombre">Feature engineering</span><span class="pregunta">¿Qué inferencias nuevas estamos creando?</span></div>
+  <div class="rds-stage alerta"><span class="nombre">Modelo</span><span class="pregunta">¿Estamos perfilando personas?</span></div>
+  <div class="rds-stage"><span class="nombre">Predicción</span><span class="pregunta">¿Qué error es aceptable y para quién?</span></div>
+  <div class="rds-stage alerta"><span class="nombre">Decisión</span><span class="pregunta">¿Quién puede verse afectado?</span></div>
+  <div class="rds-stage alerta"><span class="nombre">Publicación</span><span class="pregunta">¿Puede alguien ser identificado?</span></div>
+  <div class="rds-stage"><span class="nombre">Conservación</span><span class="pregunta">¿Hasta cuándo necesitamos esto?</span></div>
+  <div class="rds-stage"><span class="nombre">Eliminación</span><span class="pregunta">¿Sabemos borrar, de verdad?</span></div>
+</div>
+```
+
+### Las cuatro etapas donde casi siempre falla
+
+::: {.rds-card .riesgo data-label="RIESGO · PUNTOS CIEGOS DEL PIPELINE"}
+**Integración.** Dos bases inofensivas por separado producen una base
+peligrosa al cruzarse. El cruce es la operación que más riesgo crea y la que
+menos se documenta.
+
+**Feature engineering.** Es donde el analista *fabrica* datos nuevos sobre
+personas. `dias_desde_ultima_compra` es inocuo;
+`probabilidad_de_embarazo` no lo es, y ambos se crean con la misma línea de
+código.
+
+**Decisión.** El modelo no hace daño: la acción que se toma con su salida, sí.
+Un score de abandono no perjudica a nadie hasta que alguien decide que los
+clientes con score alto reciben peor servicio.
+
+**Publicación.** Incluye entregar un CSV a un proveedor, publicar un tablero
+o poner un archivo en una carpeta compartida. Es la etapa donde el dato sale
+del perímetro y deja de estar bajo control.
+:::
+
+::: {.rds-card .reflexiona}
+De las doce etapas, ¿cuántas están documentadas en su proyecto actual? ¿Y
+cuántas existen solo en la memoria de la persona que escribió el script?
+:::
+
+------------------------------------------------------------------------
+
+## 3. «Si eres analista, estas son las preguntas que debes hacer» (42–58)
+
+Aquí es donde normalmente iría una diapositiva titulada «Artículo 4 de la
+Ley 1581 de 2012: principios rectores». No la vamos a hacer.
+
+En su lugar, la misma información puesta como herramienta de trabajo.
+
+::: {.callout-note}
+La columna **principio** usa el vocabulario del marco colombiano. Las demás
+columnas son las que un analista puede aplicar sin consultar a nadie. Si
+alguna vez hay que discutir con el área jurídica, la conversación se hace en
+la primera columna; el trabajo se hace en las otras cuatro.
+:::
+
+### La matriz
+
+: Principio → pregunta del analista → riesgo → decisión técnica → evidencia {.rds-decision-table}
+
+| Principio | Pregunta del analista | Riesgo si se ignora | Decisión técnica | Evidencia que queda |
+|:--|:--|:--|:--|:--|
+| **Finalidad** | ¿Para qué fueron recolectados estos datos, y es esto lo mismo? | Uso secundario no esperado; deriva de finalidad | Revisar la finalidad de origen antes de incorporar la variable; separar los datos por finalidad de recolección | Documento de origen y propósito por fuente; columna `origen_dato` en la base |
+| **Libertad** | ¿Hay autorización verificable, y para qué alcance? | Tratar datos sin base que lo habilite | Excluir del entrenamiento los registros sin evidencia de autorización | Registro de autorizaciones con fecha y canal; conteo de registros excluidos |
+| **Veracidad o calidad** | ¿Los datos son correctos, completos y actuales? | Decisiones incorrectas sobre personas reales | Reglas de validación, control de duplicados, criterio explícito de antigüedad máxima | Log de validación; tasa de registros rechazados |
+| **Transparencia** | ¿Podría explicarle al titular qué hago con sus datos, en una frase? | Pérdida de confianza; reclamos; sanción | Escribir la finalidad en lenguaje no técnico antes de escribir el código | Ficha del proyecto de una página |
+| **Acceso y circulación restringida** | ¿Quién necesita ver esto para hacer su trabajo? | Exposición innecesaria; fuga por copia | Roles y permisos; entregar vistas agregadas en lugar de la base completa | Matriz de accesos; registro de descargas |
+| **Seguridad** | ¿Dónde está el archivo y quién más lo tiene? | Pérdida, alteración, acceso no autorizado | Cifrado en reposo y tránsito; eliminar copias locales; nunca datos reales en el portátil | Inventario de copias; política de retención |
+| **Confidencialidad** | ¿Qué información puedo publicar sin identificar a nadie? | Reidentificación a partir de una tabla publicada | Agregación, supresión de celdas pequeñas, generalización, medición de *k* | Informe de riesgo de reidentificación con el umbral aceptado |
+
+::: {.rds-card .decision data-label="CÓMO SE LEE ESTA MATRIZ"}
+De izquierda a derecha es una traducción. De derecha a izquierda es una
+auditoría.
+
+Si alguien pregunta «¿ustedes cumplen con el principio de finalidad?», la
+respuesta no es «sí». La respuesta es la **última columna**: aquí está el
+documento, aquí está la columna de la base, aquí está el conteo de registros
+excluidos.
+:::
+
+### Un ejemplo completo, con nuestro caso
+
+::: {.rds-card .caso data-label="TRAZA · FINALIDAD"}
+**Principio** — Finalidad.
+
+**Pregunta del analista** — ¿Para qué fueron recolectados estos datos?
+
+**Lo que encontramos** — 144 registros con `origen_dato = lista_comprada_tercero`
+y 92 con `enriquecimiento_web`. Ninguno de los 236 tiene `fecha_autorizacion`.
+
+**Riesgo** — Entrenar el modelo con datos cuyo origen no podemos acreditar, y
+después no poder explicar de dónde salió una predicción.
+
+**Decisión técnica** — Esos 236 registros se marcan y se excluyen del conjunto
+de entrenamiento. No se borran: se aíslan, porque borrarlos destruiría la
+evidencia de que existieron.
+
+**Evidencia** — Celda del notebook que hace el filtro, conteo antes y después,
+y una nota que dice quién tomó la decisión y cuándo.
+:::
+
+------------------------------------------------------------------------
+
+## 4. Laboratorio 2 (58–92)
+
+::: {.rds-card .prueba data-label="PRUEBA · LABORATORIO"}
+### Auditoría rápida de un pipeline de datos
+
+Abran [`labs/lab02.ipynb`](../labs/lab02.ipynb). Dos partes:
+
+**Parte A — la auditoría.** Se construye, en código, la matriz
+`etapa · dato · riesgo · pregunta · control · decisión` para las ocho etapas
+del proyecto DataMarket: origen, datos, finalidad, procesamiento, modelo,
+resultado, decisión y publicación.
+
+**Parte B — los dos modelos.** Se entrena una regresión logística de *churn*
+en dos versiones y se comparan.
+
+No dedicamos el laboratorio al rendimiento predictivo. Las métricas están ahí
+para sostener una discusión, no para ganar una competencia.
+:::
+
+::: {.rds-card .dilema data-label="DILEMA · EL NÚMERO CONTRA EL ARGUMENTO"}
+| | Variables | AUC (aprox.) |
+|:--|:--|--:|
+| **Modelo A** | Comportamiento de compra y navegación | **0.83** |
+| **Modelo B** | A + edad, estrato, ingresos, compras en farmacia, entrega asistida, búsquedas de maternidad | **0.88** |
+
+::: {.pregunta}
+¿Es suficiente que B tenga mayor AUC para preferirlo?
+:::
+
+Antes de responder, tres preguntas auxiliares que el laboratorio obliga a
+contestar con código:
+
+1. ¿**Qué** variables aportan la diferencia? Si son `estrato` e `ingresos`, el
+   modelo está aprendiendo a distinguir por condición socioeconómica.
+2. ¿**Sobre quién** se equivoca cada modelo? Un AUC global igual puede
+   esconder tasas de error muy distintas por grupo de edad o de estrato.
+3. ¿**Qué se hace** con la predicción? Si la acción es una oferta de
+   retención, el falso negativo es una oportunidad perdida. Si la acción es
+   bajar la prioridad de atención, el falso positivo es un daño.
+:::
+
+------------------------------------------------------------------------
+
+## 5. El marco colombiano, leído desde el pipeline (92–104)
+
+Solo ahora, y en doce minutos. La norma entra a resolver preguntas que ya
+están abiertas.
+
+### Las piezas
+
+```{mermaid}
+flowchart TB
+    CP["Constitución Política, art. 15<br/>Habeas data como derecho fundamental"]
+    CP --> L1266["Ley 1266 de 2008<br/>Datos financieros, crediticios<br/>y comerciales"]
+    CP --> L1581["Ley 1581 de 2012<br/>Régimen general de<br/>protección de datos personales"]
+    L1581 --> D1074["Decreto 1074 de 2015<br/>Decreto Único Reglamentario<br/>(compila el Decreto 1377 de 2013)"]
+    L1581 --> SIC["Superintendencia de Industria<br/>y Comercio · autoridad de control"]
+    SIC --> RNBD["Registro Nacional<br/>de Bases de Datos"]
+    SIC --> GUIAS["Guías y conceptos<br/>(p. ej. responsabilidad demostrada)"]
+
+    style CP fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style L1581 fill:#0b1220,stroke:#60a5fa,color:#e2e8f0
+    style L1266 fill:#0b1220,stroke:#334155,color:#94a3b8
+    style D1074 fill:#0b1220,stroke:#334155,color:#94a3b8
+    style SIC fill:#0b1220,stroke:#a78bfa,color:#e2e8f0
+    style RNBD fill:#0b1220,stroke:#334155,color:#94a3b8
+    style GUIAS fill:#0b1220,stroke:#334155,color:#94a3b8
+```
+
+### Lo mínimo que un analista necesita saber
+
+::: {.rds-card .datos data-label="DATOS · MARCO COLOMBIANO"}
+**Ley 1581 de 2012** — régimen general de protección de datos personales.
+Aporta al trabajo del analista cinco cosas:
+
+1. **Definiciones operativas**: qué es dato personal, quién es titular, quién
+   es responsable y quién es encargado del tratamiento (art. 3). La
+   distinción responsable/encargado importa: define quién responde por qué
+   cuando se contrata un proveedor de analítica.
+2. **Principios** (art. 4): legalidad, finalidad, libertad, veracidad o
+   calidad, transparencia, acceso y circulación restringida, seguridad y
+   confidencialidad. Son los de la matriz del bloque 3.
+3. **Datos sensibles** (art. 5) y la regla general de **prohibición** de su
+   tratamiento, con excepciones tasadas (art. 6). Datos de niñas, niños y
+   adolescentes con régimen propio (art. 7).
+4. **Derechos del titular** (art. 8) y **autorización** como regla, con casos
+   en que no se requiere (arts. 9 y 10) —entre ellos, datos de naturaleza
+   pública y ciertos fines históricos, estadísticos o científicos, en este
+   último caso con medidas de supresión de identidad.
+5. **Deberes** del responsable y del encargado (arts. 17 y 18), incluido el
+   de informar a la autoridad cuando se presenten violaciones a los códigos
+   de seguridad con riesgo para la información de los titulares.
+
+**Decreto 1074 de 2015** — Decreto Único Reglamentario del sector Comercio,
+Industria y Turismo. Es donde quedó compilado el Decreto 1377 de 2013, que
+reglamenta la autorización, las políticas de tratamiento y el aviso de
+privacidad.
+
+**Superintendencia de Industria y Comercio (SIC)** — autoridad de protección
+de datos. Administra el **Registro Nacional de Bases de Datos** y emite
+conceptos, guías y resoluciones. Sus decisiones son la mejor fuente para
+entender cómo se aplica la ley en la práctica.
+
+**Ley 1266 de 2008** — régimen especial para información financiera,
+crediticia, comercial y de servicios. Si su proyecto toca historial
+crediticio, esta es la norma aplicable y no la 1581.
+:::
+
+::: {.callout-important}
+## Verifique siempre, no cite de memoria
+
+Las obligaciones concretas —por ejemplo, **quién** debe inscribir bases en el
+RNBD y bajo qué umbrales— han cambiado por vía reglamentaria más de una vez.
+Antes de afirmar algo en un informe, confirme el texto vigente en una fuente
+oficial:
+
+- [Gestor Normativo — Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981)
+- [SUIN-Juriscol](https://www.suin-juriscol.gov.co/)
+- [Superintendencia de Industria y Comercio](https://www.sic.gov.co/)
+
+En este curso, una afirmación normativa sin fuente oficial verificable no
+cuenta como argumento.
+:::
+
+::: {.rds-card .reflexiona data-label="LO QUE VIENE"}
+En agosto de 2025 el Gobierno radicó ante el Congreso un proyecto de ley para
+actualizar el régimen de protección de datos personales. Entre lo que propone
+se ha mencionado: ampliar el alcance a empresas extranjeras que operen en
+Colombia, incorporar derechos como la portabilidad y la oposición a
+decisiones automatizadas, ampliar las bases de licitud más allá de la
+autorización, y exigir evaluaciones de impacto y notificación de incidentes.
+
+Es un **proyecto**, no derecho vigente. Lo traemos por dos razones: porque
+señala hacia dónde se mueve la discusión regional, y porque casi todo lo que
+propone ya es una buena práctica profesional aunque ninguna norma la exija.
+
+Fuente: [SIC — ABC del proyecto de ley de protección de datos personales](https://sedeelectronica.sic.gov.co/noticias/abc-del-proyecto-de-ley-de-proteccion-de-datos-personales-en-colombia).
+:::
+
+------------------------------------------------------------------------
+
+## 6. GDPR como referencia comparativa (104–114)
+
+No hacemos una clase de derecho europeo. Miramos **cuatro diferencias** que
+cambian el diseño de un proyecto de datos, porque son las que la
+[Actividad 2](../actividades/actividad-02.qmd) va a exigir.
+
+::: {.rds-card .datos data-label="DATOS · CUATRO DIFERENCIAS QUE IMPORTAN"}
+**1. Quién queda cubierto.** El GDPR (Reglamento UE 2016/679, art. 3) se
+aplica por la **ubicación de la persona**, no por la del responsable. Si
+DataMarket ofrece bienes o servicios a personas que están en la Unión
+Europea, o monitorea su comportamiento, queda dentro del ámbito aunque su
+único servidor esté en Bogotá. En nuestra base hay **74 registros** con
+`pais_residencia` en la UE.
+
+**2. La autorización no es la única puerta.** El modelo colombiano gira
+alrededor de la autorización del titular. El GDPR (art. 6) ofrece seis bases
+de licitud —consentimiento, contrato, obligación legal, interés vital,
+interés público e interés legítimo— y obliga a **elegir una y documentarla**
+antes de tratar. Para un analista esto es liberador y exigente al tiempo: no
+siempre hay que pedir permiso, pero siempre hay que poder decir por qué no.
+
+**3. Hay derechos que cambian el diseño del sistema.** Portabilidad (art. 20),
+oposición (art. 21) y, sobre todo, el derecho a no ser objeto de decisiones
+exclusivamente automatizadas con efectos significativos (art. 22). Si el
+modelo de *churn* decide solo, sin intervención humana, quién recibe una
+oferta y quién no, ese artículo obliga a rediseñar el flujo.
+
+**4. Hay obligaciones que se ejecutan en el pipeline.** Protección de datos
+desde el diseño y por defecto (art. 25), registro de actividades de
+tratamiento (art. 30), notificación de brechas (arts. 33 y 34) y evaluación
+de impacto relativa a la protección de datos cuando el tratamiento es de alto
+riesgo (art. 35) —lo que incluye, explícitamente, la elaboración de perfiles a
+gran escala.
+
+Fuente oficial del texto consolidado:
+[EUR-Lex, Reglamento (UE) 2016/679](https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679).
+:::
+
+::: {.rds-card .decide data-label="DECIDE · MICROACTIVIDAD"}
+Tres minutos, en parejas. DataMarket descubre que tiene 74 clientes
+residentes en la UE.
+
+::: {.pregunta}
+Nombre **una** cosa concreta que el equipo de analítica —no el área jurídica—
+tendría que cambiar el lunes por la mañana.
+:::
+
+Respuestas frecuentes, todas válidas: marcar y separar esos registros;
+documentar la base de licitud del modelo; revisar si la decisión de campaña
+es totalmente automatizada; revisar qué proveedor externo recibe la base.
+:::
+
+::: {.callout-note}
+Esta microactividad es, literalmente, el punto de partida de la
+[Actividad 2](../actividades/actividad-02.qmd). Lo que se diga aquí se puede
+reutilizar allá.
+:::
+
+------------------------------------------------------------------------
+
+## 7. Cierre (114–120)
+
+### Checklist, versión 2
+
+Se activan cinco preguntas más. Quedan dos para la Unidad 2.
+
+::: {.rds-card .decision data-label="CHECKLIST v2"}
+Ya activas desde el Encuentro 1:
+
+1. ¿De dónde provienen estos datos?
+2. ¿Realmente necesito todas las variables?
+3. ¿Existen datos sensibles?
+4. ¿Qué puedo inferir que no estaba explícitamente registrado?
+5. ¿Existe posibilidad de reidentificación?
+
+**Nuevas desde hoy:**
+
+6. ¿Para qué fueron recolectados?
+7. ¿Estoy creando perfiles?
+8. ¿Quién tendrá acceso?
+9. ¿Puedo explicar y documentar lo que hice?
+10. ¿Durante cuánto tiempo necesito conservar los datos?
+:::
+
+### Pregunta de salida
+
+::: {.rds-card .reflexiona data-label="PREGUNTA DE SALIDA"}
+::: {.pregunta}
+¿Qué tendría que cambiar en mi proyecto de datos?
+:::
+
+Hoy con una restricción adicional: la respuesta debe nombrar **una etapa del
+pipeline** y **un cambio ejecutable**. No vale «ser más cuidadoso».
+:::
+
+------------------------------------------------------------------------
+
+## Materiales del encuentro
+
+```{=html}
+<div class="rds-grid cols-2">
+  <a class="rds-tile" href="../slides/02-reglas-proyectos-datos.html">
+    <div class="num">Presentación</div>
+    <h3>02 · Del requisito a la decisión</h3>
+    <p>24 diapositivas Reveal.js con el pipeline, la matriz de principios y el dilema A/B.</p>
+    <div class="meta">Tecla S para las notas</div>
+  </a>
+  <a class="rds-tile" href="../labs/lab02.html">
+    <div class="num">Laboratorio</div>
+    <h3>Lab 2 · Auditoría rápida de un pipeline</h3>
+    <p>Matriz de auditoría en código y comparación de dos modelos de churn.</p>
+    <div class="meta">≈ 40 minutos</div>
+  </a>
+  <a class="rds-tile" href="../casos/caso-facebook.html">
+    <div class="num">Caso histórico</div>
+    <h3>Facebook en Colombia</h3>
+    <p>¿Dónde ocurre realmente el tratamiento cuando la empresa, la infraestructura y los usuarios están en países distintos?</p>
+    <div class="meta">Lectura previa a la Actividad 2</div>
+  </a>
+  <a class="rds-tile" href="../actividades/actividad-02.html">
+    <div class="num">Evaluación</div>
+    <h3>Actividad 2 · Auditoría GDPR</h3>
+    <p>Informe ejecutivo, mapa de flujo de datos, riesgos y decisiones requeridas.</p>
+    <div class="meta">25 % · entrega semana 4</div>
+  </a>
+</div>
+```
+
+## Fuentes citadas en este encuentro
+
+- Ley 1581 de 2012 — [Gestor Normativo, Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981)
+- Decreto 1074 de 2015 (Decreto Único Reglamentario del sector Comercio, Industria y Turismo) — [Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=76608)
+- Superintendencia de Industria y Comercio — [Protección de datos personales](https://www.sic.gov.co/tema/proteccion-de-datos-personales)
+- Reglamento (UE) 2016/679 (GDPR) — [EUR-Lex](https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679)
+- Newman-Pont, Ospina-Celis y Upegui (2020), *Data Feast* [@newman2020datafeast]
+
+[→ Continuar al Encuentro 3](encuentro-03.qmd)

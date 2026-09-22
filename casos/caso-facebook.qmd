@@ -1,0 +1,239 @@
+---
+title: "¿Dónde ocurre realmente el tratamiento?"
+subtitle: "Caso histórico · Facebook y la Ley 1581 de 2012 en Colombia"
+description: "Un caso para pensar el alcance territorial de la protección de datos en proyectos digitales."
+---
+
+::: {.rds-meta}
+[Caso histórico]{} [Encuentro 2]{} [Lectura previa a la Actividad 2]{} [≈ 25 min]{}
+:::
+
+::: {.callout-important}
+## Cómo se usa este caso
+
+Este es un **caso histórico**, no un resumen del derecho vigente. Sirve para
+entender un problema —el alcance territorial de la protección de datos cuando
+el proyecto es digital— y para ver cómo la interpretación de una autoridad
+puede cambiar en pocos años sin que cambie el texto de la ley.
+
+Nada de lo que sigue debe citarse como «lo que dice la ley hoy». Para eso
+están [las fuentes oficiales](#fuentes).
+:::
+
+## El problema, antes del caso
+
+Empecemos sin nombres de empresas ni artículos.
+
+::: {.rds-card .caso data-label="LA SITUACIÓN"}
+Un servicio digital cualquiera:
+
+- Los **usuarios** están en Colombia.
+- La **empresa** es una multinacional constituida en otro país.
+- La **infraestructura** —servidores, procesamiento, almacenamiento— puede
+  estar en varios países, ninguno de ellos Colombia.
+- El **tratamiento** ocurre a través de internet, de forma continua, sin que
+  nadie pueda señalar un lugar físico único donde «pasa».
+:::
+
+::: {.rds-card .decide data-label="DECIDE · ANTES DE SEGUIR"}
+::: {.pregunta}
+¿Dónde ocurre realmente el tratamiento de los datos?
+:::
+
+Voten entre cuatro respuestas, y anoten el argumento:
+
+1. **Donde está la empresa.** Es quien decide sobre los datos.
+2. **Donde están los servidores.** Es donde físicamente ocurren las
+   operaciones.
+3. **Donde está la persona.** Es de quien son los datos y quien sufre las
+   consecuencias.
+4. **En todos esos lugares a la vez.** Y por eso el problema es difícil.
+:::
+
+Las cuatro respuestas tienen defensores serios. La respuesta que ha ido
+ganando terreno en la práctica regulatoria es la tercera, pero **no era la
+respuesta obvia** cuando se escribieron las leyes de la región.
+
+## Por qué la pregunta importa para un analista
+
+No es una discusión de abogados. Cambia cosas concretas del proyecto:
+
+| Si la respuesta es… | Entonces, en el pipeline… |
+|:--|:--|
+| Donde está la empresa | Una empresa colombiana con clientes en 15 países aplica un solo régimen: el colombiano. |
+| Donde están los servidores | Mover el procesamiento a otra nube cambia el régimen aplicable. La decisión de infraestructura se vuelve una decisión jurídica. |
+| Donde está la persona | Hay que **saber dónde está cada titular**, lo que convierte `pais_residencia` en una variable crítica de gobierno del dato. |
+| En todos a la vez | Hay que cumplir con el más exigente, o segmentar el tratamiento por jurisdicción. |
+
+::: {.rds-card .riesgo data-label="RIESGO · EL DATO QUE NADIE CUIDA"}
+En la base de DataMarket, `pais_residencia` es una columna más. Nadie la
+valida, nadie la actualiza y probablemente esté incompleta.
+
+Si el régimen aplicable depende de dónde está la persona, esa columna
+descuidada acaba de convertirse en el control más importante del proyecto.
+:::
+
+## El caso colombiano
+
+### El punto de partida: una lectura territorial estricta
+
+La Ley 1581 de 2012 establece (art. 2) que el régimen se aplica al
+tratamiento de datos personales **realizado en territorio colombiano**, y a
+quien no esté establecido en el país cuando le resulte aplicable la ley
+colombiana en virtud de normas o tratados internacionales.
+
+Leído de forma estricta, eso parecía dejar fuera a las empresas sin domicilio
+en Colombia. Y así se interpretó inicialmente: la autoridad consideró, al
+analizar el caso de una red social, que la ley no le era aplicable porque la
+recolección, uso, almacenamiento y supresión de datos no se realizaban en
+territorio colombiano, dado que la empresa no estaba domiciliada en el país
+[@newman2020datafeast].
+
+### El giro: los «medios» y después las personas
+
+Esa lectura se movió en dos pasos.
+
+::: {.rds-card .datos data-label="DATOS · LA EVOLUCIÓN INTERPRETATIVA"}
+**2016 — el criterio de los medios.** La Superintendencia de Industria y
+Comercio cambió su interpretación y consideró que la ley aplicaba, entre
+otros escenarios, al tratamiento realizado por proveedores de servicios de
+redes sociales domiciliados fuera de Colombia **a través de medios ubicados en
+territorio colombiano**. «Medios» se entendió, por ejemplo, como las *cookies*
+almacenadas en el computador del usuario, que sí está en Colombia.
+
+**2019 — el criterio del titular.** En decisiones posteriores, la autoridad
+sostuvo que la ley aplica al tratamiento de datos realizado en territorio
+colombiano **con independencia de que el responsable o el encargado estén
+físicamente en el país**, y que el hecho de que buena parte del tratamiento
+ocurra en internet no hace desaparecer la obligación de cumplir los
+estándares locales.
+
+La interpretación resultante combina tres elementos: el domicilio o residencia
+del titular, una noción amplia de «tratamiento» que incluye la recolección, y
+el hecho de que la recolección ocurre en Colombia.
+
+Fuente del recuento: Newman-Pont, Ospina-Celis y Upegui (2020), capítulo sobre
+Colombia [@newman2020datafeast].
+:::
+
+### La lectura académica
+
+Márquez Buitrago (2016) analiza precisamente la aplicación de la Ley
+Estatutaria 1581 de 2012 a la red social Facebook en Colombia
+[@marquez2016facebook]. Es un texto útil por lo que hace y por lo que no hace:
+
+- **Lo que hace:** muestra el razonamiento jurídico de la época sobre un
+  servicio digital transnacional, cuando la respuesta no estaba asentada.
+- **Lo que no hace:** no describe el estado actual del derecho, ni podría
+  hacerlo: es anterior al giro interpretativo de 2019 y al debate posterior.
+
+::: {.rds-card .reflexiona}
+Leerlo como documento de su momento, no como manual. La pregunta útil para
+el curso es: *¿qué argumentos parecían sólidos en 2016 y dejaron de serlo, y
+por qué?*
+
+Es exactamente el tipo de obsolescencia que va a afectar a cualquier
+afirmación que ustedes escriban hoy sobre inteligencia artificial y datos.
+:::
+
+## La imagen completa
+
+```{mermaid}
+flowchart TB
+    U["Usuario en Colombia<br/>navega, compra, publica"]
+    C["Cookie y app<br/>en el dispositivo del usuario<br/><b>territorio colombiano</b>"]
+    E["Empresa constituida<br/>en el exterior"]
+    S["Servidores<br/>en terceros países"]
+    D["Decisión automatizada<br/>que afecta al usuario"]
+
+    U --> C
+    C --> S
+    E --> S
+    S --> D
+    D --> U
+
+    style U fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style C fill:#0b1220,stroke:#fbbf24,color:#e2e8f0
+    style E fill:#0b1220,stroke:#334155,color:#94a3b8
+    style S fill:#0b1220,stroke:#334155,color:#94a3b8
+    style D fill:#0b1220,stroke:#f87171,color:#e2e8f0
+```
+
+El circuito se cierra sobre la misma persona que lo inició. Ese es el
+argumento de fondo del giro interpretativo: si el efecto ocurre sobre alguien
+que está en Colombia, la protección debería alcanzarlo.
+
+## La comparación que prepara la Actividad 2
+
+El GDPR resolvió el problema por la vía directa. Su artículo 3 fija el ámbito
+territorial por la ubicación de las personas: se aplica al tratamiento de
+datos de interesados **que se encuentren en la Unión**, cuando las
+actividades estén relacionadas con la oferta de bienes o servicios a esas
+personas o con el control de su comportamiento, aunque el responsable no esté
+establecido en la Unión.
+
+::: {.rds-card .decision data-label="DECISIÓN · QUÉ SIGNIFICA PARA DATAMARKET"}
+DataMarket es una empresa colombiana, con servidores en Colombia y equipo en
+Bogotá.
+
+Tiene **74 clientes** con residencia en España, Alemania, Francia e Italia.
+
+Si les ofrece bienes o servicios, o monitorea su comportamiento en el sitio
+—que es exactamente lo que hace `visitas_web`—, queda dentro del ámbito del
+GDPR. La nacionalidad de la empresa no la protege; la ubicación de sus
+servidores tampoco.
+
+**Qué cambia el lunes por la mañana:**
+
+1. `pais_residencia` deja de ser una columna descriptiva y pasa a ser una
+   variable de control del tratamiento.
+2. Hay que decidir si se segmenta el tratamiento por jurisdicción o se aplica
+   el estándar más exigente a toda la base.
+3. Hay que documentar la base de licitud del modelo para esos 74 registros.
+4. Hay que revisar si la decisión de campaña es totalmente automatizada.
+:::
+
+## Preguntas de discusión
+
+::: {.rds-card .decide data-label="DECIDE · EN GRUPO"}
+1. Si DataMarket decide **excluir** a los 74 clientes europeos del modelo en
+   lugar de cumplir con el GDPR, ¿resuelve el problema o lo traslada?
+
+2. ¿Qué pasa con un cliente colombiano que se muda a Berlín y no actualiza su
+   perfil? ¿Quién es responsable de saberlo?
+
+3. El argumento de los «medios» de 2016 se apoyaba en que la *cookie* está en
+   el computador del usuario. Si el usuario bloquea las *cookies* y la
+   empresa usa *fingerprinting* del dispositivo, ¿el argumento sigue
+   funcionando?
+
+4. Una empresa colombiana pequeña con tres clientes en Portugal: ¿le aplica
+   el GDPR? ¿Y es razonable exigirle el mismo estándar que a una
+   multinacional? Separen la respuesta jurídica de la respuesta sobre
+   proporcionalidad.
+:::
+
+## Fuentes {#fuentes}
+
+- Márquez Buitrago, F. (2016). *Aplicación de la Ley Estatutaria 1581 de 2012
+  a la Red Social Facebook en Colombia* [@marquez2016facebook].
+- Newman-Pont, V., Ospina-Celis, D. y Upegui, J. C. (Eds.). (2020).
+  *Data Feast: Enterprises and Personal Data in Latin America*. Dejusticia
+  [@newman2020datafeast]. Capítulo sobre Colombia, sección sobre alcance de
+  aplicación de la ley.
+- Ley 1581 de 2012 —
+  [Gestor Normativo, Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981).
+- Superintendencia de Industria y Comercio —
+  [Protección de datos personales](https://www.sic.gov.co/tema/proteccion-de-datos-personales).
+  Las resoluciones y conceptos de la SIC son la fuente primaria para verificar
+  cómo se aplica la ley hoy.
+- Reglamento (UE) 2016/679, artículo 3 —
+  [EUR-Lex](https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679).
+
+::: {.callout-note}
+Si en su Actividad 2 necesita citar una decisión concreta de la SIC, búsquela
+en el sitio oficial y cite el número y la fecha del acto administrativo. Una
+referencia tomada de un blog o de este material no es suficiente.
+:::
+
+[→ Actividad 2 · Auditoría frente al GDPR](../actividades/actividad-02.qmd)

@@ -1,0 +1,175 @@
+---
+title: "Metodología"
+subtitle: "Cómo funciona cada encuentro y por qué está diseñado así"
+description: "Problema → datos → decisión analítica → riesgo → principio → control → decisión final."
+---
+
+## El punto de partida
+
+La mayoría de los cursos de protección de datos dirigidos a analistas empiezan
+por la norma y terminan —si alcanza el tiempo— en un ejemplo. El estudiante
+sale con la sensación de haber cursado una materia de derecho que no le
+pertenece, y vuelve a su trabajo haciendo exactamente lo mismo que hacía antes.
+
+Aquí el orden está invertido a propósito.
+
+```{=html}
+<div class="rds-grid cols-2">
+  <div class="rds-tile">
+    <div class="num">Lo que NO hacemos</div>
+    <h3>Norma → definición → ejemplo</h3>
+    <p>«El artículo 4 de la Ley 1581 establece los principios rectores…».
+    El estudiante memoriza una lista, aprueba el examen y no cambia ninguna
+    línea de su código.</p>
+  </div>
+  <div class="rds-tile">
+    <div class="num">Lo que SÍ hacemos</div>
+    <h3>Problema → decisión → norma</h3>
+    <p>«Tenemos esta variable y mejora el AUC. ¿La usamos?». La norma entra
+    cuando ya hay una decisión sobre la mesa y hace falta un criterio para
+    tomarla.</p>
+  </div>
+</div>
+```
+
+## La secuencia de siete pasos
+
+Todo tema del curso —cada caso, cada dilema, cada bloque de laboratorio— sigue
+la misma secuencia. Es el andamiaje que hace que la norma llegue siempre
+*después* del problema.
+
+```{=html}
+<div class="rds-pipeline">
+  <div class="rds-stage"><span class="nombre">1 · Problema</span><span class="pregunta">El negocio pide algo concreto.</span></div>
+  <div class="rds-stage"><span class="nombre">2 · Datos</span><span class="pregunta">Qué hay disponible, de verdad.</span></div>
+  <div class="rds-stage"><span class="nombre">3 · Decisión analítica</span><span class="pregunta">Qué haría un analista sin más contexto.</span></div>
+  <div class="rds-stage alerta"><span class="nombre">4 · Riesgo</span><span class="pregunta">A quién puede hacerle daño, y cómo.</span></div>
+  <div class="rds-stage"><span class="nombre">5 · Principio</span><span class="pregunta">Qué regla legal o ética aplica.</span></div>
+  <div class="rds-stage"><span class="nombre">6 · Control</span><span class="pregunta">Qué cambia en el pipeline.</span></div>
+  <div class="rds-stage"><span class="nombre">7 · Decisión final</span><span class="pregunta">Qué se documenta y se firma.</span></div>
+</div>
+```
+
+El paso que suele faltar en la práctica profesional es el 4. El paso que suele
+faltar en la formación académica es el 6.
+
+## Ritmo de los encuentros
+
+Cada encuentro dura 120 minutos y está diseñado con una regla dura:
+
+::: {.rds-card .decide data-label="REGLA DE RITMO"}
+**Ningún bloque de exposición magistral supera los 10–12 minutos continuos.**
+Cada 10–15 minutos ocurre algo que exige una respuesta del estudiante: una
+votación, una decisión, una línea de código, una comparación, una escritura
+breve en el chat.
+:::
+
+La estructura típica:
+
+```{=html}
+<ul class="rds-timeline">
+  <li><span class="t">00–10</span><span class="modo">detonante</span><br>
+      Una situación concreta de DataMarket y una pregunta que todavía no sabemos responder.</li>
+  <li><span class="t">10–25</span><span class="modo">votación + discusión</span><br>
+      Los estudiantes se comprometen con una respuesta antes de recibir la explicación.</li>
+  <li><span class="t">25–40</span><span class="modo">exposición</span><br>
+      Conceptos, introducidos a través del caso que acabamos de discutir.</li>
+  <li><span class="t">40–75</span><span class="modo">laboratorio</span><br>
+      Código corto en Jupyter. Cada bloque termina en una pregunta, no en una salida.</li>
+  <li><span class="t">75–95</span><span class="modo">casos</span><br>
+      Dos o tres situaciones donde la respuesta correcta no es obvia.</li>
+  <li><span class="t">95–110</span><span class="modo">dilema</span><br>
+      Una decisión con costo real: algo se gana y algo se pierde.</li>
+  <li><span class="t">110–120</span><span class="modo">cierre</span><br>
+      «¿Qué tendría que cambiar en mi proyecto de datos?» — respuesta escrita, individual.</li>
+</ul>
+```
+
+## Las nueve tarjetas
+
+El material usa un vocabulario visual fijo. Cada tarjeta indica qué se espera
+del estudiante en ese momento.
+
+::: {.rds-card .caso}
+Una situación concreta que hay que resolver. Siempre tiene contexto de negocio,
+datos disponibles y una restricción de tiempo o presupuesto.
+:::
+
+::: {.rds-card .datos}
+Evidencia sobre la mesa: una tabla, un conteo, una distribución. Lo que
+efectivamente hay en la base, no lo que suponemos que hay.
+:::
+
+::: {.rds-card .decide}
+El estudiante toma partido **antes** de recibir la explicación. Se vota, se
+anota, se defiende. Equivocarse aquí es parte del diseño.
+:::
+
+::: {.rds-card .riesgo}
+Se nombra el daño concreto: quién puede ser identificado, discriminado,
+excluido o perjudicado, y por qué mecanismo.
+:::
+
+::: {.rds-card .prueba}
+Hay código que ejecutar. La salida del código es la que zanja la discusión,
+no la intuición.
+:::
+
+::: {.rds-card .codigo}
+Fragmento técnico de referencia. No hay que escribirlo en clase; está para
+consultar después.
+:::
+
+::: {.rds-card .dilema}
+Dos opciones defendibles y un costo real en ambas. No existe la respuesta que
+deje a todos contentos, y eso es exactamente el punto.
+:::
+
+::: {.rds-card .reflexiona}
+Pausa. Una pregunta que se lleva al propio trabajo, fuera del caso ficticio.
+:::
+
+::: {.rds-card .decision}
+Cierre del ciclo: qué se decidió, con qué argumento y qué evidencia queda
+documentada. Una decisión sin evidencia no cuenta como decisión.
+:::
+
+## Cinco cosas que no son sinónimos
+
+Buena parte del curso consiste en no confundir estas cinco cosas. Un proyecto
+puede ser impecable en una columna y desastroso en la de al lado.
+
+| | Pregunta que responde | Quién la puede responder | Ejemplo de fallo |
+|:--|:--|:--|:--|
+| **Legalidad** | ¿Está permitido? | El marco normativo aplicable | Usar datos comprados a un tercero sin autorización verificable. |
+| **Ética** | ¿Deberíamos? | El equipo, con criterios explícitos | Inferir embarazo a partir del historial de compras y usarlo en publicidad. |
+| **Calidad estadística** | ¿Es correcto? | El analista | Entrenar con una base desactualizada y decidir sobre personas con datos de hace tres años. |
+| **Seguridad** | ¿Está protegido? | Infraestructura y accesos | Un CSV con nombres completos en una carpeta compartida de toda la empresa. |
+| **Privacidad** | ¿Se puede saber quién es? | El diseño del dato | Publicar una tabla «anonimizada» donde una combinación de tres variables identifica a una sola persona. |
+
+::: {.rds-card .reflexiona}
+Un modelo puede ser **legal, seguro y estadísticamente sólido**, y aun así
+producir un resultado que nadie del equipo quiere defender públicamente. Ese
+espacio —el que queda entre lo permitido y lo defendible— es donde vive la
+Unidad 2.
+:::
+
+## Participación y evaluación formativa
+
+Las votaciones y microactividades de los encuentros no se califican. Su función
+es otra: obligar a comprometerse con una respuesta antes de conocer el
+argumento, que es la única forma de que el argumento se recuerde.
+
+Lo que sí se califica son las [cuatro actividades](programa.qmd#evaluación), y
+todas piden lo mismo en el fondo: **una decisión defendible con evidencia
+reproducible**.
+
+## Herramientas
+
+- **Python** con `pandas`, `numpy`, `matplotlib` y `scikit-learn`.
+- **Jupyter** para los laboratorios.
+- **Quarto** para este sitio y las presentaciones.
+- Quien trabaje habitualmente en **R** puede resolver las actividades en R sin
+  penalización. El curso evalúa decisiones, no sintaxis.
+
+[→ Ir al Encuentro 1](encuentros/encuentro-01.qmd)

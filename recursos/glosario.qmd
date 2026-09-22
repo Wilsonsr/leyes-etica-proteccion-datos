@@ -1,0 +1,370 @@
+---
+title: "Glosario operativo"
+subtitle: "Cada concepto, con la pregunta que responde y su efecto en el pipeline"
+description: "No son definiciones para memorizar: son criterios para decidir."
+---
+
+::: {.rds-meta}
+[Recurso]{} [28 términos]{} [Ordenado por bloques, no alfabéticamente]{}
+:::
+
+## Cómo está organizado
+
+No es un diccionario. Está ordenado por **el momento del proyecto en que el
+concepto se vuelve necesario**, y cada entrada tiene tres partes:
+
+- **Qué es**, en una frase.
+- **La pregunta que responde** para un analista.
+- **Qué cambia en el pipeline** si la respuesta es «sí».
+
+Al final hay un [índice alfabético](#indice) para consulta rápida.
+
+------------------------------------------------------------------------
+
+## Bloque 1 · Qué es un dato
+
+### Dato personal
+
+**Qué es.** Cualquier información vinculada o que pueda asociarse a una o
+varias personas naturales determinadas o determinables.
+
+**La pregunta.** ¿Esta columna se refiere a una persona a la que podría llegar,
+directamente o cruzando con algo más?
+
+**En el pipeline.** Si la respuesta es sí, todo el resto del glosario aplica.
+La palabra clave es **determinable**: no hace falta que el nombre esté ahí.
+
+### Titular
+
+**Qué es.** La persona natural a quien se refieren los datos.
+
+**La pregunta.** ¿Quién es la persona detrás de esta fila, y qué le pasaría si
+esto sale mal?
+
+**En el pipeline.** Es el criterio para decidir la gravedad de un riesgo.
+
+### Responsable del tratamiento
+
+**Qué es.** Quien decide sobre la base de datos y sobre el tratamiento: las
+finalidades, los medios, el alcance.
+
+**La pregunta.** ¿Quién decide qué se hace con estos datos?
+
+**En el pipeline.** Define quién responde. Casi nunca es el analista; casi
+siempre el analista es quien puede detectar el problema.
+
+### Encargado del tratamiento
+
+**Qué es.** Quien realiza el tratamiento por cuenta del responsable.
+
+**La pregunta.** ¿Estamos tratando datos por instrucción de otro, o por
+decisión propia?
+
+**En el pipeline.** Si se contrata un proveedor de analítica, esa relación
+tiene que estar formalizada. El proveedor no puede usar los datos para sus
+propios fines.
+
+------------------------------------------------------------------------
+
+## Bloque 2 · Qué tan identificable es
+
+### Identificador directo
+
+**Qué es.** Un dato que señala a una persona por sí solo.
+
+**La pregunta.** ¿Con esta columna sola podría llamar por teléfono a alguien?
+
+**En el pipeline.** Se excluye del dataset de modelado y se separa
+físicamente del de análisis. Ejemplos: nombre, documento, correo, teléfono,
+dirección.
+
+### Identificador indirecto
+
+**Qué es.** Un dato que apunta a la persona a través de un dispositivo, una
+cuenta o un sistema.
+
+**La pregunta.** ¿Esto identifica a una máquina o a una sesión que pertenece a
+alguien?
+
+**En el pipeline.** La dirección IP y los identificadores de dispositivo son el
+caso típico. Se tratan como datos personales aunque no contengan un nombre.
+
+### Cuasi-identificador
+
+**Qué es.** Un dato que no identifica solo, pero que combinado con otros sí.
+
+**La pregunta.** ¿Cuántas personas de esta base comparten exactamente esta
+combinación de valores?
+
+**En el pipeline.** Es el concepto central del curso. Se mide, no se estima.
+Edad, sexo, municipio, barrio, ocupación y estrato son cuasi-identificadores
+típicos.
+
+### *k*-anonimato
+
+**Qué es.** Una base cumple *k*-anonimato si cada combinación de
+cuasi-identificadores aparece al menos *k* veces.
+
+**La pregunta.** ¿Cuál es el grupo más pequeño de mi base, y cuántas personas
+hay en él?
+
+**En el pipeline.** Es la métrica mínima antes de compartir o publicar. Si
+*k* = 1, hay alguien completamente expuesto.
+
+### Reidentificación
+
+**Qué es.** Volver a asociar un registro supuestamente anónimo con una persona
+concreta.
+
+**La pregunta.** Con lo que voy a publicar, ¿cuánto esfuerzo le costaría a
+alguien con acceso a un directorio profesional llegar a una persona?
+
+**En el pipeline.** El atacante realista no es un experto en seguridad: es un
+colega, un contratista o un vecino.
+
+### Seudonimización
+
+**Qué es.** Reemplazar el identificador por una clave, conservando la
+posibilidad de revertirlo.
+
+**La pregunta.** ¿Existe en alguna parte la tabla que permite volver al
+nombre?
+
+**En el pipeline.** Reduce el riesgo pero **no** convierte los datos en
+anónimos. Si el negocio necesita actuar sobre el cliente, esa tabla tiene que
+existir.
+
+### Anonimización
+
+**Qué es.** Un estado en el que ya no es razonablemente posible asociar los
+datos con una persona.
+
+**La pregunta.** ¿Puedo demostrar, con un número, que nadie es identificable?
+
+**En el pipeline.** Es un **resultado que se mide**, no una operación que se
+aplica. Borrar columnas rara vez basta.
+
+------------------------------------------------------------------------
+
+## Bloque 3 · Qué revela
+
+### Dato sensible
+
+**Qué es.** Aquel que afecta la intimidad del titular o cuyo uso indebido
+puede generar discriminación.
+
+**La pregunta.** Si esto se filtrara, ¿podría usarse para excluir o
+perjudicar a esta persona por lo que es?
+
+**En el pipeline.** Régimen reforzado. En Colombia, la regla general es la
+prohibición de su tratamiento, con excepciones expresas.
+
+### Dato comportamental
+
+**Qué es.** El registro de lo que la persona hizo, no de lo que declaró.
+
+**La pregunta.** ¿Esta columna la escribió la persona, o la observó el
+sistema?
+
+**En el pipeline.** Suele ser el más predictivo y el menos discutido. Nadie
+firma un consentimiento pensando en su historial de navegación.
+
+### Dato inferido
+
+**Qué es.** Información producida por la organización sobre la persona, a
+partir de otros datos.
+
+**La pregunta.** ¿Esto lo dijo la persona, o lo dedujimos nosotros?
+
+**En el pipeline.** Un score, un segmento y una probabilidad son datos sobre
+la persona: se almacenan, se usan para decidir y **pueden equivocarse**.
+
+### Proxy
+
+**Qué es.** Una variable que no es un atributo protegido pero que lo
+representa con suficiente fidelidad como para producir el mismo efecto.
+
+**La pregunta.** Si elimino la variable sensible, ¿queda alguna otra que haga
+el mismo trabajo?
+
+**En el pipeline.** Eliminar el atributo protegido sin revisar sus proxies no
+elimina la discriminación: la vuelve invisible.
+
+### Dato agregado
+
+**Qué es.** Una medida que describe a un grupo en lugar de a un individuo.
+
+**La pregunta.** ¿De cuántas personas está hecho este número?
+
+**En el pipeline.** Deja de proteger cuando el grupo es pequeño. Un promedio
+calculado sobre dos personas revela casi tanto como los dos registros.
+
+------------------------------------------------------------------------
+
+## Bloque 4 · Qué se hace con los datos
+
+### Tratamiento
+
+**Qué es.** Cualquier operación sobre datos personales: recolectar, almacenar,
+usar, circular, suprimir.
+
+**La pregunta.** ¿Esto que estoy haciendo cuenta como tratamiento?
+
+**En el pipeline.** Casi todo cuenta. Abrir el CSV para explorarlo es
+tratamiento.
+
+### Finalidad
+
+**Qué es.** El propósito específico y legítimo para el cual se recolectaron
+los datos.
+
+**La pregunta.** ¿Para qué se recogieron, y es esto lo mismo?
+
+**En el pipeline.** El límite más importante de todos. Define qué se puede y
+qué no se puede hacer con los datos que ya se tienen.
+
+### Deriva de finalidad (*function creep*)
+
+**Qué es.** El desplazamiento gradual del uso de los datos hacia finalidades
+distintas de la original, mediante pasos que individualmente parecen menores.
+
+**La pregunta.** ¿Cuántos pasos me separan de la finalidad con la que esto se
+recolectó?
+
+**En el pipeline.** Casi nunca hay mala intención. Hay ausencia de alguien que
+vuelva a preguntar.
+
+### Autorización
+
+**Qué es.** El permiso previo, expreso e informado del titular para el
+tratamiento.
+
+**La pregunta.** ¿Existe, es verificable, y cubre esta finalidad concreta?
+
+**En el pipeline.** Una autorización en bloque no cubre cualquier cosa. La
+fecha y el alcance importan tanto como el «sí».
+
+### Base de licitud
+
+**Qué es.** El fundamento jurídico que habilita el tratamiento. En el modelo
+europeo hay seis; el consentimiento es solo una de ellas.
+
+**La pregunta.** ¿Por qué tengo derecho a tratar estos datos?
+
+**En el pipeline.** Hay que elegir una y documentarla **antes** de tratar, no
+después de que alguien pregunte.
+
+### Perfilamiento
+
+**Qué es.** Tratamiento automatizado dirigido a evaluar aspectos de una
+persona: su comportamiento, sus preferencias, su fiabilidad, su situación.
+
+**La pregunta.** ¿Estoy construyendo una representación de esta persona para
+decidir algo sobre ella?
+
+**En el pipeline.** Un modelo de *churn* con acción comercial asociada es
+perfilamiento. Llamarlo «segmentación» no cambia lo que hace.
+
+### Decisión automatizada
+
+**Qué es.** Una decisión tomada exclusivamente por medios automatizados, sin
+intervención humana significativa.
+
+**La pregunta.** Entre el score y el efecto sobre la persona, ¿hay alguien que
+mire y pueda cambiar el resultado?
+
+**En el pipeline.** «Significativa» es la palabra clave: aprobar 4 000 casos
+de un clic no es intervención significativa.
+
+### Minimización
+
+**Qué es.** Tratar solo los datos adecuados, pertinentes y limitados a lo
+necesario para la finalidad.
+
+**La pregunta.** ¿Puedo justificar cada variable, una por una?
+
+**En el pipeline.** Se implementa como lista blanca explícita, no como
+eliminación de lo que estorba.
+
+### Responsabilidad demostrada (*accountability*)
+
+**Qué es.** No basta con cumplir: hay que poder demostrar que se cumple.
+
+**La pregunta.** Si alguien pregunta hoy, ¿tengo la evidencia o tengo la
+intención?
+
+**En el pipeline.** Es la razón por la que cada decisión del curso termina en
+«y qué evidencia queda».
+
+------------------------------------------------------------------------
+
+## Bloque 5 · Qué puede salir mal
+
+### Sesgo
+
+**Qué es.** Un error sistemático que afecta de forma desigual a distintos
+grupos.
+
+**La pregunta.** ¿El modelo se equivoca igual con todos?
+
+**En el pipeline.** No se detecta con la métrica global. Hay que desagregar.
+
+### Efecto diferencial
+
+**Qué es.** Cuando una decisión aparentemente neutral produce resultados
+desiguales entre grupos.
+
+**La pregunta.** ¿Quién queda mejor y quién queda peor con esta decisión?
+
+**En el pipeline.** Es compatible con no haber usado ninguna variable
+protegida: los proxies bastan.
+
+### Fuga de información (*leakage*)
+
+**Qué es.** Cuando el modelo usa información que no estaría disponible en el
+momento real de la predicción.
+
+**La pregunta.** ¿Esta variable existe antes o después del evento que quiero
+predecir?
+
+**En el pipeline.** Es un problema estadístico, no ético. Se incluye aquí
+porque se confunde con frecuencia: un modelo con fuga puede ser perfectamente
+legal y completamente inútil.
+
+### Riesgo residual
+
+**Qué es.** El riesgo que queda después de aplicar todos los controles.
+
+**La pregunta.** ¿Cuál es el riesgo que estoy aceptando, y quién lo aceptó
+conmigo?
+
+**En el pipeline.** Nunca es cero. El trabajo no es eliminarlo sino nombrarlo,
+medirlo y que alguien lo apruebe.
+
+------------------------------------------------------------------------
+
+## Índice alfabético {#indice}
+
+Agregado · Anonimización · Autorización · Base de licitud · Cuasi-identificador ·
+Dato comportamental · Dato inferido · Dato personal · Dato sensible ·
+Decisión automatizada · Deriva de finalidad · Efecto diferencial ·
+Encargado del tratamiento · Finalidad · Fuga de información ·
+Identificador directo · Identificador indirecto · *k*-anonimato ·
+Minimización · Perfilamiento · Proxy · Reidentificación ·
+Responsabilidad demostrada · Responsable del tratamiento · Riesgo residual ·
+Sesgo · Seudonimización · Titular · Tratamiento
+
+::: {.callout-note}
+Las definiciones de este glosario están escritas para el trabajo analítico.
+Cuando haga falta la definición jurídica exacta —por ejemplo, para una
+actividad evaluativa— hay que ir al texto normativo:
+[Ley 1581 de 2012, art. 3](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981)
+y [Reglamento (UE) 2016/679, art. 4](https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679).
+:::
+
+## Ver también
+
+- [Checklist del analista responsable](checklist-proyecto-datos.qmd)
+- [Mapa de riesgos del pipeline](mapa-riesgos.qmd)
+- [Caso DataMarket](../casos/caso-datamarket.qmd) — el diccionario de datos
+  clasifica las 35 variables con este vocabulario.

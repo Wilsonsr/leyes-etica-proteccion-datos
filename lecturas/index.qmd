@@ -1,0 +1,184 @@
+---
+title: "Lecturas y bibliografía"
+subtitle: "Qué leer, en qué semana, y con qué propósito"
+description: "Lecturas académicas, fuentes normativas oficiales y criterios de citación del curso."
+---
+
+::: {.rds-meta}
+[Recurso]{} [Lecturas por semana]{} [Fuentes oficiales]{} [Criterios de citación]{}
+:::
+
+## Regla de citación del curso
+
+::: {.rds-card .riesgo data-label="REGLA INNEGOCIABLE"}
+Toda afirmación normativa debe poder rastrearse hasta una **fuente oficial**,
+con **artículo** y **fecha de consulta**.
+
+No se aceptan como fuente de lo que dice una norma:
+
+- Resúmenes de blogs de firmas de abogados.
+- Material comercial de proveedores de software de cumplimiento.
+- Este mismo sitio del curso.
+- Respuestas de asistentes de inteligencia artificial.
+
+Sí se aceptan como fuente **interpretativa**, citados como tales: doctrina,
+artículos académicos, informes de organizaciones especializadas y decisiones
+de autoridades.
+:::
+
+La razón no es formalismo. Los tres regímenes que estudiamos están en
+movimiento: Colombia tiene una reforma en trámite, Chile tiene una ley
+publicada que rige desde diciembre de 2026, y Brasil sigue emitiendo
+regulación infralegal. Un informe sin fechas caduca sin que nadie lo note.
+
+------------------------------------------------------------------------
+
+## Lecturas por semana
+
+### Semana 1 · Encuentro 1
+
+::: {.rds-card .datos data-label="LECTURA PRINCIPAL"}
+**Newman-Pont, V., Ospina-Celis, D. y Upegui, J. C. (Eds.). (2020).
+*Data Feast: Enterprises and Personal Data in Latin America*. Dejusticia,
+Working Paper 10** [@newman2020datafeast].
+
+**Qué leer:** la Introducción (economía digital y Big Data) y el capítulo
+sobre Colombia.
+
+**Para qué:** es un estudio empírico sobre cómo operan realmente las empresas
+basadas en datos en Brasil, Chile, Colombia y México. No lo usamos como
+tratado jurídico sino como **fuente de casos**.
+
+**Qué traer:** media página respondiendo *¿cuál de los hallazgos del informe
+describe mejor algo que usted ha visto en su propio entorno profesional?*
+
+**Disponibilidad:** publicación abierta de Dejusticia, licencia
+Creative Commons BY-NC-SA 4.0.
+:::
+
+Los cinco hallazgos que alimentan directamente los casos del curso están
+resumidos en el [Encuentro 1](../encuentros/encuentro-01.qmd#data-feast-102112).
+
+### Semana 2 · Encuentro 2
+
+::: {.rds-card .datos data-label="LECTURA PRINCIPAL"}
+**Márquez Buitrago, F. (2016). *Aplicación de la Ley Estatutaria 1581 de 2012
+a la Red Social Facebook en Colombia*** [@marquez2016facebook].
+
+**Cómo leerlo:** como **caso histórico**, no como descripción del derecho
+vigente. Es anterior al giro interpretativo de la SIC de 2019 sobre el ámbito
+territorial.
+
+**La pregunta útil:** ¿qué argumentos parecían sólidos en 2016 y dejaron de
+serlo, y por qué?
+
+Ver el [caso completo comentado](../casos/caso-facebook.qmd).
+:::
+
+**Lectura normativa mínima**, en fuente oficial:
+
+- Ley 1581 de 2012, artículos 2 a 10 y 17 a 18.
+- Reglamento (UE) 2016/679, artículos 3, 5, 6, 9 y 22.
+
+No hay que leer los reglamentos completos. Hay que leer **esos artículos**, en
+el texto oficial, con el pipeline del encuentro en la cabeza.
+
+### Semana 3 · Actividad 1
+
+Lectura de fuentes primarias de los tres países. Ver la
+[Actividad 1](../actividades/actividad-01.qmd) para la lista exacta.
+
+### Semana 4 · Actividad 2
+
+Reglamento (UE) 2016/679 en EUR-Lex, siete frentes indicados en la
+[Actividad 2](../actividades/actividad-02.qmd).
+
+### Semanas 5 a 9
+
+Se publican con los encuentros 3, 4 y 5. La [Actividad 3](../actividades/actividad-03.qmd)
+exige incorporar al menos un marco de ética estadística, citado correctamente.
+
+------------------------------------------------------------------------
+
+## Fuentes normativas oficiales
+
+### Colombia
+
+| Fuente | Para qué sirve |
+|:--|:--|
+| [Gestor Normativo — Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/) | Texto de leyes y decretos, con concordancias y estado de vigencia |
+| [SUIN-Juriscol](https://www.suin-juriscol.gov.co/) | Sistema Único de Información Normativa. Útil para rastrear derogatorias y modificaciones |
+| [Superintendencia de Industria y Comercio](https://www.sic.gov.co/tema/proteccion-de-datos-personales) | Autoridad de protección de datos. Conceptos, guías, resoluciones y RNBD |
+| [Corte Constitucional](https://www.corteconstitucional.gov.co/) | Jurisprudencia. La Sentencia C-748 de 2011 revisó el proyecto que dio origen a la Ley 1581 |
+
+### Internacional
+
+| Fuente | Para qué sirve |
+|:--|:--|
+| [EUR-Lex](https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679) | Texto consolidado del GDPR en español y todas las lenguas de la UE |
+| [Comisión Europea — protección de datos](https://commission.europa.eu/law/law-topic/data-protection_es) | Decisiones de adecuación, cláusulas contractuales tipo |
+| [Planalto (Brasil)](https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm) | Texto de la LGPD |
+| [ANPD (Brasil)](https://www.gov.br/anpd/) | Regulación infralegal, guías y resoluciones |
+| [Ley Chile — BCN](https://www.bcn.cl/leychile/) | Texto de la Ley 21.719 y de la Ley 19.628 |
+
+::: {.callout-warning}
+## Chile: cuidado con la fuente
+
+Buena parte del material disponible en internet sobre protección de datos en
+Chile describe la **Ley 19.628** antigua, notoriamente débil. La Ley 21.719,
+publicada en diciembre de 2024, la reforma integralmente y rige desde el
+**1 de diciembre de 2026**.
+
+Verifiquen siempre a cuál de las dos se refiere la fuente que están usando.
+:::
+
+------------------------------------------------------------------------
+
+## Marcos de ética estadística y de datos
+
+Para la [Actividad 3](../actividades/actividad-03.qmd) hay que incorporar al
+menos uno de estos, usado para sostener una afirmación concreta —no citado
+decorativamente.
+
+- **Principios Fundamentales de las Estadísticas Oficiales**, Naciones Unidas
+  [@un_principios_estadisticas]. Resolución A/RES/68/261 de la Asamblea
+  General.
+- **Declaration on Professional Ethics**, International Statistical Institute
+  [@isi_declaracion_etica].
+- Códigos de buenas prácticas y marcos de aseguramiento de calidad del
+  sistema estadístico nacional correspondiente al caso elegido.
+- Marcos de ética de datos o de inteligencia artificial aplicables al sector
+  público en el país del caso.
+
+------------------------------------------------------------------------
+
+## Herramientas técnicas
+
+El curso usa herramientas libres. Se citan cuando se reporta un resultado
+producido con ellas.
+
+- **Quarto** [@quarto] — este sitio y las presentaciones.
+- **pandas** [@mckinney2010pandas] — manipulación de datos.
+- **NumPy** [@harris2020numpy] — cómputo numérico.
+- **scikit-learn** [@pedregosa2011scikit] — modelos.
+- **Matplotlib** [@hunter2007matplotlib] — gráficos.
+
+------------------------------------------------------------------------
+
+## Cómo citar este curso
+
+Si alguien reutiliza materiales de este repositorio:
+
+> *Responsible Data Lab — Leyes, Ética y Protección de Datos*.
+> Especialización en Análisis Estadístico. Materiales del curso.
+> Contenido bajo licencia CC BY-NC-SA 4.0; código bajo licencia MIT.
+
+Y, por favor, no cite este sitio como fuente de lo que dice una norma. Para
+eso están las fuentes oficiales de arriba.
+
+------------------------------------------------------------------------
+
+## Referencias
+
+::: {#refs}
+:::

@@ -1,0 +1,188 @@
+---
+title: "Actividad 4 · Ejercicio práctico de anonimización"
+subtitle: "«Anonimícenla» llega en una línea. Ejecutarla bien toma un laboratorio."
+description: "25 % · Entrega semana 8 · Trabajo individual"
+---
+
+::: {.rds-meta}
+[Actividad 4]{} [Unidad 3]{} [25 %]{} [Entrega: semana 8]{} [Individual]{} [Notebook + informe]{}
+:::
+
+::: {.callout-note}
+## Estado de esta actividad
+
+El enunciado, los entregables y la rúbrica están completos. El notebook de
+apoyo con las funciones de medición (`labs/lab04.ipynb`) se publica con el
+[Encuentro 4](../encuentros/encuentro-04.qmd), en la semana 8. La actividad se
+puede resolver sin él: todo lo necesario está en el
+[Lab 1](../labs/lab01.ipynb).
+:::
+
+## El encargo
+
+::: {.rds-card .caso data-label="DATAMARKET · SEMANA 8"}
+**De:** Dirección de Tecnología
+**Asunto:** Base para el proveedor del motor de recomendación
+
+> El proveedor ya firmó el acuerdo de confidencialidad y necesita la base para
+> empezar. Anonimícenla y se la mandamos el viernes.
+>
+> Quieren la mayor cantidad de detalle posible para que el modelo funcione
+> bien. Si les mandamos puros promedios, no les sirve.
+:::
+
+Dos frases, dos exigencias contradictorias: **máxima utilidad** y
+**anonimización**. El trabajo consiste en hacer explícito el intercambio y
+decidirlo con datos.
+
+## Producto
+
+### 1 · Notebook reproducible
+
+`anonimizacion-<apellido>.ipynb`. Debe ejecutarse de principio a fin sin
+errores, partiendo de `data/clientes_sinteticos.csv`.
+
+Estructura mínima:
+
+| Bloque | Contenido |
+|:--|:--|
+| 1 | Carga y línea base: medición del riesgo en la base original |
+| 2 | Clasificación de variables y definición del conjunto de cuasi-identificadores |
+| 3 | Supresión de identificadores directos |
+| 4 | Seudonimización de `cliente_id`, con discusión de la tabla de equivalencias |
+| 5 | Al menos **tres** técnicas de generalización o supresión, aplicadas y justificadas |
+| 6 | Medición del riesgo después de cada técnica |
+| 7 | Medición de la pérdida de utilidad |
+| 8 | Decisión final y exportación de la base entregable |
+
+### 2 · Informe de riesgo de reidentificación
+
+Máximo **5 páginas**. Es el documento que acompañaría la entrega al proveedor.
+
+Debe contener:
+
+1. **Qué se entrega**: variables incluidas, nivel de detalle, número de
+   registros.
+2. **Qué se midió**: métricas de riesgo antes y después.
+3. **Qué umbral se aceptó y por qué.** Esta es la sección que distingue un
+   trabajo bueno de uno correcto.
+4. **Qué riesgo residual queda**, y bajo qué supuestos.
+5. **Qué condiciones contractuales y técnicas** deben acompañar la entrega
+   para que el riesgo residual sea aceptable.
+
+## Métricas obligatorias
+
+Hay que medir, no afirmar.
+
+::: {.rds-card .prueba data-label="PRUEBA · LAS TRES MÉTRICAS MÍNIMAS"}
+**1 · *k*-anonimato.** Para el conjunto de cuasi-identificadores elegido,
+¿cuál es el tamaño del grupo más pequeño? ¿Qué proporción de registros queda
+en grupos de tamaño 1, 2 y menor que 5?
+
+```python
+grupos = df.groupby(cuasi_identificadores, dropna=False).size()
+print("k mínimo:", grupos.min())
+print("Registros con k=1:", (grupos == 1).sum())
+print("Registros en grupos k<5:", grupos[grupos < 5].sum())
+```
+
+**2 · Diversidad del atributo sensible.** Dentro de cada grupo de
+cuasi-identificadores, ¿hay variedad en la variable sensible o todos los
+miembros comparten el mismo valor? Un grupo de cinco personas donde las cinco
+tienen `entrega_asistida = 1` protege la identidad pero no protege el atributo.
+
+**3 · Pérdida de utilidad.** Al menos dos medidas:
+
+- Comparación de una estadística clave antes y después (por ejemplo, la tasa
+  de *churn* por segmento).
+- Desempeño del modelo de *churn* entrenado sobre la base original frente al
+  entrenado sobre la base anonimizada (AUC antes / AUC después).
+:::
+
+::: {.rds-card .riesgo data-label="RIESGO · EL ERROR QUE INVALIDA EL TRABAJO"}
+Reportar únicamente el riesgo **después** de la transformación.
+
+Sin la línea base, el número no significa nada. Todo informe debe mostrar la
+pareja antes / después para cada métrica y cada técnica aplicada.
+:::
+
+## Técnicas disponibles
+
+Deben aplicar al menos tres y justificar cada elección. No hay una combinación
+correcta.
+
+| Técnica | Qué hace | Cuándo conviene | Qué cuesta |
+|:--|:--|:--|:--|
+| **Supresión de variables** | Elimina la columna | Identificadores directos; variables sin valor para la finalidad | Se pierde todo el análisis que dependía de ella |
+| **Seudonimización** | Sustituye el identificador por una clave | Cuando hay que poder volver al titular | No es anonimización: la tabla de equivalencias sigue existiendo |
+| **Generalización** | Reduce la granularidad (edad → rango, municipio → región) | Cuasi-identificadores | Pierde resolución analítica |
+| **Supresión de celdas** | Elimina registros o valores en grupos pequeños | Cuando pocos registros concentran el riesgo | Sesga la base si los suprimidos no son aleatorios |
+| **Agregación** | Entrega totales en lugar de registros | Publicación abierta | Impide cualquier modelado individual |
+| **Perturbación / ruido** | Altera valores de forma controlada | Variables numéricas continuas | Cambia las distribuciones; hay que documentar cuánto |
+| **Top / bottom coding** | Agrupa los extremos | Ingresos, edades, montos | Pierde el comportamiento de las colas, que a veces es el interesante |
+| **Datos sintéticos** | Genera una base nueva con propiedades similares | Cuando el proveedor solo necesita desarrollar | Puede no preservar relaciones que importan |
+
+::: {.callout-tip collapse="true"}
+## Pista sobre las variables geográficas
+
+`latitud` y `longitud` tienen ruido de ±3 km respecto al centro de la ciudad.
+Eso **no** las hace anónimas: combinadas con `barrio`, siguen siendo
+extremadamente identificadoras.
+
+Decidir qué hacer con ellas es una de las decisiones más interesantes de la
+actividad.
+:::
+
+## La decisión final
+
+::: {.rds-card .decision data-label="LO QUE SE ENTREGA"}
+El notebook debe terminar exportando una base concreta, y el informe debe
+sostener esa decisión.
+
+Tres salidas son defendibles, y las tres se califican igual si están bien
+argumentadas:
+
+1. **Base anonimizada con utilidad reducida.** Se entrega, con un nivel de
+   riesgo medido y aceptado.
+2. **Base seudonimizada bajo contrato.** Se reconoce que no está anonimizada y
+   se compensa con controles: acuerdo de encargo del tratamiento, ambiente
+   controlado, prohibición de cruce, auditoría, plazo de destrucción.
+3. **No se entrega la base.** Se propone una alternativa: entrenar el modelo
+   dentro del perímetro de DataMarket, entregar datos sintéticos, o dar
+   acceso a una API con consultas agregadas.
+
+Lo que **no** es defendible: entregar la base sin medir, o afirmar que está
+anonimizada porque se borraron los nombres.
+:::
+
+## Rúbrica
+
+| Eje | Qué se evalúa | Peso |
+|:--|:--|--:|
+| **Diagnóstico** | Identifica correctamente identificadores, cuasi-identificadores y atributos sensibles. Establece una línea base medida. | 20 % |
+| **Análisis de riesgo** | Aplica las tres métricas obligatorias, antes y después de cada técnica. Reconoce el riesgo residual y los supuestos bajo los que vale. | 30 % |
+| **Decisión técnica** | El notebook corre de principio a fin. Las técnicas están justificadas. La decisión final es coherente con lo medido y viene acompañada de controles. | 35 % |
+| **Evidencia** | Código reproducible, salidas visibles, umbral explícito y argumentado, informe que otra persona podría auditar. | 15 % |
+
+## Punto de partida
+
+```python
+import pandas as pd
+
+df = pd.read_csv("data/clientes_sinteticos.csv")
+
+CUASI = ["edad", "sexo", "ciudad", "ocupacion"]
+
+grupos = df.groupby(CUASI, dropna=False).size()
+print("=== LÍNEA BASE ===")
+print("k mínimo            :", grupos.min())
+print("Grupos únicos (k=1) :", (grupos == 1).sum())
+print("Registros en k<5    :", grupos[grupos < 5].sum(),
+      f"({grupos[grupos < 5].sum() / len(df) * 100:.1f} %)")
+```
+
+En el [Lab 1](../labs/lab01.ipynb), bloque 13, está la función
+`riesgo_unicidad()` y un ejemplo completo de generalización con medición
+antes / después. Pueden reutilizarla.
+
+[← Actividad 3](actividad-03.qmd) · [→ Encuentro 5 · El decálogo](../encuentros/encuentro-05.qmd)
