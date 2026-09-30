@@ -676,7 +676,7 @@ No vale «ser más cuidadoso».
   <a class="rds-tile" href="../slides/02-reglas-proyectos-datos.html">
     <div class="num">Presentación</div>
     <h3>02 · Del requisito a la decisión</h3>
-    <p>24 diapositivas Reveal.js con el pipeline, la matriz de principios y el dilema A/B.</p>
+    <p>30 diapositivas Reveal.js: pipeline, matriz de principios, dilema A/B, actores, casos rápidos y semáforo legal.</p>
     <div class="meta">Tecla S para las notas</div>
   </a>
   <a class="rds-tile" href="../laboratorios/lab-02.html">

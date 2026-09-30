@@ -114,6 +114,9 @@ Ninguna es escandalosa por separado. El problema es **acumulativo**.
 
 Casi nunca hay mala intención: hay ausencia de alguien que vuelva a preguntar
 para qué se recogieron los datos.
+
+**La pregunta:** ¿la finalidad nueva es compatible con la informada y con la
+habilitación que tenemos?
 :::
 
 ::: {.notes}
@@ -134,7 +137,7 @@ servir para identificarlo en su propio trabajo.
 [Almacenamiento]{.nombre}[¿Quién los ve?]{.pregunta}
 :::
 ::: {.rds-stage .alerta}
-[Integración]{.nombre}[¿Podemos cruzarlas?]{.pregunta}
+[Integración]{.nombre}[¿El cruce cambia el riesgo?]{.pregunta}
 :::
 ::: {.rds-stage}
 [Limpieza]{.nombre}[¿Qué borramos?]{.pregunta}
@@ -155,13 +158,13 @@ servir para identificarlo en su propio trabajo.
 [Decisión]{.nombre}[¿A quién afecta?]{.pregunta}
 :::
 ::: {.rds-stage .alerta}
-[Publicación]{.nombre}[¿Alguien es identificable?]{.pregunta}
+[Publicación / tercero]{.nombre}[¿Quién lo recibe?]{.pregunta}
 :::
 ::: {.rds-stage}
 [Conservación]{.nombre}[¿Hasta cuándo?]{.pregunta}
 :::
 ::: {.rds-stage}
-[Eliminación]{.nombre}[¿Sabemos borrar?]{.pregunta}
+[Eliminación]{.nombre}[¿Sabemos borrar y probarlo?]{.pregunta}
 :::
 :::
 
@@ -201,6 +204,23 @@ Preguntar: de las doce etapas, ¿cuántas están documentadas en su proyecto
 actual? Suele haber silencio incómodo, que es el objetivo.
 :::
 
+## La variable no es sensible. La inferencia, sí.
+
+| Variable observada | Inferencia posible | Pregunta de control |
+|:--|:--|:--|
+| Compras frecuentes en farmacia | Condición de salud | ¿Necesitamos producir o usar esa inferencia? |
+| Entrega asistida | Movilidad reducida o discapacidad | ¿Actúa como *proxy* sensible? |
+| Búsquedas sobre maternidad | Embarazo o intención reproductiva | ¿La finalidad la necesita? |
+
+::: {.fragment .nota-pie}
+Las tres están en la base de DataMarket. Las tres entran al modelo B.
+:::
+
+::: {.notes}
+Conectar con el Encuentro 1: el caso de la inferencia de embarazo. Aquí la
+pregunta ya no es ética sino de control: ¿esta variable debería existir?
+:::
+
 ## Aquí iría una diapositiva titulada… {background-color="#1a1210"}
 
 ::: {.pregunta-grande}
@@ -221,6 +241,7 @@ giro pedagógico.
 ::: {.rds-card .decide data-label="LA MISMA INFORMACIÓN, COMO HERRAMIENTA"}
 | Principio | Pregunta del analista |
 |:--|:--|
+| Legalidad | ¿Qué norma habilita y condiciona este tratamiento? |
 | Finalidad | ¿Para qué fueron recolectados, y es esto lo mismo? |
 | Libertad | ¿Hay autorización verificable, y para qué alcance? |
 | Calidad | ¿Los datos son correctos, completos y actuales? |
@@ -239,6 +260,7 @@ derecha es lo que un analista puede aplicar hoy sin consultar a nadie.
 
 | Principio | Riesgo si se ignora | Decisión técnica | Evidencia |
 |:--|:--|:--|:--|
+| **Legalidad** | Diseñar como si no hubiera restricciones | Registrar el régimen aplicable | Ficha normativa con fuente oficial |
 | **Finalidad** | Uso secundario no esperado | Revisar finalidad antes de incorporar la variable | Documentación de origen y propósito |
 | **Calidad** | Decisiones incorrectas sobre personas | Reglas de validación; antigüedad máxima | Log de validación |
 | **Seguridad** | Exposición innecesaria | Roles y permisos | Matriz de accesos |
@@ -276,7 +298,7 @@ y la minimización a veces tiran en direcciones opuestas, y hay que decidir
 explícitamente.
 :::
 
-## Laboratorio 2 · 35 minutos {background-color="#0f1c18"}
+## Laboratorio 2 · 32 minutos {background-color="#0f1c18"}
 
 ::: {.rds-card .prueba data-label="PRUEBA · LAB 2"}
 ### Auditoría rápida de un pipeline
@@ -343,6 +365,27 @@ La tercera es la que más cuesta. La mayoría de equipos evalúa el modelo y no
 la decisión que el modelo habilita.
 :::
 
+## Y dos más, por escrito
+
+::: {.fragment}
+**4 · ¿La finalidad necesita esas variables, o solo las aprovecha?**
+:::
+
+::: {.fragment}
+**5 · ¿Qué evidencia permitiría defender la decisión**<br>
+ante alguien que no estuvo en la reunión?
+:::
+
+::: {.fragment .rds-card .decision}
+Una respuesta como «sí, cumplimos» es débil.<br>
+Una respuesta verificable **muestra la evidencia**.
+:::
+
+::: {.notes}
+Estas dos no se resuelven con código. Son las que conectan el laboratorio con
+el marco legal del bloque siguiente.
+:::
+
 ## El marco colombiano, en una imagen
 
 ```{mermaid}
@@ -361,8 +404,29 @@ flowchart TB
 ```
 
 ::: {.notes}
-Doce minutos máximo para todo el bloque normativo. Entra a resolver preguntas
+Catorce minutos máximo para todo el bloque normativo, incluidos actores y
+casos rápidos. Entra a resolver preguntas
 que ya están abiertas, no a abrir preguntas nuevas.
+:::
+
+## ¿Por dónde empiezo?
+
+| Pregunta | Primera referencia |
+|:--|:--|
+| Datos personales en un proyecto general | **Ley 1581 de 2012** |
+| Información financiera, crediticia o comercial | **Ley 1266 de 2008** y modificaciones |
+| Autorización, políticas, avisos | **Decreto 1074 de 2015** |
+| Cómo se aplica en la práctica | **SIC**: guías, conceptos, decisiones |
+| El derecho detrás de todo | **Constitución, art. 15** |
+
+::: {.fragment .nota-pie}
+Es un punto de partida. El régimen depende del **tratamiento concreto**: tipo
+de dato, finalidad, sujetos y normas sectoriales.
+:::
+
+::: {.notes}
+Insistir en que la tabla no es un atajo: salud, telecomunicaciones o sector
+público pueden sumar reglas propias.
 :::
 
 ## Lo mínimo que un analista necesita
@@ -371,7 +435,7 @@ que ya están abiertas, no a abrir preguntas nuevas.
 1. **Definiciones operativas** (art. 3) — dato personal, titular, responsable,
    encargado. La distinción responsable/encargado define quién responde
    cuando se contrata un proveedor de analítica.
-2. **Principios** (art. 4) — los siete de la matriz.
+2. **Principios** (art. 4) — los ocho de la matriz.
 3. **Datos sensibles** (arts. 5 y 6) — prohibición general con excepciones
    tasadas. Niñas, niños y adolescentes, régimen propio (art. 7).
 4. **Derechos y autorización** (arts. 8, 9 y 10) — incluida la excepción para
@@ -384,6 +448,67 @@ que ya están abiertas, no a abrir preguntas nuevas.
 El punto 4 es el que más les toca directamente: muchos trabajan con datos
 estadísticos y creen que la excepción los exime de todo. No: exige medidas de
 supresión de identidad, que es justo lo que el Lab 1 mostró que no es trivial.
+:::
+
+## Tres actores que todo analista debe identificar
+
+| Actor | Pregunta sencilla | En DataMarket |
+|:--|:--|:--|
+| **Titular** | ¿De quién es la información? | El cliente |
+| **Responsable** | ¿Quién decide sobre la base y el tratamiento? | DataMarket |
+| **Encargado** | ¿Quién trata datos por cuenta del responsable? | El proveedor, si sigue instrucciones |
+
+::: {.fragment .rds-card .riesgo data-label="LA CUARTA PETICIÓN"}
+Si la plataforma publicitaria usa los datos **para sus propios fines**, deja de
+ser encargada. La conversación jurídica cambia por completo.
+:::
+
+::: {.notes}
+Preguntar: en ese escenario, ¿quién respondería ante la SIC?
+:::
+
+## Casos rápidos · 4 minutos {background-color="#101a2c"}
+
+::: {.rds-card .decide data-label="¿QUÉ NORMA SE REVISA PRIMERO?"}
+**A · Historial crediticio.** Un modelo usa obligaciones dinerarias para
+evaluar riesgo de crédito.
+
+**B · Finalidad nueva.** Teléfono y dirección recogidos para entregas, ahora
+enviados a una plataforma externa para crear audiencias publicitarias.
+
+**C · Investigación estadística.** «Como es estadístico, no hay que revisar
+protección de datos».
+:::
+
+::: {.fragment .nota-pie}
+**A** → Ley 1266 primero. **B** → ¿la autorización lo cubre? ¿el tercero es
+encargado o responsable? **C** → No: nombre la excepción (art. 10) y sus
+condiciones.
+:::
+
+::: {.notes}
+Pedir primero la norma y después la pregunta de control. El caso C es el que
+más se defiende con intuición; exigir la excepción concreta.
+:::
+
+## Norma vigente vs. proyecto en trámite
+
+::: {.rds-card .datos data-label="LO QUE VIENE"}
+La referencia vigente sigue siendo la **Ley 1581 de 2012**.
+
+El 27 de agosto de 2025 el Gobierno radicó en la Cámara un proyecto de ley
+estatutaria para modificarla: alcance extraterritorial, portabilidad,
+oposición a decisiones automatizadas, más bases de licitud, evaluaciones de
+impacto.
+
+**Es un proyecto, no derecho vigente.** Casi todo lo que propone ya es buena
+práctica profesional.
+:::
+
+::: {.notes}
+Ejercicio de verificación en vivo: las leyes estatutarias deben aprobarse en
+una sola legislatura (CP art. 153). ¿Siguió, se archivó o se radicó de nuevo?
+Pedir que lo confirmen en la Cámara antes de citarlo.
 :::
 
 ## Verifique. No cite de memoria. {background-color="#1a1210"}
@@ -459,6 +584,52 @@ licitud; revisar si la decisión de campaña es totalmente automatizada;
 revisar qué proveedor externo recibe la base.
 :::
 
+## Legal no es sinónimo de ético
+
+| Pregunta | Dimensión |
+|:--|:--|
+| ¿Una regla habilita o condiciona el tratamiento? | Legal |
+| ¿La finalidad informada cubre el uso? | Legal / gobernanza |
+| ¿Los datos están protegidos? | Seguridad |
+| ¿El modelo concentra errores en un grupo? | Estadística / ética |
+| ¿La decisión produce una desventaja injustificable? | Ética / gobernanza |
+| ¿Podemos explicar y auditar el resultado? | Gobernanza / técnica |
+
+::: {.fragment .rds-card .decision data-label="PUENTE A LA UNIDAD 2"}
+Cumplir la ley es un **requisito**. No necesariamente agota la discusión.
+:::
+
+::: {.notes}
+El modelo B puede superar la revisión legal y aun así concentrar sus errores
+en estratos 1 y 2. Esa es la conversación del Encuentro 3.
+:::
+
+## Semáforo legal del proyecto
+
+::: {.rds-grid}
+::: {.rds-tile}
+[Verde · continuar]{.num}
+Finalidad identificada, habilitación documentada, datos necesarios, roles
+definidos, accesos controlados, evidencia reproducible.
+:::
+::: {.rds-tile}
+[Amarillo · resolver]{.num}
+Finalidad ambigua, autorización no localizable, dato o *proxy* sensible,
+proveedor sin rol claro, conservación indefinida.
+:::
+::: {.rds-tile}
+[Rojo · detener]{.num}
+Origen no acreditado, tratamiento incompatible, acceso no autorizado,
+incidente sin contención, decisión que no se puede justificar.
+:::
+:::
+
+::: {.notes}
+No recorrerlo completo. Pedir a dos o tres personas que ubiquen su propio
+proyecto en un color y digan por qué. La pregunta de salida se apoya en esa
+respuesta.
+:::
+
 ## Checklist del analista responsable · v2
 
 ::: {.rds-grid}
@@ -496,8 +667,9 @@ información publicaré?». Se activan con el encuentro de ética y sesgo.
 ¿Qué tendría que cambiar en mi proyecto de datos?
 :::
 
-Hoy con una restricción: la respuesta debe nombrar **una etapa del pipeline**
-y **un cambio ejecutable**.
+Hoy con una restricción. La respuesta debe tener cuatro piezas:
+
+**etapa del pipeline + principio o regla + cambio ejecutable + evidencia**
 
 No vale «ser más cuidadoso».
 :::
