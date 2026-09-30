@@ -114,6 +114,17 @@ puede llegar a ella por autoridad: hay que construirla.
 Pida que quienes voten 3 digan **cuáles** de las cuatro peticiones son
 compatibles y cuáles no. Esa lista es exactamente el material del bloque
 siguiente, y sale mejor de ellos que del material.
+
+Retroalimentación por opción:
+
+- **Opción 1.** Tener acceso técnico a un dato no equivale a estar habilitado
+  para cualquier tratamiento: hay que revisar finalidad, autorización o
+  excepción aplicable, tipo de dato, roles y circulación.
+- **Opción 2.** Correcta como regla, pero incompleta: no todas las peticiones
+  se alejan igual de la finalidad original.
+- **Variante frecuente: «sí, mientras el modelo sea interno».** Reduce riesgos
+  de circulación, pero no elimina finalidad, libertad, calidad, seguridad ni
+  las reglas sobre datos sensibles.
 :::
 
 ::: {.rds-card .caso data-label="MINUTO 22 · EL PIPELINE"}
@@ -133,6 +144,22 @@ se hace con la predicción— son las que convierten la opinión en argumento.
 
 La tercera es la que más cuesta: la mayoría de equipos evalúa el modelo y no la
 decisión que el modelo habilita.
+:::
+
+::: {.rds-card .datos data-label="MINUTO 90 · ACTORES Y CASOS RÁPIDOS"}
+La tabla de actores se vuelve útil con la cuarta petición de DataMarket: si la
+plataforma publicitaria usa los datos para sus propios fines, deja de ser
+encargada. Pregunte quién respondería ante la SIC en ese caso.
+
+En los casos rápidos, pida primero la norma y después la pregunta de control.
+El caso C es el que más se defiende con intuición («es estadístico, no
+aplica»); exija que nombren la excepción concreta y sus condiciones.
+:::
+
+::: {.rds-card .decision data-label="MINUTO 111 · SEMÁFORO"}
+No lo recorra completo: es una herramienta para llevarse. Pida a dos o tres
+personas que ubiquen su propio proyecto en un color y digan por qué. La
+pregunta de salida se apoya en esa respuesta.
 :::
 
 ### Banco de dilemas

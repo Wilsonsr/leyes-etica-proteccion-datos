@@ -10,13 +10,15 @@ description: "Qué cambia en un pipeline de datos cuando aparecen restricciones 
     <span class="et">Qué aprenderá</span>
     <div class="va"><ul>
       <li>Recorrer un pipeline de datos etapa por etapa y nombrar el riesgo y la pregunta de control de cada una.</li>
-      <li>Traducir los principios del marco colombiano a decisiones técnicas con evidencia asociada.</li>
+      <li>Identificar qué régimen de protección de datos puede aplicar a un caso de analítica en Colombia.</li>
+      <li>Distinguir titular, responsable y encargado, y explicar por qué esos roles cambian las decisiones del proyecto.</li>
+      <li>Traducir los ocho principios de la Ley 1581 de 2012 a decisiones técnicas con evidencia verificable.</li>
       <li>Reconocer la deriva de finalidad antes de que ocurra.</li>
     </ul></div>
   </div>
   <div><span class="et">Qué debe hacer</span><span class="va">Construir el pipeline con el grupo, ejecutar el Laboratorio 2 y decidir qué modelo se despliega.</span></div>
   <div><span class="et">Duración</span><span class="va">120 minutos · Semana 2</span></div>
-  <div><span class="et">Evidencia esperada</span><span class="va">Matriz de auditoría del pipeline y una decisión de modelo argumentada</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Matriz principio → riesgo → decisión técnica → evidencia y una decisión de modelo argumentada</span></div>
   <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-1">1 · Fundamentos legales</a></span></div>
   <div><span class="et">Siguiente paso</span><span class="va"><a href="../actividades/actividad-01.html">Actividad 1</a> y <a href="../actividades/actividad-02.html">Actividad 2</a></span></div>
 </div>
@@ -60,13 +62,15 @@ colombiano *donde realmente viven*: dentro de las decisiones de ingeniería.
       El pipeline de doce etapas y la pregunta de control de cada una.</li>
   <li><span class="t">42–58</span><span class="modo">exposición</span><br>
       «Si eres analista, estas son las preguntas que debes hacer». La matriz.</li>
-  <li><span class="t">58–92</span><span class="modo">laboratorio</span><br>
+  <li><span class="t">58–90</span><span class="modo">laboratorio</span><br>
       Lab 2: auditoría del pipeline y comparación de dos modelos de churn.</li>
-  <li><span class="t">92–104</span><span class="modo">marco colombiano</span><br>
-      Ley 1581 de 2012 y normativa complementaria, leída desde el pipeline.</li>
-  <li><span class="t">104–114</span><span class="modo">comparación</span><br>
+  <li><span class="t">90–104</span><span class="modo">marco colombiano</span><br>
+      Ley 1581 de 2012 y normativa complementaria, leída desde el pipeline. Actores y casos rápidos.</li>
+  <li><span class="t">104–111</span><span class="modo">comparación</span><br>
       GDPR: qué se hace distinto y por qué importa para la Actividad 2.</li>
-  <li><span class="t">114–120</span><span class="modo">cierre</span><br>
+  <li><span class="t">111–115</span><span class="modo">puente</span><br>
+      Legal no es sinónimo de ético. Semáforo legal del proyecto.</li>
+  <li><span class="t">115–120</span><span class="modo">cierre</span><br>
       Checklist v2 y pregunta de salida.</li>
 </ul>
 ```
@@ -111,7 +115,6 @@ los tenemos almacenados?
    compatibles con el origen; otras no.
 :::
 
-
 ### Las cuatro peticiones no son equivalentes
 
 | Petición | ¿Compatible con «facturación, entrega, administración»? | Por qué |
@@ -130,6 +133,10 @@ alimentan un sistema publicitario externo.
 A esto se le llama *function creep* o deriva de finalidad, y casi nunca es
 producto de una mala intención: es producto de que nadie volvió a preguntar
 para qué se habían recogido los datos.
+
+> **La pregunta que hay que volver a hacer:** ¿la finalidad nueva sigue siendo
+> compatible con la finalidad informada y con la habilitación que tenemos para
+> tratar los datos?
 :::
 
 ------------------------------------------------------------------------
@@ -147,15 +154,15 @@ material.
   <div class="rds-stage"><span class="nombre">Fuente</span><span class="pregunta">¿De dónde provienen los datos?</span></div>
   <div class="rds-stage"><span class="nombre">Recolección</span><span class="pregunta">¿Para qué fueron obtenidos?</span></div>
   <div class="rds-stage"><span class="nombre">Almacenamiento</span><span class="pregunta">¿Dónde viven y quién los ve?</span></div>
-  <div class="rds-stage alerta"><span class="nombre">Integración</span><span class="pregunta">¿Podemos combinar estas bases?</span></div>
+  <div class="rds-stage alerta"><span class="nombre">Integración</span><span class="pregunta">¿Podemos combinar estas bases? ¿El cruce cambia la finalidad o el riesgo?</span></div>
   <div class="rds-stage"><span class="nombre">Limpieza</span><span class="pregunta">¿Qué estamos corrigiendo y qué estamos borrando?</span></div>
   <div class="rds-stage alerta"><span class="nombre">Feature engineering</span><span class="pregunta">¿Qué inferencias nuevas estamos creando?</span></div>
   <div class="rds-stage alerta"><span class="nombre">Modelo</span><span class="pregunta">¿Estamos perfilando personas?</span></div>
   <div class="rds-stage"><span class="nombre">Predicción</span><span class="pregunta">¿Qué error es aceptable y para quién?</span></div>
   <div class="rds-stage alerta"><span class="nombre">Decisión</span><span class="pregunta">¿Quién puede verse afectado?</span></div>
-  <div class="rds-stage alerta"><span class="nombre">Publicación</span><span class="pregunta">¿Puede alguien ser identificado?</span></div>
+  <div class="rds-stage alerta"><span class="nombre">Publicación / tercero</span><span class="pregunta">¿Puede alguien ser identificado? ¿Quién lo recibe y bajo qué rol?</span></div>
   <div class="rds-stage"><span class="nombre">Conservación</span><span class="pregunta">¿Hasta cuándo necesitamos esto?</span></div>
-  <div class="rds-stage"><span class="nombre">Eliminación</span><span class="pregunta">¿Sabemos borrar, de verdad?</span></div>
+  <div class="rds-stage"><span class="nombre">Eliminación</span><span class="pregunta">¿Sabemos borrar, de verdad, y demostrarlo?</span></div>
 </div>
 ```
 
@@ -177,8 +184,23 @@ clientes con score alto reciben peor servicio.
 
 **Publicación.** Incluye entregar un CSV a un proveedor, publicar un tablero
 o poner un archivo en una carpeta compartida. Es la etapa donde el dato sale
-del perímetro y deja de estar bajo control.
+del perímetro y deja de estar bajo control. Cada archivo, API, tablero o
+proveedor abre nuevas preguntas de circulación, roles y controles.
 :::
+
+### Cuando la variable no es sensible, pero la inferencia sí
+
+En *feature engineering* la alerta cambia: el dato de origen puede ser
+inocuo y la variable construida, no.
+
+| Variable observada | Inferencia que podría producirse | Pregunta de control |
+|:--|:--|:--|
+| Compras frecuentes en farmacia | Posible condición de salud | ¿Necesitamos producir o usar esa inferencia? |
+| Entrega asistida | Posible movilidad reducida o discapacidad | ¿Actúa como *proxy* de un dato sensible? |
+| Búsquedas sobre maternidad | Posible embarazo o intención reproductiva | ¿La inferencia es necesaria para la finalidad? |
+
+Las tres variables están en la base de DataMarket y las tres entran al
+modelo B del laboratorio.
 
 ::: {.rds-card .reflexiona}
 De las doce etapas, ¿cuántas están documentadas en su proyecto actual? ¿Y
@@ -209,6 +231,7 @@ la primera columna; el trabajo se hace en las otras cuatro.
 
 | Principio | Pregunta del analista | Riesgo si se ignora | Decisión técnica | Evidencia que queda |
 |:--|:--|:--|:--|:--|
+| **Legalidad** | ¿Qué norma o regla habilita y condiciona este tratamiento? | Diseñar el proyecto como si los datos no tuvieran restricciones | Identificar y registrar el régimen aplicable antes de empezar (general, financiero, sectorial) | Ficha normativa del proyecto con la fuente oficial citada |
 | **Finalidad** | ¿Para qué fueron recolectados estos datos, y es esto lo mismo? | Uso secundario no esperado; deriva de finalidad | Revisar la finalidad de origen antes de incorporar la variable; separar los datos por finalidad de recolección | Documento de origen y propósito por fuente; columna `origen_dato` en la base |
 | **Libertad** | ¿Hay autorización verificable, y para qué alcance? | Tratar datos sin base que lo habilite | Excluir del entrenamiento los registros sin evidencia de autorización | Registro de autorizaciones con fecha y canal; conteo de registros excluidos |
 | **Veracidad o calidad** | ¿Los datos son correctos, completos y actuales? | Decisiones incorrectas sobre personas reales | Reglas de validación, control de duplicados, criterio explícito de antigüedad máxima | Log de validación; tasa de registros rechazados |
@@ -252,7 +275,7 @@ y una nota que dice quién tomó la decisión y cuándo.
 
 ## 4 · Laboratorio 2
 
-[minuto 58–92]{.rds-tiempo}
+[minuto 58–90]{.rds-tiempo}
 
 ::: {.rds-card .prueba data-label="PRUEBA · LABORATORIO"}
 ### Auditoría rápida de un pipeline de datos
@@ -291,15 +314,21 @@ contestar con código:
 3. ¿**Qué se hace** con la predicción? Si la acción es una oferta de
    retención, el falso negativo es una oportunidad perdida. Si la acción es
    bajar la prioridad de atención, el falso positivo es un daño.
+
+Y dos que se responden por escrito, sin código:
+
+4. ¿La **finalidad** necesita esas variables, o solo las aprovecha?
+5. ¿Qué **evidencia** permitiría defender la decisión ante alguien que no
+   estuvo en la reunión?
 :::
 
 ------------------------------------------------------------------------
 
 ## 5 · El marco colombiano desde el pipeline
 
-[minuto 92–104]{.rds-tiempo}
+[minuto 90–104]{.rds-tiempo}
 
-Solo ahora, y en doce minutos. La norma entra a resolver preguntas que ya
+Solo ahora, y en catorce minutos. La norma entra a resolver preguntas que ya
 están abiertas.
 
 ### Las piezas
@@ -359,7 +388,70 @@ entender cómo se aplica la ley en la práctica.
 
 **Ley 1266 de 2008** — régimen especial para información financiera,
 crediticia, comercial y de servicios. Si su proyecto toca historial
-crediticio, esta es la norma aplicable y no la 1581.
+crediticio, el análisis empieza por este régimen especial (y sus
+modificaciones), sin descartar otras reglas que también apliquen.
+:::
+
+### ¿Por dónde empiezo? Primera referencia según la pregunta
+
+| Pregunta | Primera referencia |
+|:--|:--|
+| Datos personales de clientes, empleados, usuarios o ciudadanos en un proyecto general | **Ley 1581 de 2012** |
+| Información financiera, crediticia, comercial o de servicios | **Ley 1266 de 2008** y sus modificaciones |
+| Autorización, políticas de tratamiento, avisos y deberes reglamentarios | **Decreto 1074 de 2015** |
+| Cómo se interpreta y controla en la práctica | **SIC**: guías, conceptos y decisiones |
+| Derecho constitucional detrás del tratamiento | **Constitución, art. 15** |
+
+::: {.callout-warning}
+La tabla es un punto de partida, no un atajo. El régimen aplicable depende del
+**tratamiento concreto**: tipo de información, finalidad, sujetos
+involucrados y normas sectoriales que también puedan aplicar (salud,
+telecomunicaciones, sector público).
+:::
+
+### Tres actores que todo analista debe identificar
+
+| Actor | Pregunta sencilla | En DataMarket |
+|:--|:--|:--|
+| **Titular** | ¿De quién es la información personal? | El cliente |
+| **Responsable** | ¿Quién decide sobre la base de datos y/o el tratamiento? | DataMarket |
+| **Encargado** | ¿Quién trata datos por cuenta del responsable? | El proveedor de analítica o de publicidad, si sigue instrucciones de DataMarket |
+
+Si la plataforma publicitaria de la cuarta petición usa los datos **para sus
+propios fines**, deja de ser encargada: pasa a decidir sobre el tratamiento,
+y la conversación jurídica cambia por completo.
+
+### Casos rápidos (4 minutos)
+
+::: {.rds-card .decide data-label="DECIDE · ¿QUÉ NORMA ENTRA EN JUEGO?"}
+**Caso A · Historial crediticio.** Un modelo usa información sobre
+obligaciones dinerarias para evaluar riesgo de crédito.
+
+**Caso B · Finalidad nueva.** Una empresa recogió teléfono y dirección para
+entregar pedidos y ahora quiere enviar la base a una plataforma externa para
+crear audiencias publicitarias.
+
+**Caso C · Investigación estadística.** «Como el proyecto es estadístico, no
+necesitamos revisar protección de datos».
+
+::: {.pregunta}
+Para cada caso: ¿qué norma se revisa primero y qué pregunta hay que responder
+antes de seguir?
+:::
+:::
+
+::: {.ix-respuesta}
+<summary>Respuestas orientativas</summary>
+
+**A.** Se empieza por el régimen especial de la Ley 1266 de 2008, revisando
+sus modificaciones y otras reglas aplicables.
+
+**B.** ¿La nueva finalidad está cubierta por la autorización? ¿Qué papel
+tendrá el tercero: encargado o nuevo responsable?
+
+**C.** No. Hay que identificar exactamente la excepción invocada (art. 10 de
+la Ley 1581), sus condiciones —entre ellas, las medidas de supresión de
+identidad— y las obligaciones que siguen aplicando.
 :::
 
 ::: {.callout-important}
@@ -379,8 +471,12 @@ cuenta como argumento.
 :::
 
 ::: {.rds-card .reflexiona data-label="LO QUE VIENE"}
-En agosto de 2025 el Gobierno radicó ante el Congreso un proyecto de ley para
-actualizar el régimen de protección de datos personales. Entre lo que propone
+La referencia vigente sigue siendo la **Ley 1581 de 2012** y su normativa
+reglamentaria.
+
+El 27 de agosto de 2025 el Gobierno radicó ante la Cámara de Representantes
+un proyecto de ley estatutaria para modificar parcialmente la Ley 1581.
+Entre lo que propone
 se ha mencionado: ampliar el alcance a empresas extranjeras que operen en
 Colombia, incorporar derechos como la portabilidad y la oposición a
 decisiones automatizadas, ampliar las bases de licitud más allá de la
@@ -390,14 +486,20 @@ Es un **proyecto**, no derecho vigente. Lo traemos por dos razones: porque
 señala hacia dónde se mueve la discusión regional, y porque casi todo lo que
 propone ya es una buena práctica profesional aunque ninguna norma la exija.
 
-Fuente: [SIC — ABC del proyecto de ley de protección de datos personales](https://sedeelectronica.sic.gov.co/noticias/abc-del-proyecto-de-ley-de-proteccion-de-datos-personales-en-colombia).
+Un buen ejercicio de verificación: las leyes estatutarias deben aprobarse
+dentro de una sola legislatura (Constitución, art. 153). Antes de citar el
+proyecto, confirme en la Cámara si siguió su trámite, se archivó o fue
+radicado de nuevo con otro número.
+
+Fuentes: [SIC — Radicación del proyecto (27 ago. 2025)](https://sedeelectronica.sic.gov.co/noticias/gobierno-nacional-radico-proyecto-de-ley-para-actualizar-la-normatividad-vigente-en-la-proteccion-de-datos-personales-en-colombia) ·
+[SIC — ABC del proyecto de ley de protección de datos personales](https://sedeelectronica.sic.gov.co/noticias/abc-del-proyecto-de-ley-de-proteccion-de-datos-personales-en-colombia).
 :::
 
 ------------------------------------------------------------------------
 
 ## 6 · GDPR como referencia comparativa
 
-[minuto 104–114]{.rds-tiempo}
+[minuto 104–111]{.rds-tiempo}
 
 No hacemos una clase de derecho europeo. Miramos **cuatro diferencias** que
 cambian el diseño de un proyecto de datos, porque son las que la
@@ -457,9 +559,76 @@ reutilizar allá.
 
 ------------------------------------------------------------------------
 
-## 7 · Cierre
+## 7 · Legal no es sinónimo de ético
 
-[minuto 114–120]{.rds-tiempo}
+[minuto 111–115]{.rds-tiempo}
+
+Puente hacia la Unidad 2. No todas las preguntas del laboratorio se responden
+con una norma.
+
+| Pregunta | Dimensión principal |
+|:--|:--|
+| ¿Existe una regla que habilita o condiciona el tratamiento? | Legal |
+| ¿La finalidad informada cubre el uso? | Legal / gobernanza |
+| ¿Los datos están protegidos? | Seguridad |
+| ¿El modelo genera errores sistemáticos sobre un grupo? | Estadística / ética |
+| ¿La decisión produce una desventaja difícil de justificar? | Ética / gobernanza |
+| ¿Podemos explicar y auditar el resultado? | Gobernanza / ética / técnica |
+
+::: {.rds-card .decision data-label="PUENTE A LA UNIDAD 2"}
+**Cumplir la ley es un requisito; no necesariamente agota la discusión.** El
+modelo B puede superar la revisión legal y aun así concentrar sus errores en
+un grupo. Esa es la conversación del Encuentro 3.
+:::
+
+### Semáforo legal del proyecto
+
+Una herramienta para llevarse: dónde está hoy su proyecto.
+
+::: {.rds-grid}
+::: {.rds-tile}
+[VERDE · evidencia suficiente]{.num}
+
+- finalidad identificada;
+- habilitación documentada;
+- solo los datos necesarios;
+- roles definidos;
+- accesos controlados;
+- evidencia reproducible.
+
+**Acción:** continuar con controles.
+:::
+
+::: {.rds-tile}
+[AMARILLO · falta resolver]{.num}
+
+- finalidad ambigua;
+- autorización no localizable;
+- dato sensible o *proxy* sensible;
+- proveedor externo sin rol claro;
+- conservación indefinida.
+
+**Acción:** resolver antes del siguiente hito.
+:::
+
+::: {.rds-tile}
+[ROJO · detenga el uso]{.num}
+
+- origen no acreditado;
+- tratamiento incompatible o prohibido;
+- acceso no autorizado;
+- incidente sin contención;
+- imposibilidad de justificar una decisión que afecta a personas.
+
+**Acción:** detener el tratamiento afectado y escalar.
+:::
+:::
+
+------------------------------------------------------------------------
+
+## 8 · Cierre
+
+[minuto 115–120]{.rds-tiempo}
 
 ### Checklist, versión 2
 
@@ -490,8 +659,12 @@ Ya activas desde el Encuentro 1:
 ¿Qué tendría que cambiar en mi proyecto de datos?
 :::
 
-Hoy con una restricción adicional: la respuesta debe nombrar **una etapa del
-pipeline** y **un cambio ejecutable**. No vale «ser más cuidadoso».
+Hoy con una restricción adicional. La respuesta debe tener cuatro piezas:
+
+**etapa del pipeline + principio o regla + cambio ejecutable + evidencia que
+quedará**
+
+No vale «ser más cuidadoso».
 :::
 
 ------------------------------------------------------------------------
@@ -530,6 +703,9 @@ pipeline** y **un cambio ejecutable**. No vale «ser más cuidadoso».
 ## Fuentes citadas en este encuentro
 
 - Ley 1581 de 2012 — [Gestor Normativo, Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=49981)
+- Ley 1266 de 2008 — [Gestor Normativo, Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=34488)
+- Constitución Política, arts. 15 y 153 — [Gestor Normativo, Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=4125)
+- Proyecto de ley estatutaria que modifica la Ley 1581 — [SIC, radicación (27 ago. 2025)](https://sedeelectronica.sic.gov.co/noticias/gobierno-nacional-radico-proyecto-de-ley-para-actualizar-la-normatividad-vigente-en-la-proteccion-de-datos-personales-en-colombia)
 - Decreto 1074 de 2015 (Decreto Único Reglamentario del sector Comercio, Industria y Turismo) — [Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=76608)
 - Superintendencia de Industria y Comercio — [Protección de datos personales](https://www.sic.gov.co/tema/proteccion-de-datos-personales)
 - Reglamento (UE) 2016/679 (GDPR) — [EUR-Lex](https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX%3A32016R0679)
