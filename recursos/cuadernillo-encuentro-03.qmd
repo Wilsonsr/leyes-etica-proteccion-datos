@@ -59,22 +59,6 @@ Busque las situaciones donde **todo es legal** y aun así algo no cuadra. Son
 las que justifican la Unidad 2.
 :::
 
-::: {.callout-tip collapse="true"}
-## Clave orientativa para la discusión
-
-- **a.** Ética (justicia) y estadística (el barrio actúa como *proxy*
-  socioeconómico). Legal en apariencia: la autorización no resuelve el
-  efecto diferencial.
-- **b.** Privacidad: riesgo de identificación; en estadística oficial, además,
-  reserva estadística.
-- **c.** Legal (libertad, finalidad), con consecuencias éticas.
-- **d.** Estadística (sesgo de evaluación y de despliegue) y ética, porque el
-  error recaerá sobre poblaciones que el modelo nunca vio.
-- **e.** Seguridad y privacidad, con dimensión legal (dato sensible).
-- **f.** Ética casi en estado puro: puede ser legal y estadísticamente
-  impecable, y aprovecha una vulnerabilidad momentánea de la persona.
-:::
-
 ## Ficha 2 · Cinco lentes, cinco preguntas {#ficha-2}
 
 *Individual · 8 min.* Para cada lente del marco Markkula
@@ -135,8 +119,9 @@ merece el canvas completo.**
 3. Al final, cada persona tiene **tres votos** para los riesgos y
    oportunidades más importantes.
 
-::: {.callout-note collapse="true"}
-## Partes interesadas que suelen faltar
+::: {.ix-pista}
+<summary>Pista · partes interesadas que suelen olvidarse</summary>
+
 
 Agentes del centro de atención que aplican la decisión · clientes de estratos
 bajos que esperan 48 horas · clientes que no saben que fueron clasificados ·
@@ -186,26 +171,6 @@ del Laboratorio 2.
 5. Nombre dos fuentes posibles del patrón según Suresh y Guttag
    [@suresh2021framework].
 6. Proponga un cambio y diga qué se gana y qué se pierde.
-
-::: {.callout-tip collapse="true"}
-## Respuestas orientativas
-
-1. Ponderando por *n*: estratos 1–2 ≈ 32 de 110 marcados (29,1 %); estratos
-   5–6 ≈ 4 de 73 (5,5 %). Razón ≈ **5,3 veces**.
-2. El **falso negativo**: quien sí se iba y no recibe el descuento. En B ese
-   error pesa más en los estratos 5 y 6 (60 % y 50 %).
-3. Los no marcados: 71 % del estrato 1, 70,9 % del 2, 75,9 % del 3, 83,3 % del
-   4, **96 % del 5** y 91,3 % del 6. La cola castiga a casi todos; pero la
-   pregunta ética es si la espera de 48 horas es aceptable para alguien.
-4. **Peor**: 76,9 % de falsos negativos en el estrato 1 frente a 30,8 % de B.
-   Quitar la variable no garantiza equidad.
-5. Histórico (desigualdad real en el abandono), de representación (n = 23 en
-   estrato 6), de agregación (un umbral común), de despliegue (un modelo de
-   retención usado para asignar servicio).
-6. Abierta. Lo importante es que la respuesta nombre la pérdida: por ejemplo,
-   umbrales por grupo igualan falsos negativos pero tratan distinto a
-   personas con el mismo puntaje.
-:::
 
 ## Ficha 7 · Sector público y Actividad 3 {#ficha-7}
 

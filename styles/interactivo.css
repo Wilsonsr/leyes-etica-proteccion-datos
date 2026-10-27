@@ -965,3 +965,94 @@ main hr { margin: 3rem 0; opacity: .5; }
   }
   .ix-canvas .c { min-height: 0; }
 }
+
+/* -------------------------------------------------------------------------
+   ENCUENTRO 3 · componentes visuales (e3-*)
+   ------------------------------------------------------------------------- */
+
+/* Ruta de la sesión */
+.e3-ruta { list-style: none; padding: 0; margin: 1.6rem 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: .45rem; }
+.e3-ruta a { display: flex; padding: .6rem .65rem !important; flex-direction: column; gap: .15rem; height: 100%; padding: .7rem .8rem; border: 1px solid var(--rds-border); border-radius: .6rem; background: var(--rds-surface); color: var(--rds-text); text-decoration: none; transition: border-color .15s, transform .15s; }
+.e3-ruta a:hover { border-color: var(--rds-cyan); transform: translateY(-2px); }
+.e3-ruta .n { font-family: "IBM Plex Mono", monospace; font-weight: 700; color: var(--rds-cyan-dark, var(--rds-cyan)); font-size: 1.1rem; }
+.e3-ruta b { font-size: .88rem; line-height: 1.25; }
+.e3-ruta small { color: var(--rds-text-soft); font-size: .74rem; }
+
+/* Idea clave */
+.e3-idea { margin: 1.2rem 0 1.6rem; padding: 1.1rem 1.3rem; border-left: 4px solid var(--rds-cyan); background: var(--rds-surface-2); border-radius: 0 .6rem .6rem 0; font-size: 1.25rem; line-height: 1.4; }
+.e3-idea p { margin: 0; }
+.e3-idea strong { color: var(--rds-cyan-dark, var(--rds-cyan)); }
+
+/* Cinco lentes */
+.e3-lentes { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: .6rem; margin: 1rem 0 .3rem; }
+.e3-lentes details { border: 1px solid var(--rds-border); border-radius: .7rem; background: var(--rds-surface); padding: .9rem; cursor: pointer; transition: border-color .15s; }
+.e3-lentes details[open] { border-color: var(--rds-decide); background: var(--rds-surface-2); }
+.e3-lentes summary { list-style: none; display: flex; flex-direction: column; gap: .3rem; }
+.e3-lentes summary::-webkit-details-marker { display: none; }
+.e3-lentes .ic { font-size: 1.4rem; color: var(--rds-decide); line-height: 1; }
+.e3-lentes summary b { font-size: 1rem; }
+.e3-lentes summary span:last-child { font-size: .86rem; color: var(--rds-text-soft); }
+.e3-lentes details p { margin: .7rem 0 0; font-size: .86rem; line-height: 1.45; }
+.e3-pie { font-size: .78rem; color: var(--rds-text-soft); margin: 0 0 1.4rem; }
+
+/* Pasos del taller */
+.e3-pasos { list-style: none; counter-reset: paso; padding: 0; margin: 1rem 0 1.4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: .7rem; }
+.e3-pasos li { counter-increment: paso; position: relative; padding: .9rem .9rem .9rem 3rem; border: 1px solid var(--rds-border); border-radius: .7rem; background: var(--rds-surface); display: flex; flex-direction: column; gap: .2rem; }
+.e3-pasos li::before { content: counter(paso); position: absolute; left: .9rem; top: .85rem; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--rds-prueba); color: #fff; font-weight: 700; font-size: .85rem; display: grid; place-items: center; }
+.e3-pasos small { color: var(--rds-text-soft); font-size: .74rem; }
+.e3-pasos span { font-size: .86rem; }
+
+.e3-reglas { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.6rem; }
+.e3-reglas span { font-size: .82rem; padding: .4rem .7rem; border-radius: 999px; border: 1px solid var(--rds-border); background: var(--rds-surface-2); }
+
+/* Privado / público */
+.e3-dos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .8rem; margin: 1rem 0 1.4rem; }
+.e3-dos .lado { padding: 1.1rem 1.2rem; border-radius: .8rem; border: 1px solid var(--rds-border); background: var(--rds-surface); border-top: 4px solid var(--rds-caso); }
+.e3-dos .publico { border-top-color: var(--rds-decision); }
+.e3-dos .et { font-family: "IBM Plex Mono", monospace; font-size: .68rem; letter-spacing: .14em; color: var(--rds-text-soft); font-weight: 600; }
+.e3-dos .grande { font-size: 1.12rem; line-height: 1.35; margin: .5rem 0; }
+.e3-dos p:last-child { margin: 0; font-size: .88rem; color: var(--rds-text-soft); }
+
+/* Historia en pasos */
+.e3-historia { list-style: none; padding: 0; margin: 1rem 0 1.2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0; border: 1px solid var(--rds-border); border-radius: .7rem; overflow: hidden; }
+.e3-historia li { padding: .85rem .9rem; background: var(--rds-surface); border-right: 1px solid var(--rds-border); display: flex; flex-direction: column; gap: .3rem; }
+.e3-historia li:last-child { border-right: 0; }
+.e3-historia b { color: var(--rds-caso); font-size: .9rem; }
+.e3-historia span { font-size: .86rem; line-height: 1.4; }
+
+/* Simulador de sesgo */
+.e3-sim { border: 1px solid var(--rds-border); border-radius: .8rem; background: var(--rds-surface); padding: 1rem 1.1rem; margin: 1rem 0 1.6rem; }
+.e3-sim .ctrl { display: flex; flex-wrap: wrap; gap: 1rem 1.6rem; margin-bottom: .8rem; }
+.e3-sim .ctrl > div { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; }
+.e3-sim .et { font-family: "IBM Plex Mono", monospace; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--rds-text-soft); margin-right: .2rem; }
+.e3-sim button { font: inherit; font-size: .84rem; padding: .35rem .75rem; border-radius: 999px; border: 1px solid var(--rds-border); background: var(--rds-surface-2); color: var(--rds-text); cursor: pointer; }
+.e3-sim button.on { background: var(--rds-cyan-dark, var(--rds-cyan)); border-color: transparent; color: #fff; }
+.e3-sim .lee { font-size: .9rem; margin: 0 0 .8rem; padding: .6rem .8rem; background: var(--rds-surface-2); border-radius: .5rem; }
+.e3-sim .fila { display: grid; grid-template-columns: 5.2rem 1fr 3.6rem; grid-template-areas: "e p v" ". x x"; align-items: center; column-gap: .6rem; margin: .45rem 0; }
+.e3-sim .e { grid-area: e; font-size: .84rem; }
+.e3-sim .pista { grid-area: p; height: .9rem; background: var(--rds-surface-2); border-radius: 999px; overflow: hidden; border: 1px solid var(--rds-border); }
+.e3-sim .b { display: block; height: 100%; border-radius: 999px; transition: width .35s ease; }
+.e3-sim .b.ben { background: var(--rds-prueba); }
+.e3-sim .b.car { background: var(--rds-riesgo); }
+.e3-sim .v { grid-area: v; font-family: "IBM Plex Mono", monospace; font-size: .82rem; text-align: right; font-weight: 600; }
+.e3-sim .x { grid-area: x; font-size: .74rem; color: var(--rds-text-soft); }
+.e3-sim .nota { font-size: .72rem; color: var(--rds-text-soft); margin: .6rem 0 0; }
+
+/* Fuentes de sesgo */
+.e3-fuentes { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .5rem; margin: .8rem 0 1.4rem; }
+.e3-fuentes div { padding: .7rem .8rem; border-radius: .6rem; border: 1px solid var(--rds-border); border-left: 3px solid var(--rds-dilema); background: var(--rds-surface); display: flex; flex-direction: column; gap: .2rem; }
+.e3-fuentes b { font-size: .88rem; }
+.e3-fuentes span { font-size: .8rem; color: var(--rds-text-soft); }
+
+/* Piezas de la pregunta de salida */
+.e3-piezas { display: flex; flex-wrap: wrap; gap: .4rem; margin: .6rem 0 .8rem; }
+.e3-piezas span { font-size: .82rem; font-weight: 600; padding: .35rem .7rem; border-radius: .4rem; background: var(--rds-surface-2); border: 1px dashed var(--rds-reflexiona); }
+.e3-piezas span + span::before { content: "+ "; color: var(--rds-reflexiona); }
+
+@media (max-width: 600px) {
+  .e3-idea { font-size: 1.08rem; }
+  .e3-historia li { border-right: 0; border-bottom: 1px solid var(--rds-border); }
+}
+
+/* Referencias con URL largas: que no desborden en móvil */
+#refs .csl-entry, #refs a { overflow-wrap: anywhere; }

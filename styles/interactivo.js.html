@@ -379,3 +379,22 @@
   }
 })();
 </script>
+
+<script>
+/* Plegables: convierte ::: {.ix-pista} / ::: {.ix-respuesta} (div con <summary>)
+   en <details> nativos, para que se abran y cierren con un clic. */
+(function () {
+  function plegar() {
+    document.querySelectorAll('div.ix-pista, div.ix-respuesta').forEach(function (div) {
+      var d = document.createElement('details');
+      d.className = div.className;
+      while (div.firstChild) d.appendChild(div.firstChild);
+      var s = d.querySelector(':scope > summary');
+      if (s) d.insertBefore(s, d.firstChild);
+      div.replaceWith(d);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', plegar);
+  else plegar();
+})();
+</script>
