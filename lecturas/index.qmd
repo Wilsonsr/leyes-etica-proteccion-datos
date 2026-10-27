@@ -93,10 +93,63 @@ Lectura de fuentes primarias de los tres países. Ver la
 Reglamento (UE) 2016/679 en EUR-Lex, siete frentes indicados en la
 [Actividad 2](../actividades/actividad-02.qmd).
 
-### Semanas 5 a 9
+### Semana 5 · Encuentro 3 {#semana-5}
 
-Se publican con los encuentros 3, 4 y 5. La [Actividad 3](../actividades/actividad-03.qmd)
-exige incorporar al menos un marco de ética estadística, citado correctamente.
+::: {.rds-card .datos data-label="LECTURA PRINCIPAL"}
+**Vidgen, R., Hindle, G. y Randolph, I. (2020). Exploring the ethical
+implications of business analytics with a business ethics canvas.
+*European Journal of Operational Research*, 281(3), 491–501**
+[@vidgen2020bec].
+[Versión de autor en acceso abierto](https://eprints.bbk.ac.uk/id/eprint/27315/1/BEC%20Vidgen%20et%20al%20EJOR%202019.pdf).
+
+**Qué leer:** secciones 3 (el marco ético), 6 (el *canvas*) y 8 (reflexión).
+
+**Para qué:** es la base del taller del encuentro. Los autores muestran, con
+una empresa real, cómo la ética se incorpora *dentro* del desarrollo de un
+proyecto de analítica en lugar de revisarse al final.
+
+**Qué traer:** una frase que responda *¿qué parte interesada del proyecto en
+que usted trabaja nunca ha sido consultada?*
+:::
+
+**Complementarias** (cortas, de tono práctico):
+
+- Jongen, T. (2021a). *Ethical data analytics: what every business needs to
+  know*. Towards Data Science
+  [[enlace]](https://towardsdatascience.com/ethical-data-analytics-what-every-business-needs-to-know-e772bf8f670c)
+  [@jongen2021ethical].
+- Jongen, T. (2021b). *How to make your data project ethical by design*.
+  Towards Data Science
+  [[enlace]](https://towardsdatascience.com/how-to-make-your-data-project-ethical-by-design-99629dcd2443)
+  [@jongen2021bydesign]. Propone el *Ethical Risk Quick Scan* de ocho
+  dimensiones que se usa en la ficha 3 del
+  [cuadernillo](../recursos/cuadernillo-encuentro-03.qmd).
+
+**Bibliografía ampliada, por tema del programa.** No es obligatoria; es el
+mapa para quien quiera profundizar o necesite un marco para la Actividad 3.
+
+| Tema | Fuente | Por qué leerla |
+|:--|:--|:--|
+| 5 · Ética y ciencia de datos | Floridi y Cowls (2019) [@floridi2019unified] · [acceso abierto](https://doi.org/10.1162/99608f92.8cd550d1) | Muestra que las declaraciones de principios de IA convergen en cinco. Corto y muy citado. |
+| 5 · Ética y ciencia de datos | Saltz y Dewar (2019) [@saltz2019ethical] | Revisión sistemática de las consideraciones éticas por fase de un proyecto de ciencia de datos. |
+| 6 · Principios | Markkula Center (2021) [@markkula2021framework] · [enlace](https://www.scu.edu/ethics/ethics-resources/a-framework-for-ethical-decision-making/) | El marco de las lentes que usa el *canvas*, en su versión vigente con seis lentes. |
+| 6 · Principios | Open Data Institute, *Data Ethics Canvas* [@odi_canvas] · [enlace](https://theodi.org/article/data-ethics-canvas/) | Alternativa al *canvas* de Vidgen, centrada en fuentes de datos y efectos. Útil para comparar. |
+| 6.1 · Sector público | Ley 2335 de 2023 de estadísticas oficiales [@colombia_ley2335_2023] · [DANE](https://www.dane.gov.co/index.php/acerca-del-dane/informacion-institucional/normatividad/leyes/ley-de-estadisticas-oficiales-de-colombia) | Principios de la estadística oficial, reserva estadística y uso de registros administrativos en Colombia. |
+| 6.1 · Sector público | Naciones Unidas (2014) [@un_principios_estadisticas] · [texto en español](https://unstats.un.org/unsd/dnss/gp/FP-New-S.pdf) | Los diez principios fundamentales; el sexto trata la confidencialidad. |
+| 6.1 · Sector público | ISI, *Declaration on Professional Ethics* [@isi_declaracion_etica] · [versión en español](https://isi-web.org/sites/default/files/2023-08/isi-declaration-on-professional-ethics_spanish.pdf) | Ética profesional del estadístico: valores compartidos y deberes ante la sociedad. |
+| 6.1 · Sector público | UK Statistics Authority, *Ethics self-assessment* [@uksa2021selfassessment] · [enlace](https://uksa.statisticsauthority.gov.uk/data-ethics/centre-for-applied-data-ethics/) | Seis principios convertidos en preguntas que un equipo estadístico responde antes de empezar. |
+| 6.1 · Sector público | Gobierno del Reino Unido, *Data and AI Ethics Framework* (2025) [@ukgov2025dataethics] · [enlace](https://www.gov.uk/government/publications/data-ethics-framework/data-and-ai-ethics-framework) | Siete principios para proyectos de datos e IA en el Estado, con herramienta de autoevaluación. |
+| 6.1 · Sector público | CONPES 4144 de 2025, Política Nacional de IA [@conpes4144_2025] | Marco de política colombiano; útil si el caso de la Actividad 3 involucra modelos. |
+| 6.2 · Sector privado | *Data Feast* (2020) [@newman2020datafeast] | Ya leído en la semana 1: vuelva al capítulo de Colombia con las lentes en la mano. |
+| 7 · Sesgo algorítmico | Suresh y Guttag (2021) [@suresh2021framework] · [arXiv](https://arxiv.org/abs/1901.10002) | Siete fuentes de daño a lo largo del ciclo de un modelo. La herramienta más útil para *ubicar* el sesgo. |
+| 7 · Sesgo algorítmico | Obermeyer et al. (2019) [@obermeyer2019dissecting] | El caso clásico del costo como *proxy* de la necesidad en salud. |
+| 7 · Sesgo algorítmico | Barocas, Hardt y Narayanan (2023) [@barocas2023fairml] · [libro abierto](https://fairmlbook.org/) | Referencia técnica sobre criterios de equidad y por qué no se pueden cumplir todos a la vez. |
+
+### Semanas 6 a 9
+
+Se publican con los encuentros 4 y 5. La [Actividad 3](../actividades/actividad-03.qmd)
+exige incorporar al menos un marco de ética estadística, citado correctamente:
+los de la tabla anterior marcados como 6.1 son los candidatos naturales.
 
 ------------------------------------------------------------------------
 

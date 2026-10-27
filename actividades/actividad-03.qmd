@@ -29,9 +29,11 @@ description: "25 % · Entrega semana 7 · Trabajo en grupos de 2 o 3"
 ::: {.callout-note}
 ## Estado de esta actividad
 
-El enunciado está completo y es suficiente para trabajar. Los materiales de
-apoyo del [Encuentro 3](../encuentros/encuentro-03.qmd) —del que esta
-actividad depende— están en desarrollo y se publicarán antes de la semana 5.
+El enunciado está completo. Los materiales de apoyo ya están publicados: el
+[Encuentro 3](../encuentros/encuentro-03.qmd), la ficha 7 del
+[cuadernillo](../recursos/cuadernillo-encuentro-03.qmd#ficha-7) para elegir el
+caso y los marcos de ética estadística en las
+[lecturas de la semana 5](../lecturas/index.qmd#semana-5).
 :::
 
 ## Por qué el sector público es un caso distinto

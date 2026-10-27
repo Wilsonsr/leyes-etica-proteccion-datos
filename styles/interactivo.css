@@ -907,3 +907,61 @@ main hr { margin: 3rem 0; opacity: .5; }
   .navbar .navbar-brand .navbar-title { font-size: .67rem; }
   .navbar-nav .nav-link { padding-left: .42rem; padding-right: .42rem; font-size: .9rem; }
 }
+
+/* -------------------------------------------------------------------------
+   BUSINESS ETHICS CANVAS (Encuentro 3)
+   Plantilla de Vidgen, Hindle y Randolph (2020): cinco casillas arriba,
+   tres abajo. En pantallas angostas se apila en el orden de trabajo.
+   ------------------------------------------------------------------------- */
+
+.ix-canvas {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-areas:
+    "virtud virtud usuarios usuarios solucion solucion partes partes utilidad utilidad"
+    "comun comun comun comun justicia justicia justicia derechos derechos derechos";
+  gap: 1px;
+  background: var(--rds-text);
+  border: 2px solid var(--rds-text);
+  border-radius: .5rem;
+  overflow: hidden;
+  margin: 1.4rem 0 .4rem 0;
+}
+
+.ix-canvas .c {
+  position: relative;
+  background: var(--rds-surface);
+  padding: .8rem .85rem 1.6rem .85rem;
+  min-height: 9.5rem;
+  font-size: .82rem;
+  line-height: 1.4;
+}
+
+.ix-canvas .c strong { display: block; font-size: .86rem; margin-bottom: .3rem; padding-right: 1.6rem; }
+.ix-canvas .c span:not(.n) { color: var(--rds-text-soft); }
+.ix-canvas .c .n {
+  position: absolute; top: .45rem; right: .6rem;
+  font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 1.15rem;
+  color: var(--rds-cyan-dark, var(--rds-cyan));
+}
+
+.ix-canvas .virtud   { grid-area: virtud; }
+.ix-canvas .usuarios { grid-area: usuarios; }
+.ix-canvas .solucion { grid-area: solucion; }
+.ix-canvas .partes   { grid-area: partes; }
+.ix-canvas .utilidad { grid-area: utilidad; }
+.ix-canvas .comun    { grid-area: comun; min-height: 6.5rem; }
+.ix-canvas .justicia { grid-area: justicia; min-height: 6.5rem; }
+.ix-canvas .derechos { grid-area: derechos; min-height: 6.5rem; }
+
+.ix-canvas .usuarios, .ix-canvas .solucion { background: var(--rds-surface-2); }
+
+.ix-canvas-pie { font-size: .78rem; color: var(--rds-text-soft); margin: 0 0 1.6rem 0; }
+
+@media (max-width: 760px) {
+  .ix-canvas {
+    grid-template-columns: 1fr;
+    grid-template-areas: "usuarios" "solucion" "partes" "utilidad" "derechos" "justicia" "comun" "virtud";
+  }
+  .ix-canvas .c { min-height: 0; }
+}

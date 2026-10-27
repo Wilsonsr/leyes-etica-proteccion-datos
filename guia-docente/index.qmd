@@ -296,6 +296,7 @@ laboratorio.
 
 | Material | Estado | Necesario para |
 |:--|:--|:--|
+| `encuentros/encuentro-03.qmd` y `recursos/cuadernillo-encuentro-03.qmd` (+ PDF) | **Publicado** | Encuentro 3 · semana 5 |
 | `slides/03-etica-decisiones.qmd` | Pendiente | Encuentro 3 · semana 5 |
 | `labs/lab03-*.ipynb` — sesgo por grupo | Pendiente | Encuentro 3 · semana 5 |
 | `slides/04-tecnicas-proteccion.qmd` | Pendiente | Encuentro 4 · semana 8 |

@@ -1,0 +1,240 @@
+---
+title: "Cuadernillo de trabajo · Encuentro 3"
+subtitle: "Ocho fichas para pasar de los principios a las decisiones"
+description: "Fichas de trabajo individual y en grupo del Encuentro 3: cuatro dimensiones, cinco lentes, escaneo rápido, Business Ethics Canvas, priorización, sesgo, sector público y salida."
+bibliography: ../referencias.bib
+---
+
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Para qué sirve</span>
+    <div class="va">Es el material de trabajo del <a href="../encuentros/encuentro-03.html">Encuentro 3</a>. Las fichas 1, 2 y 6 se hacen de forma individual; las fichas 3, 4 y 5 son el taller en grupo; la ficha 7 prepara la <a href="../actividades/actividad-03.html">Actividad 3</a>; la ficha 8 se entrega al final.</div>
+  </div>
+  <div><span class="et">Formato</span><span class="va">Esta página para leer · <a href="../assets/cuadernillo-encuentro-03.pdf"><strong>PDF de 9 páginas</strong></a> para diligenciar</span></div>
+  <div><span class="et">Duración</span><span class="va">≈ 60 minutos dentro del encuentro</span></div>
+  <div><span class="et">Evidencia</span><span class="va">Canvas del grupo, tabla de mitigación y pregunta de salida</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-2">2 · Ética de los datos</a></span></div>
+</div>
+```
+
+::: {.rds-acciones-encuentro}
+[Descargar el cuadernillo en PDF](../assets/cuadernillo-encuentro-03.pdf) ·
+[Volver al Encuentro 3](../encuentros/encuentro-03.qmd) ·
+[Lecturas de la semana 5](../lecturas/index.qmd#semana-5)
+:::
+
+## Roles del grupo
+
+| Rol | Qué hace |
+|:--|:--|
+| **Facilitador** | Cuida el tiempo y que todos hablen. |
+| **Relator** | Escribe en el cuadernillo y presenta en la plenaria. |
+| **Abogado del diablo** | Defiende siempre la opción contraria a la del grupo. |
+| **Voz de la persona afectada** | Habla desde la silla de quien recibe la decisión. |
+
+Si trabajan en pantalla, usen los símbolos **[+]** oportunidad, **[○]**
+neutro y **[−]** riesgo en lugar de colores de notas adhesivas.
+
+------------------------------------------------------------------------
+
+## Ficha 1 · Cuatro cosas que no son sinónimos {#ficha-1}
+
+*Individual · 5 min.* Para cada situación, ¿el problema principal es legal,
+ético, estadístico o de seguridad y privacidad? Puede ser más de uno.
+
+| | Situación |
+|:--:|:--|
+| a | Un modelo de crédito usa el barrio de residencia y aprueba menos solicitudes en barrios populares, con autorización de todos los clientes. |
+| b | Una entidad pública publica tablas por vereda con celdas de 1 o 2 personas. |
+| c | Una empresa entrena un modelo con datos de clientes sin autorización documentada. |
+| d | Un modelo con AUC de 0,90, validado solo con clientes de Bogotá, se despliega en todo el país. |
+| e | Un tablero con datos de salud por paciente queda en una carpeta compartida sin control de acceso. |
+| f | Una aplicación de domicilios sube el precio cuando detecta que la batería del celular está baja. Los términos de uso lo permiten. |
+
+::: {.ix-pista}
+<summary>Pista</summary>
+
+Busque las situaciones donde **todo es legal** y aun así algo no cuadra. Son
+las que justifican la Unidad 2.
+:::
+
+::: {.callout-tip collapse="true"}
+## Clave orientativa para la discusión
+
+- **a.** Ética (justicia) y estadística (el barrio actúa como *proxy*
+  socioeconómico). Legal en apariencia: la autorización no resuelve el
+  efecto diferencial.
+- **b.** Privacidad: riesgo de identificación; en estadística oficial, además,
+  reserva estadística.
+- **c.** Legal (libertad, finalidad), con consecuencias éticas.
+- **d.** Estadística (sesgo de evaluación y de despliegue) y ética, porque el
+  error recaerá sobre poblaciones que el modelo nunca vio.
+- **e.** Seguridad y privacidad, con dimensión legal (dato sensible).
+- **f.** Ética casi en estado puro: puede ser legal y estadísticamente
+  impecable, y aprovecha una vulnerabilidad momentánea de la persona.
+:::
+
+## Ficha 2 · Cinco lentes, cinco preguntas {#ficha-2}
+
+*Individual · 8 min.* Para cada lente del marco Markkula
+[@markkula2021framework], adaptado a la analítica por Vidgen y colegas
+[@vidgen2020bec], escriba la pregunta concreta que esa lente le hace a **un
+proyecto de datos en el que usted trabaja**.
+
+| Lente | Pregunta del analista |
+|:--|:--|
+| **Utilidad** | ¿Qué beneficios y qué daños produce? ¿Quién gana y quién pierde? |
+| **Derechos** | ¿Qué derechos se respetan o se vulneran? |
+| **Justicia** | ¿El resultado es justo? ¿Hay favoritismo o discriminación? |
+| **Bien común** | ¿En qué comunidad se decide? ¿Qué es su bien común? |
+| **Virtud** | ¿Qué dice este proyecto de nosotros? ¿Cómo se vería en la prensa mañana? |
+
+Para la discusión: ¿cuál de las cinco lentes es la que **menos** se discute
+en su organización?
+
+## Ficha 3 · Escaneo rápido de riesgo ético {#ficha-3}
+
+*Grupo · 5 min.* El caso del taller:
+
+::: {.rds-card .caso data-label="CASO · DATAMARKET, MODELO B"}
+La Dirección Comercial quiere desplegar el modelo B de abandono para dos
+acciones: **(1)** los clientes con riesgo alto reciben un **descuento de
+retención del 20 %**; **(2)** los de riesgo bajo pasan a la **cola
+estándar**, con **48 horas** de espera. Jurídica ya aprobó.
+:::
+
+Marquen bajo, medio o alto en cada una de las ocho dimensiones de Jongen
+[@jongen2021bydesign]: personas vulnerables · escala · asuntos vitales ·
+influencia en el comportamiento · velocidad del ciclo · supervisión humana ·
+sesgo en los datos · datos personales. **Con tres o más en «alto», el caso
+merece el canvas completo.**
+
+## Ficha 4 · Business Ethics Canvas {#ficha-4}
+
+*Grupo · 20 min.* Se llena en el orden de los números.
+
+```{=html}
+<div class="ix-canvas" role="img" aria-label="Plantilla del Business Ethics Canvas con siete casillas numeradas">
+  <div class="c virtud"><span class="n">7</span><strong>Virtud</strong><span>¿Qué dice esta solución de nosotros como personas y como organización? ¿Qué queremos ser?</span></div>
+  <div class="c usuarios"><span class="n">1</span><strong>Usuarios y clientes</strong><span>¿Qué usuarios tienen el problema que la solución resuelve?</span></div>
+  <div class="c solucion"><span class="n">1</span><strong>Idea de solución</strong><span>¿Qué producto o funcionalidad analítica resuelve ese problema?</span></div>
+  <div class="c partes"><span class="n">2</span><strong>Partes interesadas</strong><span>¿Quién afecta o es afectado por la solución? ¿Qué se juega cada uno?</span></div>
+  <div class="c utilidad"><span class="n">3</span><strong>Utilidad</strong><span>¿Qué beneficios y qué daños produce? ¿Quién gana y quién pierde?</span></div>
+  <div class="c comun"><span class="n">6</span><strong>Bien común</strong><span>¿En qué comunidad se toma la decisión? ¿Qué es su bien común?</span></div>
+  <div class="c justicia"><span class="n">5</span><strong>Justicia</strong><span>¿Es justo el resultado? ¿Trata igual a todos o muestra favoritismo o discriminación?</span></div>
+  <div class="c derechos"><span class="n">4</span><strong>Derechos</strong><span>¿Qué derechos se respetan o se vulneran? ¿Cuáles son?</span></div>
+</div>
+<p class="ix-canvas-pie">Traducción y adaptación de Vidgen, Hindle y Randolph (2020), figura 3.</p>
+```
+
+1. Cada nota empieza con un verbo en gerundio: *«Reduciendo…»*,
+   *«Aumentando…»*.
+2. Si una parte interesada no está en la sala, alguien la representa en voz
+   alta.
+3. Al final, cada persona tiene **tres votos** para los riesgos y
+   oportunidades más importantes.
+
+::: {.callout-note collapse="true"}
+## Partes interesadas que suelen faltar
+
+Agentes del centro de atención que aplican la decisión · clientes de estratos
+bajos que esperan 48 horas · clientes que no saben que fueron clasificados ·
+el área de servicio al cliente que recibirá los reclamos · la autoridad de
+protección de datos · el equipo que mantendrá el modelo dentro de un año.
+:::
+
+## Ficha 5 · Priorizar y mitigar {#ficha-5}
+
+*Grupo · 5 min.* Los tres riesgos con más votos pasan a esta tabla.
+
+| # | Riesgo | Lente | Votos | Mitigación | Etapa del pipeline | Evidencia que queda | Qué se pierde |
+|:--:|:--|:--|:--:|:--|:--|:--|:--|
+| 1 | | | | | | | |
+| 2 | | | | | | | |
+| 3 | | | | | | | |
+
+::: {.rds-card .riesgo data-label="REGLA DEL CANVAS"}
+Si un riesgo descalificador no puede mitigarse de forma responsable, la
+solución se aparta y se revisa más adelante. «Lo documentamos y seguimos» no
+es una mitigación.
+:::
+
+## Ficha 6 · Leer el sesgo en una tabla {#ficha-6}
+
+*Individual o en parejas · 10 min.* Error del modelo B por estrato
+(umbral 0,50, conjunto de prueba, datos sintéticos). La tabla la produce el
+bloque [«¿Sobre quién se equivoca cada modelo?»](../laboratorios/lab-02.qmd#por-grupo)
+del Laboratorio 2.
+
+| Estrato | n | Abandono real | Marcados «en riesgo» | Falsos positivos | Falsos negativos | Falsos negativos, modelo A |
+|:--:|--:|--:|--:|--:|--:|--:|
+| 1 | 31 | 41,9 % | **29,0 %** | 0,0 % | 30,8 % | 76,9 % |
+| 2 | 79 | 34,2 % | **29,1 %** | 9,6 % | 33,3 % | 59,3 % |
+| 3 | 108 | 34,3 % | 24,1 % | 9,9 % | 48,6 % | 64,9 % |
+| 4 | 72 | 16,7 % | 16,7 % | 8,3 % | 41,7 % | 58,3 % |
+| 5 | 50 | 10,0 % | **4,0 %** | 0,0 % | 60,0 % | 60,0 % |
+| 6 | 23 | 17,4 % | **8,7 %** | 0,0 % | 50,0 % | 25,0 % |
+
+1. ¿Cuántas veces más probable es que B marque «en riesgo» a un cliente de
+   estrato 1–2 que a uno de estrato 5–6?
+2. Si la acción es el **descuento**, ¿qué error es el costoso? ¿Para quién?
+3. Si la acción es la **cola de 48 horas**, ¿qué porcentaje de cada estrato
+   termina en la cola?
+4. El modelo A no usa estrato. ¿Reparte mejor o peor el error en el
+   estrato 1?
+5. Nombre dos fuentes posibles del patrón según Suresh y Guttag
+   [@suresh2021framework].
+6. Proponga un cambio y diga qué se gana y qué se pierde.
+
+::: {.callout-tip collapse="true"}
+## Respuestas orientativas
+
+1. Ponderando por *n*: estratos 1–2 ≈ 32 de 110 marcados (29,1 %); estratos
+   5–6 ≈ 4 de 73 (5,5 %). Razón ≈ **5,3 veces**.
+2. El **falso negativo**: quien sí se iba y no recibe el descuento. En B ese
+   error pesa más en los estratos 5 y 6 (60 % y 50 %).
+3. Los no marcados: 71 % del estrato 1, 70,9 % del 2, 75,9 % del 3, 83,3 % del
+   4, **96 % del 5** y 91,3 % del 6. La cola castiga a casi todos; pero la
+   pregunta ética es si la espera de 48 horas es aceptable para alguien.
+4. **Peor**: 76,9 % de falsos negativos en el estrato 1 frente a 30,8 % de B.
+   Quitar la variable no garantiza equidad.
+5. Histórico (desigualdad real en el abandono), de representación (n = 23 en
+   estrato 6), de agregación (un umbral común), de despliegue (un modelo de
+   retención usado para asignar servicio).
+6. Abierta. Lo importante es que la respuesta nombre la pérdida: por ejemplo,
+   umbrales por grupo igualan falsos negativos pero tratan distinto a
+   personas con el mismo puntaje.
+:::
+
+## Ficha 7 · Sector público y Actividad 3 {#ficha-7}
+
+*Grupo · tarea.* Lean el caso del algoritmo de calificaciones de Ofqual
+(Inglaterra, 2020) en el [Encuentro 3](../encuentros/encuentro-03.qmd#sector-publico)
+con los cuatro ejes y, después, hagan el primer filtro de su caso para la
+Actividad 3:
+
+- [ ] Real y documentado, con fuente pública verificable.
+- [ ] Involucra datos sobre personas.
+- [ ] Hay una decisión identificable: publicar o no, desagregar o no, cruzar
+      o no, usar un modelo o no.
+- [ ] No fue trabajado en clase.
+- [ ] Se analiza **solo con información pública ya publicada**.
+
+Y una pregunta que debe quedar escrita desde hoy: **¿quién no está en los
+datos?**
+
+## Ficha 8 · Pregunta de salida {#ficha-8}
+
+*Individual · 5 min.* ¿Qué tendría que cambiar en mi proyecto de datos? Con
+cuatro piezas:
+
+**parte interesada que no estaba considerada + lente ética + cambio ejecutable
++ evidencia que quedará**
+
+------------------------------------------------------------------------
+
+## Referencias
+
+::: {#refs}
+:::

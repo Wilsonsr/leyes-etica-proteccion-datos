@@ -94,6 +94,8 @@ website:
             href: recursos/mapa-riesgos.qmd
           - text: "Glosario operativo"
             href: recursos/glosario.qmd
+          - text: "Cuadernillo · Encuentro 3"
+            href: recursos/cuadernillo-encuentro-03.qmd
           - text: "---"
           - text: "Programa y evaluación"
             href: programa.qmd
@@ -134,6 +136,8 @@ website:
         contents:
           - text: "Encuentro 3 · Ética y ciencia de datos"
             href: encuentros/encuentro-03.qmd
+          - text: "Cuadernillo del Encuentro 3"
+            href: recursos/cuadernillo-encuentro-03.qmd
           - text: "Actividad 3 · Sector público"
             href: actividades/actividad-03.qmd
       - section: "Unidad 3 · Técnicas, IA y datos masivos"

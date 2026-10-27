@@ -1,22 +1,35 @@
 ---
 title: "Cuando el modelo funciona y aun así no lo firmamos"
-subtitle: "Ética y ciencia de datos · sector público, sector privado y sesgo algorítmico"
-description: "Encuentro virtual 3 · 120 minutos · Unidad 2 · Estructura preparada para desarrollo"
+subtitle: "Relación entre la ética y la ciencia de datos · principios · sector público y privado · sesgo algorítmico"
+description: "Encuentro virtual 3 · Unidad 2. Un modelo conceptual de cómo la ética atraviesa la gestión de datos y los proyectos de analítica, aplicado con el Business Ethics Canvas."
+bibliography: ../referencias.bib
 ---
 
-::: {.rds-meta}
-[Encuentro 3]{} [Unidad 2]{} [120 minutos]{} [Semana 5]{} [En desarrollo]{}
-:::
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va"><ul>
+      <li>Explicar con un modelo conceptual <strong>dónde entra la ética</strong> en el ciclo de gestión de datos y en un proyecto de analítica, y por qué no es una capa que se pone al final.</li>
+      <li>Distinguir lo legal, lo ético, lo estadísticamente válido y lo seguro, y sostener esa distinción con un ejemplo.</li>
+      <li>Traducir cinco principios éticos a preguntas que un analista puede responder sobre su propio proyecto.</li>
+      <li>Reconocer por qué la ética de los datos no se juega igual en el sector público que en el privado.</li>
+      <li>Leer una tabla de error por grupo y nombrar de dónde viene el sesgo, no solo afirmar que existe.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Votar el despliegue del modelo B, construir en grupo un Business Ethics Canvas y leer el sesgo del modelo por estrato.</span></div>
+  <div><span class="et">Duración</span><span class="va">120 minutos · Semana 5</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Canvas ético del caso con tres riesgos priorizados, mitigación y evidencia · pregunta de salida</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-2">2 · Ética de los datos</a></span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../actividades/actividad-03.html">Actividad 3 · Sector público</a></span></div>
+</div>
+```
 
-::: {.callout-note}
-## Estado de este encuentro
-
-Estructura y guion general definidos. Los materiales completos —slides
-`03-etica-decisiones.qmd` y `labs/lab03-estudiante.ipynb`— se publican antes de la
-semana 5.
-
-Lo que está aquí es suficiente para preparar la sesión y para que los
-estudiantes sepan hacia dónde va la unidad.
+::: {.rds-acciones-encuentro}
+[Cuadernillo del encuentro](../recursos/cuadernillo-encuentro-03.qmd) ·
+[Lecturas de la semana 5](../lecturas/index.qmd#semana-5) ·
+[Laboratorio 2 · error por grupo](../laboratorios/lab-02.qmd#por-grupo) ·
+[Actividad 3](../actividades/actividad-03.qmd)
 :::
 
 ## Pregunta central
@@ -29,129 +42,777 @@ El modelo es legal, es seguro y es estadísticamente sólido.
 ## De dónde venimos
 
 El [Encuentro 2](encuentro-02.qmd) terminó con un número incómodo: el modelo B
-predice mejor, y lo hace usando estrato, ingresos y proxies de condiciones de
-salud.
+predice mejor (AUC 0,875 frente a 0,833) y lo hace usando estrato, ingresos y
+*proxies* de salud. Se tomó una decisión provisional —desplegar el modelo A—
+pero quedó abierta la pregunta de fondo:
 
-Se tomó una decisión provisional —desplegar el modelo A— pero no se resolvió
-la pregunta de fondo: **¿en qué momento algo deja de ser una cuestión de
-cumplimiento y pasa a ser una cuestión de criterio?**
+> **¿En qué momento algo deja de ser una cuestión de cumplimiento y pasa a ser
+> una cuestión de criterio?**
 
-## Objetivo
+La Unidad 1 trabajó la franja de *lo prohibido*. La Unidad 2 trabaja la franja
+donde ocurre casi todo el trabajo profesional real: **lo permitido pero
+discutible**.
 
-Que el estudiante pueda:
-
-1. Distinguir con claridad entre lo legal, lo ético, lo estadísticamente
-   correcto y lo seguro, y sostener esa distinción con un ejemplo propio.
-2. Medir sesgo y efecto diferencial en un modelo, no solo afirmarlos.
-3. Reconocer las diferencias estructurales entre el sector público y el
-   privado en materia de datos.
-4. Construir un argumento defendible para una decisión donde ambas opciones
-   tienen costo.
-
-## Agenda prevista
-
-```{=html}
-<ul class="rds-timeline">
-  <li><span class="t">00–10</span><span class="modo">detonante</span><br>
-      Un modelo perfecto que nadie quiere firmar. Caso corto, votación inmediata.</li>
-  <li><span class="t">10–25</span><span class="modo">exposición</span><br>
-      Las cinco columnas que no son sinónimos: legalidad, ética, calidad, seguridad, privacidad.</li>
-  <li><span class="t">25–40</span><span class="modo">casos</span><br>
-      Tres situaciones donde una columna dice sí y otra dice no.</li>
-  <li><span class="t">40–70</span><span class="modo">laboratorio</span><br>
-      Lab 3: medir sesgo por grupo en el modelo B de DataMarket.</li>
-  <li><span class="t">70–85</span><span class="modo">exposición</span><br>
-      Sector público: por qué el titular no puede irse a la competencia.</li>
-  <li><span class="t">85–105</span><span class="modo">dilema</span><br>
-      La variable que no está: ¿se recoge un dato sensible para poder auditar la discriminación?</li>
-  <li><span class="t">105–120</span><span class="modo">cierre</span><br>
-      Checklist v3 completa (12 preguntas) y pregunta de salida.</li>
-</ul>
-```
-
-## Contenidos
-
-### 2.1 Ética y ciencia de datos
-
-El punto de partida no es un catálogo de principios sino una constatación: la
-mayoría de las decisiones difíciles de un proyecto de datos **no están
-reguladas**. La norma cubre el piso; el criterio profesional cubre el resto.
-
-::: {.rds-card .dilema data-label="EL ESPACIO DE LA UNIDAD 2"}
 ```
    Lo prohibido        |   Lo permitido pero discutible   |  Lo evidente
    ------------------- | -------------------------------- | -------------
    Unidad 1            |          Unidad 2                |  Sentido común
 ```
 
-Casi todo el trabajo profesional real ocurre en la franja del medio.
+## Antes del encuentro
+
+::: {.rds-card .datos data-label="LECTURA PRINCIPAL · SEMANA 5"}
+**Vidgen, R., Hindle, G. y Randolph, I. (2020). Exploring the ethical
+implications of business analytics with a business ethics canvas.
+*European Journal of Operational Research*, 281(3), 491–501**
+[@vidgen2020bec].
+[Versión de autor en acceso abierto](https://eprints.bbk.ac.uk/id/eprint/27315/1/BEC%20Vidgen%20et%20al%20EJOR%202019.pdf).
+
+**Qué leer:** secciones 3 (el marco ético), 6 (el *canvas*) y 8 (reflexión).
+Unas 12 páginas.
+
+**Por qué esta lectura:** los autores parten del mismo diagnóstico de este
+curso —los códigos de ética existen, pero están escritos en un nivel tan
+abstracto que no cambian lo que el analista hace el lunes— y proponen una
+herramienta que se usa *dentro* del desarrollo del proyecto, no al final.
+
+**Qué traer:** una frase que responda *¿qué parte interesada del proyecto en
+que usted trabaja nunca ha sido consultada?*
 :::
 
-### 2.2 Principios éticos aplicados a decisiones analíticas
+Complementarias (cortas, en inglés, de tono práctico):
+[Jongen (2021a)](https://towardsdatascience.com/ethical-data-analytics-what-every-business-needs-to-know-e772bf8f670c)
+sobre por qué la analítica ética es un asunto de negocio, y
+[Jongen (2021b)](https://towardsdatascience.com/how-to-make-your-data-project-ethical-by-design-99629dcd2443)
+sobre el *Ethical Risk Quick Scan* que usaremos en el taller
+[@jongen2021ethical; @jongen2021bydesign].
 
-Se trabajarán los marcos habituales —autonomía, no maleficencia, justicia,
-explicabilidad— pero siempre traducidos a una pregunta operativa, en la forma
-de la matriz del [Encuentro 2](encuentro-02.qmd).
+## Agenda
 
-### 2.3 Sector público
-
-Material base: la tabla de diferencias estructurales de la
-[Actividad 3](../actividades/actividad-03.qmd). La idea central es que en el
-sector público **no existe la salida del mercado**: quien queda mal
-clasificado por un sistema de focalización no puede cambiar de Estado.
-
-### 2.4 Sector privado
-
-Aquí entra de nuevo *Data Feast*: el estudio documenta cómo las empresas
-basadas en datos operan en la región y dónde la norma se queda corta
-[@newman2020datafeast].
-
-### 2.5 Sesgo algorítmico
-
-No como concepto abstracto sino como **medición**. El laboratorio retoma el
-modelo B y mide:
-
-- Tasa de marcado por grupo (estrato, edad, sexo).
-- Tasas de falso positivo y falso negativo por grupo.
-- Qué cambia si se eliminan los proxies.
-- Qué cambia si se cambia el umbral.
-
-::: {.rds-card .prueba data-label="ADELANTO · YA SE PUEDE CORRER"}
-El bloque 9 del [Lab 2](../laboratorios/lab-02.qmd) ya calcula el error por estrato
-para ambos modelos. Quien quiera adelantarse, puede empezar por ahí:
-
-```python
-print(error_por_grupo(modelo_b, "estrato").to_string())
+```{=html}
+<ul class="rds-timeline">
+  <li><span class="t">00–10</span><span class="modo">detonante</span><br>
+      El modelo que nadie quiere firmar. Votación inmediata.</li>
+  <li><span class="t">10–25</span><span class="modo">modelo conceptual · tema 5</span><br>
+      Dónde entra la ética en la gestión de datos y en el proyecto de analítica.</li>
+  <li><span class="t">25–40</span><span class="modo">principios · tema 6</span><br>
+      Cinco lentes éticas convertidas en preguntas de analista.</li>
+  <li><span class="t">40–70</span><span class="modo">taller en grupos</span><br>
+      Escaneo rápido de riesgo + Business Ethics Canvas sobre el modelo B. Cuadernillo, fichas 3 a 5.</li>
+  <li><span class="t">70–80</span><span class="modo">plenaria · tema 6.2</span><br>
+      Lo que encontraron los grupos. Sector privado: ética como fuente de valor, no como freno.</li>
+  <li><span class="t">80–92</span><span class="modo">exposición · tema 6.1</span><br>
+      Sector público: cuando el titular no puede irse. Ley 2335 de 2023 y un caso real.</li>
+  <li><span class="t">92–110</span><span class="modo">sesgo · tema 7</span><br>
+      Leer el sesgo en una tabla y nombrar su origen. Dilema: la variable que no está.</li>
+  <li><span class="t">110–120</span><span class="modo">cierre</span><br>
+      Checklist v3 completa, pregunta de salida y lanzamiento de la Actividad 3.</li>
+</ul>
 ```
 
-El patrón está a la vista: el modelo B marca como «en riesgo» a cerca del
-29 % de los clientes de estratos 1 y 2, frente a menos del 9 % en estratos
-5 y 6.
+------------------------------------------------------------------------
+
+## 1 · El detonante
+
+[minuto 00–10]{.rds-tiempo}
+
+::: {.rds-card .caso data-label="CASO · LA TERCERA PETICIÓN"}
+**De:** Dirección Comercial — DataMarket Analytics
+**Asunto:** Despliegue del modelo B
+
+> Revisamos los resultados. El modelo B es mejor y queremos usarlo desde el
+> lunes para dos cosas:
+>
+> 1. Los clientes con **riesgo alto** reciben un **descuento de retención del
+>    20 %**.
+> 2. Para controlar el costo, los clientes con **riesgo bajo** pasan a la
+>    **cola estándar** del centro de atención (tiempo de espera de 48 h).
+>
+> Jurídica ya revisó: los 236 registros sin autorización están excluidos, no
+> hay datos sensibles explícitos y el modelo es interno. Necesitamos su firma
+> como responsable técnico.
+
+**Lo que usted sabe y la Dirección no ha mirado:** el modelo B marca «en
+riesgo» al **29 %** de los clientes de estratos 1 y 2, y a menos del **9 %**
+de los de estratos 5 y 6.
 :::
+
+::: {.rds-card .decide data-label="DECIDE · VOTACIÓN DE APERTURA"}
+::: {.pregunta}
+¿Firma usted el despliegue del modelo B?
+:::
+
+1. **Sí.** Es legal, predice mejor y jurídica ya lo aprobó.
+2. **No.** Usa *proxies* socioeconómicos y de salud.
+3. **Sí, pero no para las dos acciones.** Depende de qué se hace con la
+   predicción.
+:::
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente
+
+No resuelva la votación todavía. Anote la distribución y vuelva a ella en el
+bloque de sesgo (minuto 92), cuando el grupo tenga los números por estrato.
+
+Lo que se busca que emerja, sin decirlo aún: **las dos acciones no tienen el
+mismo signo**. El descuento es un *beneficio*: ser marcado como «en riesgo»
+favorece al cliente. La cola de 48 horas es una *carga*: no ser marcado lo
+perjudica. El mismo modelo puede ser defendible para una acción e indefendible
+para la otra. Esa es la puerta de entrada al argumento central del encuentro:
+**la ética no se evalúa sobre el modelo, sino sobre el modelo más la decisión
+que se toma con él.**
+:::
+
+------------------------------------------------------------------------
+
+## 2 · Relación entre la ética y la ciencia de datos {#modelo-conceptual}
+
+[minuto 10–25]{.rds-tiempo}
+
+### La tesis: la ética no es una capa
+
+La forma habitual de enseñar ética de datos es una lista de principios que se
+revisa al final, como un control de calidad. Barocas y boyd lo describen
+así: la práctica ética en ciencia de datos **no es una capa que se superpone**
+al trabajo técnico; está hecha de las mismas decisiones —qué tasa de error es
+aceptable, para quién, con qué variable— que el analista toma todos los días
+[citado en @vidgen2020bec, p. 8].
+
+Vidgen, Hindle y Randolph van más lejos: proponen que **valor y ética no se
+traten como entidades separadas** sino como dos caras inseparables de la misma
+exploración [@vidgen2020bec].
+
+### El modelo conceptual del curso
+
+Dos ciclos que ya conocemos, la dimensión ética que los atraviesa y la gobernanza que deja evidencia. La flecha punteada es el monitoreo: lo que se aprende después del despliegue vuelve a abrir el problema.
+
+```{mermaid}
+flowchart TB
+    subgraph GD["① Gestión de datos"]
+      direction LR
+      G1["Origen y<br/>recolección"] --> G2["Almacenamiento<br/>e integración"] --> G3["Uso y<br/>publicación"] --> G4["Conservación<br/>y eliminación"]
+    end
+    subgraph ET["② Dimensión ética"]
+      direction LR
+      E1["Partes interesadas<br/>¿a quién afecta?"] --- E2["Cinco lentes<br/>utilidad · derechos · justicia<br/>bien común · virtud"] --- E3["Sesgo y efecto<br/>diferencial"]
+    end
+    subgraph PA["③ Proyecto de analítica"]
+      direction LR
+      P1["Problema y<br/>caso de uso"] --> P2["Datos y<br/>variables"] --> P3["Modelo y<br/>evaluación"] --> P4["Decisión y<br/>despliegue"] --> P5["Monitoreo"]
+    end
+    GOB["④ Gobernanza y evidencia<br/>quién decide · qué queda escrito · cómo se revisa"]
+    GD <==> ET
+    ET <==> PA
+    PA ==> GOB
+    P5 -.-> P1
+
+    classDef nodo fill:#111a2b,stroke:#475569,color:#e2e8f0
+    class G1,G2,G3,G4,E1,E2,E3,P1,P2,P3,P4,P5 nodo
+    style GD fill:#0b1220,stroke:#22d3ee,color:#e2e8f0
+    style ET fill:#0b1220,stroke:#a78bfa,color:#e2e8f0
+    style PA fill:#0b1220,stroke:#60a5fa,color:#e2e8f0
+    style GOB fill:#0b1220,stroke:#f59e0b,color:#e2e8f0
+```
+
+Leído en palabras: **los datos** tienen un ciclo de vida con sus propias
+reglas (Unidad 1); **el proyecto** tiene un ciclo de desarrollo con sus
+propias métricas; y **la ética** pregunta, en cada punto de cruce entre ambos,
+*a quién afecta esto y si podemos defenderlo*. Lo que convierte esas preguntas
+en algo más que buenas intenciones es la **gobernanza**: alguien decide, la
+decisión queda escrita y se vuelve a revisar.
+
+### Dónde entra la ética, etapa por etapa
+
+| Etapa del proyecto | Pregunta ética que se activa | Herramienta del curso |
+|:--|:--|:--|
+| Problema y caso de uso | ¿Debemos resolver esto? ¿Quién gana y quién pierde si funciona? | Escaneo rápido · Business Ethics Canvas |
+| Datos y variables | ¿Quién no está en los datos? ¿Qué *proxy* estamos creando? | Matriz del Encuentro 2 · Lab 1 |
+| Modelo y evaluación | ¿Sobre quién se equivoca el modelo? | Error por grupo · Lab 2 |
+| Decisión y despliegue | ¿La acción es un beneficio o una carga para quien es marcado? ¿Hay revisión humana? | Bloque de sesgo de este encuentro |
+| Monitoreo | ¿Qué consecuencias no previstas aparecieron? ¿El modelo se alimenta de sus propias decisiones? | Revisión periódica del canvas |
+
+Vidgen y colegas llegan a una secuencia muy parecida desde la práctica:
+el *canvas* ético se construye **junto con** el *canvas* de oportunidad del
+negocio, antes del diseño, y se vuelve a abrir después de la implementación
+para buscar consecuencias no previstas [@vidgen2020bec, fig. 5].
+
+### Cuatro cosas que no son sinónimos
+
+::: {.ix-quiz data-etiqueta="COMPRUEBE"}
+::: {.ix-pregunta}
+El modelo B cumple la Ley 1581, tiene controles de acceso y supera al modelo A
+en AUC. ¿Qué se puede concluir?
+:::
+
+::: {.ix-op data-valor="mal" data-fb="Legalidad, seguridad y desempeño son tres preguntas distintas que pueden responderse con un «sí» sin que eso diga nada de la cuarta: <strong>¿la decisión que se toma con el modelo es defendible ante quienes la reciben?</strong>"}
+Que el modelo está listo para desplegarse.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Exacto. Cada dimensión tiene su propia evidencia. Un AUC global no informa sobre el error por grupo, y el cumplimiento normativo no informa sobre si la acción reparte cargas de forma justificable."}
+Que se respondieron tres preguntas —legal, seguridad, desempeño— y falta la ética, que depende de la acción que se tome.
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="Cierto que falta algo, pero no es solo la explicabilidad. Un modelo perfectamente explicable puede concentrar sus errores en un grupo. La pregunta que falta es sobre el <strong>efecto</strong> de la decisión, no solo sobre su transparencia."}
+Que falta comprobar si el modelo es explicable.
+:::
+:::
+
+| Dimensión | Pregunta | Evidencia típica |
+|:--|:--|:--|
+| **Legal** | ¿Una norma habilita o prohíbe este tratamiento? | Ficha normativa, autorizaciones |
+| **Estadística** | ¿El dato y el modelo soportan la decisión? | Validación, error por grupo, representatividad |
+| **Seguridad y privacidad** | ¿Está protegido? ¿Alguien puede ser identificado? | Controles, medición de unicidad |
+| **Ética** | Aunque todo lo anterior sea «sí», ¿es defendible ante quienes la reciben? | Canvas, análisis de partes interesadas, decisión argumentada |
+
+------------------------------------------------------------------------
+
+## 3 · Principios éticos en la ciencia de datos {#principios}
+
+[minuto 25–40]{.rds-tiempo}
+
+### El problema de las listas de principios
+
+Hay decenas de declaraciones de principios para datos e inteligencia
+artificial. Floridi y Cowls revisaron seis de las más influyentes y mostraron
+que convergen en cinco: **beneficencia, no maleficencia, autonomía, justicia y
+explicabilidad** [@floridi2019unified]. Jongen, desde la consultoría, resume
+36 documentos en cuatro guías operativas: **seguridad, equidad, transparencia
+y privacidad** [@jongen2021bydesign].
+
+La convergencia es una buena noticia. El problema, como señalan Vidgen y
+colegas, es que **un principio no le dice al analista qué hacer**
+[@vidgen2020bec]. McNamara y colegas no encontraron evidencia de que el código
+de ética de la ACM influyera en las decisiones de los desarrolladores (citado
+en el mismo artículo).
+
+### Cinco lentes, convertidas en preguntas
+
+La propuesta de Vidgen y colegas es usar el marco del Markkula Center for
+Applied Ethics [@markkula2021framework], que no pide formación en filosofía:
+plantea cinco **fuentes de estándares éticos** y, para cada una, preguntas.
+Los autores las traducen al lenguaje de un caso de uso de analítica.
+
+: Las cinco lentes del marco Markkula, aplicadas a un proyecto de analítica (adaptado de Vidgen et al., 2020, tabla 1) {.rds-decision-table}
+
+| Lente | La idea en una línea | Pregunta del analista | En DataMarket, modelo B |
+|:--|:--|:--|:--|
+| **Utilidad** | La mejor acción produce el mayor bien y el menor daño para todos los afectados | ¿Qué beneficios y qué daños produce el caso de uso? ¿Quién gana y quién pierde? | Más retención para la empresa; 48 h de espera para quien no es marcado |
+| **Derechos** | Las personas no son solo un medio; tienen derecho a la verdad, a no ser dañadas, a la privacidad | ¿Qué derechos se respetan o se vulneran? | Privacidad frente a *proxies* de salud; derecho a saber por qué lo atienden más tarde |
+| **Justicia** | Tratar igual a los iguales; tratar distinto solo con criterios defendibles | ¿El resultado es justo? ¿Hay favoritismo o discriminación? | Estrato y salud como criterio implícito para repartir un servicio |
+| **Bien común** | La sociedad es más que la suma de individuos; atención especial a los vulnerables | ¿En qué comunidad se toma la decisión y qué constituye su bien común? | Confianza en el comercio electrónico; trato a los clientes con menos alternativas |
+| **Virtud** | Actuar como la persona —y la organización— que queremos ser | ¿Qué dice este caso de uso de nosotros? ¿Cómo se vería en la prensa mañana? | «Empresa da peor servicio a clientes de estratos bajos» |
+
+::: {.rds-card .decision data-label="CÓMO SE USA ESTA TABLA"}
+No se trata de elegir la lente correcta. Se trata de **pasar por las cinco**:
+cada una ilumina algo que las otras no ven. La utilidad sola justifica casi
+cualquier cosa si el beneficio agregado es grande; los derechos solos pueden
+paralizar un proyecto valioso; la virtud sola es demasiado vaga. Juntas obligan
+a nombrar a los afectados y a decir qué se gana y qué se pierde.
+
+La versión actual del marco Markkula añade una sexta lente, la del
+**cuidado**, centrada en las relaciones y en quienes dependen de otros
+[@markkula2021framework]. El *canvas* de Vidgen se construyó con las cinco
+originales; si su grupo quiere usar la sexta, póngala en la casilla de bien
+común.
+:::
+
+::: {.callout-note collapse="true"}
+## Ampliación · ¿y los demás marcos?
+
+| Marco | Principios | Para qué sirve en el curso |
+|:--|:--|:--|
+| Floridi y Cowls (2019) | Beneficencia, no maleficencia, autonomía, justicia, explicabilidad | Vocabulario común de la ética de la IA |
+| Jongen (2021b) | Seguridad, equidad, transparencia, privacidad | Evaluación de riesgo dentro del proyecto |
+| Reino Unido, *Data and AI Ethics Framework* (2025) | Transparencia, rendición de cuentas, equidad, privacidad, seguridad, impacto social, sostenibilidad ambiental | Ejemplo de marco para el sector público, con herramienta de autoevaluación |
+| UNESCO, Recomendación sobre la ética de la IA (2021) | Proporcionalidad, seguridad, privacidad, supervisión humana, transparencia, responsabilidad, equidad, entre otros | Marco adoptado por Colombia como referencia |
+| Colombia, *Marco ético para la IA* (2021) y CONPES 4144 (2025) | Principios de transparencia, privacidad, control humano, seguridad, responsabilidad, no discriminación, inclusión, entre otros | Contexto nacional para la Actividad 3 |
+
+Fuentes en las [lecturas de la semana 5](../lecturas/index.qmd#semana-5).
+:::
+
+------------------------------------------------------------------------
+
+## 4 · Taller: el Business Ethics Canvas {#taller}
+
+[minuto 40–70]{.rds-tiempo}
+
+::: {.rds-card .prueba data-label="PRUEBA · TALLER EN GRUPOS"}
+Salas de 4 o 5 personas. Abran el
+[cuadernillo del encuentro](../recursos/cuadernillo-encuentro-03.qmd) —o su
+[versión imprimible en PDF](../assets/cuadernillo-encuentro-03.pdf)— y
+trabajen las fichas 3, 4 y 5.
+
+**Roles** (rotan en la Actividad 3):
+facilitador · relator · abogado del diablo · **voz de la persona afectada**.
+La última es la más importante: alguien en el grupo habla siempre desde la
+silla del cliente de estrato 2 que va a esperar 48 horas.
+:::
+
+### Paso 1 · Escaneo rápido de riesgo (5 min)
+
+Antes de abrir el *canvas*, una medida de temperatura. Jongen propone ocho
+dimensiones que se puntúan en bajo, medio o alto **en la etapa de selección
+del caso de uso**, cuando todavía es barato cambiar de idea
+[@jongen2021bydesign]:
+
+| # | Dimensión | La pregunta |
+|:--:|:--|:--|
+| 1 | Personas vulnerables | ¿El sistema afecta a grupos con menos capacidad de defenderse? |
+| 2 | Escala | ¿A cuántas personas afecta? |
+| 3 | Asuntos vitales | ¿Toca salud, ingresos, empleo, vivienda, libertad? |
+| 4 | Influencia en el comportamiento | ¿Busca cambiar lo que las personas hacen? |
+| 5 | Velocidad del ciclo | ¿Qué tan rápido se ven —y se corrigen— los errores? |
+| 6 | Supervisión humana | ¿Alguien revisa antes de que la decisión se aplique? |
+| 7 | Sesgo en los datos | ¿Los datos reflejan desigualdades previas? |
+| 8 | Datos personales | ¿Usa datos personales o inferencias sobre personas? |
+
+Si tres o más dimensiones salen en «alto», el caso merece el *canvas*
+completo. Ese es justamente uno de los aprendizajes del artículo de Vidgen:
+**no todo proyecto necesita el ejercicio completo**, y hacerlo siempre es un
+costo que la organización no sostiene [@vidgen2020bec, p. 21–22].
+
+### Paso 2 · El canvas (20 min)
+
+```{=html}
+<div class="ix-canvas" role="img" aria-label="Plantilla del Business Ethics Canvas con siete casillas numeradas">
+  <div class="c virtud"><span class="n">7</span><strong>Virtud</strong><span>¿Qué dice esta solución de nosotros como personas y como organización? ¿Qué queremos ser?</span></div>
+  <div class="c usuarios"><span class="n">1</span><strong>Usuarios y clientes</strong><span>¿Qué usuarios tienen el problema que la solución resuelve?</span></div>
+  <div class="c solucion"><span class="n">1</span><strong>Idea de solución</strong><span>¿Qué producto o funcionalidad analítica resuelve ese problema?</span></div>
+  <div class="c partes"><span class="n">2</span><strong>Partes interesadas</strong><span>¿Quién afecta o es afectado por la solución? ¿Qué se juega cada uno?</span></div>
+  <div class="c utilidad"><span class="n">3</span><strong>Utilidad</strong><span>¿Qué beneficios y qué daños produce? ¿Quién gana y quién pierde?</span></div>
+  <div class="c comun"><span class="n">6</span><strong>Bien común</strong><span>¿En qué comunidad se toma la decisión? ¿Qué es su bien común?</span></div>
+  <div class="c justicia"><span class="n">5</span><strong>Justicia</strong><span>¿Es justo el resultado? ¿Trata igual a todos o muestra favoritismo o discriminación?</span></div>
+  <div class="c derechos"><span class="n">4</span><strong>Derechos</strong><span>¿Qué derechos se respetan o se vulneran? ¿Cuáles son?</span></div>
+</div>
+<p class="ix-canvas-pie">Business Ethics Canvas. Traducción y adaptación de Vidgen, Hindle y Randolph (2020), figura 3. El orden de los números es el orden de trabajo: se recorre en el sentido de las agujas del reloj.</p>
+```
+
+**Cómo se llena** (adaptado del procedimiento de los autores, sección 6.3):
+
+1. **Casillas 1.** Se copian del caso: la solución es «modelo B para asignar
+   descuento y cola de servicio»; los usuarios son la Dirección Comercial y el
+   centro de atención.
+2. **Casilla 2.** Todas las partes que afectan o son afectadas. Si una parte
+   no está en la sala, alguien la **representa en voz alta**.
+3. **Casillas 3 a 7.** Para cada lente, notas de tres tipos:
+   **[+] oportunidad**, **[○] neutro**, **[−] riesgo**. Cada nota empieza con
+   un verbo en gerundio que describe lo que pasaría: *«Reduciendo el abandono
+   en…»*, *«Aumentando la espera de…»*.
+4. **Votación.** Cada persona tiene tres votos para marcar los riesgos y
+   oportunidades más importantes.
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente · virtualidad
+
+En el artículo se usan pliegos A1 y notas adhesivas de colores porque escribir
+directo sobre el *canvas* impide reorganizar las ideas [@vidgen2020bec, p. 17].
+En virtual hay tres opciones, de menos a más preparación:
+
+- **Documento compartido** con la tabla del cuadernillo y los símbolos
+  [+], [○], [−].
+- **Pizarra colaborativa** (la que la institución tenga habilitada) con la
+  plantilla pegada como fondo y notas de tres colores.
+- **Cuadernillo en PDF** diligenciado por el relator, con captura de pantalla
+  para la plenaria.
+
+En cualquiera de las tres, verifique al minuto 50 que todos los grupos pasaron
+de la casilla 2. El atasco típico es pasar 15 minutos en las partes
+interesadas.
+:::
+
+### Paso 3 · Priorizar y mitigar (5 min)
+
+Los tres riesgos con más votos pasan a la tabla de la ficha 5:
+**riesgo · lente · mitigación · etapa del pipeline · evidencia que queda ·
+qué se pierde al mitigar**.
+
+::: {.rds-card .riesgo data-label="REGLA DEL CANVAS"}
+Si un riesgo **descalificador** no puede mitigarse de forma responsable, la
+solución se aparta y se revisa más adelante [@vidgen2020bec, p. 19]. «Lo
+documentamos y seguimos» no es una mitigación.
+:::
+
+------------------------------------------------------------------------
+
+## 5 · Plenaria · ética de los datos en el sector privado {#sector-privado}
+
+[minuto 70–80]{.rds-tiempo}
+
+Cada grupo comparte **una** nota de la casilla 2 que nadie más tenía y **un**
+riesgo priorizado con su mitigación. El docente los agrupa en pantalla.
+
+### Lo que el canvas le enseñó a una empresa real
+
+::: {.rds-card .caso data-label="CASO · EUROTRAVEL Y DAYSOUT"}
+Vidgen y colegas aplicaron el *canvas* en una empresa europea de venta de
+pasajes en línea (seudónimo: EuroTravel), sobre un sistema de recomendación
+de excursiones de un día llamado *DaysOut* [@vidgen2020bec].
+
+**Lo que esperaban encontrar:** riesgos de privacidad sobre los datos de los
+viajeros.
+
+**Lo que encontraron:** una parte interesada que nadie había considerado
+—**los operadores de las atracciones** a las que el sistema iba a enviar
+gente— y riesgos para las **comunidades locales** (congestión, carga sobre la
+red de transporte). La empresa diseñó una estrategia de alianza con esos
+operadores que, según el responsable del producto, generó resultados
+financieros significativos por sí sola.
+
+**Lo que no funcionó:** el *canvas* exige tiempo, confianza y que alguien se
+atreva a decir en voz alta que una iniciativa anterior fue problemática. Para
+una persona, hablar de ética en el trabajo «puede ser una elección peligrosa
+para su carrera».
+:::
+
+::: {.rds-card .decision data-label="TRES IDEAS PARA EL SECTOR PRIVADO"}
+1. **La ética amplía el modelo de negocio.** Nombrar partes interesadas no es
+   solo prevenir daños: revela valor que el análisis puramente comercial no
+   veía.
+2. **El cliente puede irse, pero no siempre sabe que debería.** La salida del
+   mercado disciplina a la empresa solo si el cliente percibe el daño. Una
+   espera de 48 horas asignada por un modelo es invisible para quien la sufre.
+3. **El dato privado se mueve más rápido que la norma.** *Data Feast*
+   documenta cómo las empresas basadas en datos en la región operan en zonas
+   donde la regulación se queda corta o no se aplica
+   [@newman2020datafeast]. Ahí el criterio profesional es la única barrera.
+:::
+
+------------------------------------------------------------------------
+
+## 6 · Ética de los datos en el sector público {#sector-publico}
+
+[minuto 80–92]{.rds-tiempo}
+
+### Por qué es otro problema
+
+En DataMarket el cliente descontento puede, al menos en teoría, cambiar de
+tienda. Ante el Estado no existe esa salida: **quien queda mal clasificado por
+un sistema de focalización no puede cambiar de Estado**. La tabla completa de
+diferencias estructurales está en la
+[Actividad 3](../actividades/actividad-03.qmd); estas son las tres que más
+cambian el análisis ético:
+
+| | Sector privado | Sector público |
+|:--|:--|:--|
+| **Relación** | Voluntaria y revocable | Obligatoria o difícilmente evitable |
+| **Efecto del error** | Una oferta equivocada | Acceso o exclusión de un derecho, subsidio o servicio |
+| **Publicación** | Interna o comercial | Obligación de transparencia **y** de reserva al mismo tiempo |
+
+### El marco colombiano de la estadística oficial
+
+La **Ley 2335 de 2023** regula la producción y difusión de estadísticas
+oficiales y el Sistema Estadístico Nacional (SEN) [@colombia_ley2335_2023].
+Para este curso importan cuatro piezas, que deben verificarse en el texto
+oficial antes de citarlas:
+
+::: {.rds-card .datos data-label="DATOS · LEY 2335 DE 2023"}
+- **Principios** (art. 4): entre otros, exactitud, imparcialidad,
+  **inclusión**, independencia técnica, pertinencia, transparencia,
+  **carga no excesiva** para los encuestados y **confidencialidad
+  estadística**.
+- **Reserva estadística** (arts. 5 y 36 a 40): los datos individuales
+  recogidos con fines estadísticos solo se difunden como resúmenes numéricos
+  y no pueden usarse para fines distintos. Los microdatos solo se publican si
+  las personas no pueden ser identificadas.
+- **Registros administrativos** (arts. 13, 18 y 22 a 25): las entidades deben
+  entregarlos al DANE para fines estadísticos, con reglas de intercambio que
+  protegen la identidad de los titulares.
+- **Remisión expresa** a las leyes estatutarias 1266 de 2008 y 1581 de 2012
+  (art. 1, parágrafo 1).
+:::
+
+A esto se suman los **Principios Fundamentales de las Estadísticas
+Oficiales** de Naciones Unidas —en particular el sexto, sobre
+confidencialidad— [@un_principios_estadisticas] y la **Declaración de ética
+profesional** del ISI [@isi_declaracion_etica].
+
+::: {.callout-note}
+## Un modelo para copiar: la autoevaluación ética de la estadística británica
+
+La Autoridad de Estadística del Reino Unido somete los proyectos que usan
+datos de forma novedosa a un comité asesor de ética y ofrece una herramienta
+de **autoevaluación** con seis principios: beneficio público, confidencialidad
+y seguridad, métodos y calidad con supervisión humana, cumplimiento legal,
+**opinión del público** y transparencia [@uksa2021selfassessment]. Es un buen
+referente para la Actividad 3 porque traduce principios en preguntas que un
+equipo estadístico responde antes de empezar.
+:::
+
+### Un caso real: el algoritmo de las calificaciones de 2020
+
+::: {.rds-card .caso data-label="CASO · OFQUAL, INGLATERRA, AGOSTO DE 2020"}
+Con los exámenes cancelados por la pandemia, el regulador de exámenes de
+Inglaterra usó un modelo estadístico para asignar las notas finales de
+bachillerato (*A-levels*). El modelo ajustaba las notas estimadas por los
+profesores según el **rendimiento histórico de cada colegio**.
+
+**Resultado:** cerca del **39 %** de las notas estimadas por los profesores
+fueron bajadas. El ajuste pesaba menos en grupos pequeños —más frecuentes en
+colegios privados— y más en colegios grandes con historial bajo. Una
+estudiante excelente en un colegio con malos resultados históricos heredaba
+la distribución de su colegio.
+
+**Desenlace:** tras protestas, el gobierno retiró el modelo el 17 de agosto y
+se adoptaron las notas de los profesores [@tes2020alevels; @taylor2020lrb].
+:::
+
+::: {.rds-card .dilema data-label="DILEMA · LEER EL CASO CON LOS CUATRO EJES"}
+| Eje | Pregunta |
+|:--|:--|
+| Legal | ¿Había una norma que impidiera el modelo? |
+| Estadística | ¿El modelo era malo? En agregado controlaba la inflación de notas; ¿y a nivel individual? |
+| Privacidad | ¿Algún problema de identificación? |
+| Ética | ¿Es defendible que la nota de una persona dependa del desempeño pasado de otras? |
+
+::: {.pregunta}
+¿En cuál de los cuatro ejes falló, y en cuáles no?
+:::
+:::
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente
+
+Lo instructivo del caso es que el modelo **no era estadísticamente
+absurdo**: resolvía bien el problema agregado (evitar una inflación de notas)
+y falló en el individual. Es el mismo patrón de DataMarket: un indicador
+global bueno que esconde una carga desigual. El caso conecta directamente con
+la Actividad 3: decisión pública, datos sobre personas, efecto diferencial,
+imposibilidad de «irse a otro Estado».
+:::
+
+------------------------------------------------------------------------
+
+## 7 · Ética y sesgo algorítmico {#sesgo}
+
+[minuto 92–110]{.rds-tiempo}
+
+### El sesgo se mide, no se afirma
+
+Volvemos a la votación del minuto 0, ahora con los números del
+[Laboratorio 2](../laboratorios/lab-02.qmd#por-grupo) (umbral 0,50, conjunto
+de prueba):
+
+: Error por estrato del modelo B · DataMarket, datos sintéticos {.rds-decision-table}
+
+| Estrato | n | Abandono real | Marcados «en riesgo» | Falsos positivos | Falsos negativos |
+|:--:|--:|--:|--:|--:|--:|
+| 1 | 31 | 41,9 % | **29,0 %** | 0,0 % | 30,8 % |
+| 2 | 79 | 34,2 % | **29,1 %** | 9,6 % | 33,3 % |
+| 3 | 108 | 34,3 % | 24,1 % | 9,9 % | 48,6 % |
+| 4 | 72 | 16,7 % | 16,7 % | 8,3 % | 41,7 % |
+| 5 | 50 | 10,0 % | **4,0 %** | 0,0 % | 60,0 % |
+| 6 | 23 | 17,4 % | **8,7 %** | 0,0 % | 50,0 % |
+
+::: {.rds-card .dilema data-label="DILEMA · EL MISMO NÚMERO, DOS LECTURAS"}
+El modelo B **no está inventando** el patrón: en estos datos los estratos
+bajos abandonan más. Y el modelo A, que no usa estrato, se equivoca **más**
+con ellos: su tasa de falsos negativos en el estrato 1 es del **76,9 %**
+frente al 30,8 % de B.
+
+- Si la acción es el **descuento** (un beneficio), el modelo B lleva más
+  descuentos a los estratos 1 y 2, y deja sin descuento a la mitad o más de
+  quienes sí se van en los estratos 5 y 6.
+- Si la acción es la **cola de 48 horas** (una carga para quien *no* es
+  marcado), el modelo B manda a la cola al 96 % de los clientes de estrato 5
+  y al 71 % de los de estrato 1.
+
+::: {.pregunta}
+¿El modelo B es injusto? ¿O la pregunta está mal hecha?
+:::
+:::
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente · respuesta orientativa
+
+La pregunta está mal hecha si se formula sobre el modelo solo. Tres ideas
+que deberían salir:
+
+1. **La justicia depende de la acción.** El signo de la decisión (beneficio o
+   carga) cambia qué error importa: con el descuento, el error costoso es el
+   falso negativo; con la cola, el falso negativo *también* es el que manda a
+   alguien a esperar, y el falso positivo es irrelevante.
+2. **No se pueden cumplir todos los criterios a la vez.** Cuando las tasas
+   base difieren entre grupos (42 % frente a 10 %), es matemáticamente
+   imposible igualar simultáneamente la tasa de marcado, los falsos positivos
+   y los falsos negativos [@barocas2023fairml, cap. 3]. Elegir cuál igualar es
+   una **decisión de valores**, no técnica; por eso no la toma el analista
+   solo.
+3. **Quitar la variable no quita el sesgo.** El modelo A no usa estrato y
+   reparte peor el error. Eliminar un atributo protegido no garantiza
+   equidad; a veces la empeora.
+:::
+
+### De dónde viene el sesgo
+
+Suresh y Guttag proponen un mapa de **siete fuentes de daño** a lo largo del
+ciclo de un modelo [@suresh2021framework]. Es la mejor herramienta para pasar
+de «el modelo está sesgado» a «el sesgo entra en esta etapa»:
+
+| Fuente | Dónde entra | Qué pasa | Ejemplo |
+|:--|:--|:--|:--|
+| **Histórico** | El mundo | Los datos reflejan fielmente un mundo desigual | Si los estratos bajos abandonan más por razones estructurales, el modelo aprende esa desigualdad |
+| **De representación** | Muestreo | Un grupo está sub-representado | Estrato 6 con n = 23: cualquier tasa es inestable |
+| **De medición** | Variables | El *proxy* mide otra cosa en cada grupo | Costo en salud usado como medida de necesidad [@obermeyer2019dissecting] |
+| **De agregación** | Modelo | Un solo modelo para grupos que funcionan distinto | Un umbral común para todos los estratos |
+| **De aprendizaje** | Entrenamiento | La función objetivo amplifica disparidades | Optimizar AUC global sin mirar el error por grupo |
+| **De evaluación** | Validación | El conjunto de prueba no representa a la población de uso | Validar en clientes antiguos y desplegar en nuevos |
+| **De despliegue** | Uso | El sistema se usa para algo distinto de lo que se diseñó | Un modelo de retención usado para asignar turnos de servicio |
+
+::: {.rds-card .caso data-label="CASO CLÁSICO · EL COSTO COMO PROXY DE LA NECESIDAD"}
+Obermeyer y colegas analizaron un algoritmo usado en Estados Unidos para
+decidir qué pacientes entraban a programas de cuidado intensivo. El algoritmo
+predecía **gasto en salud** como *proxy* de **necesidad de salud**. Como a los
+pacientes negros se les gastaba menos a igual nivel de enfermedad, el
+algoritmo los consideraba más sanos de lo que estaban. Al cambiar la variable
+objetivo, la proporción de pacientes negros identificados para el programa
+pasaba de 17,7 % a 46,5 % [@obermeyer2019dissecting].
+
+La lección para un analista: **el sesgo más grave de ese caso no estaba en el
+algoritmo sino en la elección de la variable objetivo**, una decisión que se
+toma antes de escribir una línea de código.
+:::
+
+### Dilema · la variable que no está
+
+::: {.rds-card .dilema data-label="DILEMA · ¿RECOGER UN DATO SENSIBLE PARA AUDITAR?"}
+Una entidad pública sospecha que su modelo de priorización discrimina por
+pertenencia étnica. Pero no tiene esa variable: nunca la recogió, justamente
+para proteger a las personas.
+
+Sin la variable, **no puede medir** si discrimina. Con la variable, **crea**
+un dato sensible que antes no existía, con todos sus riesgos.
+
+::: {.pregunta}
+¿La recoge? Si la recoge, ¿bajo qué condiciones? Si no la recoge, ¿cómo
+audita?
+:::
+:::
+
+::: {.callout-tip collapse="true"}
+## Nota para el docente
+
+No hay respuesta única y ese es el punto. Opciones que suelen aparecer y que
+vale la pena tensionar: autoidentificación voluntaria con finalidad
+exclusivamente de auditoría y separación física de los datos; auditoría
+externa sobre una muestra con autorización específica; uso de datos agregados
+del censo por territorio como aproximación (con su propio sesgo ecológico).
+Recuerde que la Ley 1581 trata el origen étnico como dato sensible (art. 5) y
+la Ley 2335 incluye la **inclusión** entre los principios de la estadística
+oficial: las dos normas empujan en direcciones distintas, y la decisión es de
+criterio.
+:::
+
+------------------------------------------------------------------------
+
+## 8 · Cierre {#cierre}
+
+[minuto 110–120]{.rds-tiempo}
+
+### Checklist, versión 3 · completa
+
+::: {.rds-card .decision data-label="CHECKLIST v3 · LAS DOCE ACTIVAS"}
+Activas desde los encuentros 1 y 2:
+
+1. ¿De dónde provienen estos datos?
+2. ¿Realmente necesito todas las variables?
+3. ¿Existen datos sensibles?
+4. ¿Qué puedo inferir que no estaba explícitamente registrado?
+5. ¿Existe posibilidad de reidentificación?
+6. ¿Para qué fueron recolectados?
+7. ¿Estoy creando perfiles?
+8. ¿Quién tendrá acceso?
+9. ¿Puedo explicar y documentar lo que hice?
+10. ¿Durante cuánto tiempo necesito conservar los datos?
+
+**Nuevas desde hoy:**
+
+11. ¿Puede mi modelo afectar personas o grupos? *¿Sobre quién se equivoca, y
+    la acción es un beneficio o una carga?*
+12. ¿Qué información publicaré? *¿Quién no está en los datos y qué se decide
+    sobre esa persona?*
+
+Ver la [checklist completa](../recursos/checklist-proyecto-datos.qmd).
+:::
+
+### Pregunta de salida
+
+::: {.rds-card .reflexiona data-label="PREGUNTA DE SALIDA"}
+::: {.pregunta}
+¿Qué tendría que cambiar en mi proyecto de datos?
+:::
+
+Hoy con cuatro piezas:
+
+**parte interesada que no estaba considerada + lente ética + cambio ejecutable
++ evidencia que quedará**
+
+Ejemplo: *«Los agentes del centro de atención (parte interesada) recibirán
+listas generadas por el modelo sin saber por qué (derechos, transparencia).
+Cambio: cada caso lleva las tres variables que más pesaron. Evidencia: plantilla
+de explicación versionada en el repositorio.»*
+:::
+
+### Su avance
+
+```{=html}
+<ul class="ix-check" data-id="encuentro-03">
+  <li>Leí las secciones 3, 6 y 8 de Vidgen et al. (2020).</li>
+  <li>Puedo explicar con el modelo conceptual dónde entra la ética en un proyecto de analítica.</li>
+  <li>Distingo lo legal, lo ético, lo estadístico y lo seguro con un ejemplo propio.</li>
+  <li>Participé en el canvas de mi grupo y priorizamos tres riesgos con mitigación.</li>
+  <li>Puedo leer una tabla de error por grupo y explicar por qué la acción cambia qué error importa.</li>
+  <li>Puedo nombrar al menos tres de las siete fuentes de sesgo de Suresh y Guttag.</li>
+  <li>Elegí con mi grupo un caso candidato para la Actividad 3.</li>
+  <li>Respondí la pregunta de salida con las cuatro piezas.</li>
+</ul>
+```
+
+------------------------------------------------------------------------
 
 ## Evaluación asociada
 
 [Actividad 3 · Ética de los datos en estadísticas del sector público](../actividades/actividad-03.qmd)
-— 25 %, entrega en la semana 7. El enunciado ya está publicado.
+— 25 %, grupal, entrega en la semana 7.
 
-## Checklist que se activa
+Lo que se trabajó hoy y entra directamente en la actividad: los cuatro ejes
+(bloque 2), las lentes como apoyo del análisis ético (bloque 3), la Ley 2335 y
+los marcos de ética estadística (bloque 6) y el análisis de efecto diferencial
+(bloque 7). La ficha 7 del cuadernillo sirve para elegir el caso.
 
-Las dos últimas preguntas de la
-[Checklist del analista responsable](../recursos/checklist-proyecto-datos.qmd):
+## Materiales del encuentro
 
-11. ¿Puede mi modelo afectar personas o grupos?
-12. ¿Qué información publicaré?
+```{=html}
+<div class="rds-grid cols-2">
+  <a class="rds-tile" href="../recursos/cuadernillo-encuentro-03.html">
+    <div class="num">Cuadernillo</div>
+    <h3>Ocho fichas de trabajo</h3>
+    <p>Calentamiento, lentes, escaneo rápido, canvas, priorización, sesgo, sector público y salida. Con versión imprimible en PDF.</p>
+    <div class="meta">Se usa durante el taller</div>
+  </a>
+  <a class="rds-tile" href="../lecturas/index.html#semana-5">
+    <div class="num">Lecturas</div>
+    <h3>Semana 5 · Ética de los datos</h3>
+    <p>Vidgen et al. (2020) como lectura principal, Jongen (2021) como complemento y una bibliografía ampliada por tema.</p>
+    <div class="meta">≈ 12 páginas obligatorias</div>
+  </a>
+  <a class="rds-tile" href="../laboratorios/lab-02.html#por-grupo">
+    <div class="num">Laboratorio</div>
+    <h3>Lab 2 · error por grupo</h3>
+    <p>El bloque que calcula la tabla del sesgo por estrato. Cambie el umbral y vea qué se mueve.</p>
+    <div class="meta">Adelanto del Lab 3</div>
+  </a>
+  <a class="rds-tile" href="../actividades/actividad-03.html">
+    <div class="num">Evaluación</div>
+    <h3>Actividad 3 · Sector público</h3>
+    <p>Un caso real de estadística pública analizado por legalidad, ética, calidad y privacidad.</p>
+    <div class="meta">25 % · entrega semana 7</div>
+  </a>
+</div>
+```
 
-Con esto, las doce quedan activas.
+## Referencias
 
-## Materiales
-
-| Material | Estado |
-|:--|:--|
-| Guion del encuentro | Estructura definida |
-| `slides/03-etica-decisiones.qmd` | Pendiente · antes de la semana 5 |
-| `labs/lab03-estudiante.ipynb` | Pendiente · antes de la semana 5 |
-| [Banco de dilemas](../casos/dilemas.qmd), dilemas 05 a 08 | Publicado |
-| [Actividad 3](../actividades/actividad-03.qmd) | Publicada |
+::: {#refs}
+:::
 
 [← Encuentro 2](encuentro-02.qmd) · [→ Encuentro 4](encuentro-04.qmd)
