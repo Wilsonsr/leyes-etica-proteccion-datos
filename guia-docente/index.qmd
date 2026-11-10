@@ -298,9 +298,9 @@ laboratorio.
 |:--|:--|:--|
 | `encuentros/encuentro-03.qmd` y `recursos/cuadernillo-encuentro-03.qmd` (+ PDF) | **Publicado** | Encuentro 3 · semana 5 |
 | `slides/03-etica-decisiones.qmd` | Pendiente | Encuentro 3 · semana 5 |
-| `labs/lab03-*.ipynb` — sesgo por grupo | Pendiente | Encuentro 3 · semana 5 |
-| `slides/04-tecnicas-proteccion.qmd` | Pendiente | Encuentro 4 · semana 8 |
-| `labs/lab04-*.ipynb` — anonimización medida | Pendiente | Encuentro 4 · semana 8 |
+| `encuentros/encuentro-04.qmd`, `recursos/cuadernillo-encuentro-04.qmd` (+ PDF) | **Publicado** | Encuentro 4 · semana 7 |
+| `labs/lab03-*.ipynb` — caja de herramientas de anonimización | **Publicado** | Encuentro 4 · semana 7 · Actividad 4 |
+| `slides/04-tecnicas-proteccion.qmd` | Opcional: la página del encuentro ya funciona como presentación | Encuentro 4 |
 | Plantilla colaborativa del decálogo | Pendiente | Encuentro 5 · semana 9 |
 
 Las cuatro actividades evaluativas ya están completas con sus rúbricas, de modo

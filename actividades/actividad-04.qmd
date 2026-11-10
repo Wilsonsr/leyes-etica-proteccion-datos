@@ -1,7 +1,7 @@
 ---
 title: "Actividad 4 · Ejercicio práctico de anonimización"
 subtitle: "«Anonimícenla» llega en una línea. Ejecutarla bien toma un laboratorio."
-description: "25 % · Entrega semana 8 · Trabajo individual"
+description: "25 % · Entrega semana 8 · Trabajo grupal"
 ---
 
 ```{=html}
@@ -12,8 +12,8 @@ description: "25 % · Entrega semana 8 · Trabajo individual"
     cuantificar el riesgo residual, cuantificar la utilidad perdida y decidir el intercambio
     con un umbral declarado.</div>
   </div>
-  <div><span class="et">Qué debe hacer</span><span class="va">Anonimizar la base del curso con al menos tres técnicas y medir antes y después de cada una.</span></div>
-  <div><span class="et">Duración</span><span class="va">Semana 8 · individual</span></div>
+  <div><span class="et">Qué debe hacer</span><span class="va">En grupo, anonimizar la base del curso con al menos tres técnicas y medir antes y después de cada una.</span></div>
+  <div><span class="et">Duración</span><span class="va">Semana 8 · grupal</span></div>
   <div><span class="et">Evidencia esperada</span><span class="va">Cuaderno reproducible + informe de riesgo de reidentificación (máx. 5 pág.)</span></div>
   <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-3">3 · Técnicas, IA y datos masivos</a> · vale 25 %</span></div>
   <div><span class="et">Siguiente paso</span><span class="va"><a href="../encuentros/encuentro-05.html">Encuentro 5 · el decálogo</a></span></div>
@@ -21,20 +21,25 @@ description: "25 % · Entrega semana 8 · Trabajo individual"
 ```
 
 ::: {.rds-acciones-encuentro}
-[Laboratorio 1 · medición de unicidad](../laboratorios/lab-01.qmd#experimentar) ·
+[Laboratorio 3 · caja de herramientas](../laboratorios/lab-03.qmd) ·
+[Cuadernillo del Encuentro 4](../recursos/cuadernillo-encuentro-04.qmd) ·
 [La excepción estadística](../marco-legal/index.qmd#estadistica) ·
 [Transferencias a terceros](../marco-legal/index.qmd#transferencias)
 :::
 
-::: {.callout-note}
-## Estado de esta actividad
+::: {.callout-tip}
+## Punto de partida: el Laboratorio 3
 
-El enunciado, los entregables y la rúbrica están completos. El notebook de
-apoyo con las funciones de medición (`labs/lab04-estudiante.ipynb`) se publica con el
-[Encuentro 4](../encuentros/encuentro-04.qmd), en la semana 8. La actividad se
-puede resolver sin él: todo lo necesario está en el
-[Lab 1](../laboratorios/lab-01.qmd).
+El [Laboratorio 3](../laboratorios/lab-03.qmd), trabajado en el
+[Encuentro 4](../encuentros/encuentro-04.qmd), ya trae las funciones de medición
+(`perfil_riesgo`, `ataque_vinculacion`, `auc_churn`), las ocho técnicas, la
+bitácora y un borrador del informe que se genera solo. El grupo parte de ahí y
+lo convierte en su propio cuaderno.
 :::
+
+**Formato grupal.** Grupos de 3 o 4 con roles sugeridos en la
+[ficha 8 del cuadernillo](../recursos/cuadernillo-encuentro-04.qmd#ficha-8):
+atacante, métrica, utilidad y relator. Una sola entrega por grupo.
 
 ## El encargo
 
@@ -57,7 +62,7 @@ decidirlo con datos.
 
 ### 1 · Notebook reproducible
 
-`anonimizacion-<apellido>.ipynb`. Debe ejecutarse de principio a fin sin
+`anonimizacion-grupo-<n>.ipynb`. Debe ejecutarse de principio a fin sin
 errores, partiendo de `data/clientes_sinteticos.csv`.
 
 Estructura mínima:
@@ -199,8 +204,9 @@ print("Registros en k<5    :", grupos[grupos < 5].sum(),
       f"({grupos[grupos < 5].sum() / len(df) * 100:.1f} %)")
 ```
 
-En el [Lab 1](../laboratorios/lab-01.qmd), bloque 13, está la función
-`riesgo_unicidad()` y un ejemplo completo de generalización con medición
-antes / después. Pueden reutilizarla.
+En el [Laboratorio 3](../laboratorios/lab-03.qmd) están `perfil_riesgo()`,
+`ataque_vinculacion()`, `auc_churn()` y `generalizar()`, con la medición antes /
+después de cada técnica y la frontera riesgo-utilidad. Pueden reutilizarlas
+citando la fuente.
 
 [← Actividad 3](actividad-03.qmd) · [→ Encuentro 5 · El decálogo](../encuentros/encuentro-05.qmd)

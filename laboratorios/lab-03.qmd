@@ -1,0 +1,144 @@
+---
+title: "Laboratorio 3 · Caja de herramientas de anonimización"
+subtitle: "Atacar → Medir → Transformar → Comparar → Decidir → Entregar"
+description: "Reidentificar con un ataque de vinculación, medir k-anonimato y l-diversidad, aplicar ocho técnicas de protección y decidir qué base se entrega con riesgo y utilidad medidos."
+---
+
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Qué aprenderá</span>
+    <div class="va"><ul>
+      <li><strong>Atacar</strong> una base antes de entregarla: reidentificar personas con un cruce de cuatro columnas.</li>
+      <li><strong>Medir</strong> el riesgo con <em>k</em>-anonimato, <em>l</em>-diversidad y probabilidad de reidentificación.</li>
+      <li>Aplicar <strong>ocho técnicas</strong> y ver, en números y gráficos, qué protege y qué cuesta cada una.</li>
+      <li>Elegir una versión en la <strong>frontera riesgo-utilidad</strong> y generar la base entregable y su informe.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Qué debe hacer</span><span class="va">Ejecutar el cuaderno, mover las perillas 🎛️ y responder las 14 preguntas.</span></div>
+  <div><span class="et">Duración</span><span class="va">45 min en clase · se termina en la Actividad 4</span></div>
+  <div><span class="et">Evidencia esperada</span><span class="va">Bitácora, gráfico riesgo-utilidad, <code>base_entregable_proveedor.csv</code> e <code>informe_anonimizacion.md</code></span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-3">3 · Técnicas, IA y datos masivos</a></span></div>
+  <div><span class="et">Siguiente paso</span><span class="va"><a href="../actividades/actividad-04.html">Actividad 4</a> y <a href="../encuentros/encuentro-05.html">Encuentro 5</a></span></div>
+</div>
+```
+
+## Empiece sin instalar nada
+
+```{=html}
+<div class="ix-acciones">
+  <a class="ix-btn principal"
+     href="https://colab.research.google.com/github/wilsonsr/leyes-etica-proteccion-datos/blob/main/labs/lab03-estudiante.ipynb"
+     target="_blank" rel="noopener">
+    <span class="ico">▶</span> Abrir el laboratorio en Google Colab
+  </a>
+  <a class="ix-btn" href="../labs/lab03-estudiante.ipynb" download>
+    <span class="ico">↓</span> Descargar el cuaderno (.ipynb)
+  </a>
+  <a class="ix-btn" href="../data/clientes_sinteticos.csv" download>
+    <span class="ico">▤</span> Descargar los datos (.csv)
+  </a>
+</div>
+```
+
+En Colab: **Entorno de ejecución → Ejecutar todas** y luego vuelva arriba para
+leer con calma. Todo corre en menos de 20 segundos.
+
+::: {.rds-sintetico}
+`data/clientes_sinteticos.csv` es una base **sintética** de 1 512 registros.
+Ninguna persona real está representada; los nombres que aparecen
+«reidentificados» también son inventados.
+:::
+
+## El recorrido
+
+```{=html}
+<ol class="e3-pasos">
+  <li><b>1 · Atacar</b><small>8 min</small><span>Una fuente pública con 300 nombres + un <code>merge</code>. ¿A cuántos reidentifica?</span></li>
+  <li><b>2 · Medir</b><small>7 min</small><span><em>k</em>, <em>l</em> y 1/<em>k</em> en una tabla de ocho filas y luego en toda la base.</span></li>
+  <li><b>3 · Transformar</b><small>18 min</small><span>Ocho estaciones, una técnica por estación, cada una medida y anotada en la bitácora.</span></li>
+  <li><b>4 · Comparar</b><small>5 min</small><span>Cuatro versiones candidatas, el ataque repetido y la frontera riesgo-utilidad.</span></li>
+  <li><b>5 · Decidir y entregar</b><small>5 min</small><span>Elegir versión, escribir el umbral y generar el informe automático.</span></li>
+  <li><b>6 · Reflexionar</b><small>casa</small><span>Big Data, IA y una regla para el decálogo.</span></li>
+</ol>
+```
+
+## 1 · Atacar {#atacar}
+
+La base sin nombre, correo, teléfono, documento ni dirección. Una fuente
+pública con 300 perfiles. Una línea:
+
+```python
+cruce = fuente_publica.merge(base_ingenua, on=["edad", "sexo", "ciudad", "ocupacion"])
+```
+
+::: {.ix-quiz data-etiqueta="ANTES DE EJECUTAR"}
+::: {.ix-pregunta}
+¿Qué porcentaje de las 300 personas cree que queda reidentificado con certeza?
+:::
+
+::: {.ix-op data-valor="mal" data-fb="Mucho más. Con cuatro variables comunes, el 83,9 % de la base está sola en su grupo, y el ataque acierta con el <strong>82,7 %</strong> de la fuente pública."}
+Menos del 10 %: son variables muy comunes.
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="Más todavía: <strong>82,7 %</strong>. La edad exacta tiene 65 valores posibles y es la que más separa."}
+Alrededor de la mitad.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Exacto: <strong>82,7 %</strong>, 248 personas con nombre propio y sus compras de farmacia y búsquedas de maternidad."}
+La gran mayoría.
+:::
+:::
+
+## 3 · Las ocho estaciones {#estaciones}
+
+| # | Estación | Lo que va a ver |
+|:--:|:--|:--|
+| 1 | Supresión de indirectos | Sumar el barrio lleva a 94,3 % de personas solas |
+| 2 | *Hash* frente a HMAC | Un SHA-256 sin clave se revierte: 399 de 400. Con HMAC: 0 |
+| 3 | Generalización 🎛️ | 108 versiones posibles en un solo gráfico, y su elección |
+| 4 | Supresión local | A quién se lleva: minorías, mayores, residentes fuera |
+| 5 | *Top coding* y microagregación | Misma media, otra distribución |
+| 6 | Perturbación 🎛️ | Cuántos decimales de coordenada dejan a alguien solo |
+| 7 | Privacidad diferencial | El error según ε y por qué castiga a las ciudades pequeñas |
+| 8 | Datos sintéticos | AUC entrenando con sintético y evaluando con real |
+
+## 4 · El resultado que más sorprende {#comparar}
+
+| Versión | % reidentificado | AUC |
+|:--|--:|--:|
+| V0 · sin identificadores directos | 82,7 | 0,823 |
+| V1 · generalización suave | 21,0 | 0,818 |
+| V2 · generalización fuerte + supresión | 0,0 | 0,825 |
+| V3 · sintética condicional | 0,0 | 0,820 |
+
+::: {.rds-card .prueba data-label="PRUEBA · PROTEGER COSTÓ CASI NADA"}
+Para predecir abandono, la demografía fina **no aportaba**: el modelo depende
+del comportamiento de compra. Pasar de V0 a V2 elimina el ataque y deja el AUC
+igual. Eso solo se sabe midiendo.
+:::
+
+## Su avance
+
+```{=html}
+<ul class="ix-check" data-id="lab-03">
+  <li>Ejecuté el cuaderno completo en Colab o en mi equipo.</li>
+  <li>Vi el ataque de vinculación y puedo explicarlo en una frase.</li>
+  <li>Calculé k y l en la tabla de ocho filas.</li>
+  <li>Moví las perillas de la estación 3 y elegí una combinación con argumento.</li>
+  <li>Revisé a quién se lleva la supresión local.</li>
+  <li>Comparé las versiones en la frontera riesgo-utilidad.</li>
+  <li>Generé la base entregable y el informe.</li>
+  <li>Escribí mi regla para el decálogo.</li>
+</ul>
+```
+
+## Enlaces del laboratorio
+
+| | |
+|:--|:--|
+| **Encuentro donde se trabaja** | [Encuentro 4 · Herramientas de protección](../encuentros/encuentro-04.qmd) |
+| **Material** | [Cuadernillo del Encuentro 4](../recursos/cuadernillo-encuentro-04.qmd) |
+| **Antecedente** | [Laboratorio 1 · medición de unicidad](lab-01.qmd) |
+| **Se evalúa en** | [Actividad 4 · Anonimización](../actividades/actividad-04.qmd) |
+| **Siguiente** | [Encuentro 5 · El decálogo](../encuentros/encuentro-05.qmd) |

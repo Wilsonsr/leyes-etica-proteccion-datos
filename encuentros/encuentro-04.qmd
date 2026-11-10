@@ -1,141 +1,560 @@
 ---
 title: "«Anonimícenla y se la mandamos el viernes»"
-subtitle: "Herramientas para la protección y el manejo de datos masivos e IA"
-description: "Encuentro virtual 4 · 120 minutos · Unidad 3 · Estructura preparada para desarrollo"
+subtitle: "Encuentro 4 · Herramientas para la protección y el manejo de los datos"
+description: "Encuentro virtual 4 · Unidad 3. Atacar una base antes de entregarla, medir el riesgo con k-anonimato y l-diversidad, ocho técnicas de protección, seguridad en proyectos analíticos y lo que cambia con Big Data e IA."
+bibliography: ../referencias.bib
 ---
 
-::: {.rds-meta}
-[Encuentro 4]{} [Unidad 3]{} [120 minutos]{} [Semana 8]{} [En desarrollo]{}
-:::
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Al terminar podrá</span>
+    <div class="va"><ul>
+      <li>Demostrar con un <strong>ataque de vinculación</strong> por qué borrar el nombre no anonimiza.</li>
+      <li><strong>Medir</strong> el riesgo de una base con <em>k</em>-anonimato, <em>l</em>-diversidad y probabilidad de reidentificación.</li>
+      <li>Elegir entre <strong>ocho técnicas</strong> de protección sabiendo qué protege y qué cuesta cada una.</li>
+      <li>Sostener una decisión de entrega con <strong>riesgo y utilidad medidos</strong>.</li>
+    </ul></div>
+  </div>
+  <div><span class="et">Duración</span><span class="va">120 min · Semana 7</span></div>
+  <div><span class="et">Herramienta</span><span class="va"><a href="../laboratorios/lab-03.html">Laboratorio 3 en Colab</a></span></div>
+  <div><span class="et">Material</span><span class="va"><a href="../assets/cuadernillo-encuentro-04.pdf">Cuadernillo en PDF</a></span></div>
+  <div><span class="et">Prepara</span><span class="va"><a href="../actividades/actividad-04.html">Actividad 4</a> · grupal · semana 8</span></div>
+</div>
+```
 
-::: {.callout-note}
-## Estado de este encuentro
-
-Estructura y guion general definidos. Los materiales completos —slides
-`04-tecnicas-proteccion.qmd` y `labs/lab04-estudiante.ipynb`— se publican antes de la
-semana 8.
-
-La [Actividad 4](../actividades/actividad-04.qmd), que es el producto
-evaluable de esta unidad, ya está publicada completa y se puede resolver con
-lo visto en el [Lab 1](../laboratorios/lab-01.qmd).
-:::
-
-## Pregunta central
+## La pregunta de hoy
 
 ::: {.rds-pregunta}
-¿Cuánta utilidad estamos dispuestos a perder, y quién decide eso?
+¿Cuánta utilidad estamos dispuestos a perder,
+y quién decide eso?
 :::
 
-## De dónde venimos
+```{=html}
+<ol class="e3-ruta">
+  <li><a href="#correo"><span class="n">1</span><b>El correo</b><small>10 min</small></a></li>
+  <li><a href="#ataque"><span class="n">2</span><b>El ataque</b><small>15 min</small></a></li>
+  <li><a href="#medir"><span class="n">3</span><b>Medir</b><small>15 min</small></a></li>
+  <li><a href="#tecnicas"><span class="n">4</span><b>Ocho técnicas</b><small>20 min</small></a></li>
+  <li><a href="#laboratorio"><span class="n">5</span><b>Laboratorio</b><small>30 min</small></a></li>
+  <li><a href="#seguridad"><span class="n">6</span><b>Seguridad</b><small>10 min</small></a></li>
+  <li><a href="#bigdata-ia"><span class="n">7</span><b>Big Data e IA</b><small>12 min</small></a></li>
+  <li><a href="#cierre"><span class="n">✓</span><b>Cierre</b><small>8 min</small></a></li>
+</ol>
+```
 
-Semana 7: DataMarket contrató un proveedor externo para construir el motor de
-recomendación. El proveedor pide la base. La instrucción llega en una línea:
-*«anonimícenla»*.
+------------------------------------------------------------------------
 
-El [Lab 1](../laboratorios/lab-01.qmd) ya demostró que eso no es una operación sino un
-resultado que hay que medir. Este encuentro construye las herramientas.
+## 1 · El correo {#correo}
 
-## Objetivo
+::: {.rds-card .caso data-label="DATAMARKET · DIRECCIÓN DE TECNOLOGÍA"}
+**Asunto:** Base para el proveedor del motor de recomendación
 
-Que el estudiante pueda tomar una base real, aplicar un conjunto de técnicas
-de protección, **medir** el riesgo residual y la pérdida de utilidad, y
-sostener una decisión de entrega con evidencia.
+> El proveedor ya firmó el acuerdo de confidencialidad y necesita la base para
+> empezar. **Anonimícenla y se la mandamos el viernes.**
+>
+> Quieren la mayor cantidad de detalle posible para que el modelo funcione
+> bien. Si les mandamos puros promedios, no les sirve.
+:::
 
-## Agenda prevista
+Dos frases, dos exigencias que chocan: **máximo detalle** y **anonimización**.
+
+::: {.rds-card .decide data-label="DECIDA · VOTACIÓN RÁPIDA"}
+::: {.pregunta}
+¿Qué hace usted el viernes?
+:::
+
+**1.** Borro nombre, documento, correo y teléfono, y la mando.
+**2.** La mando como está: hay acuerdo de confidencialidad.
+**3.** No la mando hasta medir algo. *¿Qué mediría?*
+
+Guarde su voto. Al final del [momento 5](#laboratorio) tendrá números para
+revisarlo.
+:::
+
+------------------------------------------------------------------------
+
+## 2 · El ataque {#ataque}
+
+::: {.e3-idea}
+Antes de proteger una base, **intente romperla**.
+:::
+
+Un atacante no necesita el nombre. Le basta con **otra fuente** donde sí está el
+nombre y con unas pocas columnas en común.
+
+```{mermaid}
+flowchart LR
+    P["<b>Fuente pública</b><br/>nombre · edad · sexo<br/>ciudad · ocupación"]
+    B["<b>Base «anonimizada»</b><br/>edad · sexo · ciudad · ocupación<br/>compras de farmacia · búsquedas de maternidad"]
+    J{{"merge por<br/>edad + sexo + ciudad + ocupación"}}
+    R["<b>Nombre + dato sensible</b>"]
+    P --> J
+    B --> J
+    J --> R
+    classDef nodo fill:#111a2b,stroke:#475569,color:#e2e8f0
+    class P,B nodo
+    style J fill:#0b1220,stroke:#f87171,color:#e2e8f0
+    style R fill:#3b0d0d,stroke:#f87171,color:#fecaca
+```
+
+::: {.rds-card .prueba data-label="PRUEBA · EN NUESTRA BASE, EN VIVO"}
+Con una sola línea de `merge` entre 300 perfiles públicos y la base sin
+identificadores directos, el [Laboratorio 3](../laboratorios/lab-03.qmd#atacar)
+reidentifica con certeza al **82,7 %**: 248 personas con nombre propio y sus
+compras de farmacia, sus búsquedas de maternidad y si piden entrega asistida.
+:::
+
+### No es teoría: cuatro veces que pasó
 
 ```{=html}
-<ul class="rds-timeline">
-  <li><span class="t">00–10</span><span class="modo">detonante</span><br>
-      El correo del proveedor. Dos exigencias contradictorias en dos frases.</li>
-  <li><span class="t">10–28</span><span class="modo">exposición</span><br>
-      El catálogo de técnicas: qué hace cada una y qué cuesta.</li>
-  <li><span class="t">28–40</span><span class="modo">métricas</span><br>
-      k-anonimato, diversidad del atributo sensible y medición de utilidad.</li>
-  <li><span class="t">40–78</span><span class="modo">laboratorio</span><br>
-      Lab 4: anonimizar la base de DataMarket, midiendo en cada paso.</li>
-  <li><span class="t">78–92</span><span class="modo">exposición</span><br>
-      Seguridad aplicada a proyectos analíticos: accesos, copias, ambientes.</li>
-  <li><span class="t">92–108</span><span class="modo">caso + dilema</span><br>
-      Big Data e IA: qué cambia cuando el volumen y el modelo crecen.</li>
-  <li><span class="t">108–120</span><span class="modo">cierre</span><br>
-      La decisión de entrega y preparación del decálogo.</li>
+<ol class="e3-historia">
+  <li><b>1997 · Massachusetts</b><span>Datos de salud de empleados públicos «sin nombres». Cruzados con el padrón electoral por código postal, sexo y fecha de nacimiento, aparece el historial médico del gobernador. Sweeney estima después que esas tres variables bastan para el 87 % de los estadounidenses.</span></li>
+  <li><b>2006 · AOL</b><span>Publica 20 millones de búsquedas con un número en lugar del usuario. Periodistas encuentran a la usuaria 4417749 solo leyendo lo que buscaba.</span></li>
+  <li><b>2008 · Netflix</b><span>Calificaciones de películas «anónimas» para un concurso. Cruzadas con reseñas públicas en IMDb, unas pocas calificaciones con fecha bastan para identificar suscriptores.</span></li>
+  <li><b>2014 · Taxis de Nueva York</b><span>173 millones de viajes con la placa «protegida» por un <em>hash</em> MD5 sin clave. Se revierte en horas: solo había unos millones de placas posibles.</span></li>
+</ol>
+```
+
+Fuentes: [@sweeney2000simple; @barbaro2006aol; @narayanan2008netflix; @pandurangan2014taxis].
+
+::: {.ix-quiz data-etiqueta="COMPRUEBE"}
+::: {.ix-pregunta}
+¿Qué tienen en común los cuatro casos?
+:::
+
+::: {.ix-op data-valor="mal" data-fb="En los cuatro casos hubo intención de proteger. El problema fue técnico: se confundió quitar el nombre con anonimizar."}
+Las organizaciones actuaron de mala fe.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Exacto. En los cuatro se quitó o se ocultó el identificador y nadie <strong>midió</strong> qué quedaba. El ataque siempre fue un cruce con otra fuente."}
+Se ocultó el identificador, pero nadie midió lo que quedaba.
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="Hubo un hackeo solo en el sentido amplio. Las bases se publicaron voluntariamente; el daño vino de cruzarlas con información pública."}
+Fueron hackeos.
+:::
+:::
+
+------------------------------------------------------------------------
+
+## 3 · Medir {#medir}
+
+::: {.e3-idea}
+Anonimizar no es una operación que se aplica.
+**Es un resultado que se mide.**
+:::
+
+### Tres palabras que no son sinónimos
+
+```{=html}
+<div class="e3-dos">
+  <div class="lado">
+    <span class="et">MINIMIZAR</span>
+    <p class="grande">No traer lo que <strong>no se necesita</strong>.</p>
+    <p>Se decide antes de cualquier técnica. Es la protección más barata.</p>
+  </div>
+  <div class="lado">
+    <span class="et">SEUDONIMIZAR</span>
+    <p class="grande">Cambiar el identificador por una clave. <strong>Es reversible.</strong></p>
+    <p>Siguen siendo datos personales: alguien tiene la tabla de equivalencias.</p>
+  </div>
+  <div class="lado publico">
+    <span class="et">ANONIMIZAR</span>
+    <p class="grande">Que nadie sea reidentificable <strong>con medios razonables</strong>.</p>
+    <p>Si se logra, el dato deja de ser personal. Y hay que demostrarlo.</p>
+  </div>
+</div>
+```
+
+El considerando 26 del GDPR traza exactamente esta línea: los datos
+seudonimizados siguen siendo personales; los anónimos no
+[@ue_gdpr_2016; @wp29_2014anonimizacion]. Ver
+[marco legal](../marco-legal/index.qmd).
+
+### Tres métricas en una tabla de ocho filas
+
+Cuasi-identificadores: **edad** y **región**. Atributo sensible: **lo que más compra**.
+
+| Edad | Región | Lo que más compra | *k* | *l* |
+|:--:|:--:|:--|:--:|:--:|
+| 30–39 | Caribe | salud | 3 | 3 |
+| 30–39 | Caribe | moda | 3 | 3 |
+| 30–39 | Caribe | hogar | 3 | 3 |
+| 40–49 | Centro | maternidad | 3 | **1** |
+| 40–49 | Centro | maternidad | 3 | **1** |
+| 40–49 | Centro | maternidad | 3 | **1** |
+| 50–59 | Centro | libros | **1** | 1 |
+| 50–59 | Pacífico | salud | **1** | 1 |
+
+```{=html}
+<div class="e3-lentes">
+  <details><summary><span class="ic">k</span><b>k-anonimato</b><span>¿Con cuántas personas me confundo?</span></summary>
+    <p>Las dos últimas filas tienen <em>k</em> = 1: están solas. Cualquiera que sepa su edad y región las encuentra <a href="#ref-sweeney2002kanonymity">(Sweeney, 2002)</a>.</p></details>
+  <details><summary><span class="ic">l</span><b>l-diversidad</b><span>Aunque me confunda, ¿se sabe mi dato?</span></summary>
+    <p>El grupo 40–49 · Centro tiene <em>k</em> = 3, pero las tres compran maternidad. No se sabe <em>quién</em> es, pero sí <em>qué</em> compra: ataque de homogeneidad <a href="#ref-machanavajjhala2007ldiversity">(Machanavajjhala et al., 2007)</a>.</p></details>
+  <details><summary><span class="ic">1/k</span><b>Probabilidad</b><span>Si el atacante adivina, ¿cuánto acierta?</span></summary>
+    <p>Un tercio en los grupos de tres; certeza en los de uno. El promedio sobre la base es una buena cifra para un informe.</p></details>
+</div>
+<p class="e3-pie">Toque cada tarjeta. La tercera noción, la <em>t</em>-cercanía, pide además que la distribución del dato sensible en cada grupo se parezca a la de toda la base.</p>
+```
+
+::: {.ix-quiz data-etiqueta="COMPRUEBE"}
+::: {.ix-pregunta}
+Una base cumple *k* = 5 para todos los registros. ¿Ya está protegida?
+:::
+
+::: {.ix-op data-valor="mal" data-fb="<em>k</em> protege la identidad, no el atributo. Un grupo de cinco donde los cinco tienen el mismo diagnóstico revela el diagnóstico de los cinco."}
+Sí: nadie está solo.
+:::
+
+::: {.ix-op data-valor="bien" data-fb="Exacto. Hay que mirar también la diversidad del dato sensible dentro de cada grupo, y declarar qué sabe el atacante: <em>k</em> se calcula para un conjunto de cuasi-identificadores, no para todos los posibles."}
+No necesariamente: falta mirar la diversidad del dato sensible y qué más sabe el atacante.
+:::
+
+::: {.ix-op data-valor="parcial" data-fb="El tamaño de la base ayuda poco: con más variables, la unicidad crece aunque haya más registros."}
+Depende de cuántos registros tenga la base.
+:::
+:::
+
+------------------------------------------------------------------------
+
+## 4 · La caja de herramientas: ocho técnicas {#tecnicas}
+
+Un mismo registro, antes y después:
+
+```{=html}
+<div class="e4-fila">
+  <div class="reg"><span class="et">ORIGINAL</span><span class="id">Carlos Peralta</span><span class="id">SYN-50107201</span><span>41</span><span>M</span><span>Bogota</span><span>Enfermero/a</span><span>4.618, −74.122</span><span>iOS · 116.121.113.85</span></div>
+  <div class="flecha">→</div>
+  <div class="reg"><span class="et">PROTEGIDO</span><span class="gen">a91f…c03</span><span class="gen">40–49</span><span>M</span><span class="gen">Centro</span><span class="gen">servicios</span><span class="gen">— ✕</span><span class="gen">— ✕</span></div>
+</div>
+```
+
+Cinco familias. Toque cada tarjeta para ver qué protege y qué cuesta.
+
+```{=html}
+<div class="e4-tecnicas">
+  <details class="eliminar"><summary><span class="fam">Eliminar</span><b>1 · Supresión de variables</b><span class="ej">nombre, ip, coordenadas → ✕</span></summary>
+    <dl><dt>Protege</dt><dd>Cierra puertas de vinculación.</dd><dt>Cuesta</dt><dd>Todo el análisis que dependía de la columna.</dd><dt>Úsela</dt><dd>Siempre para identificadores directos y lo que la finalidad no necesita.</dd></dl></details>
+  <details class="sustituir"><summary><span class="fam">Sustituir</span><b>2 · Seudonimización</b><span class="ej">SYN-4180… → a91f…c03</span></summary>
+    <dl><dt>Protege</dt><dd>El identificador, si se usa HMAC con clave secreta.</dd><dt>Cuesta</dt><dd>Nada analítico… y <strong>no anonimiza</strong>. Un <em>hash</em> sin clave se revierte.</dd><dt>Úsela</dt><dd>Cuando hay que volver al titular o unir tablas.</dd></dl></details>
+  <details class="reducir"><summary><span class="fam">Reducir detalle</span><b>3 · Generalización</b><span class="ej">41 → 40–49 · Bogotá → Centro</span></summary>
+    <dl><dt>Protege</dt><dd>La identidad: sube <em>k</em>.</dd><dt>Cuesta</dt><dd>Resolución analítica.</dd><dt>Úsela</dt><dd>En cuasi-identificadores. La finalidad decide cuál se sacrifica.</dd></dl></details>
+  <details class="eliminar"><summary><span class="fam">Eliminar</span><b>4 · Supresión local</b><span class="ej">grupos con k&lt;5 → fuera</span></summary>
+    <dl><dt>Protege</dt><dd>Los casos raros que la generalización no alcanzó.</dd><dt>Cuesta</dt><dd><strong>Sesgo</strong>: se lleva a las minorías de la base.</dd><dt>Úsela</dt><dd>Poco, y revisando a quién borra.</dd></dl></details>
+  <details class="reducir"><summary><span class="fam">Reducir detalle</span><b>5 · Top coding y microagregación</b><span class="ej">22,4 M → «más de 8 M» · promedio de 5</span></summary>
+    <dl><dt>Protege</dt><dd>Valores extremos que delatan.</dd><dt>Cuesta</dt><dd>Las colas y la varianza.</dd><dt>Úsela</dt><dd>En ingresos, montos, edades extremas.</dd></dl></details>
+  <details class="alterar"><summary><span class="fam">Alterar</span><b>6 · Perturbación</b><span class="ej">monto ± 10 % · coordenada a 1 km</span></summary>
+    <dl><dt>Protege</dt><dd>El valor exacto.</dd><dt>Cuesta</dt><dd>Distribuciones y correlaciones; hay que documentar cuánto.</dd><dt>Úsela</dt><dd>En variables continuas que se necesitan como número.</dd></dl></details>
+  <details class="alterar"><summary><span class="fam">Alterar con garantía</span><b>7 · Privacidad diferencial</b><span class="ej">74 → 71 (ruido calibrado por ε)</span></summary>
+    <dl><dt>Protege</dt><dd>Tablas y conteos publicados, con garantía matemática.</dd><dt>Cuesta</dt><dd>Exactitud, sobre todo en celdas pequeñas.</dd><dt>Úsela</dt><dd>Tableros, estadística oficial. Censo de EE. UU. 2020.</dd></dl></details>
+  <details class="reemplazar"><summary><span class="fam">Reemplazar</span><b>8 · Datos sintéticos</b><span class="ej">personas que no existen</span></summary>
+    <dl><dt>Protege</dt><dd>Todo, si el generador no memoriza.</dd><dt>Cuesta</dt><dd>Las relaciones que el generador no capta.</dd><dt>Úsela</dt><dd>Para que un proveedor desarrolle y pruebe sin datos reales.</dd></dl></details>
+</div>
+```
+
+::: {.ix-respuesta}
+<summary>Para profundizar · las técnicas según el Dictamen 05/2014</summary>
+
+El antiguo Grupo de Trabajo del Artículo 29 evaluó las técnicas frente a tres
+riesgos [@wp29_2014anonimizacion]:
+
+| Riesgo | Pregunta |
+|:--|:--|
+| **Singularización** | ¿Se puede aislar a una persona? |
+| **Vinculabilidad** | ¿Se pueden enlazar dos registros de la misma persona? |
+| **Inferencia** | ¿Se puede deducir un atributo de alguien? |
+
+Ninguna técnica cubre los tres riesgos por sí sola. Por eso se combinan.
+:::
+
+------------------------------------------------------------------------
+
+## 5 · Laboratorio: el anonimizador {#laboratorio}
+
+::: {.e3-idea}
+Mueva las perillas. Cada combinación fue **calculada sobre la base real del
+curso**: riesgo, ataque y AUC.
+:::
+
+```{=html}
+<div class="e4-anon" id="e4-anon">
+  <div class="ctrl">
+    <div><span class="et">Edad</span>
+      <button data-k="ed" data-v="0" class="on">Exacta</button><button data-k="ed" data-v="5">5 años</button><button data-k="ed" data-v="10">10 años</button><button data-k="ed" data-v="20">20 años</button></div>
+    <div><span class="et">Sexo</span>
+      <button data-k="sx" data-v="conservar" class="on">Conservar</button><button data-k="sx" data-v="agrupar">Agrupar minorías</button><button data-k="sx" data-v="suprimir">Suprimir</button></div>
+    <div><span class="et">Ciudad</span>
+      <button data-k="ci" data-v="ciudad" class="on">Ciudad</button><button data-k="ci" data-v="region">Región</button><button data-k="ci" data-v="suprimir">Suprimir</button></div>
+    <div><span class="et">Ocupación</span>
+      <button data-k="oc" data-v="exacta" class="on">Exacta</button><button data-k="oc" data-v="grupo">3 grupos</button><button data-k="oc" data-v="suprimir">Suprimir</button></div>
+    <div><span class="et">Supresión local</span>
+      <button data-k="sup" data-v="0" class="on">No</button><button data-k="sup" data-v="1">Quitar grupos k&lt;5</button></div>
+  </div>
+  <div class="muestra" id="e4-muestra"></div>
+  <div class="medidores" id="e4-med"></div>
+  <p class="veredicto" id="e4-ver"></p>
+  <p class="nota">Base sintética del curso (1 512 registros). Ataque: 300 perfiles públicos con edad, sexo, ciudad y ocupación; el atacante conoce el esquema de generalización. AUC: regresión logística de abandono con validación cruzada de 5 pliegues. Mismo código que el Laboratorio 3.</p>
+</div>
+<script>
+(function(){
+  var D = {"0|conservar|ciudad|exacta|0":[83.9,100.0,91.6,3.2,1512,82.7,0.823,1385],"0|conservar|ciudad|exacta|1":null,"0|conservar|ciudad|grupo|0":[53.2,96.8,72.4,4.6,1512,56.7,0.827,1094],"0|conservar|ciudad|grupo|1":null,"0|conservar|ciudad|suprimir|0":[25.5,75.9,48.8,2.8,1512,28.0,0.828,738],"0|conservar|ciudad|suprimir|1":[0.0,0.0,15.6,0.0,365,0.0,0.811,57],"0|conservar|region|exacta|0":[72.6,100.0,85.3,4.3,1512,74.3,0.828,1290],"0|conservar|region|exacta|1":null,"0|conservar|region|grupo|0":[34.6,90.5,58.5,4.6,1512,37.3,0.832,884],"0|conservar|region|grupo|1":[0.0,0.0,16.7,0.0,144,0.0,0.701,24],"0|conservar|region|suprimir|0":[11.7,46.8,32.3,1.6,1512,14.7,0.832,488],"0|conservar|region|suprimir|1":[0.0,0.0,14.8,0.0,804,0.0,0.808,119],"0|conservar|suprimir|exacta|0":[34.2,92.8,58.9,4.9,1512,37.7,0.83,890],"0|conservar|suprimir|exacta|1":[0.0,0.0,18.3,0.0,109,0.0,0.751,20],"0|conservar|suprimir|grupo|0":[9.3,34.2,26.3,1.7,1512,10.7,0.834,398],"0|conservar|suprimir|grupo|1":[0.0,0.0,12.6,0.0,995,0.0,0.826,125],"0|conservar|suprimir|suprimir|0":[2.8,8.8,10.8,0.4,1512,5.3,0.835,164],"0|conservar|suprimir|suprimir|1":[0.0,0.0,6.2,0.0,1379,0.0,0.832,86],"0|agrupar|ciudad|exacta|0":[83.8,100.0,91.5,3.2,1512,82.7,0.824,1384],"0|agrupar|ciudad|exacta|1":null,"0|agrupar|ciudad|grupo|0":[52.9,96.8,72.2,4.6,1512,56.7,0.828,1092],"0|agrupar|ciudad|grupo|1":null,"0|agrupar|ciudad|suprimir|0":[24.7,75.9,48.3,2.9,1512,27.0,0.829,731],"0|agrupar|ciudad|suprimir|1":[0.0,0.0,15.6,0.0,365,0.0,0.811,57],"0|agrupar|region|exacta|0":[72.5,100.0,85.3,4.3,1512,74.3,0.828,1289],"0|agrupar|region|exacta|1":null,"0|agrupar|region|grupo|0":[34.2,90.5,58.3,4.6,1512,37.0,0.833,881],"0|agrupar|region|grupo|1":[0.0,0.0,16.7,0.0,144,0.0,0.701,24],"0|agrupar|region|suprimir|0":[10.6,46.8,31.6,1.7,1512,12.7,0.833,478],"0|agrupar|region|suprimir|1":[0.0,0.0,14.8,0.0,804,0.0,0.808,119],"0|agrupar|suprimir|exacta|0":[33.6,92.8,58.5,4.9,1512,36.7,0.831,885],"0|agrupar|suprimir|exacta|1":[0.0,0.0,18.3,0.0,109,0.0,0.751,20],"0|agrupar|suprimir|grupo|0":[8.8,34.0,25.9,1.7,1512,10.0,0.835,392],"0|agrupar|suprimir|grupo|1":[0.0,0.0,12.5,0.0,998,0.0,0.826,125],"0|agrupar|suprimir|suprimir|0":[1.9,7.8,10.0,0.4,1512,3.7,0.836,151],"0|agrupar|suprimir|suprimir|1":[0.0,0.0,6.3,0.0,1394,0.0,0.835,88],"0|suprimir|ciudad|exacta|0":[68.7,99.7,82.7,4.8,1512,67.3,0.824,1251],"0|suprimir|ciudad|exacta|1":null,"0|suprimir|ciudad|grupo|0":[33.1,82.2,55.4,4.1,1512,34.0,0.827,838],"0|suprimir|ciudad|grupo|1":[0.0,0.0,16.7,0.0,269,0.0,0.761,45],"0|suprimir|ciudad|suprimir|0":[10.3,46.0,30.1,1.5,1512,10.7,0.829,455],"0|suprimir|ciudad|suprimir|1":[0.0,0.0,12.6,0.0,817,0.0,0.817,103],"0|suprimir|region|exacta|0":[51.1,97.9,72.1,6.1,1512,57.3,0.828,1090],"0|suprimir|region|exacta|1":null,"0|suprimir|region|grupo|0":[15.5,59.3,38.7,3.3,1512,19.0,0.832,585],"0|suprimir|region|grupo|1":[0.0,0.0,15.9,0.0,616,0.0,0.798,98],"0|suprimir|region|suprimir|0":[2.8,17.0,16.1,0.1,1512,4.3,0.832,243],"0|suprimir|region|suprimir|1":[0.0,0.0,10.3,0.0,1255,0.0,0.822,129],"0|suprimir|suprimir|exacta|0":[11.0,66.0,36.6,3.4,1512,12.0,0.83,554],"0|suprimir|suprimir|exacta|1":[0.0,0.0,16.7,0.0,514,0.0,0.813,86],"0|suprimir|suprimir|grupo|0":[2.6,12.4,13.0,0.1,1512,2.3,0.834,197],"0|suprimir|suprimir|grupo|1":[0.0,0.0,8.2,0.0,1324,0.0,0.827,108],"0|suprimir|suprimir|suprimir|0":[0.5,1.3,4.0,0.0,1512,0.7,0.835,61],"0|suprimir|suprimir|suprimir|1":[0.0,0.0,3.3,0.0,1493,0.0,0.829,49],"5|conservar|ciudad|exacta|0":[53.3,97.8,72.5,3.8,1512,55.7,0.815,1096],"5|conservar|ciudad|exacta|1":null,"5|conservar|ciudad|grupo|0":[22.6,63.2,42.4,2.4,1512,21.0,0.818,641],"5|conservar|ciudad|grupo|1":[0.0,0.0,13.5,0.0,557,0.0,0.79,75],"5|conservar|ciudad|suprimir|0":[6.6,26.7,20.8,0.9,1512,8.3,0.819,314],"5|conservar|ciudad|suprimir|1":[0.0,0.0,9.4,0.0,1109,0.0,0.826,104],"5|conservar|region|exacta|0":[32.1,90.8,57.2,4.2,1512,38.7,0.82,865],"5|conservar|region|exacta|1":[0.0,0.0,18.7,0.0,139,0.0,0.69,26],"5|conservar|region|grupo|0":[11.2,36.9,27.4,1.3,1512,12.3,0.823,414],"5|conservar|region|grupo|1":[0.0,0.0,11.5,0.0,954,0.0,0.794,110],"5|conservar|region|suprimir|0":[3.2,10.6,11.6,0.1,1512,5.0,0.824,176],"5|conservar|region|suprimir|1":[0.0,0.0,6.2,0.0,1351,0.0,0.821,84],"5|conservar|suprimir|exacta|0":[6.3,28.4,23.1,0.5,1512,9.3,0.822,349],"5|conservar|suprimir|exacta|1":[0.0,0.0,12.8,0.0,1082,0.0,0.815,139],"5|conservar|suprimir|grupo|0":[2.4,9.4,9.2,0.2,1512,3.7,0.825,139],"5|conservar|suprimir|grupo|1":[0.0,0.0,4.9,0.0,1370,0.0,0.822,67],"5|conservar|suprimir|suprimir|0":[0.3,2.5,3.2,0.1,1512,0.7,0.826,48],"5|conservar|suprimir|suprimir|1":[0.0,0.0,2.2,0.0,1474,0.0,0.832,32],"5|agrupar|ciudad|exacta|0":[52.9,97.8,72.3,3.8,1512,55.0,0.816,1093],"5|agrupar|ciudad|exacta|1":null,"5|agrupar|ciudad|grupo|0":[21.7,63.2,41.9,2.4,1512,19.7,0.819,634],"5|agrupar|ciudad|grupo|1":[0.0,0.0,13.5,0.0,557,0.0,0.79,75],"5|agrupar|ciudad|suprimir|0":[5.3,26.7,19.8,0.9,1512,6.3,0.82,300],"5|agrupar|ciudad|suprimir|1":[0.0,0.0,9.4,0.0,1109,0.0,0.826,104],"5|agrupar|region|exacta|0":[31.6,90.8,56.9,4.3,1512,37.7,0.821,861],"5|agrupar|region|exacta|1":[0.0,0.0,18.7,0.0,139,0.0,0.69,26],"5|agrupar|region|grupo|0":[9.7,36.9,26.6,1.4,1512,11.0,0.823,402],"5|agrupar|region|grupo|1":[0.0,0.0,11.5,0.0,954,0.0,0.794,110],"5|agrupar|region|suprimir|0":[1.8,10.6,10.4,0.0,1512,3.0,0.825,157],"5|agrupar|region|suprimir|1":[0.0,0.0,6.2,0.0,1351,0.0,0.821,84],"5|agrupar|suprimir|exacta|0":[5.3,28.4,22.4,0.3,1512,7.7,0.823,338],"5|agrupar|suprimir|exacta|1":[0.0,0.0,12.8,0.0,1082,0.0,0.815,139],"5|agrupar|suprimir|grupo|0":[1.4,7.8,8.1,0.1,1512,2.3,0.826,123],"5|agrupar|suprimir|grupo|1":[0.0,0.0,5.0,0.0,1394,0.0,0.822,70],"5|agrupar|suprimir|suprimir|0":[0.1,1.1,2.4,0.0,1512,0.0,0.827,37],"5|agrupar|suprimir|suprimir|1":[0.0,0.0,2.1,0.0,1495,0.0,0.833,31],"5|suprimir|ciudad|exacta|0":[30.2,83.1,54.1,4.4,1512,30.7,0.816,818],"5|suprimir|ciudad|exacta|1":[0.0,0.0,17.2,0.0,256,0.0,0.765,44],"5|suprimir|ciudad|grupo|0":[8.2,35.2,25.1,1.7,1512,7.0,0.819,379],"5|suprimir|ciudad|grupo|1":[0.0,0.0,10.6,0.0,980,0.0,0.787,104],"5|suprimir|ciudad|suprimir|0":[0.7,7.1,8.9,0.3,1512,0.7,0.82,135],"5|suprimir|ciudad|suprimir|1":[0.0,0.0,6.5,0.0,1405,0.0,0.824,91],"5|suprimir|region|exacta|0":[11.6,60.4,35.7,2.6,1512,14.7,0.82,540],"5|suprimir|region|exacta|1":[0.0,0.0,16.2,0.0,598,0.0,0.752,97],"5|suprimir|region|grupo|0":[2.6,12.9,13.2,0.3,1512,3.3,0.823,199],"5|suprimir|region|grupo|1":[0.0,0.0,8.0,0.0,1317,0.0,0.821,106],"5|suprimir|region|suprimir|0":[0.3,2.1,4.1,0.1,1512,0.3,0.824,62],"5|suprimir|region|suprimir|1":[0.0,0.0,3.3,0.0,1480,0.0,0.817,49],"5|suprimir|suprimir|exacta|0":[1.1,4.2,10.0,0.1,1512,2.3,0.822,151],"5|suprimir|suprimir|exacta|1":[0.0,0.0,8.1,0.0,1448,0.0,0.825,118],"5|suprimir|suprimir|grupo|0":[0.3,1.2,3.2,0.0,1512,0.7,0.826,49],"5|suprimir|suprimir|grupo|1":[0.0,0.0,2.7,0.0,1494,0.0,0.818,40],"5|suprimir|suprimir|suprimir|0":[0.1,0.3,0.9,0.0,1512,0.0,0.826,14],"5|suprimir|suprimir|suprimir|1":[0.0,0.0,0.8,0.0,1508,0.0,0.828,12],"10|conservar|ciudad|exacta|0":[36.4,84.6,58.5,4.4,1512,35.3,0.82,885],"10|conservar|ciudad|exacta|1":[0.0,0.0,17.2,0.0,233,0.0,0.756,40],"10|conservar|ciudad|grupo|0":[13.8,41.3,30.4,2.7,1512,13.7,0.824,460],"10|conservar|ciudad|grupo|1":[0.0,0.0,11.1,0.0,888,0.0,0.807,99],"10|conservar|ciudad|suprimir|0":[3.6,13.4,13.4,0.3,1512,5.3,0.825,202],"10|conservar|ciudad|suprimir|1":[0.0,0.0,7.2,0.0,1310,0.0,0.829,94],"10|conservar|region|exacta|0":[18.8,68.1,42.0,2.6,1512,21.3,0.825,635],"10|conservar|region|exacta|1":[0.0,0.0,16.0,0.0,482,0.0,0.785,77],"10|conservar|region|grupo|0":[6.5,18.9,18.3,0.9,1512,7.7,0.828,277],"10|conservar|region|grupo|1":[0.0,0.0,8.9,0.0,1226,0.0,0.825,109],"10|conservar|region|suprimir|0":[1.7,6.8,7.3,0.1,1512,3.0,0.829,111],"10|conservar|region|suprimir|1":[0.0,0.0,4.0,0.0,1409,0.0,0.829,57],"10|conservar|suprimir|exacta|0":[4.8,13.6,15.6,0.5,1512,7.7,0.827,236],"10|conservar|suprimir|exacta|1":[0.0,0.0,8.6,0.0,1306,0.0,0.825,112],"10|conservar|suprimir|grupo|0":[1.5,4.7,5.9,0.0,1512,2.7,0.83,89],"10|conservar|suprimir|grupo|1":[0.0,0.0,3.5,0.0,1441,0.0,0.828,50],"10|conservar|suprimir|suprimir|0":[0.2,0.9,1.9,0.0,1512,0.7,0.831,29],"10|conservar|suprimir|suprimir|1":[0.0,0.0,1.5,0.0,1498,0.0,0.834,22],"10|agrupar|ciudad|exacta|0":[35.8,84.6,58.3,4.4,1512,34.7,0.821,881],"10|agrupar|ciudad|exacta|1":[0.0,0.0,17.2,0.0,233,0.0,0.756,40],"10|agrupar|ciudad|grupo|0":[12.5,41.3,29.7,2.7,1512,11.7,0.825,449],"10|agrupar|ciudad|grupo|1":[0.0,0.0,11.1,0.0,888,0.0,0.807,99],"10|agrupar|ciudad|suprimir|0":[2.5,12.1,12.4,0.3,1512,3.7,0.826,188],"10|agrupar|ciudad|suprimir|1":[0.0,0.0,7.3,0.0,1329,0.0,0.822,97],"10|agrupar|region|exacta|0":[18.2,68.1,41.7,2.8,1512,20.3,0.826,630],"10|agrupar|region|exacta|1":[0.0,0.0,16.0,0.0,482,0.0,0.785,77],"10|agrupar|region|grupo|0":[4.9,18.9,17.3,0.9,1512,6.0,0.829,261],"10|agrupar|region|grupo|1":[0.0,0.0,8.9,0.0,1226,0.0,0.825,109],"10|agrupar|region|suprimir|0":[0.7,4.6,6.2,0.1,1512,1.7,0.83,94],"10|agrupar|region|suprimir|1":[0.0,0.0,4.3,0.0,1442,0.0,0.826,62],"10|agrupar|suprimir|exacta|0":[3.4,13.6,14.6,0.5,1512,5.0,0.828,221],"10|agrupar|suprimir|exacta|1":[0.0,0.0,8.6,0.0,1306,0.0,0.825,112],"10|agrupar|suprimir|grupo|0":[0.8,3.1,5.0,0.0,1512,1.7,0.831,75],"10|agrupar|suprimir|grupo|1":[0.0,0.0,3.5,0.0,1465,0.0,0.827,51],"10|agrupar|suprimir|suprimir|0":[0.1,0.4,1.5,0.0,1512,0.0,0.832,22],"10|agrupar|suprimir|suprimir|1":[0.0,0.0,1.3,0.0,1506,0.0,0.83,19],"10|suprimir|ciudad|exacta|0":[16.7,61.2,39.2,2.9,1512,14.0,0.82,592],"10|suprimir|ciudad|exacta|1":[0.0,0.0,14.1,0.0,587,0.0,0.821,83],"10|suprimir|ciudad|grupo|0":[3.4,18.8,15.9,2.0,1512,2.7,0.825,240],"10|suprimir|ciudad|grupo|1":[0.0,0.0,8.2,0.0,1227,0.0,0.813,101],"10|suprimir|ciudad|suprimir|0":[0.3,2.1,5.1,0.2,1512,0.3,0.825,77],"10|suprimir|ciudad|suprimir|1":[0.0,0.0,4.3,0.0,1481,0.0,0.816,64],"10|suprimir|region|exacta|0":[5.1,30.6,22.8,1.5,1512,4.7,0.824,345],"10|suprimir|region|exacta|1":[0.0,0.0,12.7,0.0,1050,0.0,0.808,133],"10|suprimir|region|grupo|0":[1.1,6.5,7.9,0.3,1512,1.7,0.829,120],"10|suprimir|region|grupo|1":[0.0,0.0,5.3,0.0,1414,0.0,0.827,75],"10|suprimir|region|suprimir|0":[0.1,0.5,2.3,0.2,1512,0.0,0.829,35],"10|suprimir|region|suprimir|1":[0.0,0.0,2.1,0.0,1504,0.0,0.83,31],"10|suprimir|suprimir|exacta|0":[0.6,1.5,5.9,0.1,1512,1.7,0.826,89],"10|suprimir|suprimir|exacta|1":[0.0,0.0,5.0,0.0,1489,0.0,0.823,74],"10|suprimir|suprimir|grupo|0":[0.1,0.5,1.9,0.0,1512,0.3,0.831,28],"10|suprimir|suprimir|grupo|1":[0.0,0.0,1.6,0.0,1504,0.0,0.822,24],"10|suprimir|suprimir|suprimir|0":[0.1,0.1,0.5,0.0,1512,0.0,0.831,8],"10|suprimir|suprimir|suprimir|1":[0.0,0.0,0.5,0.0,1511,0.0,0.835,7],"20|conservar|ciudad|exacta|0":[24.7,65.7,45.3,3.1,1512,23.7,0.82,685],"20|conservar|ciudad|exacta|1":[0.0,0.0,15.4,0.0,519,0.0,0.806,80],"20|conservar|ciudad|grupo|0":[8.8,27.7,21.7,2.5,1512,8.0,0.824,328],"20|conservar|ciudad|grupo|1":[0.0,0.0,8.4,0.0,1093,0.0,0.814,92],"20|conservar|ciudad|suprimir|0":[2.5,9.5,9.2,0.5,1512,2.7,0.825,139],"20|conservar|ciudad|suprimir|1":[0.0,0.0,4.6,0.0,1369,0.0,0.822,63],"20|conservar|region|exacta|0":[11.6,37.8,29.4,2.0,1512,13.7,0.824,445],"20|conservar|region|exacta|1":[0.0,0.0,13.3,0.0,941,0.0,0.828,125],"20|conservar|region|grupo|0":[4.1,12.6,12.6,0.7,1512,5.0,0.829,191],"20|conservar|region|grupo|1":[0.0,0.0,6.1,0.0,1321,0.0,0.827,80],"20|conservar|region|suprimir|0":[1.1,3.8,4.8,0.1,1512,1.7,0.83,73],"20|conservar|region|suprimir|1":[0.0,0.0,3.0,0.0,1455,0.0,0.831,43],"20|conservar|suprimir|exacta|0":[2.7,12.0,10.6,0.5,1512,4.0,0.827,160],"20|conservar|suprimir|exacta|1":[0.0,0.0,5.0,0.0,1330,0.0,0.82,67],"20|conservar|suprimir|grupo|0":[0.7,2.4,3.7,0.0,1512,1.0,0.831,56],"20|conservar|suprimir|grupo|1":[0.0,0.0,2.4,0.0,1475,0.0,0.826,36],"20|conservar|suprimir|suprimir|0":[0.1,0.5,1.1,0.0,1512,0.0,0.832,17],"20|conservar|suprimir|suprimir|1":[0.0,0.0,0.9,0.0,1504,0.0,0.833,14],"20|agrupar|ciudad|exacta|0":[23.4,65.7,44.6,3.4,1512,21.7,0.821,675],"20|agrupar|ciudad|exacta|1":[0.0,0.0,15.4,0.0,519,0.0,0.806,80],"20|agrupar|ciudad|grupo|0":[6.9,27.6,20.5,2.8,1512,4.7,0.825,310],"20|agrupar|ciudad|grupo|1":[0.0,0.0,8.4,0.0,1094,0.0,0.812,92],"20|agrupar|ciudad|suprimir|0":[1.2,8.1,8.1,0.7,1512,0.7,0.826,122],"20|agrupar|ciudad|suprimir|1":[0.0,0.0,4.7,0.0,1390,0.0,0.821,65],"20|agrupar|region|exacta|0":[10.1,37.8,28.6,2.2,1512,11.3,0.825,433],"20|agrupar|region|exacta|1":[0.0,0.0,13.3,0.0,941,0.0,0.828,125],"20|agrupar|region|grupo|0":[2.5,11.8,11.3,0.7,1512,2.3,0.829,171],"20|agrupar|region|grupo|1":[0.0,0.0,6.1,0.0,1334,0.0,0.819,82],"20|agrupar|region|suprimir|0":[0.3,2.3,3.9,0.1,1512,0.3,0.83,59],"20|agrupar|region|suprimir|1":[0.0,0.0,2.9,0.0,1477,0.0,0.831,43],"20|agrupar|suprimir|exacta|0":[1.3,11.7,9.3,0.3,1512,1.3,0.828,140],"20|agrupar|suprimir|exacta|1":[0.0,0.0,5.1,0.0,1335,0.0,0.819,68],"20|agrupar|suprimir|grupo|0":[0.3,1.3,3.0,0.0,1512,0.7,0.832,45],"20|agrupar|suprimir|grupo|1":[0.0,0.0,2.3,0.0,1492,0.0,0.831,35],"20|agrupar|suprimir|suprimir|0":[0.1,0.1,0.9,0.0,1512,0.0,0.833,13],"20|agrupar|suprimir|suprimir|1":[0.0,0.0,0.8,0.0,1511,0.0,0.835,12],"20|suprimir|ciudad|exacta|0":[9.5,39.5,27.4,1.8,1512,8.3,0.82,415],"20|suprimir|ciudad|exacta|1":[0.0,0.0,11.4,0.0,915,0.0,0.809,104],"20|suprimir|ciudad|grupo|0":[2.0,10.4,10.3,1.1,1512,1.0,0.825,156],"20|suprimir|ciudad|grupo|1":[0.0,0.0,5.8,0.4,1354,0.0,0.824,79],"20|suprimir|ciudad|suprimir|0":[0.2,1.1,3.2,0.1,1512,0.0,0.825,49],"20|suprimir|ciudad|suprimir|1":[0.0,0.0,2.7,0.0,1495,0.0,0.825,41],"20|suprimir|region|exacta|0":[3.0,15.8,14.7,0.7,1512,2.3,0.825,223],"20|suprimir|region|exacta|1":[0.0,0.0,8.5,0.0,1273,0.0,0.812,108],"20|suprimir|region|grupo|0":[0.6,3.5,5.0,0.1,1512,0.7,0.829,75],"20|suprimir|region|grupo|1":[0.0,0.0,3.6,0.0,1459,0.0,0.828,52],"20|suprimir|region|suprimir|0":[0.1,0.1,1.4,0.0,1512,0.0,0.83,21],"20|suprimir|region|suprimir|1":[0.0,0.0,1.3,0.0,1511,0.0,0.833,20],"20|suprimir|suprimir|exacta|0":[0.1,0.9,3.5,0.0,1512,0.3,0.828,53],"20|suprimir|suprimir|exacta|1":[0.0,0.0,3.2,0.0,1499,0.0,0.824,48],"20|suprimir|suprimir|grupo|0":[0.1,0.1,1.1,0.0,1512,0.3,0.832,17],"20|suprimir|suprimir|grupo|1":[0.0,0.0,1.0,0.0,1510,0.0,0.829,15],"20|suprimir|suprimir|suprimir|0":[0.1,0.1,0.3,0.0,1512,0.0,0.833,5],"20|suprimir|suprimir|suprimir|1":[0.0,0.0,0.3,0.0,1511,0.0,0.835,4]};
+  var st = {ed:'0', sx:'conservar', ci:'ciudad', oc:'exacta', sup:'0'};
+  var root = document.getElementById('e4-anon'); if(!root) return;
+  var REG = {Bogota:'Centro'}, GO = {'Enfermero/a':'servicios'};
+  function f(x,d){ return (d===undefined? x.toFixed(1) : x.toFixed(d)).replace('.',','); }
+  function color(v,inv){ var t = inv ? 1-v : v; return t>.66 ? 'var(--rds-riesgo)' : (t>.33 ? 'var(--rds-reflexiona)' : 'var(--rds-prueba)'); }
+  function med(t,n,w,c){ return '<div class="m"><span class="t">'+t+'</span><span class="n">'+n+'</span><div class="barra"><i style="width:'+Math.max(2,Math.min(100,w))+'%;background:'+c+'"></i></div></div>'; }
+  function muestra(){
+    var e = st.ed==='0' ? '41' : (function(a){var i=Math.floor(41/a)*a; return i+'–'+(i+a-1);})(+st.ed);
+    var s = st.sx==='suprimir' ? '*' : 'M';
+    var c = st.ci==='ciudad' ? 'Bogota' : (st.ci==='region' ? 'Centro' : '*');
+    var o = st.oc==='exacta' ? 'Enfermero/a' : (st.oc==='grupo' ? 'servicios' : '*');
+    return '<span style="border:0;background:none">Carlos, en la base entregada →</span><span>'+e+'</span><span>'+s+'</span><span>'+c+'</span><span>'+o+'</span>';
+  }
+  function pinta(){
+    var r = D[[st.ed,st.sx,st.ci,st.oc,st.sup].join('|')];
+    root.querySelector('#e4-muestra').innerHTML = muestra();
+    var ver = root.querySelector('#e4-ver');
+    if(!r){
+      root.querySelector('#e4-med').innerHTML = '';
+      ver.className='veredicto mal';
+      ver.innerHTML = '<b>Con esta combinación la supresión local se lleva casi toda la base.</b> Generalice antes de suprimir.';
+      return;
+    }
+    var k1=r[0], k5=r[1], pr=r[2], hom=r[3], n=r[4], reid=r[5], auc=r[6];
+    root.querySelector('#e4-med').innerHTML =
+      med('Reidentificados en el ataque', f(reid)+' %', reid, color(reid/100)) +
+      med('Registros en grupos con k&lt;5', f(k5)+' %', k5, color(k5/100)) +
+      med('Probabilidad media de acierto', f(pr)+' %', pr, color(pr/100)) +
+      med('Utilidad · AUC del modelo', f(auc,3), (auc-.5)/.4*100, color((auc-.5)/.35,true)) +
+      med('Registros que se entregan', n.toLocaleString('es-CO')+'<small style="font-size:.7rem;font-weight:400"> de 1.512</small>', n/1512*100, color(n/1512,true));
+    var todo = st.sx==='suprimir' && st.ci==='suprimir' && st.oc==='suprimir';
+    if(todo){ ver.className='veredicto ok'; ver.innerHTML='<b>Sorpresa: sin ningún dato demográfico el modelo predice igual o mejor (AUC '+f(auc,3)+').</b> Para esta finalidad, la mejor protección era la más barata: <b>no enviar lo que no se necesita</b>.'; }
+    else if(k5<5 && reid<5 && n>1300){ ver.className='veredicto ok'; ver.innerHTML='<b>Defendible.</b> Menos del 5 % en riesgo, casi nadie reidentificado y la base casi completa. Ahora escriba el umbral y quién lo aprobó.'; }
+    else if(k5<5 && reid<5){ ver.className='veredicto medio'; ver.innerHTML='<b>Protegida, pero mire cuántos registros se perdieron ('+(1512-n)+').</b> ¿A quién se llevó la supresión? Suele llevarse a las minorías de la base.'; }
+    else if(reid<25){ ver.className='veredicto medio'; ver.innerHTML='<b>Mejor, todavía no.</b> '+f(k5)+' % de los registros sigue en grupos de menos de 5 personas.'; }
+    else { ver.className='veredicto mal'; ver.innerHTML='<b>Esto no está anonimizado.</b> El ataque acierta con '+f(reid)+' % de las personas de la fuente pública.'; }
+  }
+  root.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-k]'); if(!b) return;
+    st[b.dataset.k] = b.dataset.v;
+    root.querySelectorAll('button[data-k="'+b.dataset.k+'"]').forEach(function(x){ x.classList.toggle('on', x===b); });
+    pinta();
+  });
+  pinta();
+})();
+</script>
+```
+
+```{=html}
+<ol class="e3-pasos">
+  <li><b>Reto 1</b><small>5 min · en parejas</small><span>Encuentre la combinación con <b>más detalle</b> que deje menos del 5 % en <em>k</em>&lt;5 sin quitar registros.</span></li>
+  <li><b>Reto 2</b><small>3 min</small><span>Active la supresión local con la edad exacta. ¿Cuántos registros sobreviven? ¿Qué pasó con el AUC?</span></li>
+  <li><b>Reto 3</b><small>2 min</small><span>Suprima sexo, ciudad y ocupación. Lea el veredicto. ¿Qué le dice sobre minimizar?</span></li>
+  <li><b>Laboratorio 3</b><small>20 min · Colab</small><span>Partes 1 a 4 del cuaderno: ataque, métricas, ocho estaciones y frontera riesgo-utilidad.</span></li>
+</ol>
+```
+
+```{=html}
+<div class="ix-acciones">
+  <a class="ix-btn principal" href="https://colab.research.google.com/github/wilsonsr/leyes-etica-proteccion-datos/blob/main/labs/lab03-estudiante.ipynb" target="_blank" rel="noopener"><span class="ico">▶</span> Abrir el Laboratorio 3 en Google Colab</a>
+  <a class="ix-btn" href="../laboratorios/lab-03.html"><span class="ico">☰</span> Guía del laboratorio</a>
+  <a class="ix-btn" href="../assets/cuadernillo-encuentro-04.pdf"><span class="ico">↓</span> Cuadernillo · fichas 4 y 5</a>
+</div>
+```
+
+::: {.rds-card .decide data-label="VUELVA A SU VOTO DEL MOMENTO 1"}
+Con los números del simulador, ¿cambia su respuesta? La opción 1 —borrar los
+identificadores directos y mandarla— corresponde a la primera combinación del
+simulador: **82,7 % reidentificado**.
+:::
+
+------------------------------------------------------------------------
+
+## 6 · Seguridad y buenas prácticas {#seguridad}
+
+::: {.e3-idea}
+La mejor anonimización no sirve si la base original
+**queda en un correo reenviado**.
+:::
+
+No es un módulo de ciberseguridad. Son las cuatro decisiones que **un equipo de
+analítica sí controla**:
+
+```{=html}
+<div class="e4-controles">
+  <div><b>Dónde vive y cuántas copias hay</b><span>Un repositorio controlado, no el escritorio ni el correo.</span><em>Evidencia: inventario de copias con dueño y fecha de borrado.</em></div>
+  <div><b>Quién accede y a qué nivel</b><span>Mínimo privilegio: el modelador ve seudónimos, no nombres.</span><em>Evidencia: matriz de roles y registro de accesos.</em></div>
+  <div><b>Identificación separada del análisis</b><span>La tabla de equivalencias y la clave HMAC viven en otro sistema.</span><em>Evidencia: quién puede reidentificar y cuándo lo hizo.</em></div>
+  <div><b>Qué pasa cuando alguien sale o el proyecto termina</b><span>Revocar accesos, borrar copias, conservar solo lo justificado.</span><em>Evidencia: acta de cierre con plazos.</em></div>
+</div>
+```
+
+```{=html}
+<div class="e3-dos">
+  <div class="lado">
+    <span class="et">CONFIDENCIALIDAD NO ES ANONIMATO</span>
+    <p class="grande">Un acuerdo de confidencialidad <strong>no cambia el riesgo</strong> de la base.</p>
+    <p>Cambia quién responde si algo sale mal. Por eso acompaña a la técnica; no la reemplaza.</p>
+  </div>
+  <div class="lado publico">
+    <span class="et">ALTERNATIVA FUERTE</span>
+    <p class="grande">Que <strong>el modelo vaya a los datos</strong>, no los datos al proveedor.</p>
+    <p>Ambiente controlado, consultas agregadas o entrenamiento dentro del perímetro de DataMarket.</p>
+  </div>
+</div>
+```
+
+::: {.rds-card .decision data-label="CONDICIONES QUE ACOMPAÑAN UNA ENTREGA"}
+Finalidad única escrita · prohibición de cruce y de reidentificación ·
+ambiente controlado · cifrado en tránsito y en reposo · plazo de destrucción ·
+derecho de auditoría · aviso de incidentes. En Colombia, quien recibe datos
+para tratarlos por cuenta de otro es un **encargado**: ver
+[transferencias y transmisiones](../marco-legal/index.qmd#transferencias).
+:::
+
+------------------------------------------------------------------------
+
+## 7 · Big Data e inteligencia artificial {#bigdata-ia}
+
+::: {.e3-idea}
+Con más datos, reidentificar se vuelve **más fácil**, no más difícil.
+:::
+
+```{=html}
+<div class="e3-fuentes">
+  <div><b>Trazas únicas</b><span>4 puntos de ubicación con hora bastan para singularizar al 95 % de 1,5 millones de personas.</span></div>
+  <div><b>Muchas columnas</b><span>Con 15 atributos demográficos se reidentifica al 99,98 % de los estadounidenses.</span></div>
+  <div><b>Cada cruce es un ataque</b><span>Cuantas más fuentes existen, más fácil vincular.</span></div>
+  <div><b>Finalidades abiertas</b><span>«Para analítica futura» no es una finalidad que alguien pueda autorizar.</span></div>
+</div>
+<p class="e3-pie">Fuentes: de Montjoye et al. (2013); Rocher et al. (2019).</p>
+```
+
+### Privacidad diferencial: el precio, en vivo
+
+Queremos publicar cuántos clientes compran sobre todo **salud o maternidad**
+en cada ciudad. Mueva **ε**: a la izquierda, más privacidad y más ruido.
+
+```{=html}
+<div class="e4-dp" id="e4-dp">
+  <label>ε (presupuesto de privacidad) <input type="range" id="e4-eps" min="-3" max="1.6" step="0.1" value="0"> <span class="eps" id="e4-epsv"></span> <button id="e4-otra">Publicar otra vez ↻</button></label>
+  <div id="e4-dpf" style="margin-top:.8rem"></div>
+  <p class="nota">Línea gris: valor real · línea violeta: valor publicado. Mecanismo de Laplace con escala 1/ε. Conteos reales de la base del curso. Cada «publicar otra vez» gasta presupuesto: en la práctica no se puede repetir gratis.</p>
+</div>
+<script>
+(function(){
+  var C=[['Bogotá',74],['Medellín',42],['Cali',23],['Pereira',15],['Santa Marta',9],['Pasto',6]];
+  var r=document.getElementById('e4-dp'); if(!r) return;
+  var sl=r.querySelector('#e4-eps');
+  function lap(b){ var u=Math.random()-.5; return -b*Math.sign(u)*Math.log(1-2*Math.abs(u)); }
+  function pinta(){
+    var eps=Math.pow(10, parseFloat(sl.value)/2);
+    r.querySelector('#e4-epsv').textContent='ε = '+(eps<1?eps.toFixed(2):eps.toFixed(1)).replace('.',',');
+    var h='<div class="fila" style="font-size:.72rem;color:var(--rds-text-soft)"><span></span><span></span><span class="num">real</span><span class="num">publ.</span></div>';
+    C.forEach(function(c){
+      var p=Math.max(0,Math.round(c[1]+lap(1/eps)));
+      h+='<div class="fila"><span>'+c[0]+'</span><span class="pista"><span class="real" style="left:'+c[1]+'%"></span><span class="pub" style="left:'+Math.min(99,p)+'%"></span></span><span class="num">'+c[1]+'</span><span class="num pubn">'+p+'</span></div>';
+    });
+    r.querySelector('#e4-dpf').innerHTML=h;
+  }
+  sl.addEventListener('input',pinta); r.querySelector('#e4-otra').addEventListener('click',pinta); pinta();
+})();
+</script>
+```
+
+Es la técnica que adoptó la Oficina del Censo de EE. UU. para el censo de 2020
+[@abowd2018census; @dwork2014algorithmic].
+
+### Lo que cambia con los modelos
+
+::: {.rds-card .riesgo data-label="RIESGO · EL MODELO TAMBIÉN CONTIENE DATOS"}
+1. **Memorización.** Un modelo entrenado con datos personales puede
+   reproducirlos: se han extraído textos literales de entrenamiento de modelos
+   de lenguaje [@carlini2021extracting].
+2. **Ataques de pertenencia.** A veces basta saber si alguien **estuvo** en el
+   entrenamiento (por ejemplo, de un modelo de pacientes oncológicos).
+3. **Sintéticos que copian.** Un generador demasiado bueno devuelve personas
+   reales. Hay que medir copias, no suponer que no existen.
+4. **Escala del error.** El mismo sesgo aplicado a millones de decisiones
+   automáticas produce un efecto estructural (Encuentro 3).
+:::
+
+::: {.rds-card .dilema data-label="DILEMA · EL PROVEEDOR NO QUIERE LA BASE, QUIERE EL MODELO"}
+El proveedor propone: «no nos manden la base; dennos acceso para entrenar y
+nos quedamos solo con el modelo». Suena mejor.
+
+::: {.pregunta}
+¿Lo es? ¿Qué pediría en el contrato sobre el **modelo**?
+:::
+:::
+
+Este bloque es el que más rápido se desactualiza. La regla del curso aplica con
+fuerza: **verificar la fuente oficial vigente antes de afirmar nada**.
+
+------------------------------------------------------------------------
+
+## Cierre {#cierre}
+
+::: {.rds-card .decision data-label="CHECKLIST · TRES PREGUNTAS QUE AHORA TIENEN UN NÚMERO"}
+5\. ¿Existe posibilidad de reidentificación? → ***k*, *l* y % reidentificado en un ataque**.
+8\. ¿Quién tendrá acceso? → **matriz de roles y separación de la clave**.
+12\. ¿Qué información publicaré? → **ε y tamaño mínimo de celda**.
+
+[Checklist completa](../recursos/checklist-proyecto-datos.qmd)
+:::
+
+::: {.rds-card .caso data-label="ACTIVIDAD 4 · EN GRUPO · SEMANA 8 · 25 %"}
+A partir de la base del curso, apliquen técnicas de anonimización, midan antes
+y después y decidan qué se entrega. El **Laboratorio 3** ya trae todo: ataque,
+métricas, bitácora, frontera riesgo-utilidad y un borrador del informe que se
+genera solo. [Ver el enunciado y la rúbrica](../actividades/actividad-04.qmd).
+:::
+
+::: {.rds-card .reflexiona data-label="PREGUNTA DE SALIDA · Y UNA REGLA PARA EL DECÁLOGO"}
+Escriba **una regla** para el decálogo del Encuentro 5 que salga de hoy.
+
+```{=html}
+<div class="e3-piezas"><span>Verbo en imperativo</span><span>Qué</span><span>Evidencia que queda</span></div>
+```
+
+*Ejemplo:* «**Ataque** su base antes de entregarla y **deje** el resultado del
+ataque en la bitácora del proyecto».
+:::
+
+### Su avance
+
+```{=html}
+<ul class="ix-check" data-id="encuentro-04">
+  <li>Puedo explicar por qué borrar el nombre no anonimiza.</li>
+  <li>Distingo minimizar, seudonimizar y anonimizar.</li>
+  <li>Sé calcular k y l en una tabla pequeña.</li>
+  <li>Puedo decir qué protege y qué cuesta cada una de las ocho técnicas.</li>
+  <li>Ejecuté el Laboratorio 3 hasta la frontera riesgo-utilidad.</li>
+  <li>Escribí mi regla para el decálogo.</li>
 </ul>
 ```
 
-## Contenidos
+```{=html}
+<div class="rds-grid cols-2">
+  <a class="rds-tile" href="../actividades/actividad-04.html">
+    <div class="num">Evaluación · 25 %</div>
+    <h3>Actividad 4 · Anonimización</h3>
+    <p>Ejercicio práctico en grupo. Entrega en la semana 8.</p>
+  </a>
+  <a class="rds-tile" href="../recursos/cuadernillo-encuentro-04.html">
+    <div class="num">Material</div>
+    <h3>Cuadernillo del Encuentro 4</h3>
+    <p>Ocho fichas: k a mano, técnicas, seguridad, IA y la regla del decálogo.</p>
+  </a>
+</div>
+```
 
-### 3.1 Anonimización y seudonimización
+## Referencias
 
-El catálogo completo de técnicas está en la
-[Actividad 4](../actividades/actividad-04.qmd). En el encuentro se trabajan
-aplicadas, no listadas:
-
-| Técnica | Qué cuesta |
-|:--|:--|
-| Supresión de variables | Todo el análisis que dependía de ellas |
-| Seudonimización | No anonimiza: la tabla de equivalencias sigue existiendo |
-| Generalización | Resolución analítica |
-| Supresión de celdas | Sesga la base si los suprimidos no son aleatorios |
-| Agregación | Impide cualquier modelado individual |
-| Perturbación / ruido | Cambia las distribuciones; hay que documentar cuánto |
-| Top / bottom coding | El comportamiento de las colas |
-| Datos sintéticos | Puede no preservar las relaciones que importan |
-
-### 3.2 Seguridad de la información aplicada a proyectos analíticos
-
-No es un módulo de ciberseguridad. Son las cuatro decisiones que un equipo de
-analítica sí controla:
-
-1. Dónde vive el archivo y cuántas copias existen.
-2. Quién tiene acceso y con qué nivel de detalle.
-3. Separación entre la tabla de identificación y la de análisis.
-4. Qué pasa cuando alguien se va del equipo.
-
-### 3.3 Buenas prácticas y gobernanza de datos
-
-Prepara el [Encuentro 5](encuentro-05.qmd): qué hace que una regla interna se
-cumpla en la práctica y no se quede en un documento.
-
-### 3.4 Big Data
-
-Qué cambia cuando el volumen crece: la reidentificación se vuelve más fácil,
-no más difícil; el consentimiento informado pierde sentido cuando las
-finalidades futuras aún no están definidas; y la trazabilidad se vuelve el
-único control viable.
-
-### 3.5 Inteligencia artificial y decisiones automatizadas
-
-::: {.rds-card .riesgo data-label="RIESGO · LO QUE CAMBIA CON LOS MODELOS GRANDES"}
-Cuatro problemas que un modelo de regresión logística no tenía:
-
-1. **Memorización.** Un modelo entrenado con datos personales puede
-   reproducirlos. El modelo mismo pasa a ser un activo que contiene datos.
-2. **Opacidad.** «Explicar la lógica» deja de ser trivial. No basta con
-   mostrar coeficientes.
-3. **Escala del error.** El mismo sesgo aplicado a millones de decisiones
-   automáticas produce un efecto estructural.
-4. **Procedencia de los datos de entrenamiento.** Un corpus obtenido por
-   *scraping* arrastra todos los problemas del [Caso C](encuentro-01.qmd) del
-   Encuentro 1, multiplicados.
+::: {#refs}
 :::
-
-Este bloque debe mantenerse **actualizado cada semestre**, porque es el que
-más rápido se desactualiza. La regla del curso aplica con especial fuerza
-aquí: verificar la fuente oficial vigente antes de afirmar nada.
-
-## Evaluación asociada
-
-[Actividad 4 · Ejercicio práctico de anonimización](../actividades/actividad-04.qmd)
-— 25 %, entrega en la semana 8. Publicada.
-
-## Materiales
-
-| Material | Estado |
-|:--|:--|
-| Guion del encuentro | Estructura definida |
-| `slides/04-tecnicas-proteccion.qmd` | Pendiente · antes de la semana 8 |
-| `labs/lab04-estudiante.ipynb` | Pendiente · antes de la semana 8 |
-| [Actividad 4](../actividades/actividad-04.qmd) | Publicada, resoluble con el Lab 1 |
-| [Banco de dilemas](../casos/dilemas.qmd), dilemas 09 a 12 | Publicado |
 
 [← Encuentro 3](encuentro-03.qmd) · [→ Encuentro 5](encuentro-05.qmd)

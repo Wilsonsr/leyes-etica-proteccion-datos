@@ -1,0 +1,267 @@
+---
+title: "Cuadernillo de trabajo · Encuentro 4"
+subtitle: "Ocho fichas para pasar de «anonimícenla» a una entrega medida"
+description: "Fichas del Encuentro 4: personal, seudónimo o anónimo; clasificar columnas; k y l a mano; el ataque de papel; elegir la técnica; bitácora del Laboratorio 3; seguridad e IA; plan de la Actividad 4 y regla del decálogo."
+bibliography: ../referencias.bib
+---
+
+```{=html}
+<div class="ix-ficha">
+  <div class="ancho">
+    <span class="et">Para qué sirve</span>
+    <div class="va">Es el material de trabajo del <a href="../encuentros/encuentro-04.html">Encuentro 4</a>. Las fichas 1 a 5 se hacen <strong>a mano, sin computador</strong>: si entiende el ataque en papel, entiende el código. La ficha 6 acompaña el <a href="../laboratorios/lab-03.html">Laboratorio 3</a>; las fichas 7 y 8 preparan la <a href="../actividades/actividad-04.html">Actividad 4</a> y el decálogo.</div>
+  </div>
+  <div><span class="et">Formato</span><span class="va">Esta página con las claves plegadas · <a href="../assets/cuadernillo-encuentro-04.pdf"><strong>PDF para diligenciar</strong></a></span></div>
+  <div><span class="et">Duración</span><span class="va">≈ 55 minutos dentro del encuentro</span></div>
+  <div><span class="et">Evidencia</span><span class="va">Fichas 3, 4 y 6 diligenciadas · regla del decálogo</span></div>
+  <div><span class="et">Unidad</span><span class="va"><a href="../unidades.html#unidad-3">3 · Técnicas, IA y datos masivos</a></span></div>
+</div>
+```
+
+::: {.rds-acciones-encuentro}
+[Descargar el cuadernillo en PDF](../assets/cuadernillo-encuentro-04.pdf) ·
+[Volver al Encuentro 4](../encuentros/encuentro-04.qmd) ·
+[Abrir el Laboratorio 3](../laboratorios/lab-03.qmd)
+:::
+
+| Ficha | Tema | Modo | Tiempo | Momento del encuentro |
+|:--:|:--|:--|:--:|:--|
+| 1 | ¿Personal, seudónimo o anónimo? | Individual | 5 min | 3 · Medir |
+| 2 | Clasificar las columnas | Individual | 5 min | 3 · Medir |
+| 3 | *k* y *l* a mano | Parejas | 10 min | 3 · Medir |
+| 4 | El ataque de papel | Parejas | 7 min | 3 · Medir |
+| 5 | Elegir la técnica | Grupo | 8 min | 4 · Técnicas |
+| 6 | Bitácora del Laboratorio 3 | Grupo | durante el lab | 5 · Laboratorio |
+| 7 | Seguridad e IA | Grupo | 7 min | 6 y 7 |
+| 8 | Plan de la Actividad 4 y regla del decálogo | Grupo + individual | 5 min | Cierre |
+
+------------------------------------------------------------------------
+
+## Ficha 1 · ¿Personal, seudónimo o anónimo? {#ficha-1}
+
+*Individual · 5 min.* Marque **P** (dato personal identificado), **S**
+(seudonimizado: sigue siendo personal) o **A** (anónimo, si se puede sostener).
+
+| | Situación | P / S / A |
+|:--:|:--|:--:|
+| a | Base de clientes sin nombre ni documento, con edad exacta, sexo, ciudad y ocupación. | |
+| b | Base donde el documento se reemplazó por SHA-256 sin clave. | |
+| c | Base donde el documento se reemplazó por HMAC; la clave la guarda el área de TI. | |
+| d | Tabla publicada: número de clientes por región y rango de edad de 10 años, sin celdas menores de 10. | |
+| e | Base sintética generada por un modelo; nadie verificó si hay copias de registros reales. | |
+| f | Conteos por ciudad publicados con privacidad diferencial, ε = 0,5. | |
+
+::: {.ix-respuesta}
+<summary>Clave</summary>
+
+**a · P.** El 83,9 % queda solo con esas cuatro variables (Laboratorio 1).
+**b · S, en la práctica P.** Se revierte calculando el *hash* de documentos
+conocidos (Laboratorio 3, estación 2). **c · S.** Bien protegido, pero
+reversible por quien tiene la clave. **d · A, defendible:** agregado y con
+umbral de celda. **e · No se puede decir sin medir:** un sintético puede copiar
+personas. **f · A, con garantía:** el riesgo queda acotado por ε.
+:::
+
+## Ficha 2 · Clasificar las columnas {#ficha-2}
+
+*Individual · 5 min.* Marque con una X.
+
+| Variable | Identificador directo | Cuasi-identificador | Atributo sensible o proxy | No compromete |
+|:--|:--:|:--:|:--:|:--:|
+| `documento` | | | | |
+| `edad` | | | | |
+| `ciudad` | | | | |
+| `ip` | | | | |
+| `busquedas_maternidad` | | | | |
+| `ocupacion` | | | | |
+| `compras_6m` | | | | |
+| `entrega_asistida` | | | | |
+| `latitud`, `longitud` | | | | |
+| `canal_adquisicion` | | | | |
+
+::: {.ix-respuesta}
+<summary>Clave</summary>
+
+Directos: `documento`, y en la práctica `ip` y las coordenadas (identifican una
+conexión o una casa). Cuasi: `edad`, `ciudad`, `ocupacion`. Sensibles por
+inferencia: `busquedas_maternidad` (embarazo) y `entrega_asistida`
+(discapacidad o condición de salud). No comprometen por sí solas:
+`compras_6m`, `canal_adquisicion`. Discutible y buena para debatir: las
+variables de comportamiento también pueden volverse cuasi-identificadoras
+cuando son muy precisas (fechas exactas de compra).
+:::
+
+## Ficha 3 · *k* y *l* a mano {#ficha-3}
+
+*Parejas · 10 min.* Diez clientes. Cuasi-identificadores: **edad, sexo,
+ciudad**. Atributo sensible: **lo que más compra**.
+
+| # | Edad | Sexo | Ciudad | Lo que más compra | *k* original | Edad generalizada | Región | *k* nuevo | *l* nuevo |
+|:--:|:--:|:--:|:--|:--|:--:|:--:|:--|:--:|:--:|
+| 1 | 34 | F | Cartagena | salud | | | | | |
+| 2 | 37 | F | Barranquilla | moda | | | | | |
+| 3 | 31 | F | Santa Marta | salud | | | | | |
+| 4 | 45 | M | Bogotá | maternidad | | | | | |
+| 5 | 42 | M | Ibagué | maternidad | | | | | |
+| 6 | 48 | M | Villavicencio | maternidad | | | | | |
+| 7 | 29 | F | Cali | tecnología | | | | | |
+| 8 | 52 | F | Medellín | libros | | | | | |
+| 9 | 33 | F | Barranquilla | hogar | | | | | |
+| 10 | 46 | M | Bogotá | maternidad | | | | | |
+
+**Regiones:** Caribe = Cartagena, Barranquilla, Santa Marta · Centro = Bogotá,
+Ibagué, Villavicencio · Pacífico = Cali · Antioquia-Eje = Medellín.
+
+1. Calcule el ***k* original** de cada fila con la edad exacta.
+2. Generalice: **edad en decenas** (30–39, 40–49…) y **ciudad en región**.
+   Recalcule ***k*** y ***l***.
+3. ¿Qué filas siguen con *k* = 1? ¿Las suprimiría o generalizaría más?
+4. Hay un grupo con *k* = 4 que **no protege nada**. ¿Cuál y por qué?
+
+::: {.ix-respuesta}
+<summary>Clave</summary>
+
+1. Con edad exacta, las diez filas tienen *k* = 1: todas están solas.
+2. Grupos: **30–39 · F · Caribe** (filas 1, 2, 3, 9) → *k* = 4, *l* = 3.
+   **40–49 · M · Centro** (filas 4, 5, 6, 10) → *k* = 4, ***l* = 1**.
+   **20–29 · F · Pacífico** (fila 7) y **50–59 · F · Antioquia-Eje** (fila 8)
+   → *k* = 1.
+3. Las filas 7 y 8. Suprimirlas borra a las dos únicas personas de su región:
+   hay que decir a quién se lleva la supresión.
+4. El grupo 40–49 · M · Centro: los cuatro compran maternidad. Si sé que mi
+   vecino de 42 años de Ibagué es cliente, sé qué compra aunque no sepa cuál
+   fila es. **Ataque de homogeneidad.**
+:::
+
+## Ficha 4 · El ataque de papel {#ficha-4}
+
+*Parejas · 7 min.* Usted es el atacante. Tiene esta **fuente pública** (perfiles
+profesionales) y la tabla de la ficha 3.
+
+| Nombre | Edad | Sexo | Ciudad |
+|:--|:--:|:--:|:--|
+| Andrea | 37 | F | Barranquilla |
+| Jorge | 42 | M | Ibagué |
+| Lucía | 29 | F | Cali |
+| Marcela | 33 | F | Barranquilla |
+
+| | Con la tabla **original** | Con la tabla **generalizada** |
+|:--|:--|:--|
+| ¿Qué sabe de Andrea? | | |
+| ¿Qué sabe de Jorge? | | |
+| ¿Qué sabe de Lucía? | | |
+| ¿Qué sabe de Marcela? | | |
+
+::: {.ix-respuesta}
+<summary>Clave</summary>
+
+**Original:** las cuatro quedan reidentificadas (todas tienen *k* = 1): Andrea
+→ moda, Jorge → maternidad, Lucía → tecnología, Marcela → hogar.
+**Generalizada:** Andrea y Marcela quedan en un grupo de cuatro con tres
+valores distintos: el atacante ya no sabe qué compran. **Jorge** queda en un
+grupo de cuatro, pero los cuatro compran maternidad: se sabe igual. **Lucía**
+sigue sola. Conclusión: la generalización protegió a dos de cuatro. Para eso
+se mide *l* y no solo *k*.
+:::
+
+## Ficha 5 · Elegir la técnica {#ficha-5}
+
+*Grupo · 8 min.* Para cada situación, elija la técnica y escriba **qué se
+pierde**.
+
+| | Situación | Técnica | Qué se pierde |
+|:--:|:--|:--|:--|
+| a | Se publicará un tablero de clientes por municipio; hay municipios con 2 o 3 clientes. | | |
+| b | El proveedor necesita unir las compras de un mismo cliente en dos tablas. | | |
+| c | Hay una persona con ingresos de 22 millones en una base donde el percentil 95 es 8 millones. | | |
+| d | Un grupo de investigación pide edad y municipio para un estudio. | | |
+| e | El proveedor quiere probar su código antes de firmar el contrato. | | |
+| f | El modelo logístico de entregas usa coordenadas del domicilio. | | |
+| g | Después de generalizar, 12 personas siguen solas en su grupo. | | |
+| h | La base trae la IP del navegador de cada cliente. | | |
+
+::: {.ix-respuesta}
+<summary>Clave orientativa</summary>
+
+a · agregación con umbral de celda o privacidad diferencial (exactitud en
+celdas pequeñas) · b · seudonimización con HMAC (nada analítico, pero sigue
+siendo personal) · c · *top coding* (la cola superior) · d · generalización
+(resolución: rangos de edad, región) · e · datos sintéticos (relaciones
+finas) · f · redondeo o ruido en coordenadas, o reemplazar por zona (precisión
+espacial) · g · supresión local revisando a quién se lleva, o generalizar más
+solo en esos grupos (posible sesgo) · h · supresión de la variable (nada: la
+finalidad no la necesita).
+:::
+
+## Ficha 6 · Bitácora del Laboratorio 3 {#ficha-6}
+
+*Grupo · durante el laboratorio.* Copie los números del cuaderno. Es la
+columna vertebral del informe de la Actividad 4.
+
+| Paso | Técnica y parámetros | *k* mínimo | % *k*<5 | % reidentificado | AUC | ¿Se queda? ¿Por qué? |
+|:--|:--|:--:|:--:|:--:|:--:|:--|
+| 0 · línea base | Sin identificadores directos | | | | | |
+| 1 | | | | | | |
+| 2 | | | | | | |
+| 3 | | | | | | |
+| 4 | | | | | | |
+| Versión final | | | | | | |
+
+**Umbral que aceptamos:** ______________________ **¿Quién lo aprueba?** ______________
+
+## Ficha 7 · Seguridad e IA {#ficha-7}
+
+*Grupo · 7 min.*
+
+**A · Los cuatro controles en un proyecto real de alguien del grupo.**
+
+| Control | Cómo está hoy | Qué cambiaríamos | Evidencia que quedaría |
+|:--|:--|:--|:--|
+| Dónde vive la base y cuántas copias hay | | | |
+| Quién accede y a qué nivel | | | |
+| Dónde vive la clave o la tabla de equivalencias | | | |
+| Qué pasa cuando alguien sale o el proyecto termina | | | |
+
+**B · El dilema del modelo.** El proveedor propone no llevarse la base, solo el
+modelo entrenado. Escriban **tres cláusulas** sobre el **modelo**.
+
+::: {.ix-pista}
+<summary>Pista</summary>
+
+Piensen en memorización, en ataques de pertenencia, en qué pasa si un cliente
+revoca su autorización y en si el proveedor puede reutilizar el modelo con
+otros clientes.
+:::
+
+## Ficha 8 · Plan de la Actividad 4 y regla del decálogo {#ficha-8}
+
+*Grupo, 3 min · individual, 2 min.*
+
+**A · Plan del grupo**
+
+| Rol | Nombre | Responde por |
+|:--|:--|:--|
+| Atacante | | Ataque de vinculación antes y después |
+| Métrica | | *k*, *l*, probabilidad y bitácora |
+| Utilidad | | AUC y estadísticas antes / después |
+| Relator | | Informe de máximo 5 páginas |
+
+Salida que vamos a defender: ☐ 1 · anonimizada con utilidad reducida ·
+☐ 2 · seudonimizada bajo contrato · ☐ 3 · no se entrega: alternativa.
+
+**B · Una regla para el decálogo (individual).** Verbo en imperativo + qué +
+evidencia que queda.
+
+*Ejemplo:* «Ataque su base antes de entregarla y deje el resultado en la
+bitácora del proyecto».
+
+------------------------------------------------------------------------
+
+Fuentes de los conceptos: *k*-anonimato [@sweeney2002kanonymity];
+*l*-diversidad [@machanavajjhala2007ldiversity]; técnicas y riesgos
+[@wp29_2014anonimizacion]; privacidad diferencial [@dwork2014algorithmic].
+
+## Referencias
+
+::: {#refs}
+:::

@@ -67,6 +67,8 @@ website:
             href: laboratorios/lab-01.qmd
           - text: "Lab 2 · Auditoría de un pipeline de datos"
             href: laboratorios/lab-02.qmd
+          - text: "Lab 3 · Caja de herramientas de anonimización"
+            href: laboratorios/lab-03.qmd
       - text: "Actividades"
         menu:
           - text: "Actividad 1 · Operar en tres países"
@@ -96,6 +98,8 @@ website:
             href: recursos/glosario.qmd
           - text: "Cuadernillo · Encuentro 3"
             href: recursos/cuadernillo-encuentro-03.qmd
+          - text: "Cuadernillo · Encuentro 4"
+            href: recursos/cuadernillo-encuentro-04.qmd
           - text: "---"
           - text: "Programa y evaluación"
             href: programa.qmd
@@ -144,6 +148,10 @@ website:
         contents:
           - text: "Encuentro 4 · Herramientas de protección"
             href: encuentros/encuentro-04.qmd
+          - text: "Laboratorio 3"
+            href: laboratorios/lab-03.qmd
+          - text: "Cuadernillo del Encuentro 4"
+            href: recursos/cuadernillo-encuentro-04.qmd
           - text: "Actividad 4 · Anonimización"
             href: actividades/actividad-04.qmd
           - text: "Encuentro 5 · Decálogo"
