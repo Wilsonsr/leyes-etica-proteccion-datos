@@ -1208,21 +1208,26 @@ números.
 | | |
 |:--|:--|
 | **Aprenderá a** | Aplicar ocho técnicas de protección, medir el riesgo y la utilidad que deja cada una, y sostener una decisión de entrega |
-| **Duración** | 45 minutos en clase · se termina en la Actividad 4 |
-| **Evidencia** | Bitácora de técnicas, gráfico riesgo-utilidad, base entregable e informe generado |
+| **Duración** | ≈ 45 minutos en clase (ruta 🟢) · el resto se completa en la Actividad 4 |
+| **Evidencia** | Bitácora de técnicas, comparación riesgo-pérdida-utilidad, base entregable y dictamen generado |
 | **Unidad** | 3 · Técnicas de protección, IA y datos masivos |
 
 ### Mapa del laboratorio
 
-| Parte | Qué pasa | Tiempo |
-|:--|:--|:--:|
-| **0 · Preparar** | Cargar datos y la caja de herramientas | 2 min |
-| **1 · Atacar** | Reidentificamos clientes con una sola línea de código | 8 min |
-| **2 · Medir** | *k*-anonimato, *l*-diversidad y probabilidad de reidentificación | 7 min |
-| **3 · Transformar** | Ocho estaciones, una técnica por estación | 18 min |
-| **4 · Comparar** | La frontera riesgo-utilidad y el ataque repetido | 5 min |
-| **5 · Decidir y entregar** | Base entregable + informe automático | 5 min |
-| **6 · Reflexionar** | Big Data, IA y una regla para el decálogo | — |
+| Parte | Qué pasa | Ruta | Tiempo |
+|:--|:--|:--:|:--:|
+| **0 · Preparar** | Cargar datos y la caja de herramientas | 🟢 | 2 min |
+| **1 · Atacar** | Reidentificamos clientes con una sola línea de código | 🟢 | 6 min |
+| **2 · Medir** | *k*-anonimato, *l*-diversidad y riesgo 1/*k* | 🟢 | 7 min |
+| **3 · Transformar** | Estaciones 1–4 (eliminar, sustituir, generalizar, suprimir) | 🟢 | 15 min |
+| | Estaciones 5–8 (colas, ruido, privacidad diferencial, sintéticos) | 🔵 | 25 min |
+| **4 · Comparar** | Riesgo, pérdida y utilidad de cinco versiones | 🟢 | 8 min |
+| **5 · Decidir y entregar** | Verificación automática + dictamen | 🟢 | 5 min |
+| **6 · Reflexionar** | Big Data, IA y una regla para el decálogo | 🔵 | 10 min |
+
+🟢 **En clase** (≈ 45 min) · 🔵 **Profundización** en casa o en la Actividad 4.
+Todas las celdas se ejecutan igual: las 🔵 se pueden correr sin detenerse a
+responder y volver después.
 
 > 🎛️ Las celdas marcadas con **PERILLA** tienen parámetros para mover. Cámbielos,
 > vuelva a ejecutar y mire qué pasa. Ese es el laboratorio.
@@ -1266,25 +1271,33 @@ modificarla**, pero vale la pena leerla: son unas 120 líneas y ninguna es magia
 
 | Función | Para qué sirve |
 |:--|:--|
-| `perfil_riesgo()` | Mide *k* mínimo, % de registros con *k*=1 y *k*<5, probabilidad media de reidentificación y *l*-diversidad |
-| `grafico_grupos()` | Dibuja cuántos registros quedan en grupos de tamaño 1, 2, 3–4, 5–9 y 10+ |
+| `perfil_riesgo()` | *k* mínimo, % de registros con *k*=1 y *k*<5, riesgo medio 1/*k* y *l*-diversidad, para un escenario de atacante |
+| `grafico_grupos()` | Cuántos registros quedan en grupos de tamaño 1, 2, 3–4, 5–9 y 10+ |
 | `ataque_vinculacion()` | Cruza una fuente pública con la base liberada y cuenta a quién reidentifica |
-| `auc_churn()` | Mide la utilidad: AUC del modelo de abandono con validación cruzada |
-| `generalizar()` | Aplica generalización a edad, sexo, ciudad y ocupación con perillas |
-| `registrar()` | Anota cada paso en la **bitácora** que alimenta el informe final |
+| `generalizar()` | Generaliza edad, sexo, ciudad, ocupación y estrato con perillas |
+| `ncp()` | Pérdida de información: 0 % si el dato es exacto, 100 % si se suprime |
+| `utilidad_cv()` | AUC del modelo de abandono en 5 pliegues, comparable entre versiones y sin fugas |
+| `dif_tasas()` | Cuánto cambia la tasa de abandono por categoría (puntos porcentuales) |
+| `registrar()` | Anota cada paso en la **bitácora** que alimenta el dictamen final |
 """)
 
     c.code(r"""
 # ===================== CAJA DE HERRAMIENTAS · no necesita modificarla =====================
+from sklearn.metrics import roc_auc_score
+
 COLOR = {"antes": "#94a3b8", "despues": "#0891b2", "alerta": "#dc2626",
          "ok": "#16a34a", "acento": "#7c3aed", "ambar": "#d97706"}
 plt.rcParams.update({"figure.figsize": (9, 4), "axes.spines.top": False,
                      "axes.spines.right": False, "axes.titleweight": "bold",
                      "axes.titlesize": 12, "font.size": 10})
 
-CUASI = ["edad", "sexo", "ciudad", "ocupacion"]   # lo que un atacante puede saber
-SENSIBLE = "categoria_top"                         # lo que no queremos revelar
-K_OBJETIVO = 5                                     # umbral de referencia del curso
+# Dos escenarios de atacante. Hay que DECLARAR cuál se mide: k depende de él.
+CUASI = ["edad", "sexo", "ciudad", "ocupacion"]       # escenario básico
+CUASI_AMPLIADO = CUASI + ["estrato"]                   # + estrato (se deduce de la dirección)
+SENSIBLE = "categoria_top"                             # lo que no queremos revelar
+K_OBJETIVO = 5                                         # umbral de referencia del curso (no es legal)
+COLS_MODELO = ["edad", "sexo", "ciudad", "ocupacion", "estrato", "visitas_web", "productos_vistos",
+               "compras_6m", "monto_compras", "recencia_dias", "canal_adquisicion", "categoria_top"]
 
 
 def tam_grupo(datos, cuasi):
@@ -1300,7 +1313,8 @@ def perfil_riesgo(datos, cuasi=CUASI, sensible=SENSIBLE, k=K_OBJETIVO):
         "k mínimo": int(tam.min()),
         "% k=1": round((tam == 1).mean() * 100, 1),
         f"% k<{k}": round((tam < k).mean() * 100, 1),
-        "prob. media reid. %": round((1 / tam).mean() * 100, 1),
+        # Riesgo del «fiscal»: el atacante SABE que la persona está en la base y elige al azar en su grupo.
+        "riesgo medio 1/k %": round((1 / tam).mean() * 100, 1),
     }
     if sensible is not None and sensible in datos.columns:
         l = datos.groupby(cuasi, dropna=False, observed=True)[sensible].transform("nunique")
@@ -1310,15 +1324,14 @@ def perfil_riesgo(datos, cuasi=CUASI, sensible=SENSIBLE, k=K_OBJETIVO):
     return res
 
 
-def grafico_grupos(versiones, cuasi_por_version=None, titulo="¿En qué tamaño de grupo queda cada persona?"):
+def grafico_grupos(versiones, cuasi=CUASI, titulo="¿En qué tamaño de grupo queda cada persona?"):
     cortes = [0, 1, 2, 4, 9, np.inf]
     etiquetas = ["k=1\n(sola)", "k=2", "k=3–4", "k=5–9", "k≥10"]
     fig, ax = plt.subplots()
     ancho = 0.8 / len(versiones)
     paleta = [COLOR["antes"], COLOR["despues"], COLOR["acento"], COLOR["ambar"], COLOR["ok"]]
     for i, (nombre, datos) in enumerate(versiones.items()):
-        cu = (cuasi_por_version or {}).get(nombre, CUASI)
-        tam = tam_grupo(datos, cu)
+        tam = tam_grupo(datos, cuasi)
         pct = pd.cut(tam, cortes, labels=etiquetas).value_counts(normalize=True).reindex(etiquetas) * 100
         x = np.arange(len(etiquetas)) + i * ancho - 0.4 + ancho / 2
         barras = ax.bar(x, pct.values, ancho, label=nombre, color=paleta[i % len(paleta)])
@@ -1327,7 +1340,7 @@ def grafico_grupos(versiones, cuasi_por_version=None, titulo="¿En qué tamaño 
     ax.text(1, ax.get_ylim()[1] * 0.92, "zona de riesgo (k<5)", ha="center", color=COLOR["alerta"], fontsize=9)
     ax.set_xticks(range(len(etiquetas)), etiquetas)
     ax.set_ylabel("% de registros")
-    ax.set_title(titulo)
+    ax.set_title(titulo + f"\n(atacante conoce: {', '.join(cuasi)})", fontsize=11)
     ax.legend(frameon=False)
     plt.show()
 
@@ -1342,25 +1355,16 @@ def ataque_vinculacion(publica, liberada, claves, mostrar=True):
     aciertos = unicos[unicos["_verdad_pub"] == unicos["_verdad_lib"]]
     tam = publica.merge(liberada.groupby(claves, dropna=False).size().rename("k").reset_index(),
                         on=claves, how="left")["k"]
-    prob = (1 / tam).fillna(0).mean() * 100
+    prob = (1 / tam).fillna(0).mean() * 100   # quien fue suprimido no puede ser acertado: aporta 0
     res = {"personas en la fuente pública": len(publica),
-           "reidentificadas con certeza": len(aciertos),
+           "reidentificadas con certeza (k=1)": len(aciertos),
            "% reidentificadas": round(len(aciertos) / len(publica) * 100, 1),
-           "prob. media de acierto %": round(prob, 1)}
+           "acierto esperado adivinando 1/k %": round(prob, 1)}
     if mostrar:
-        print("ATAQUE DE VINCULACIÓN")
+        print("ATAQUE DE VINCULACIÓN · claves:", ", ".join(claves))
         for k_, v_ in res.items():
-            print(f"  {k_:<32}: {v_}")
+            print(f"  {k_:<36}: {v_}")
     return res, aciertos
-
-
-def auc_churn(datos, columnas, objetivo="churn", semilla=42):
-    X = pd.get_dummies(datos[columnas].copy(), drop_first=False, dtype=float)
-    X = X.fillna(X.median(numeric_only=True))
-    y = datos[objetivo]
-    modelo = make_pipeline(StandardScaler(), LogisticRegression(max_iter=3000, C=0.5))
-    cv = StratifiedKFold(5, shuffle=True, random_state=semilla)
-    return round(float(cross_val_score(modelo, X, y, cv=cv, scoring="roc_auc").mean()), 3)
 
 
 REGIONES = {
@@ -1378,11 +1382,13 @@ GRUPOS_OCUPACION = {
     "Comerciante": "servicios", "Independiente": "servicios",
     "Estudiante": "sin actividad remunerada", "Pensionado/a": "sin actividad remunerada",
 }
+NIVELES_ESTRATO = {1: "bajo (1-2)", 2: "bajo (1-2)", 3: "medio (3-4)", 4: "medio (3-4)", 5: "alto (5-6)", 6: "alto (5-6)"}
 
 
-def generalizar(datos, edad=10, sexo="agrupar", ciudad="region", ocupacion="grupo"):
+def generalizar(datos, edad=10, sexo="agrupar", ciudad="region", ocupacion="grupo", estrato="exacto"):
     # edad: 0 (exacta), 5, 10 o 20 años  ·  sexo: "conservar" | "agrupar" | "suprimir"
     # ciudad: "ciudad" | "region" | "suprimir"  ·  ocupacion: "exacta" | "grupo" | "suprimir"
+    # estrato: "exacto" | "nivel" (bajo/medio/alto) | "suprimir"
     d = datos.copy()
     if edad:
         ini = (d["edad"] // edad * edad).astype(int)
@@ -1399,18 +1405,86 @@ def generalizar(datos, edad=10, sexo="agrupar", ciudad="region", ocupacion="grup
         d["ocupacion"] = d["ocupacion"].map(GRUPOS_OCUPACION)
     elif ocupacion == "suprimir":
         d["ocupacion"] = "*"
+    if "estrato" in d.columns:
+        if estrato == "nivel":
+            d["estrato"] = d["estrato"].map(NIVELES_ESTRATO).fillna("sin dato")
+        elif estrato == "suprimir":
+            d["estrato"] = "*"
     return d
+
+
+def ncp(version, original=None, cuasi=CUASI_AMPLIADO):
+    # Pérdida de información (NCP, 0–100 %). Para cada registro y cuasi-identificador:
+    #   (valores originales que caben en su clase − 1) / (valores posibles − 1)
+    # 0 = dato exacto · 100 = dato suprimido. Un registro eliminado cuenta como 100.
+    original = df if original is None else original
+    perdidas = []
+    for c in cuasi:
+        o = original[c].astype(str)
+        dominio = o.nunique()
+        v = version[c].reindex(original.index).astype(str)
+        clase = o.groupby(v).transform("nunique")
+        p = (clase - 1) / (dominio - 1)
+        p[~original.index.isin(version.index)] = 1.0
+        perdidas.append(p)
+    return round(float(pd.concat(perdidas, axis=1).mean().mean() * 100), 1)
+
+
+def dif_tasas(version, var="categoria_top"):
+    # Mayor diferencia (puntos porcentuales) en la tasa de abandono por categoría, versión vs. original.
+    orig = df.groupby(var)["churn"].mean()
+    nueva = version.groupby(var)["churn"].mean().reindex(orig.index)
+    return round(float((nueva - orig).abs().max() * 100), 1)
+
+
+def _matriz(d, columnas, ref=None):
+    X = pd.get_dummies(d[columnas], dtype=float)
+    return X if ref is None else X.reindex(columns=ref, fill_value=0)
+
+
+def utilidad_cv(transformar=None, suprimir_en=None, sintetico=None, semilla=42):
+    # AUC del modelo de abandono, comparable entre versiones y SIN fugas:
+    #  · los mismos 5 pliegues para todas las versiones (comparación pareada);
+    #  · la transformación, la supresión o el generador se ajustan SOLO con el entrenamiento;
+    #  · se evalúa siempre en personas reales que no se usaron, transformadas con la misma regla.
+    cv = StratifiedKFold(5, shuffle=True, random_state=semilla)
+    aucs = []
+    for i_tr, i_te in cv.split(df, df["churn"]):
+        tr, te = df.iloc[i_tr], df.iloc[i_te]
+        if sintetico is not None:
+            tr_t, te_t = sintetico(tr), te
+        else:
+            tr_t = transformar(tr) if transformar else tr
+            if suprimir_en:
+                tr_t = tr_t[tam_grupo(tr_t, suprimir_en) >= K_OBJETIVO]
+            te_t = transformar(te) if transformar else te
+        if len(tr_t) < 50 or tr_t["churn"].nunique() < 2:
+            aucs.append(np.nan)   # la supresión dejó muy pocos registros para entrenar
+            continue
+        Xtr = _matriz(tr_t, COLS_MODELO)
+        mediana = Xtr.median()
+        Xtr = Xtr.fillna(mediana)
+        Xte = _matriz(te_t, COLS_MODELO, Xtr.columns).fillna(mediana)
+        modelo = make_pipeline(StandardScaler(), LogisticRegression(max_iter=3000, C=0.5))
+        modelo.fit(Xtr, tr_t["churn"])
+        aucs.append(roc_auc_score(te["churn"], modelo.predict_proba(Xte)[:, 1]))
+    aucs = np.array(aucs)
+    if np.isnan(aucs).any():
+        print("⚠️  Con esta versión la supresión deja demasiados pocos registros para entrenar: AUC no disponible.")
+    return aucs
 
 
 BITACORA = []
 
 
-def registrar(paso, datos, tecnica, utilidad=None, nota=""):
-    fila = {"paso": paso, "técnica": tecnica, **perfil_riesgo(datos)}
-    if utilidad is not None:
-        fila["AUC"] = utilidad
-    fila["nota"] = nota
-    BITACORA[:] = [b for b in BITACORA if b["paso"] != paso] + [fila]
+def registrar(paso, datos, tecnica, nota=""):
+    b = perfil_riesgo(datos, CUASI)
+    a = perfil_riesgo(datos, CUASI_AMPLIADO) if "estrato" in datos.columns else {}
+    fila = {"paso": paso, "técnica": tecnica, "registros": b["registros"],
+            "k mín. (básico)": b["k mínimo"], "% k<5 (básico)": b["% k<5"],
+            "% k<5 (+estrato)": a.get("% k<5", np.nan), "riesgo 1/k % (+estrato)": a.get("riesgo medio 1/k %", np.nan),
+            "% homogéneos": b["% homogéneos (k≥2)"], "NCP %": ncp(datos), "nota": nota}
+    BITACORA[:] = [x for x in BITACORA if x["paso"] != paso] + [fila]
     return pd.DataFrame(BITACORA).set_index("paso")
 
 
@@ -1446,14 +1520,15 @@ base_ingenua[CUASI + ["compras_farmacia_6m", "busquedas_maternidad", "categoria_
 
 Alguien tiene una **fuente pública**: perfiles profesionales, una lista de
 egresados, una publicación en redes. En ella aparecen 300 clientes con su
-nombre, edad, sexo, ciudad y ocupación. Nada secreto.
+nombre, edad, sexo, ciudad y ocupación. Nada secreto. También anotó el
+**estrato**, que se deduce de una dirección: lo usaremos más adelante.
 """)
 
     c.code(r"""
 rng = np.random.default_rng(2026)
 muestra = rng.choice(len(df), size=300, replace=False)
 
-fuente_publica = df.iloc[muestra][["nombre"] + CUASI].copy()
+fuente_publica = df.iloc[muestra][["nombre"] + CUASI + ["estrato"]].copy()
 fuente_publica["_verdad"] = df.iloc[muestra]["cliente_id"].values   # el atacante no lo ve
 
 fuente_publica.drop(columns="_verdad").head()
@@ -1516,17 +1591,31 @@ juguete
 |:--|:--|:--|
 | ***k*-anonimato** | ¿Con cuántas personas me confundo? | Las dos últimas filas tienen *k* = 1: están solas |
 | ***l*-diversidad** | Aunque me confunda, ¿se sabe mi dato sensible? | El grupo 40–49 · Centro tiene *k* = 3 pero *l* = 1: las tres compran maternidad |
-| **Probabilidad de reidentificación** | Si el atacante adivina, ¿cuánto acierta? | 1/*k*: un tercio en el grupo de tres, certeza en los de uno |
+| **Riesgo 1/*k*** | Si el atacante busca a alguien y elige al azar dentro de su grupo, ¿cuánto acierta? | Un tercio en el grupo de tres; certeza en los de uno |
 
-*Hay una tercera noción, la **t-cercanía**: que la distribución del atributo
-sensible en cada grupo se parezca a la de toda la base. Se menciona; no se mide
-en este laboratorio.*
+### Lo que estas métricas dicen y lo que no dicen
+
+- **1/*k* es una probabilidad condicional, no universal.** Supone que el atacante
+  **sabe que la persona está en la base** (el «modelo del fiscal») y que elige al
+  azar dentro del grupo. Si no sabe si está, el riesgo es menor; si tiene
+  información adicional, mayor.
+- ***k* depende del escenario.** *k* se calcula para un conjunto declarado de
+  cuasi-identificadores. Si el atacante conoce una variable más que viaja en la
+  base, el *k* real puede ser mucho menor. Por eso este laboratorio mide **dos
+  escenarios**.
+- **Cumplir *k* ≥ 5 no es una garantía de anonimización.** No protege el
+  atributo (homogeneidad), ni de la vinculación por otras columnas, ni de
+  cruces futuros. Es un umbral de trabajo que hay que **declarar y justificar**.
+- **La *l*-diversidad cuenta valores distintos, no su peso.** Un grupo con nueve
+  «maternidad» y una «moda» tiene *l* = 2, pero revela el atributo con 90 % de
+  confianza. Existen variantes (entrópica, *t*-cercanía) que miden la
+  concentración; aquí basta con saber que *l* > 1 no es suficiente por sí sola.
 """)
 
     c.code(r"""
 linea_base = registrar("0 · sin identificadores directos", base_ingenua,
                        "supresión de 5 columnas",
-                       utilidad=None, nota="lo que casi todos entregan")
+                       nota="lo que casi todos entregan")
 linea_base
 """)
 
@@ -1569,7 +1658,7 @@ grafico_grupos({"sin identificadores directos": base_ingenua},
 
     # --- Estación 1
     c.md("""
-## 🧰 Estación 1 · Supresión de identificadores indirectos
+## 🟢 🧰 Estación 1 · Supresión de identificadores indirectos
 
 `ip`, `latitud`, `longitud` y `dispositivo` no tienen nombre, pero apuntan a
 una persona o a una casa. Y el motor de recomendación no los necesita.
@@ -1601,7 +1690,7 @@ for cols in [CUASI, CUASI + ["barrio"], CUASI + ["barrio", "estrato"]]:
 
     # --- Estación 2
     c.md("""
-## 🧰 Estación 2 · Seudonimización: el *hash* no es un escudo
+## 🟢 🧰 Estación 2 · Seudonimización: el *hash* no es un escudo
 
 El proveedor necesita una clave para unir compras del mismo cliente. Tentación:
 reemplazar el documento por su *hash* SHA-256. Veamos qué pasa si alguien
@@ -1633,8 +1722,13 @@ def seudonimo_hmac(valor, clave=CLAVE_SECRETA):
 entrega_hmac = pd.DataFrame({"id_seudo": df["documento"].map(seudonimo_hmac),
                              "categoria_top": df["categoria_top"]})
 otra_base["id_seudo"] = otra_base["documento"].map(hash_ingenuo)  # el atacante no tiene la clave
-print("HMAC con clave:", otra_base.merge(entrega_hmac, on="id_seudo")["documento"].nunique(),
+print("HMAC sin la clave:", otra_base.merge(entrega_hmac, on="id_seudo")["documento"].nunique(),
       "de 400 personas reidentificadas")
+
+# ¿Y si la clave se filtra? El HMAC es tan fuerte como la custodia de la clave.
+otra_base["id_filtrado"] = otra_base["documento"].map(seudonimo_hmac)
+print("HMAC con la clave filtrada:", otra_base.merge(entrega_hmac, left_on="id_filtrado",
+      right_on="id_seudo")["documento"].nunique(), "de 400 personas reidentificadas")
 """)
     pregunta_nb(
         c, "riesgo", next(n),
@@ -1646,13 +1740,16 @@ print("HMAC con clave:", otra_base.merge(entrega_hmac, on="id_seudo")["documento
         "(el GDPR lo dice expresamente en el considerando 26). Segundo, el "
         "seudónimo solo protege la columna del identificador: el ataque de "
         "vinculación por edad, sexo, ciudad y ocupación sigue funcionando igual. "
+        "Tercero, el seudónimo es **determinista**: la misma persona tiene el "
+        "mismo código en todas las entregas, así que dos entregas se pueden "
+        "unir entre sí (vinculabilidad). "
         "En 2014 se publicaron 173 millones de viajes de taxi de Nueva York con "
         "las placas «protegidas» con MD5 sin clave; se revirtieron en horas.",
     )
 
     # --- Estación 3
     c.md("""
-## 🧰 Estación 3 · Generalización con perillas 🎛️
+## 🟢 🧰 Estación 3 · Generalización con perillas 🎛️
 
 Reducir el detalle de los cuasi-identificadores: edad exacta → rango; ciudad →
 región; ocupación → grupo. **Mueva las perillas** y vuelva a ejecutar. Busque
@@ -1661,70 +1758,92 @@ la combinación más útil que deje menos del 5 % de los registros con *k* < 5.
     c.code_var(
         r"""
 # ===================== PERILLA =====================
-NIVEL_EDAD     = 5          # 0 = exacta · 5 · 10 · 20 años
+NIVEL_EDAD     = 5           # 0 = exacta · 5 · 10 · 20 años
 SEXO_COMO      = "conservar" # "conservar" · "agrupar" · "suprimir"
-CIUDAD_COMO    = "ciudad"   # "ciudad" · "region" · "suprimir"
-OCUPACION_COMO = "grupo"    # "exacta" · "grupo" · "suprimir"
+CIUDAD_COMO    = "ciudad"    # "ciudad" · "region" · "suprimir"
+OCUPACION_COMO = "grupo"     # "exacta" · "grupo" · "suprimir"
+ESTRATO_COMO   = "exacto"    # "exacto" · "nivel" (bajo/medio/alto) · "suprimir"
 # ===================================================
 # TODO: pruebe al menos tres combinaciones y anote cuál eligió y por qué.
 
-e3 = generalizar(e1, NIVEL_EDAD, SEXO_COMO, CIUDAD_COMO, OCUPACION_COMO)
+e3 = generalizar(e1, NIVEL_EDAD, SEXO_COMO, CIUDAD_COMO, OCUPACION_COMO, ESTRATO_COMO)
 registrar("3 · generalización (mía)", e3, "generalización",
-          nota=f"edad {NIVEL_EDAD} · sexo {SEXO_COMO} · {CIUDAD_COMO} · ocupación {OCUPACION_COMO}")
+          nota=f"edad {NIVEL_EDAD} · sexo {SEXO_COMO} · {CIUDAD_COMO} · ocupación {OCUPACION_COMO} · estrato {ESTRATO_COMO}")
 """,
         r"""
 # ===================== PERILLA =====================
-NIVEL_EDAD     = 10         # 0 = exacta · 5 · 10 · 20 años
-SEXO_COMO      = "agrupar"  # "conservar" · "agrupar" · "suprimir"
-CIUDAD_COMO    = "region"   # "ciudad" · "region" · "suprimir"
-OCUPACION_COMO = "grupo"    # "exacta" · "grupo" · "suprimir"
+NIVEL_EDAD     = 10          # 0 = exacta · 5 · 10 · 20 años
+SEXO_COMO      = "agrupar"   # "conservar" · "agrupar" · "suprimir"
+CIUDAD_COMO    = "region"    # "ciudad" · "region" · "suprimir"
+OCUPACION_COMO = "suprimir"  # "exacta" · "grupo" · "suprimir"
+ESTRATO_COMO   = "nivel"     # "exacto" · "nivel" (bajo/medio/alto) · "suprimir"
 # ===================================================
 
-e3 = generalizar(e1, NIVEL_EDAD, SEXO_COMO, CIUDAD_COMO, OCUPACION_COMO)
+e3 = generalizar(e1, NIVEL_EDAD, SEXO_COMO, CIUDAD_COMO, OCUPACION_COMO, ESTRATO_COMO)
 registrar("3 · generalización (mía)", e3, "generalización",
-          nota=f"edad {NIVEL_EDAD} · sexo {SEXO_COMO} · {CIUDAD_COMO} · ocupación {OCUPACION_COMO}")
+          nota=f"edad {NIVEL_EDAD} · sexo {SEXO_COMO} · {CIUDAD_COMO} · ocupación {OCUPACION_COMO} · estrato {ESTRATO_COMO}")
 """,
     )
+    c.md("""
+**Cómo leer la bitácora.** Hay dos columnas de riesgo porque hay dos
+escenarios: el **básico** (el atacante conoce edad, sexo, ciudad y ocupación) y
+el **ampliado** (además conoce el estrato, que se deduce de una dirección).
+`NCP %` es la **pérdida de información**: 0 si el dato se entrega exacto, 100 si
+se suprime. Una versión es mejor que otra solo si tiene **menos riesgo y menos
+pérdida a la vez**.
+""")
     c.code(r"""
-grafico_grupos({"sin identificadores": base_ingenua, "generalizada": e3},
+grafico_grupos({"sin identificadores": base_ingenua, "generalizada": e3}, cuasi=CUASI_AMPLIADO,
                titulo="Antes y después de generalizar")
 """)
     c.md("""
 ### Todas las combinaciones de una vez
 
-En lugar de probar a mano, recorramos las 108 combinaciones de perillas y
-veamos dónde quedan. Cada punto es una versión posible de la base.
+En lugar de probar a mano, recorramos las **324 combinaciones** de perillas y
+midamos cada una en el escenario ampliado. Cada punto es una versión posible de
+la base. Los puntos unidos por la línea forman la **frontera de Pareto**: las
+versiones que ninguna otra supera en riesgo **y** pérdida al mismo tiempo. Las
+demás son decisiones dominadas: hay otra mejor en los dos ejes.
 """)
     c.code(r"""
 import itertools
 
 filas = []
-for ed, sx, ci, oc in itertools.product([0, 5, 10, 20], ["conservar", "agrupar", "suprimir"],
-                                        ["ciudad", "region", "suprimir"], ["exacta", "grupo", "suprimir"]):
-    g = generalizar(e1, ed, sx, ci, oc)
-    p = perfil_riesgo(g)
-    # Utilidad sencilla: cuánto detalle conserva (combinaciones posibles, en escala log).
-    filas.append({"edad": ed, "sexo": sx, "ciudad": ci, "ocupacion": oc,
-                  "% k<5": p["% k<5"], "combinaciones": p["combinaciones"],
-                  "% homogéneos (k≥2)": p["% homogéneos (k≥2)"]})
+for ed, sx, ci, oc, es in itertools.product([0, 5, 10, 20], ["conservar", "agrupar", "suprimir"],
+                                            ["ciudad", "region", "suprimir"], ["exacta", "grupo", "suprimir"],
+                                            ["exacto", "nivel", "suprimir"]):
+    g = generalizar(e1, ed, sx, ci, oc, es)
+    filas.append({"edad": ed, "sexo": sx, "ciudad": ci, "ocupacion": oc, "estrato": es,
+                  "% k<5": perfil_riesgo(g, CUASI_AMPLIADO, sensible=None)["% k<5"], "NCP %": ncp(g)})
 mapa = pd.DataFrame(filas)
 
-fig, ax = plt.subplots(figsize=(9, 4.5))
+# Frontera de Pareto: nadie tiene a la vez menos riesgo y menos pérdida.
+orden = mapa.sort_values(["NCP %", "% k<5"])
+mapa["pareto"] = False
+mejor = np.inf
+for i, fila in orden.iterrows():
+    if fila["% k<5"] < mejor:
+        mapa.loc[i, "pareto"] = True
+        mejor = fila["% k<5"]
+
+fig, ax = plt.subplots(figsize=(9, 4.8))
 ok = mapa["% k<5"] < 5
-ax.scatter(mapa.loc[~ok, "combinaciones"], mapa.loc[~ok, "% k<5"], color=COLOR["antes"], alpha=.7, label="no cumple k≥5 al 95 %")
-ax.scatter(mapa.loc[ok, "combinaciones"], mapa.loc[ok, "% k<5"], color=COLOR["ok"], s=50, label="cumple")
-mia = perfil_riesgo(e3)
-ax.scatter([mia["combinaciones"]], [mia["% k<5"]], color=COLOR["acento"], s=160, marker="*", label="su elección", zorder=5)
+ax.scatter(mapa.loc[~ok, "NCP %"], mapa.loc[~ok, "% k<5"], color=COLOR["antes"], alpha=.5, s=18, label="no cumple (≥5 % en k<5)")
+ax.scatter(mapa.loc[ok, "NCP %"], mapa.loc[ok, "% k<5"], color=COLOR["ok"], s=30, label="cumple (<5 % en k<5)")
+fr = mapa[mapa["pareto"]].sort_values("NCP %")
+ax.plot(fr["NCP %"], fr["% k<5"], "-", color=COLOR["acento"], lw=1.5, label="frontera de Pareto")
+mia = mapa[(mapa.edad == NIVEL_EDAD) & (mapa.sexo == SEXO_COMO) & (mapa.ciudad == CIUDAD_COMO)
+           & (mapa.ocupacion == OCUPACION_COMO) & (mapa.estrato == ESTRATO_COMO)]
+ax.scatter(mia["NCP %"], mia["% k<5"], color=COLOR["acento"], s=220, marker="*", label="su elección", zorder=5)
 ax.axhline(5, color=COLOR["alerta"], ls="--", lw=1)
-ax.set_xscale("log")
-ax.set_xlabel("Detalle que conserva (n.º de combinaciones, escala log) → más útil")
-ax.set_ylabel("% registros con k<5 → más riesgo")
-ax.set_title("108 versiones posibles de la misma base")
-ax.legend(frameon=False)
+ax.set_xlabel("Pérdida de información, NCP %  (← conserva más detalle)")
+ax.set_ylabel("% registros con k<5  (↓ menos riesgo)")
+ax.set_title("324 versiones posibles · escenario ampliado (con estrato)")
+ax.legend(frameon=False, fontsize=8.5)
 plt.show()
 
-print("Las cinco versiones que cumplen con MÁS detalle:")
-mapa[ok].sort_values("combinaciones", ascending=False).head(5)
+print("Las cinco versiones que cumplen con MENOS pérdida de información:")
+mapa[ok].sort_values("NCP %").head(5)
 """)
     c.md("""
 #### 🎮 Panel interactivo (Colab o Jupyter)
@@ -1733,17 +1852,18 @@ Si está en Colab o Jupyter con `ipywidgets`, la celda siguiente crea un panel
 con menús. Si no, muestra una tabla fija. Funciona igual en los dos casos.
 """)
     c.code(r"""
-def panel(edad=10, sexo="agrupar", ciudad="region", ocupacion="grupo"):
-    g = generalizar(e1, edad, sexo, ciudad, ocupacion)
-    p = perfil_riesgo(g)
-    semaforo = "🟢" if p["% k<5"] < 5 else ("🟡" if p["% k<5"] < 20 else "🔴")
-    print(f"{semaforo}  k mínimo {p['k mínimo']}  ·  {p['% k<5']} % en k<5  ·  "
-          f"{p['% homogéneos (k≥2)']} % en grupos homogéneos  ·  {p['combinaciones']} combinaciones")
+def panel(edad=10, sexo="agrupar", ciudad="region", ocupacion="grupo", estrato="nivel"):
+    g = generalizar(e1, edad, sexo, ciudad, ocupacion, estrato)
+    b, a = perfil_riesgo(g, CUASI), perfil_riesgo(g, CUASI_AMPLIADO)
+    semaforo = "🟢" if a["% k<5"] < 5 else ("🟡" if a["% k<5"] < 20 else "🔴")
+    print(f"{semaforo}  k<5: {b['% k<5']} % (básico) · {a['% k<5']} % (+estrato)  ·  "
+          f"homogéneos {a['% homogéneos (k≥2)']} %  ·  pérdida NCP {ncp(g)} %")
 
 try:
     from ipywidgets import interact
     interact(panel, edad=[0, 5, 10, 20], sexo=["conservar", "agrupar", "suprimir"],
-             ciudad=["ciudad", "region", "suprimir"], ocupacion=["exacta", "grupo", "suprimir"])
+             ciudad=["ciudad", "region", "suprimir"], ocupacion=["exacta", "grupo", "suprimir"],
+             estrato=["exacto", "nivel", "suprimir"])
 except ImportError:
     for ed in [0, 5, 10, 20]:
         print(f"edad={ed:>2}", end="  ")
@@ -1751,25 +1871,29 @@ except ImportError:
 """)
     pregunta_nb(
         c, "decide", next(n),
-        "En el gráfico de las 108 versiones, ¿qué perilla baja más el riesgo "
-        "por cada unidad de detalle que se pierde? ¿Y cuál es la que **menos** "
-        "le conviene tocar si el proveedor necesita recomendar por ciudad?",
-        "La edad es la variable con más valores (65), así que pasar de edad "
-        "exacta a rangos de 10 años es la palanca más eficiente. Si la "
-        "finalidad exige ciudad, se conserva ciudad y se compensa con más "
-        "generalización en edad u ocupación. La lección: **la finalidad decide "
-        "qué variable se sacrifica**, no la comodidad técnica.",
+        "Mire la frontera de Pareto. ¿Qué perillas aparecen en casi todas las "
+        "versiones de la frontera? Si el proveedor necesita recomendar **por "
+        "ciudad**, ¿qué tendría que sacrificar a cambio?",
+        "En la frontera dominan la edad en rangos amplios y el estrato en "
+        "niveles o suprimido: son las variables que más separan a las personas. "
+        "Conservar la ciudad obliga a compensar con más generalización en edad, "
+        "ocupación o estrato. La lección: **la finalidad decide qué variable se "
+        "sacrifica**, y la frontera muestra el precio de cada elección. Elegir un "
+        "punto fuera de la frontera es pagar pérdida o riesgo sin necesidad.",
     )
 
     # --- Estación 4
     c.md("""
-## 🧰 Estación 4 · Supresión local: quitar a los que quedan solos
+## 🟢 🧰 Estación 4 · Supresión local: quitar a los que quedan solos
 
 Después de generalizar suele quedar un puñado de personas en grupos pequeños.
 Una salida es **suprimir esos registros**. Parece gratis. No lo es.
+
+*La supresión se calcula en el escenario ampliado (con estrato): es el más
+exigente de los dos que declaramos.*
 """)
     c.code(r"""
-tam = tam_grupo(e3, CUASI)
+tam = tam_grupo(e3, CUASI_AMPLIADO)
 e4 = e3[tam >= K_OBJETIVO].copy()
 suprimidos = e3[tam < K_OBJETIVO]
 
@@ -1778,30 +1902,41 @@ registrar("4 · + supresión local k<5", e4, "supresión de registros",
           nota=f"{len(suprimidos)} registros fuera")
 """)
     c.code(r"""
-# ¿Los suprimidos son una muestra al azar? Comparemos.
-comparacion = pd.DataFrame({
-    "se quedan": [e4["churn"].mean(), (e4["sexo"].isin(["Otro", "Otro/NR", "Prefiere no responder"])).mean(),
-                  (e4["pais_residencia"] != "Colombia").mean(), e4["edad"].astype(str).str[:2].isin(["60", "70", "80"]).mean()],
-    "se suprimen": [suprimidos["churn"].mean(), (suprimidos["sexo"].isin(["Otro", "Otro/NR", "Prefiere no responder"])).mean(),
-                    (suprimidos["pais_residencia"] != "Colombia").mean(), suprimidos["edad"].astype(str).str[:2].isin(["60", "70", "80"]).mean()],
-}, index=["tasa de abandono", "sexo: otro / no responde", "residente fuera de Colombia", "60 años o más"]) * 100
-comparacion.round(1).style.format("{:.1f} %").background_gradient(axis=1, cmap="Reds")
+# ¿Los suprimidos son una muestra al azar? Se comparan con sus datos ORIGINALES.
+def rasgos(idx):
+    o = df.loc[idx]
+    return [o["churn"].mean(), o["sexo"].isin(["Otro", "Prefiere no responder"]).mean(),
+            (o["pais_residencia"] != "Colombia").mean(), (o["edad"] >= 60).mean(),
+            o["estrato"].isin([5, 6]).mean()]
+
+comparacion = pd.DataFrame(
+    {"se quedan": rasgos(e4.index), "se suprimen": rasgos(suprimidos.index)},
+    index=["tasa de abandono", "sexo: otro / no responde", "residente fuera de Colombia",
+           "60 años o más", "estratos 5 y 6"]) * 100
+comparacion["diferencia (pp)"] = comparacion["se suprimen"] - comparacion["se quedan"]
+print(f"La tasa de abandono por categoría cambia hasta {dif_tasas(e4)} puntos porcentuales "
+      "respecto a la base completa.")
+comparacion.round(1)
 """)
     pregunta_nb(
         c, "riesgo", next(n),
-        "¿A quién se lleva la supresión? Si el proveedor entrena con la base "
-        "sin esas personas, ¿para quién va a funcionar peor el recomendador?",
+        "¿A quién se lleva la supresión? Mire la columna `diferencia (pp)`. Si "
+        "el proveedor entrena con la base sin esas personas, ¿para quién va a "
+        "funcionar peor el recomendador? ¿Y qué le pasa a una estadística "
+        "como la tasa de abandono?",
         "La supresión se lleva sobre todo a las minorías de la base: personas "
-        "que no se identifican como F o M, mayores, residentes fuera del país. "
-        "Proteger su identidad borrándolas las vuelve **invisibles** para el "
-        "modelo: es un sesgo de representación fabricado por la anonimización "
-        "(enlace directo con el Encuentro 3). Alternativa: suprimir celdas "
-        "(reemplazar por `*`) en lugar de filas, o generalizar más solo para esos grupos.",
+        "que no se identifican como F o M, mayores, residentes fuera del país, "
+        "estratos poco frecuentes. Proteger su identidad borrándolas las vuelve "
+        "**invisibles** para el modelo: es un sesgo de representación fabricado "
+        "por la anonimización (enlace directo con el Encuentro 3). Además cambia "
+        "las tasas que se calculen después. Alternativas: suprimir celdas "
+        "(reemplazar por `*`) en lugar de filas, o generalizar más solo para "
+        "esos grupos. Y siempre **reportar cuántos y quiénes** se suprimieron.",
     )
 
     # --- Estación 5
     c.md("""
-## 🧰 Estación 5 · *Top coding* y microagregación
+## 🔵 🧰 Estación 5 · *Top coding* y microagregación
 
 Los ingresos tienen una cola larga: una persona que gana 22 millones es casi
 única aunque todo lo demás esté generalizado.
@@ -1855,20 +1990,24 @@ plt.show()
 
     # --- Estación 6
     c.md("""
-## 🧰 Estación 6 · Perturbación: ruido y coordenadas
+## 🔵 🧰 Estación 6 · Perturbación: ruido y coordenadas
 
 Alterar valores de forma controlada. Útil para variables continuas que el
 proveedor necesita en escala numérica.
 """)
     c.code(r"""
 # ===================== PERILLA =====================
-RUIDO_MONTO = 0.10      # desviación relativa del ruido multiplicativo (0.10 = ±10 %)
+RUIDO_MONTO = 0.10      # DESVIACIÓN ESTÁNDAR relativa del ruido: 0.10 no significa «máximo ±10 %»
 DECIMALES_COORD = 2     # 4 ≈ 11 m · 3 ≈ 110 m · 2 ≈ 1,1 km · 1 ≈ 11 km
 # ===================================================
 rng = np.random.default_rng(11)
 monto_ruido = df["monto_compras"] * (1 + rng.normal(0, RUIDO_MONTO, len(df)))
 
+cambio = (monto_ruido / df["monto_compras"] - 1).abs()
+print(f"Registros con cambio mayor a ±{RUIDO_MONTO:.0%}: {(cambio > RUIDO_MONTO).mean():.0%}  ·  "
+      f"mayor a ±{2*RUIDO_MONTO:.0%}: {(cambio > 2*RUIDO_MONTO).mean():.0%}  (normal: ≈32 % y ≈5 %)")
 print(f"Media del monto   original: {df['monto_compras'].mean():>12,.0f}   con ruido: {monto_ruido.mean():>12,.0f}")
+print(f"Desv. est. del monto original: {df['monto_compras'].std():>12,.0f}   con ruido: {monto_ruido.std():>12,.0f}")
 print(f"Correlación monto-compras_6m original: {df['monto_compras'].corr(df['compras_6m']):.3f}"
       f"   con ruido: {monto_ruido.corr(df['compras_6m']):.3f}")
 
@@ -1894,7 +2033,7 @@ print(f"Personas solas en su punto + barrio      : {(k_coord == 1).mean()*100:.1
 
     # --- Estación 7
     c.md("""
-## 🧰 Estación 7 · Privacidad diferencial para tablas
+## 🔵 🧰 Estación 7 · Privacidad diferencial para tablas
 
 Cuando lo que se publica son **conteos** (un tablero, un informe), se puede
 sumar ruido calibrado con una garantía matemática. El parámetro **ε (épsilon)**
@@ -1935,6 +2074,26 @@ for x, y in zip(eps_grid, errores):
     ax.annotate(f"{y:.0f} %", (x, y), textcoords="offset points", xytext=(0, 8), ha="center", fontsize=8)
 plt.show()
 """)
+    c.md("""
+### Tres ideas para no exagerar la garantía
+
+- **Sensibilidad.** Un conteo cambia como máximo en 1 si se agrega o se quita
+  una persona. Por eso la escala del ruido es 1/ε. Otras consultas (sumas de
+  montos, promedios) tienen sensibilidad mayor y necesitan más ruido.
+- **Composición en paralelo.** Cada persona está en una sola ciudad: publicar la
+  tabla completa por ciudad gasta **ε una vez**, no doce.
+- **Composición secuencial.** Publicar la **misma** tabla *m* veces gasta
+  *m* × ε. Las 200 repeticiones del gráfico anterior son una **simulación** del
+  error esperado, no publicaciones reales. Si se publicaran, el promedio
+  revelaría el valor real, como muestra la celda siguiente.
+""")
+    c.code(r"""
+# Ataque por promedio: publicar 50 veces con ε = 0,5 cada vez equivale a gastar ε = 25.
+publicaciones = np.array([laplace(real, 0.5, s) for s in range(50)])
+promedio = pd.Series(publicaciones.mean(axis=0), index=real.index).round(1)
+pd.DataFrame({"real": real, "una publicación (ε = 0,5)": publicaciones[0],
+              "promedio de 50 publicaciones": promedio}).tail(6)
+""")
     pregunta_nb(
         c, "decide", next(n),
         "Para la ciudad más pequeña el error relativo es mucho mayor que para "
@@ -1949,24 +2108,27 @@ plt.show()
 
     # --- Estación 8
     c.md("""
-## 🧰 Estación 8 · Datos sintéticos
+## 🔵 🧰 Estación 8 · Datos sintéticos
 
 Generar una base **nueva**, sin personas reales, que imite a la original.
-Probamos dos generadores muy sencillos y los evaluamos con la prueba estándar:
-**entrenar con sintético y evaluar con real** (TSTR).
+Probamos dos generadores muy sencillos y los evaluamos con la prueba estándar
+**TSTR**: *entrenar con sintético, evaluar con real*.
+
+> ⚠️ **Regla para no hacer trampa.** Las personas reales con que se evalúa
+> **no pueden** haber sido usadas para crear los sintéticos. Por eso partimos la
+> base en dos: el 70 % alimenta al generador y el 30 % solo sirve para evaluar.
 """)
     c.code(r"""
-COLS_MODELO = ["edad", "sexo", "ciudad", "ocupacion", "estrato", "visitas_web", "productos_vistos",
-               "compras_6m", "monto_compras", "recencia_dias", "canal_adquisicion", "categoria_top"]
+from sklearn.model_selection import train_test_split
 
-def sintetico_independiente(datos, columnas, n=None, semilla=1):
+def sintetico_independiente(datos, columnas=COLS_MODELO, n=None, semilla=1):
     # Cada columna se muestrea por separado: conserva marginales, rompe relaciones.
     r = np.random.default_rng(semilla)
     n = n or len(datos)
     return pd.DataFrame({c: r.choice(datos[c].values, n) for c in columnas + ["churn"]})
 
-def sintetico_condicional(datos, columnas, objetivo="churn", semilla=1):
-    # Dentro de cada clase de churn, cada columna se muestrea por separado.
+def sintetico_condicional(datos, columnas=COLS_MODELO, objetivo="churn", semilla=1):
+    # Dentro de cada clase de abandono, cada columna se muestrea por separado.
     partes = []
     for valor, sub in datos.groupby(objetivo):
         s = sintetico_independiente(sub, columnas, len(sub), semilla + int(valor))
@@ -1974,37 +2136,56 @@ def sintetico_condicional(datos, columnas, objetivo="churn", semilla=1):
         partes.append(s)
     return pd.concat(partes, ignore_index=True).sample(frac=1, random_state=semilla)
 
-def tstr(sintetico, real, columnas):
-    Xs = pd.get_dummies(sintetico[columnas], dtype=float)
-    Xr = pd.get_dummies(real[columnas], dtype=float).reindex(columns=Xs.columns, fill_value=0)
-    m = make_pipeline(StandardScaler(), LogisticRegression(max_iter=3000, C=0.5)).fit(Xs, sintetico["churn"])
-    from sklearn.metrics import roc_auc_score
-    return round(roc_auc_score(real["churn"], m.predict_proba(Xr)[:, 1]), 3)
+def auc_holdout(entreno, prueba):
+    Xtr = _matriz(entreno, COLS_MODELO); med = Xtr.median()
+    m = make_pipeline(StandardScaler(), LogisticRegression(max_iter=3000, C=0.5)).fit(Xtr.fillna(med), entreno["churn"])
+    return round(roc_auc_score(prueba["churn"], m.predict_proba(_matriz(prueba, COLS_MODELO, Xtr.columns).fillna(med))[:, 1]), 3)
 
-real_mod = df[COLS_MODELO + ["churn"]].dropna()
-s_ind = sintetico_independiente(real_mod, COLS_MODELO)
-s_con = sintetico_condicional(real_mod, COLS_MODELO)
+real_gen, real_eval = train_test_split(df, test_size=0.3, stratify=df["churn"], random_state=7)
+s_ind = sintetico_independiente(real_gen)
+s_con = sintetico_condicional(real_gen)
 
-copias = s_con.merge(real_mod, on=COLS_MODELO + ["churn"]).shape[0]
-utilidad_sint = pd.DataFrame({
-    "AUC (evaluado en datos reales)": [auc_churn(real_mod, COLS_MODELO), tstr(s_ind, real_mod, COLS_MODELO),
-                                       tstr(s_con, real_mod, COLS_MODELO)],
-}, index=["modelo entrenado con datos reales", "sintético independiente", "sintético condicional"])
-print(f"Filas sintéticas idénticas a una persona real: {copias}")
+utilidad_sint = pd.DataFrame({"AUC en el 30 % real no visto": [
+    auc_holdout(real_gen, real_eval), auc_holdout(s_ind, real_eval), auc_holdout(s_con, real_eval)]},
+    index=["entrenado con el 70 % real (referencia)", "sintético independiente", "sintético condicional"])
 utilidad_sint
+""")
+    c.md("""
+### ¿El sintético protege? «Cero copias» no basta
+
+Que ninguna fila sintética sea idéntica a una real es una condición mínima, no
+una prueba. La pregunta útil es otra: **si un atacante busca en la base
+sintética a una persona real que era única, ¿aprende algo sobre ella?**
+Comparamos su acierto con el de alguien que simplemente adivina la categoría
+más frecuente.
+""")
+    c.code(r"""
+copias = s_con.merge(real_gen[COLS_MODELO + ["churn"]], on=COLS_MODELO + ["churn"]).shape[0]
+
+unicos = real_gen[tam_grupo(real_gen, CUASI) == 1]          # personas reales solas en su grupo
+coinc = unicos.merge(s_con, on=CUASI, suffixes=("_real", "_sint"))
+acierto = (coinc[SENSIBLE + "_real"] == coinc[SENSIBLE + "_sint"]).mean() * 100
+azar = real_gen[SENSIBLE].value_counts(normalize=True).iloc[0] * 100
+
+print(f"Filas sintéticas idénticas a una persona real          : {copias}")
+print(f"Personas únicas con al menos un «doble» sintético       : {coinc[CUASI].drop_duplicates().shape[0]} de {len(unicos)}")
+print(f"Acierto del atacante sobre la categoría que más compra  : {acierto:.1f} %")
+print(f"Acierto adivinando siempre la categoría más frecuente   : {azar:.1f} %")
 """)
     pregunta_nb(
         c, "riesgo", next(n),
         "El sintético independiente pierde casi toda la señal; el condicional "
-        "conserva parte. Un generador más potente (redes neuronales, cópulas) "
-        "conservaría más… ¿y qué riesgo nuevo aparece cuando un generador es "
-        "**demasiado bueno**?",
-        "Que **memorice**: un generador muy ajustado puede reproducir registros "
-        "reales casi idénticos, sobre todo de personas atípicas. Por eso un "
-        "sintético no es anónimo por definición: hay que medir copias exactas, "
-        "distancia al registro real más cercano y ataques de pertenencia. Es el "
-        "mismo problema de los modelos de lenguaje que memorizan datos de "
-        "entrenamiento (parte 6).",
+        "conserva parte. En la prueba de inferencia, el atacante acierta "
+        "**menos** que adivinando. ¿Qué pasaría con esa prueba si usáramos un "
+        "generador mucho más potente (redes neuronales, cópulas), que conserva "
+        "más relaciones?",
+        "Con un generador potente la utilidad sube, pero también el riesgo de "
+        "que **memorice**: puede reproducir registros reales casi idénticos, "
+        "sobre todo de personas atípicas, y entonces el acierto del atacante "
+        "superaría al azar. Por eso un sintético no es anónimo por definición: "
+        "hay que medir copias, inferencia de atributos y, en estudios serios, "
+        "ataques de pertenencia. Nuestro generador es tan simple que no puede "
+        "memorizar combinaciones; eso explica su baja utilidad y su bajo riesgo.",
     )
 
     # ------------------------------------------------------------ COMPARAR
@@ -2013,79 +2194,127 @@ utilidad_sint
 
 # 4 · COMPARAR
 
-*Cuatro bases candidatas, dos ejes: riesgo y utilidad. Y el ataque otra vez.*
+*Cinco bases candidatas, dos escenarios de atacante y una utilidad medida sin trampas.*
+
+### Cómo se mide cada eje
+
+| Eje | Medida | Cómo se lee |
+|:--|:--|:--|
+| Riesgo | % *k*<5 y riesgo 1/*k*, en el escenario **básico** y en el **ampliado** | El ampliado es el que decide: el estrato viaja en la base |
+| Riesgo | % reidentificado por el **ataque** de vinculación | Personas de la fuente pública acertadas con certeza |
+| Pérdida | **NCP %** | 0 = exacto · 100 = suprimido |
+| Utilidad | **AUC** del modelo de abandono, 5 pliegues | Media ± desviación estándar entre pliegues |
+| Utilidad | **ΔAUC** frente a V0, pareado (mismos pliegues) | Regla práctica, no una prueba formal: si ΔAUC, en valor absoluto, es menor que su desviación, **no hay diferencia demostrable** |
+| Utilidad | **Δ tasa** de abandono por categoría | Cuánto se deforma una estadística descriptiva (pp) |
+
+**Sin fugas:** en cada pliegue, la generalización, la supresión o el generador
+sintético se aplican **solo** al 80 % de entrenamiento; el 20 % restante son
+personas reales nuevas, a las que se aplica la misma regla de generalización
+(sin suprimirlas, porque en la vida real siguen existiendo).
 """)
     c.code(r"""
-COLS_ENTREGA = COLS_MODELO + ["churn"]
-
-candidatas = {
-    "V0 · sin identificadores": e1,
-    "V1 · generalización suave": generalizar(e1, 5, "conservar", "ciudad", "grupo"),
-    "V2 · generalización fuerte + supresión": None,
-    "V3 · sintética condicional": s_con,
+VERSIONES = {
+    "V0 · sin identificadores":          dict(gen=None, sup=None),
+    "V1 · generalización suave":         dict(gen=(5, "conservar", "ciudad", "grupo", "exacto"), sup=None),
+    "V2 · fuerte + supresión (básico)":  dict(gen=(10, "agrupar", "region", "grupo", "exacto"), sup=CUASI),
+    "V2b · fuerte + estrato en niveles": dict(gen=(10, "agrupar", "region", "suprimir", "nivel"), sup=CUASI_AMPLIADO),
+    "V3 · sintética condicional":        dict(sint=True),
+    "★ su versión (estaciones 3+4)":     dict(gen=(NIVEL_EDAD, SEXO_COMO, CIUDAD_COMO, OCUPACION_COMO, ESTRATO_COMO),
+                                              sup=CUASI_AMPLIADO),
 }
-v2 = generalizar(e1, 10, "agrupar", "region", "grupo")
-candidatas["V2 · generalización fuerte + supresión"] = v2[tam_grupo(v2, CUASI) >= K_OBJETIVO]
-candidatas["★ su versión (estaciones 3+4)"] = e4
 
-filas = []
-for nombre, base in candidatas.items():
-    p = perfil_riesgo(base)
-    if nombre.startswith("V3"):
-        # En una base sintética no hay personas reales que acertar: k no aplica.
-        p = {k_: np.nan for k_ in p}
-        reid, auc = 0.0, tstr(base, real_mod, COLS_MODELO)
+def construir(cfg, datos=e1):
+    d = generalizar(datos, *cfg["gen"]) if cfg.get("gen") else datos
+    return d[tam_grupo(d, cfg["sup"]) >= K_OBJETIVO] if cfg.get("sup") else d
+
+candidatas, filas, aucs = {}, [], {}
+for nombre, cfg in VERSIONES.items():
+    if cfg.get("sint"):
+        base = sintetico_condicional(df)
+        aucs[nombre] = utilidad_cv(sintetico=lambda tr: sintetico_condicional(tr))
+        fila = {"registros": len(base), "% k<5 básico": np.nan, "% k<5 ampliado": np.nan,
+                "riesgo 1/k % ampliado": np.nan, "% reid. ataque básico": 0.0,
+                "% reid. ataque ampliado": 0.0, "NCP %": np.nan}
     else:
-        pub = fuente_publica.copy()
-        if base is not e1:   # el atacante conoce el esquema de generalización y lo aplica
-            ref = {"V1": (5, "conservar", "ciudad", "grupo"), "V2": (10, "agrupar", "region", "grupo"),
-                   "★ ": (NIVEL_EDAD, SEXO_COMO, CIUDAD_COMO, OCUPACION_COMO)}[nombre[:2]]
-            pub = generalizar(pub, *ref)
-        reid = ataque_vinculacion(pub, base, CUASI, mostrar=False)[0]["% reidentificadas"]
-        auc = auc_churn(base, COLS_MODELO)
-    filas.append({"versión": nombre, "registros": len(base), "% k<5": p["% k<5"],
-                  "prob. media reid. %": p["prob. media reid. %"],
-                  "% reidentificadas en el ataque": reid, "AUC": auc})
+        base = construir(cfg)
+        pub = generalizar(fuente_publica, *cfg["gen"]) if cfg.get("gen") else fuente_publica
+        trans = (lambda d, g=cfg.get("gen"): generalizar(d, *g)) if cfg.get("gen") else None
+        aucs[nombre] = utilidad_cv(transformar=trans, suprimir_en=cfg.get("sup"))
+        b, a = perfil_riesgo(base, CUASI), perfil_riesgo(base, CUASI_AMPLIADO)
+        fila = {"registros": len(base), "% k<5 básico": b["% k<5"], "% k<5 ampliado": a["% k<5"],
+                "riesgo 1/k % ampliado": a["riesgo medio 1/k %"],
+                "% reid. ataque básico": ataque_vinculacion(pub, base, CUASI, mostrar=False)[0]["% reidentificadas"],
+                "% reid. ataque ampliado": ataque_vinculacion(pub, base, CUASI_AMPLIADO, mostrar=False)[0]["% reidentificadas"],
+                "NCP %": ncp(base)}
+    candidatas[nombre] = base
+    d = aucs[nombre] - aucs["V0 · sin identificadores"]
+    fila.update({"Δ tasa abandono (pp)": dif_tasas(base),
+                 "AUC": f"{aucs[nombre].mean():.3f} ± {aucs[nombre].std():.3f}",
+                 "ΔAUC vs V0": f"{d.mean():+.3f} ± {d.std():.3f}" if nombre[:2] != "V0" else "—"})
+    filas.append({"versión": nombre, **fila})
 
 frontera = pd.DataFrame(filas).set_index("versión")
 frontera
 """)
     c.code(r"""
-fig, ax = plt.subplots(figsize=(9, 5))
-colores = [COLOR["alerta"], COLOR["ambar"], COLOR["despues"], COLOR["acento"], COLOR["ok"]]
+fig, ax = plt.subplots(figsize=(9.5, 5))
+colores = [COLOR["alerta"], COLOR["ambar"], COLOR["despues"], COLOR["ok"], COLOR["acento"], "#0f172a"]
 usados = {}
 for (nombre, fila), col in zip(frontera.iterrows(), colores):
-    x, y = fila["% reidentificadas en el ataque"], fila["AUC"]
-    ax.scatter(x, y, s=220, color=col, zorder=3, edgecolor="white", label=f"{nombre} · AUC {y:.3f}")
-    clave = round(x / 5)
-    desfase = usados.get(clave, 0)
-    usados[clave] = desfase + 1
-    ax.annotate(nombre.split(" · ")[0].replace("★ su versión (estaciones 3+4)", "★"), (x, y),
-                textcoords="offset points", xytext=(12 + 26 * desfase, 10), fontsize=10, fontweight="bold")
-ax.axhline(0.5, color=COLOR["antes"], ls=":", lw=1)
-ax.text(8, 0.51, "AUC 0,5 = adivinar al azar", fontsize=8, color=COLOR["antes"])
-ax.set_ylim(0.45, 0.92)
-ax.axvspan(-2, 5, color=COLOR["ok"], alpha=.08)
-ax.text(-1, 0.47, "zona aceptable (<5 %)", fontsize=8, color=COLOR["ok"])
-ax.set_xlabel("% de la fuente pública reidentificado  (← más seguro)")
-ax.set_ylabel("AUC del modelo de abandono  (más útil ↑)")
-ax.set_title("Riesgo y utilidad: proteger costó mucho menos de lo que parecía")
-ax.set_xlim(-2, max(frontera["% reidentificadas en el ataque"]) + 15)
-ax.legend(frameon=False, loc="center right", fontsize=8.5)
+    d = aucs[nombre] - aucs["V0 · sin identificadores"]
+    x, y, e = fila["% reid. ataque ampliado"], d.mean(), d.std()
+    es_mia = nombre.startswith("★")
+    ax.errorbar(x + (1.5 if es_mia else 0), y, yerr=e, fmt="*" if es_mia else "o", ms=16 if es_mia else 10,
+                color=col, capsize=4, label=nombre, zorder=2 if es_mia else 3, alpha=.8 if es_mia else 1)
+    k = round(x / 6)
+    usados[k] = usados.get(k, -1) + 1
+    corto = "★" if nombre.startswith("★") else nombre.split(" · ")[0]
+    ax.annotate(corto, (x, y), textcoords="offset points", xytext=(10 + 22 * usados[k], 6),
+                fontsize=10, fontweight="bold", color=col)
+ax.axhline(0, color=COLOR["antes"], lw=1)
+ax.text(60, 0.002, "misma utilidad que V0", fontsize=8, color=COLOR["antes"])
+ax.axvspan(-3, 5, color=COLOR["ok"], alpha=.08)
+ax.set_xlim(-3, 100)
+ax.set_xlabel("% de la fuente pública reidentificado · escenario ampliado  (← más seguro)")
+ax.set_ylabel("ΔAUC frente a V0 (pareado)\nmedia ± d.e. en 5 pliegues")
+ax.set_title("¿Cuánta utilidad costó cada punto de riesgo que se quitó?")
+ax.legend(frameon=False, loc="lower right", fontsize=8)
 plt.show()
+""")
+    c.md("""
+### ¿Qué técnicas llegaron a las versiones finales?
+
+| Estación | ¿Está en V2 / V2b? | Por qué |
+|:--|:--|:--|
+| 1 · Supresión de indirectos | Sí | IP, coordenadas, barrio y fecha de nacimiento no viajan |
+| 2 · Seudonimización | No en la base: se entrega un identificador aleatorio | El proveedor no necesita unir con otras tablas; si lo necesitara, HMAC |
+| 3 · Generalización | Sí | Edad, sexo, ciudad, ocupación y (en V2b) estrato |
+| 4 · Supresión local | Sí | Los grupos con *k* < 5 |
+| 5 · *Top coding* / microagregación | No | `ingresos_mensuales` no se entrega: minimizar fue más barato |
+| 6 · Perturbación | No | Las coordenadas no se entregan. **`monto_compras` sí, exacto**: riesgo residual que hay que declarar |
+| 7 · Privacidad diferencial | No | Sirve para publicar tablas, no para entregar microdatos |
+| 8 · Datos sintéticos | Es la versión V3 | Alternativa completa, no un paso |
 """)
     pregunta_nb(
         c, "decision", next(n),
-        "Mire el gráfico. ¿Cuánta utilidad (AUC) se pierde al pasar de V0 a V2? "
-        "¿Y cuánto riesgo se gana?\n\nLa pregunta central del encuentro: "
-        "**¿cuánta utilidad estamos dispuestos a perder, y quién decide eso?**",
-        "En esta base la pérdida de AUC entre V0 y V2 es prácticamente nula "
-        "(del orden de milésimas, incluso puede subir), porque el abandono depende sobre todo del comportamiento "
-        "y no de la demografía, mientras que el porcentaje reidentificado cae "
-        "de forma drástica. Es un hallazgo importante: **muchas veces la "
-        "protección cuesta menos de lo que se teme**, pero solo se sabe si se "
-        "mide. Quién decide: no el analista solo; el responsable del "
-        "tratamiento, con el umbral escrito y firmado.",
+        "Compare V2 y V2b. V2 parece perfecta en el escenario básico. ¿Qué le "
+        "pasa cuando el atacante también conoce el estrato? Luego mire la "
+        "columna `ΔAUC vs V0`: ¿hay alguna versión con una pérdida de utilidad "
+        "**demostrable**?\n\nLa pregunta central del encuentro: **¿cuánta "
+        "utilidad estamos dispuestos a perder, y quién decide eso?**",
+        "V2 cumple *k* ≥ 5 con cuatro cuasi-identificadores, pero entrega el "
+        "estrato exacto: con él, la mayoría de los registros vuelve a quedar en "
+        "grupos pequeños y el ataque ampliado reidentifica a muchas personas. "
+        "**Una métrica sin escenario declarado no prueba nada.** V2b corrige "
+        "eso generalizando el estrato y suprimiendo la ocupación, a cambio de más "
+        "pérdida (NCP ≈ 44 %), unos 300 registros suprimidos y tasas "
+        "descriptivas deformadas hasta unos 7 puntos. En utilidad predictiva, "
+        "V1 y V2 pierden ≈ 0,005 de AUC, menos que su desviación: no es una "
+        "diferencia demostrable. V2b pierde ≈ 0,016 ± 0,011 y el sintético "
+        "≈ 0,027 ± 0,014: pérdidas **pequeñas pero consistentes**. Conclusión "
+        "honesta: proteger de verdad sí cuesta, pero menos de lo que se teme, y "
+        "solo se sabe midiendo. Quién decide: el responsable del tratamiento, "
+        "con el umbral y el escenario escritos.",
     )
 
     # ------------------------------------------------------------ DECIDIR
@@ -2094,7 +2323,8 @@ plt.show()
 
 # 5 · DECIDIR Y ENTREGAR
 
-*Una base concreta, un umbral escrito y un informe que otra persona pueda auditar.*
+*Una base concreta, un umbral escrito, un escenario declarado y un informe que
+otra persona pueda auditar.*
 """)
     c.code(r"""
 pd.DataFrame(BITACORA).set_index("paso")
@@ -2102,13 +2332,15 @@ pd.DataFrame(BITACORA).set_index("paso")
     c.code_var(
         r"""
 # ===================== PERILLA =====================
-VERSION_ELEGIDA = "V2 · generalización fuerte + supresión"   # una de las filas de `frontera`
+VERSION_ELEGIDA = "V2b · fuerte + estrato en niveles"   # una de las filas de `frontera`
 SALIDA = "1 · base anonimizada con utilidad reducida"
 # Las tres salidas defendibles (Actividad 4):
 #   "1 · base anonimizada con utilidad reducida"
 #   "2 · base seudonimizada bajo contrato"
 #   "3 · no se entrega la base: alternativa"
-UMBRAL = "TODO: escriba su umbral, por ejemplo: k ≥ 5 para el 100 % de los registros"
+FINALIDAD = "TODO: para qué usará el proveedor la base, en una frase"
+POR_QUE_MICRODATOS = "TODO: por qué no basta con datos agregados o sintéticos"
+UMBRAL = "TODO: por ejemplo, k ≥ 5 para el 100 % de los registros en el escenario ampliado"
 JUSTIFICACION = "TODO: dos o tres frases con el porqué"
 CONDICIONES = "TODO: condiciones contractuales y técnicas que acompañan la entrega"
 EQUIPO = "TODO: nombres del grupo"
@@ -2116,47 +2348,86 @@ EQUIPO = "TODO: nombres del grupo"
 """,
         r"""
 # ===================== PERILLA =====================
-VERSION_ELEGIDA = "V2 · generalización fuerte + supresión"
+VERSION_ELEGIDA = "V2b · fuerte + estrato en niveles"
 SALIDA = "1 · base anonimizada con utilidad reducida"
-UMBRAL = "k ≥ 5 para el 100 % de los registros y <5 % de la fuente pública reidentificada"
-JUSTIFICACION = ("El abandono depende del comportamiento, no de la demografía fina: "
-                 "V2 conserva casi todo el AUC y reduce el ataque de vinculación a casi cero.")
-CONDICIONES = ("Acuerdo de transmisión con prohibición de cruce y de reidentificación; "
-               "uso exclusivo para el motor de recomendación; destrucción a los 6 meses; auditoría.")
+FINALIDAD = "Entrenar y validar el motor de recomendación de DataMarket; ningún otro uso."
+POR_QUE_MICRODATOS = ("El motor aprende de patrones individuales de compra; los agregados no sirven y "
+                      "el sintético simple pierde parte de la señal.")
+UMBRAL = "k ≥ 5 para el 100 % de los registros en el escenario ampliado y <5 % reidentificado en el ataque"
+JUSTIFICACION = ("V2b es la única versión de microdatos que cumple en los dos escenarios declarados. "
+                 "Cuesta una pérdida pequeña pero consistente de AUC (≈ 0,016), detalle demográfico y "
+                 "unos 300 registros suprimidos, que se reportan con su perfil.")
+CONDICIONES = ("Acuerdo de transmisión con prohibición de cruce y de reidentificación; uso exclusivo para la "
+               "finalidad; ambiente controlado; destrucción a los 6 meses; auditoría.")
 EQUIPO = "Docente · versión de referencia"
 # ===================================================
 """,
     )
     c.code(r"""
-entregable = candidatas[VERSION_ELEGIDA][[c for c in COLS_ENTREGA if c in candidatas[VERSION_ELEGIDA].columns]].copy()
-entregable.insert(0, "id_seudo", [secrets.token_hex(6) for _ in range(len(entregable))])  # sin vínculo posible
+f = frontera.loc[VERSION_ELEGIDA]
+v0 = frontera.iloc[0]
+
+# ---- Verificación automática antes de exportar --------------------------------
+es_sintetica = pd.isna(f["% k<5 ampliado"])
+chequeos = {
+    "k ≥ 5 para todos (escenario básico)": es_sintetica or f["% k<5 básico"] == 0,
+    "k ≥ 5 para todos (escenario ampliado)": es_sintetica or f["% k<5 ampliado"] == 0,
+    "ataque ampliado < 5 %": f["% reid. ataque ampliado"] < 5,
+    "sin identificadores directos ni indirectos": not set(IDENTIFICADORES_DIRECTOS + INDIRECTOS) & set(candidatas[VERSION_ELEGIDA].columns),
+}
+cumple = all(chequeos.values())
+for k_, v_ in chequeos.items():
+    print(("✅ " if v_ else "❌ ") + k_)
+if not cumple and SALIDA.startswith("1"):
+    print("\n⚠️  La versión NO cumple el umbral para la salida 1. Cambie de versión o de salida "
+          "(2: bajo contrato · 3: no entregar). El informe quedará marcado.")
+dictamen = ("LIBERAR CON CONDICIONES" if cumple and SALIDA.startswith("1")
+            else "NO LIBERAR COMO ANONIMIZADA" if SALIDA.startswith("1")
+            else "ENTREGA BAJO CONTRATO (datos personales)" if SALIDA.startswith("2")
+            else "NO SE ENTREGA LA BASE")
+
+entregable = candidatas[VERSION_ELEGIDA][[c for c in COLS_MODELO + ["churn"] if c in candidatas[VERSION_ELEGIDA].columns]].copy()
+entregable = entregable.loc[:, entregable.nunique() > 1]   # columnas suprimidas (todo «*») no viajan
+entregable.insert(0, "id_entrega", [secrets.token_hex(6) for _ in range(len(entregable))])  # sin vínculo posible
 entregable.to_csv("base_entregable_proveedor.csv", index=False, encoding="utf-8")
 
-f = frontera.loc[VERSION_ELEGIDA]
-informe = f'''# Informe de riesgo de reidentificación · DataMarket → proveedor
+informe = f'''# Dictamen de liberación de datos · DataMarket → proveedor
 
-**Equipo:** {EQUIPO}  ·  **Fecha:** {pd.Timestamp("today").date()}
+**Equipo:** {EQUIPO}  ·  **Fecha:** {pd.Timestamp("today").date()}  ·  **Dictamen:** {dictamen}
 
-## 1. Qué se entrega
+## 1. Finalidad y necesidad
+- Finalidad: {FINALIDAD}
+- ¿Por qué microdatos?: {POR_QUE_MICRODATOS}
+
+## 2. Qué se entrega
 - Versión: **{VERSION_ELEGIDA}** · salida elegida: **{SALIDA}**
-- {len(entregable):,} registros de {len(df):,} · {entregable.shape[1]} variables: {", ".join(entregable.columns)}
+- {len(entregable)} registros de {len(df)} ({len(df) - len(entregable)} suprimidos) · {entregable.shape[1]} variables: {", ".join(entregable.columns)}
 
-## 2. Qué se midió (escenario: el atacante conoce edad, sexo, ciudad y ocupación)
+## 3. Qué se midió
+Escenario básico: el atacante conoce edad, sexo, ciudad y ocupación. Escenario ampliado: además, el estrato.
+
 | Métrica | Línea base (V0) | Entregable |
 |:--|--:|--:|
-| % registros con k<5 | {frontera.iloc[0]["% k<5"]} | {f["% k<5"]} |
-| Prob. media de reidentificación % | {frontera.iloc[0]["prob. media reid. %"]} | {f["prob. media reid. %"]} |
-| % reidentificado en el ataque | {frontera.iloc[0]["% reidentificadas en el ataque"]} | {f["% reidentificadas en el ataque"]} |
-| AUC del modelo de abandono | {frontera.iloc[0]["AUC"]} | {f["AUC"]} |
+| % registros con k<5 · básico | {v0["% k<5 básico"]} | {f["% k<5 básico"]} |
+| % registros con k<5 · ampliado | {v0["% k<5 ampliado"]} | {f["% k<5 ampliado"]} |
+| Riesgo medio 1/k % · ampliado | {v0["riesgo 1/k % ampliado"]} | {f["riesgo 1/k % ampliado"]} |
+| % reidentificado en el ataque · ampliado | {v0["% reid. ataque ampliado"]} | {f["% reid. ataque ampliado"]} |
+| Pérdida de información NCP % | {v0["NCP %"]} | {f["NCP %"]} |
+| AUC del modelo de abandono (5 pliegues) | {v0["AUC"]} | {f["AUC"]} |
+| ΔAUC frente a V0 (pareado) | — | {f["ΔAUC vs V0"]} |
+| Máx. cambio en la tasa de abandono por categoría (pp) | 0 | {f["Δ tasa abandono (pp)"]} |
 
-## 3. Umbral aceptado y por qué
+Verificación automática: {"; ".join(("cumple: " if v else "NO cumple: ") + k for k, v in chequeos.items())}.
+
+## 4. Umbral aceptado y por qué
 {UMBRAL}. {JUSTIFICACION}
 
-## 4. Riesgo residual
-Vale para el escenario declarado. No cubre atacantes con información adicional
-(compras exactas, fechas) ni el cruce con otras bases del proveedor.
+## 5. Riesgo residual
+Vale solo para los dos escenarios declarados. No cubre a un atacante que conozca montos o fechas de
+compra exactos (`monto_compras` viaja sin perturbar) ni el cruce con otras bases del proveedor. El
+riesgo 1/k supone que el atacante sabe que la persona está en la base.
 
-## 5. Condiciones de la entrega
+## 6. Condiciones de la entrega
 {CONDICIONES}
 '''
 with open("informe_anonimizacion.md", "w", encoding="utf-8") as fh:
@@ -2168,15 +2439,16 @@ print("Archivos creados: base_entregable_proveedor.csv · informe_anonimizacion.
 """)
     pregunta_nb(
         c, "decision", next(n),
-        "El informe dice «riesgo residual: vale para el escenario declarado». "
-        "Nombre **un escenario de ataque** que su medición no cubre y diga qué "
-        "condición contractual o técnica lo compensaría.",
-        "Ejemplos: el proveedor tiene su propia base de clientes con edad y "
-        "ciudad exactas y compras con fecha (puede vincular por comportamiento, "
-        "no por demografía) → prohibición contractual de cruce, auditoría y "
-        "ambiente controlado. O una filtración en el proveedor → cifrado, "
-        "acceso por rol y plazo de destrucción. Lo que se busca es que el "
-        "estudiante reconozca que la métrica depende del escenario.",
+        "El dictamen dice «riesgo residual: vale para los escenarios "
+        "declarados». Nombre **un escenario de ataque** que su medición no "
+        "cubre y diga qué condición contractual o técnica lo compensaría.",
+        "Ejemplos: el proveedor tiene su propia base con montos y fechas de "
+        "compra (puede vincular por comportamiento, no por demografía) → "
+        "perturbar o redondear `monto_compras`, prohibición contractual de "
+        "cruce, auditoría y ambiente controlado. O una filtración en el "
+        "proveedor → cifrado, acceso por rol y plazo de destrucción. Lo que se "
+        "busca es que el estudiante reconozca que **la métrica depende del "
+        "escenario** y que el contrato cubre lo que la técnica no alcanza.",
     )
 
     # ------------------------------------------------------------ REFLEXIONAR
@@ -2226,7 +2498,7 @@ print("Archivos creados: base_entregable_proveedor.csv · informe_anonimizacion.
 | Archivo | Para qué |
 |:--|:--|
 | `base_entregable_proveedor.csv` | La base que saldría hacia el proveedor |
-| `informe_anonimizacion.md` | El borrador del informe de la **Actividad 4** |
+| `informe_anonimizacion.md` | El dictamen de liberación: borrador del informe de la **Actividad 4** |
 | La bitácora y la frontera riesgo-utilidad | La evidencia de que se midió |
 
 ### Las ocho técnicas en una línea
@@ -2256,7 +2528,8 @@ seudonimizados), arts. 36 a 40 de la Ley 2335 de 2023 (reserva estadística).
 def main() -> None:
     lab01().escribir("lab01")
     lab02().escribir("lab02")
-    lab03().escribir("lab03")
+    # Versión 2 revisada (10-nov-2026). La versión 1 se conserva en labs/lab03-*.ipynb.
+    lab03().escribir("lab03-v2")
 
 
 if __name__ == "__main__":
